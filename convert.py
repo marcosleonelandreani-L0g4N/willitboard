@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Convierte la hoja Operadores a JSON 1.3 sin publicar datos inválidos.
 
-Uso: python convert.py planilla.xlsx operators.json --report informe.txt
+Uso: python convert.py planilla.xlsx public/operators.json --report informe.txt
 Requiere Python 3.9+ y openpyxl. La fecha de revisión la carga una persona.
 """
 
@@ -304,7 +304,7 @@ def atomic_write(path, content):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("source", nargs="?", default="willitboard_operadores.xlsx", help="planilla de entrada")
-    parser.add_argument("destination", nargs="?", default="operators.json", help="JSON de publicación")
+    parser.add_argument("destination", nargs="?", default="public/operators.json", help="JSON de publicación")
     parser.add_argument("--report", type=Path, help="guardar además un informe de texto UTF-8")
     args = parser.parse_args(argv)
     src, dst = Path(args.source), Path(args.destination)
