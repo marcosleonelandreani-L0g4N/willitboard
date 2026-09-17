@@ -1,0 +1,14 @@
+{
+  // El nombre TIENE que ser exactamente "willitboard": es el Worker que ya existe
+  // y el que tiene enganchado willitboard.com. Si lo cambiás, Cloudflare crea un
+  // Worker nuevo y el dominio se queda en el viejo.
+  "name": "willitboard",
+
+  "compatibility_date": "2026-09-12",
+
+  // Todo lo que esté dentro de public/ se publica como sitio estático.
+  // Este archivo queda afuera a propósito, para que no se sirva como página.
+  "assets": {
+    "directory": "./public"
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "schema_version": "1.3",
+  "generated_on": "2026-09-17",
+  "canonical_units": {
+    "length": "cm",
+    "weight": "kg"
+  },
+  "operators": [
+    {
+      "id": "ryanair",
+      "name": "Ryanair",
+      "type": "air",
+      "country": "IE",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Referencia: Basic Fare, adulto. Priority puede venir en otros paquetes y está sujeto a disponibilidad. Peso personal no publicado; ruedas/manijas sin mención explícita. Bodega y precios sin modelar en esta ficha. Vacío no significa sin límite. Fuentes y detalle: hoja Leyenda y revision_ryanair.html.",
+      "notes_en": null,
+      "source_url": "https://help.ryanair.com/hc/en-gb/articles/12888036565521-Ryanair-s-Bag-Policy",
+      "verified_on": "2026-09-12",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Priority & 2 Cabin Bags",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 5
+    },
+    {
+      "id": "wizz-air",
+      "name": "Wizz Air",
+      "type": "air",
+      "country": "HU",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Referencia: Basic Fare, adulto. El bolso gratuito admite hasta 10 kg. La valija de 55 × 40 × 23 cm requiere WIZZ Priority. Ruedas/manijas: ver incluye_ruedas_manijas y tolerancia_ruedas_manijas_cm (5 cm). Equipaje facturado ofrece 10/20/26/32 kg y dimensiones por eje, no suma. Precios no cargados. Fuentes y detalle: hoja Leyenda y revision_wizz_air.html.",
+      "notes_en": null,
+      "source_url": "https://www.wizzair.com/en-gb/help-centre/booking-information-and-services/baggage/baggage-allowance/cabin-baggage",
+      "verified_on": "2026-09-12",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "WIZZ Priority",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 23
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": false,
+        "tolerance_cm": 5
+      },
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 5
+    },
+    {
+      "id": "easyjet",
+      "name": "easyJet",
+      "type": "air",
+      "country": "GB",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Referencia: tarifa estándar, adulto. Bolso pequeño gratuito 45 × 36 × 20 cm y hasta 15 kg, debajo del asiento de adelante. Bolso grande de cabina 56 × 45 × 25 cm y hasta 15 kg, en compartimento superior: requiere pagarlo o tener membresía easyJet Plus y haberlo reservado; incluye embarque prioritario. Los 15 kg son por bolso, no un límite combinado (confirmado). Ambas medidas INCLUYEN asas y ruedas según la página oficial, en una frase separada por cada bolso, por eso incluye_ruedas_manijas = SI y la tolerancia queda vacía. La página en inglés menciona además una tarifa 'Inclusive Plus' que no aparece en las capturas revisadas: queda [SIN VERIFICAR] y fuera del campo cabina_addon. Equipaje facturado: verificado aparte (hasta 3 maletas; opciones 15/23 kg más incrementos de 3 kg; máximo 32 kg por maleta; tamaño total UNDER 275 cm), pero NO se carga en esta fila porque sale de otra página oficial y el esquema admite una sola fuente_url por operador. Ver hoja Leyenda y decisión abierta 6. Precios no cargados: la cifra oficial es en GBP y varía por mercado. Marcos verificó el contenido en la versión en español de la misma página; se cita la URL en inglés porque el producto es en inglés y las medidas son idénticas. pais = GB por easyJet plc; el grupo opera también easyJet Europe (AT) y easyJet Switzerland (CH) con política de equipaje común.",
+      "notes_en": null,
+      "source_url": "https://www.easyjet.com/en/help/baggage/cabin-bags",
+      "verified_on": "2026-09-12",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 45,
+          "width": 36,
+          "height": 20
+        },
+        "max_kg": 15
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Large cabin bag, or easyJet Plus",
+        "max_cm": {
+          "length": 56,
+          "width": 45,
+          "height": 25
+        },
+        "max_kg": 15
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 5
+    },
+    {
+      "id": "eurostar",
+      "name": "Eurostar",
+      "type": "rail",
+      "country": "GB",
+      "region": "EU",
+      "limit_type": "descriptivo",
+      "notes": "Verificado por Marcos el 13/09/2026 con capturas de la página oficial. limit_type = descriptivo a propósito: el límite de Eurostar es de UN SOLO EJE (85 cm de largo), no una terna largo x ancho x alto, y además cambia según la ruta (85 cm hacia y desde Londres, 75 cm en el resto). El esquema guarda ternas y una sola regla por operador; convertirlo en 85 x 85 x 85 daría el veredicto correcto pero mostraría una medida que Eurostar nunca publicó. Sin límite de peso para el equipaje normal (confirmado). Servicios pagos NO modelados: exceso, artículos de gran tamaño, bicicletas, instrumentos y equipamiento deportivo tienen tarifas Y medidas distintas según se viaje desde/hacia Londres o entre Bélgica, Francia, Países Bajos y Alemania. En las rutas de Londres el servicio de equipaje facturado existe solo en ciertos trenes a París y Bruselas, con 30 kg máximo por artículo. Detalle en la hoja Leyenda.",
+      "notes_en": null,
+      "source_url": "https://www.eurostar.com/us-en/travel-info/travel-planning/luggage",
+      "verified_on": "2026-09-13",
+      "descriptive_rule": {
+        "es": null,
+        "en": "Each piece of luggage can be up to 85 cm long on routes to and from London, or 75 cm on all other routes. There is no weight limit on your luggage, but you must be able to carry your bags safely on and off the train and store them in the designated areas. Eurostar Standard and Plus include 2 pieces of luggage plus 1 hand luggage; Premier includes 3 plus 1. \"Hand luggage\" covers items such as backpacks, handbags, briefcases and laptop bags. Children may take one piece of luggage and one piece of hand luggage. Pushchairs and prams travel free if folded away. Extra bags, oversized items, bicycles, musical instruments and sports equipment are carried for a fee, and both the fees and the maximum dimensions differ between routes to and from London and routes between Belgium, France, the Netherlands and Germany."
+      },
+      "days_since_verified": 4
+    },
+    {
+      "id": "deutsche-bahn",
+      "name": "Deutsche Bahn",
+      "type": "rail",
+      "country": "DE",
+      "region": "EU",
+      "limit_type": "descriptivo",
+      "notes": "Verificado por Marcos el 13/09/2026 con capturas de la página oficial. Regla descriptiva pura: no publica centímetros ni kilos para el equipaje del pasajero; el criterio es que una sola persona pueda transportarlo. RESUELTO: la cifra 700 x 500 x 300 mm que aparece en la página describe el tamaño estándar asumido para DIMENSIONAR LOS PORTAEQUIPAJES, no un límite para la valija. Confirmado por Marcos contra el texto original. Se incluye en la regla mostrada, explícitamente aclarada como tal, porque es información útil para el viajero, pero NUNCA debe usarse como medida de comparación.",
+      "notes_en": null,
+      "source_url": "https://int.bahn.de/en/trains/luggage",
+      "verified_on": "2026-09-13",
+      "descriptive_rule": {
+        "es": null,
+        "en": "Luggage such as briefcases, laptops, backpacks and suitcases can be taken free of charge. In addition to your hand luggage, you are allowed to carry one additional larger piece of luggage or item free of charge, provided this load can be carried by one person alone. You do not need to reserve space for your luggage, or weigh or measure it before travelling. Because of its size, a larger item may have to be stored away from your seat, for example in the nearest luggage rack. Each passenger is responsible for looking after their own luggage. Note: Deutsche Bahn states that its luggage racks were sized around an assumed standard of 700 x 500 x 300 mm (height x width x depth), which has almost always proved suitable. That figure describes the racks, not a limit on your bag."
+      },
+      "days_since_verified": 4
+    },
+    {
+      "id": "trenitalia",
+      "name": "Trenitalia",
+      "type": "rail",
+      "country": "IT",
+      "region": "EU",
+      "limit_type": "descriptivo",
+      "notes": "Verificado por Marcos el 13/09/2026. Regla descriptiva pura. HALLAZGO: el texto oficial dice 'Luggage may be permitted to exceed this volume limit', pero ese límite de volumen NO está publicado en la página. Es una referencia colgada en el propio texto de Trenitalia. Queda [NO SÉ] y así se explicita en la regla mostrada. El dato de los tres bultos sale de OTRO documento: las Condiciones Generales de Transporte SCIC-NRT (07/06/2023), sección 14 — https://www.trenitalia.com/content/dam/trenitalia/allegati/en/information/SCIC-NRT_07.06.2023_final_version.pdf — que además remite a las condiciones de cada transportista para las medidas máximas exactas. Se atribuye por nombre dentro del texto de la regla para que el lector sepa qué documento dice qué, ya que el esquema admite una sola fuente_url. La página 'Stow Your Bags' NO sirve como fuente: es guardado de equipaje en estaciones, no reglas de a bordo.",
+      "notes_en": null,
+      "source_url": "https://www.trenitalia.com/en/information/faqs-section.html",
+      "verified_on": "2026-09-13",
+      "descriptive_rule": {
+        "es": null,
+        "en": "Passengers may take luggage or other easily transportable items (such as strollers, prams, high chairs if foldable, umbrellas, deckchairs, skis, musical instruments) on board the coach free of charge, provided they are stored in the spaces made available for luggage. Luggage may be permitted to exceed this volume limit as long as it does not disturb or cause injury to other passengers, does not obstruct railway staff from carrying out their work, and does not damage the coach. On some trains, specific spaces have been made available for passengers to store larger luggage items. Trenitalia's Conditions of Carriage (SCIC-NRT, section 14) add that each passenger may take no more than three easy-to-handle items as hand luggage, and refer to each carrier's own conditions for exact maximum measurements. Note: the wording above refers to a volume limit that Trenitalia does not state on this page."
+      },
+      "days_since_verified": 4
+    },
+    {
+      "id": "british-airways",
+      "name": "British Airways",
+      "type": "air",
+      "country": "GB",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Referencia: la tarifa más barata publicada en esa página, la que NO permite equipaje facturado ('No checked bag'). Marcos confirmó el 17/09/2026 que incluso esa tarifa incluye 1 bolso de mano Y 1 maleta de cabina, sin pagar extra: por eso cabina_incluida = SI y cabina_addon queda vacío. Es el primer operador del dataset cuya maleta de cabina viene incluida en la tarifa base. PESO: British Airways NO publica una cifra en kg para el equipaje de mano. En su lugar publica una regla en palabras: 'You must be able to lift your cabin bag into the overhead compartment unassisted'. Por eso cabina_kg y personal_kg quedan VACÍOS — vacío significa no publicado, nunca sin límite. La fila sigue siendo limit_type = dimensional porque las MEDIDAS sí son numéricas; lo que falta es el peso. RUEDAS Y ASAS: la página dice literalmente '– including wheels and handles' para la maleta de cabina, por eso incluye_ruedas_manijas = SI y la tolerancia queda vacía. BOLSO PERSONAL: 40 × 30 × 15 cm, IGUAL en todas las clases (Economy, Premium Economy, Business y First). Una lectura previa del asistente afirmó 45 × 36 × 20 cm para las clases superiores: era un error del asistente, desmentido por el texto que leyó Marcos y por una segunda lectura de la misma página. El bolso de mano está 'garantizado en la cabina'; la maleta de cabina 'puede que tenga que ir en la bodega', y por eso la propia BA dice que no lleve objetos de valor, aparatos electrónicos ni medicamentos esenciales. Ese matiz NO tiene campo en el esquema 1.3 y queda registrado solo acá. Precios y equipaje facturado: no cargados (decisiones abiertas 6 y 7). pais = GB; region = EU se usa en este dataset con el sentido de 'cobertura europea', no de pertenencia a la UE.",
+      "notes_en": null,
+      "source_url": "https://www.britishairways.com/en-gb/information/baggage-essentials/hand-baggage-allowances",
+      "verified_on": "2026-09-17",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": true,
+        "requires_addon": null,
+        "max_cm": {
+          "length": 56,
+          "width": 45,
+          "height": 25
+        },
+        "max_kg": null
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    }
+  ]
+}
