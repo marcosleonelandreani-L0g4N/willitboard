@@ -42,8 +42,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-TEMPLATE = ROOT / "site" / "template.html"
-I18N_DIR = ROOT / "site" / "i18n"
+TEMPLATE = ROOT / "sitio" / "template.html"
+I18N_DIR = ROOT / "sitio" / "i18n"
 OUT_DIR = ROOT / "public"
 
 BASE_URL = "https://willitboard.com"
