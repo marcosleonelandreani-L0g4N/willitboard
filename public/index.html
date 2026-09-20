@@ -520,6 +520,153 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
+
+  /* ============================================================
+     FICHA POR OPERADOR  (template_operator.html)
+     Reutiliza todo lo de arriba. Acá solo va lo que la home no usa.
+     ============================================================ */
+
+  /* miga de pan: dónde estoy y cómo vuelvo */
+  .crumbs {
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+    align-items: baseline;
+  }
+  .crumbs a { color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .crumbs a:hover { color: var(--accent); }
+  .crumbs span[aria-hidden] { color: var(--rule); }
+
+  /* las dos franquicias, una al lado de la otra */
+  .allows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .allow {
+    background: var(--surface);
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .allow__label {
+    font: 600 var(--step--1)/1.2 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .allow__dims {
+    font: 500 var(--step-2)/1.15 "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    margin: 0;
+  }
+  .allow__dims small {
+    display: block;
+    font: 400 var(--step--1)/1.4 "IBM Plex Sans", sans-serif;
+    color: var(--ink-faint);
+    margin-top: 0.25rem;
+  }
+  .allow__none {
+    font: 400 var(--step-0)/1.4 "IBM Plex Sans", sans-serif;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .status {
+    align-self: flex-start;
+    font: 600 0.6875rem/1.25 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.32rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--status-tone, var(--rule));
+    color: var(--status-tone, var(--ink-soft));
+    background: var(--status-wash, transparent);
+  }
+  .status--free { --status-tone: var(--pass); --status-wash: var(--pass-soft); }
+  .status--paid { --status-tone: var(--paid); --status-wash: var(--paid-soft); }
+  .status--none { --status-tone: var(--unknown); --status-wash: var(--unknown-soft); }
+  .allow__addon {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--paid-soft);
+    border-left: 2px solid var(--paid);
+    padding: 0.5rem 0.7rem;
+    margin: 0;
+  }
+  .allow__addon b { color: var(--ink); font-weight: 600; }
+
+  /* tira de procedencia: fuente oficial + fecha humana */
+  .provenance {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding: 0.95rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .provenance a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .provenance time { font-family: "IBM Plex Mono", monospace; color: var(--ink); font-weight: 500; }
+
+  /* aviso neutro dentro de la ficha */
+  .caveat {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--surface-sunk);
+    border-left: 2px solid var(--rule);
+    padding: 0.6rem 0.8rem;
+    margin: 0;
+  }
+
+  /* volver al comparador */
+  .cta {
+    display: inline-block;
+    font: 600 var(--step-0)/1 "IBM Plex Sans", sans-serif;
+    padding: 0.8rem 1.1rem;
+    color: var(--surface);
+    background: var(--accent);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .cta:hover { filter: brightness(1.08); }
+  .cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* índice de operadores: enlaces reales, rastreables, en las dos home */
+  .index__group { margin-bottom: 1.4rem; }
+  .index__group h3 { margin: 0 0 0.5rem; }
+  .index__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .index__links a {
+    display: inline-block;
+    font-size: var(--step--1);
+    padding: 0.45rem 0.7rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .index__links a:hover { border-color: var(--accent); color: var(--accent); }
+  .index__links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Los bloques enmarcados (citas y avisos) no heredan el ancho de lectura de
+     .prose p: ahí el marco define la medida, y cortar el texto a 34em dentro
+     de una caja ancha deja un hueco raro a la derecha. */
+  .prose .op__rule p,
+  .prose .caveat { max-width: none; }
 </style>
 </head>
 <body>
@@ -621,6 +768,30 @@
     <p>Meeting a published limit is not a promise that staff will accept your bag at the gate. At least one operator states that paying at the gate does not guarantee a bag over the limit will be carried.</p>
   </section>
 
+  <!-- Enlaces reales a cada ficha. Van en el HTML servido, no los pone el JS:
+       si dependieran del script, un rastreador podría no verlos nunca. -->
+  <section class="prose" aria-labelledby="index-h">
+    <h2 id="index-h">Every operator we cover</h2>
+    <p>One page per operator, with its published limits, its official source and the date it was checked.</p>
+    <div class="index__group">
+      <h3>Airlines</h3>
+      <ul class="index__links">
+        <li><a href="/airlines/british-airways/">British Airways</a></li>
+        <li><a href="/airlines/easyjet/">easyJet</a></li>
+        <li><a href="/airlines/ryanair/">Ryanair</a></li>
+        <li><a href="/airlines/wizz-air/">Wizz Air</a></li>
+      </ul>
+    </div>
+    <div class="index__group">
+      <h3>Trains</h3>
+      <ul class="index__links">
+        <li><a href="/trains/deutsche-bahn/">Deutsche Bahn</a></li>
+        <li><a href="/trains/eurostar/">Eurostar</a></li>
+        <li><a href="/trains/trenitalia/">Trenitalia</a></li>
+      </ul>
+    </div>
+  </section>
+
   <footer>
     <p><strong>Willitboard</strong> covers cabin baggage: the personal item and the cabin bag. Checked baggage rules differ by operator and by what you buy, so we show them as reference rather than as a verdict.</p>
     <p id="dataset-stamp"></p>
@@ -714,7 +885,44 @@
   "stamp": "Dataset {version}, generated {date} — {n} {opword} published. Limits in cm and kg.",
   "op_one": "operator",
   "op_many": "operators",
-  "load_error": "The operator limits could not be loaded, so no result can be shown. Rather than guess, this page shows nothing at all. ({message})"
+  "load_error": "The operator limits could not be loaded, so no result can be shown. Rather than guess, this page shows nothing at all. ({message})",
+  "crumbs_label": "Breadcrumb",
+  "crumbs_home": "Bag checker",
+  "crumbs_air": "Airlines",
+  "crumbs_rail": "Trains",
+  "crumbs_ferry": "Ferries",
+  "fiche_title_air": "{name} Cabin Bag Size & Allowance | Willitboard",
+  "fiche_title_rail": "{name} Luggage Allowance & Rules | Willitboard",
+  "fiche_title_ferry": "{name} Luggage Allowance | Willitboard",
+  "fiche_h1_air": "{name} cabin bag size and allowance",
+  "fiche_h1_rail": "{name} luggage allowance",
+  "fiche_h1_ferry": "{name} luggage allowance",
+  "fiche_meta_dim": "{name} personal item and cabin bag limits in cm and kg, what the fare includes and what costs extra. Linked to the operator's own page, with the date a human checked it.",
+  "fiche_meta_rule": "What {name} publishes about luggage, quoted in their own words. Linked to the operator's own page, with the date a human checked it. No invented measurements.",
+  "fiche_standfirst_dim": "What {name} publishes for the personal item and the cabin bag, what the fare already includes, and what has to be bought separately. Every figure on this page comes from the operator's own page.",
+  "fiche_standfirst_rule": "{name} describes what you can bring instead of publishing measurements. Their rule is shown below in their own words, and never turned into a yes or no.",
+  "fiche_allowances_h": "What you can take",
+  "fiche_label_personal": "Personal item",
+  "fiche_label_cabin": "Cabin bag",
+  "status_free": "Included in the fare",
+  "status_paid": "Costs extra",
+  "status_unknown": "Not published",
+  "allow_kg": "Up to {kg} kg",
+  "allow_no_kg": "No weight limit published. That is not the same as no limit.",
+  "allow_not_published": "{name} doesn't publish measurements for this allowance. A missing measurement is not the same as no limit.",
+  "allow_addon": "Requires buying: <b>{addon}</b>.",
+  "fiche_rule_h": "What {name} says",
+  "fiche_wheels_h": "Handles and wheels",
+  "fiche_caveats_h": "Before you rely on this",
+  "caveat_missing": "An empty field on this page means the operator doesn't publish that figure. It never means there is no limit.",
+  "caveat_fares": "Operators sell several fares, and what is included can differ between them. The source link above goes to the page these figures were read from.",
+  "prov_source": "Official source",
+  "prov_checked": "Checked by a human on",
+  "prov_why": "Not copied from a blog or a luggage brand.",
+  "fiche_cta": "Check your own bag against every operator",
+  "fiche_stamp": "Figures from dataset {version}, generated {date}. Limits in cm and kg.",
+  "index_h2": "Every operator we cover",
+  "index_intro": "One page per operator, with its published limits, its official source and the date it was checked."
 };
   var PAGE_LANG = "en";
 

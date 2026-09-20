@@ -520,6 +520,153 @@
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
   }
+
+  /* ============================================================
+     FICHA POR OPERADOR  (template_operator.html)
+     Reutiliza todo lo de arriba. Acá solo va lo que la home no usa.
+     ============================================================ */
+
+  /* miga de pan: dónde estoy y cómo vuelvo */
+  .crumbs {
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+    align-items: baseline;
+  }
+  .crumbs a { color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .crumbs a:hover { color: var(--accent); }
+  .crumbs span[aria-hidden] { color: var(--rule); }
+
+  /* las dos franquicias, una al lado de la otra */
+  .allows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .allow {
+    background: var(--surface);
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .allow__label {
+    font: 600 var(--step--1)/1.2 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .allow__dims {
+    font: 500 var(--step-2)/1.15 "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    margin: 0;
+  }
+  .allow__dims small {
+    display: block;
+    font: 400 var(--step--1)/1.4 "IBM Plex Sans", sans-serif;
+    color: var(--ink-faint);
+    margin-top: 0.25rem;
+  }
+  .allow__none {
+    font: 400 var(--step-0)/1.4 "IBM Plex Sans", sans-serif;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .status {
+    align-self: flex-start;
+    font: 600 0.6875rem/1.25 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.32rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--status-tone, var(--rule));
+    color: var(--status-tone, var(--ink-soft));
+    background: var(--status-wash, transparent);
+  }
+  .status--free { --status-tone: var(--pass); --status-wash: var(--pass-soft); }
+  .status--paid { --status-tone: var(--paid); --status-wash: var(--paid-soft); }
+  .status--none { --status-tone: var(--unknown); --status-wash: var(--unknown-soft); }
+  .allow__addon {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--paid-soft);
+    border-left: 2px solid var(--paid);
+    padding: 0.5rem 0.7rem;
+    margin: 0;
+  }
+  .allow__addon b { color: var(--ink); font-weight: 600; }
+
+  /* tira de procedencia: fuente oficial + fecha humana */
+  .provenance {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding: 0.95rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .provenance a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .provenance time { font-family: "IBM Plex Mono", monospace; color: var(--ink); font-weight: 500; }
+
+  /* aviso neutro dentro de la ficha */
+  .caveat {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--surface-sunk);
+    border-left: 2px solid var(--rule);
+    padding: 0.6rem 0.8rem;
+    margin: 0;
+  }
+
+  /* volver al comparador */
+  .cta {
+    display: inline-block;
+    font: 600 var(--step-0)/1 "IBM Plex Sans", sans-serif;
+    padding: 0.8rem 1.1rem;
+    color: var(--surface);
+    background: var(--accent);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .cta:hover { filter: brightness(1.08); }
+  .cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* índice de operadores: enlaces reales, rastreables, en las dos home */
+  .index__group { margin-bottom: 1.4rem; }
+  .index__group h3 { margin: 0 0 0.5rem; }
+  .index__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .index__links a {
+    display: inline-block;
+    font-size: var(--step--1);
+    padding: 0.45rem 0.7rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .index__links a:hover { border-color: var(--accent); color: var(--accent); }
+  .index__links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Los bloques enmarcados (citas y avisos) no heredan el ancho de lectura de
+     .prose p: ahí el marco define la medida, y cortar el texto a 34em dentro
+     de una caja ancha deja un hueco raro a la derecha. */
+  .prose .op__rule p,
+  .prose .caveat { max-width: none; }
 </style>
 </head>
 <body>
@@ -621,6 +768,30 @@
     <p>Cumplir un límite publicado no es una promesa de que el personal vaya a aceptar tu maleta en la puerta de embarque. Al menos un operador declara que pagar en la puerta no garantiza que se transporte una maleta que supere el límite.</p>
   </section>
 
+  <!-- Enlaces reales a cada ficha. Van en el HTML servido, no los pone el JS:
+       si dependieran del script, un rastreador podría no verlos nunca. -->
+  <section class="prose" aria-labelledby="index-h">
+    <h2 id="index-h">Todos los operadores que cubrimos</h2>
+    <p>Una página por operador, con sus límites publicados, su fuente oficial y la fecha en que se comprobó.</p>
+    <div class="index__group">
+      <h3>Aerolíneas</h3>
+      <ul class="index__links">
+        <li><a href="/es/aerolineas/british-airways/">British Airways</a></li>
+        <li><a href="/es/aerolineas/easyjet/">easyJet</a></li>
+        <li><a href="/es/aerolineas/ryanair/">Ryanair</a></li>
+        <li><a href="/es/aerolineas/wizz-air/">Wizz Air</a></li>
+      </ul>
+    </div>
+    <div class="index__group">
+      <h3>Trenes</h3>
+      <ul class="index__links">
+        <li><a href="/es/trenes/deutsche-bahn/">Deutsche Bahn</a></li>
+        <li><a href="/es/trenes/eurostar/">Eurostar</a></li>
+        <li><a href="/es/trenes/trenitalia/">Trenitalia</a></li>
+      </ul>
+    </div>
+  </section>
+
   <footer>
     <p><strong>Willitboard</strong> cubre el equipaje de mano: el artículo personal y la maleta de cabina. Las reglas de equipaje facturado cambian según el operador y según lo que se compre, así que las mostramos como referencia y no como veredicto.</p>
     <p id="dataset-stamp"></p>
@@ -714,7 +885,44 @@
   "stamp": "Conjunto de datos {version}, generado el {date} — {n} {opword}. Límites en cm y kg.",
   "op_one": "operador publicado",
   "op_many": "operadores publicados",
-  "load_error": "No se han podido cargar los límites de los operadores, así que no se puede mostrar ningún resultado. En lugar de adivinar, esta página no muestra nada. ({message})"
+  "load_error": "No se han podido cargar los límites de los operadores, así que no se puede mostrar ningún resultado. En lugar de adivinar, esta página no muestra nada. ({message})",
+  "crumbs_label": "Ruta de navegación",
+  "crumbs_home": "Comprobador de maletas",
+  "crumbs_air": "Aerolíneas",
+  "crumbs_rail": "Trenes",
+  "crumbs_ferry": "Ferris",
+  "fiche_title_air": "{name}: medidas y franquicia de equipaje de mano | Willitboard",
+  "fiche_title_rail": "{name}: equipaje permitido y reglas | Willitboard",
+  "fiche_title_ferry": "{name}: equipaje permitido | Willitboard",
+  "fiche_h1_air": "{name}: medidas y franquicia de equipaje de mano",
+  "fiche_h1_rail": "{name}: equipaje permitido",
+  "fiche_h1_ferry": "{name}: equipaje permitido",
+  "fiche_meta_dim": "Límites de {name} para el artículo personal y la maleta de cabina, en cm y kg, con lo que incluye la tarifa y lo que se paga aparte. Enlazado a la página del propio operador y con la fecha en que una persona lo comprobó.",
+  "fiche_meta_rule": "Lo que {name} publica sobre equipaje, citado en sus propias palabras. Enlazado a la página del propio operador y con la fecha en que una persona lo comprobó. Sin medidas inventadas.",
+  "fiche_standfirst_dim": "Lo que {name} publica para el artículo personal y la maleta de cabina, lo que la tarifa ya incluye y lo que hay que comprar aparte. Todas las cifras de esta página salen de la página del propio operador.",
+  "fiche_standfirst_rule": "{name} describe qué se puede llevar en lugar de publicar medidas. Su regla se muestra abajo en sus propias palabras, y nunca se convierte en un sí o un no.",
+  "fiche_allowances_h": "Qué se puede llevar",
+  "fiche_label_personal": "Artículo personal",
+  "fiche_label_cabin": "Maleta de cabina",
+  "status_free": "Incluido en la tarifa",
+  "status_paid": "Se paga aparte",
+  "status_unknown": "Sin publicar",
+  "allow_kg": "Hasta {kg} kg",
+  "allow_no_kg": "Sin límite de peso publicado. Eso no es lo mismo que no tener límite.",
+  "allow_not_published": "{name} no publica medidas para esta franquicia. Que falte una medida no significa que no haya límite.",
+  "allow_addon": "Hay que comprar: <b>{addon}</b>.",
+  "fiche_rule_h": "Qué dice {name}",
+  "fiche_wheels_h": "Asas y ruedas",
+  "fiche_caveats_h": "Antes de fiarse de esto",
+  "caveat_missing": "Un campo vacío en esta página significa que el operador no publica esa cifra. Nunca significa que no haya límite.",
+  "caveat_fares": "Los operadores venden varias tarifas, y lo que va incluido puede cambiar entre ellas. El enlace de fuente que está más arriba lleva a la página de la que se leyeron estas cifras.",
+  "prov_source": "Fuente oficial",
+  "prov_checked": "Comprobado por una persona el",
+  "prov_why": "No copiado de un blog ni de una marca de maletas.",
+  "fiche_cta": "Comprobar tu maleta contra todos los operadores",
+  "fiche_stamp": "Cifras del conjunto de datos {version}, generado el {date}. Límites en cm y kg.",
+  "index_h2": "Todos los operadores que cubrimos",
+  "index_intro": "Una página por operador, con sus límites publicados, su fuente oficial y la fecha en que se comprobó."
 };
   var PAGE_LANG = "es";
 

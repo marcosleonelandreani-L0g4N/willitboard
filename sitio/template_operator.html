@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{DOC_TITLE}}</title>
+<meta name="description" content="{{META_DESCRIPTION}}">
+<link rel="canonical" href="{{CANONICAL}}">
+<link rel="alternate" hreflang="en" href="{{HREF_EN}}">
+<link rel="alternate" hreflang="es" href="{{HREF_ES}}">
+<link rel="alternate" hreflang="x-default" href="{{HREF_EN}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+{{STYLE}}
+</style>
+</head>
+<body>
+
+<!-- Ficha por operador. Todo el contenido indexable sale ya escrito en el HTML:
+     no hay nada que dependa de JavaScript para leerse. Los datos los pone
+     build_site.py leyendo /operators.json; esta plantilla no contiene ni una
+     medida. -->
+
+<div class="shell">
+
+  <header>
+    <div class="topbar">
+      <p class="wordmark">Willitboard</p>
+      <nav class="langnav" aria-label="{{nav_label}}">
+        <a href="{{NAV_EN_PATH}}" lang="en" hreflang="en"{{NAV_EN_CUR}}>English</a>
+        <a href="{{NAV_ES_PATH}}" lang="es" hreflang="es"{{NAV_ES_CUR}}>Español</a>
+      </nav>
+    </div>
+    <nav class="crumbs" aria-label="{{crumbs_label}}">
+{{CRUMBS}}
+    </nav>
+    <h1>{{H1}}</h1>
+    <p class="standfirst">{{STANDFIRST}}</p>
+  </header>
+
+  <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
+       fecha humana son el diferenciador del sitio, no una nota al pie. -->
+  <section class="provenance">
+{{PROVENANCE}}
+  </section>
+
+{{ALLOWANCES}}
+
+{{RULE}}
+
+{{WHEELS}}
+
+  <section class="prose">
+    <h2>{{fiche_caveats_h}}</h2>
+{{CAVEATS}}
+  </section>
+
+  <section>
+    <a class="cta" href="{{CHECKER_HREF}}">{{fiche_cta}}</a>
+  </section>
+
+  <footer>
+    <p>{{footer_scope}}</p>
+    <p>{{FICHE_STAMP}}</p>
+  </footer>
+</div>
+
+</body>
+</html>

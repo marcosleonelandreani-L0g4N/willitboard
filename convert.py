@@ -289,6 +289,10 @@ def convert_rows(rows, today):
 
 def atomic_write(path, content):
     path = Path(path)
+    # La carpeta de destino puede no existir todavía: en un clon limpio del
+    # repositorio, public/ no está hasta que algo la crea. Sin esto, correr el
+    # conversor recién clonado fallaba al escribir el temporal.
+    path.parent.mkdir(parents=True, exist_ok=True)
     temporary = None
     try:
         with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n", dir=path.parent,

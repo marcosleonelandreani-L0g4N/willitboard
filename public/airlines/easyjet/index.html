@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>easyJet Cabin Bag Size & Allowance | Willitboard</title>
+<meta name="description" content="easyJet personal item and cabin bag limits in cm and kg, what the fare includes and what costs extra. Linked to the operator's own page, with the date a human checked it.">
+<link rel="canonical" href="https://willitboard.com/airlines/easyjet/">
+<link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/easyjet/">
+<link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/easyjet/">
+<link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/easyjet/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground:        #F4F6F8;
+    --surface:       #FFFFFF;
+    --surface-sunk:  #EAEEF1;
+    --ink:           #12171C;
+    --ink-soft:      #4A555F;
+    --ink-faint:     #6E7A85;
+    --rule:          #D3DAE0;
+    --rule-soft:     #E3E8EC;
+    --accent:        #0B6E6E;
+    --accent-soft:   #E0EFEE;
+    --pass:          #0F6B3D;
+    --pass-soft:     #E2F0E7;
+    --paid:          #9A5B06;
+    --paid-soft:     #F9EBD8;
+    --fail:          #A02418;
+    --fail-soft:     #F8E5E2;
+    --unknown:       #4F5D6B;
+    --unknown-soft:  #E7EBEF;
+
+    --step--1: 0.8125rem;
+    --step-0:  1rem;
+    --step-1:  1.1875rem;
+    --step-2:  1.5rem;
+    --step-3:  2rem;
+    --step-4:  2.625rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:        #14181A;
+      --surface:       #1C2124;
+      --surface-sunk:  #242A2D;
+      --ink:           #F0F2F1;
+      --ink-soft:      #B4BCBD;
+      --ink-faint:     #8B9496;
+      --rule:          #333A3D;
+      --rule-soft:     #2A3134;
+      --accent:        #4FBDB6;
+      --accent-soft:   #123231;
+      --pass:          #5FC98A;
+      --pass-soft:     #102C1E;
+      --paid:          #E5A759;
+      --paid-soft:     #33240E;
+      --fail:          #F08376;
+      --fail-soft:     #351814;
+      --unknown:       #9BA9B6;
+      --unknown-soft:  #20272D;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:        #14181A;
+    --surface:       #1C2124;
+    --surface-sunk:  #242A2D;
+    --ink:           #F0F2F1;
+    --ink-soft:      #B4BCBD;
+    --ink-faint:     #8B9496;
+    --rule:          #333A3D;
+    --rule-soft:     #2A3134;
+    --accent:        #4FBDB6;
+    --accent-soft:   #123231;
+    --pass:          #5FC98A;
+    --pass-soft:     #102C1E;
+    --paid:          #E5A759;
+    --paid-soft:     #33240E;
+    --fail:          #F08376;
+    --fail-soft:     #351814;
+    --unknown:       #9BA9B6;
+    --unknown-soft:  #20272D;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--step-0);
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .shell {
+    max-width: 58rem;
+    margin: 0 auto;
+    padding-inline: 20px;
+    padding-block: 2.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  h1, h2, h3 {
+    font-family: Archivo, "IBM Plex Sans", system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  /* --- barra superior: marca a la izquierda, idioma a la derecha --- */
+  .topbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+  }
+  .wordmark {
+    font-family: Archivo, system-ui, sans-serif;
+    font-weight: 700;
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+  .langnav { display: flex; gap: 0.35rem; }
+  .langnav a {
+    font: 500 var(--step--1)/1 "IBM Plex Sans", sans-serif;
+    color: var(--ink-faint);
+    text-decoration: none;
+    padding: 0.35rem 0.55rem;
+    border: 1px solid transparent;
+    border-radius: 3px;
+  }
+  .langnav a:hover { color: var(--accent); }
+  .langnav a[aria-current="page"] {
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .langnav a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  h1 { font-size: var(--step-4); line-height: 1.05; margin-top: 0.35rem; }
+  @media (max-width: 30rem) { h1 { font-size: var(--step-3); } }
+
+  .standfirst {
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    max-width: 34em;
+    margin-top: 0.85rem;
+  }
+
+  /* --- instrument panel --- */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+  }
+  .panel__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding: 1.1rem 1.25rem 0.9rem;
+  }
+  .panel__title {
+    font-family: Archivo, system-ui, sans-serif;
+    font-weight: 600;
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .units { display: flex; gap: 0.4rem; }
+  .units button {
+    font: 500 var(--step--1)/1 "IBM Plex Mono", monospace;
+    padding: 0.45rem 0.7rem;
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .units button[aria-pressed="true"] {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .units button:focus-visible, .fields input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* the tick scale: a measuring rule, drawn once */
+  .scale {
+    height: 11px;
+    border-top: 1px solid var(--rule);
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--rule) 0 1px, transparent 1px 10px
+    );
+    background-size: 10px 5px;
+    background-repeat: repeat-x;
+    background-position: top left;
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule-soft);
+  }
+  @media (max-width: 34rem) { .fields { grid-template-columns: repeat(2, 1fr); } }
+
+  .field {
+    background: var(--surface);
+    padding: 0.9rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .field label {
+    font: 600 var(--step--1)/1.2 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .field input {
+    font: 500 var(--step-2)/1.1 "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+  }
+  .field input::-webkit-outer-spin-button,
+  .field input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .field input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+  .field__unit { font: 400 var(--step--1)/1 "IBM Plex Mono", monospace; color: var(--ink-faint); }
+
+  /* --- empujar una cifra de a poco ---
+     Las flechas del teclado ya funcionan solas en un input number, pero en el
+     móvil no hay teclado con flechas ni rueda: por eso estos dos botones. */
+  .field__row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .field__row input { text-align: center; }
+  .nudge {
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    font: 500 1.05rem/1 "IBM Plex Mono", monospace;
+    background: var(--surface-sunk);
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  .nudge:hover { border-color: var(--accent); color: var(--accent); }
+  .nudge:active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+  .nudge:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 34rem) { .nudge { width: 2.35rem; height: 2.35rem; } }
+
+  .panel__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--rule-soft);
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+  }
+  .panel__foot--hint { border-top: 0; padding-top: 0; font-size: 0.75rem; }
+  .tag-example {
+    font: 600 0.6875rem/1 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.45rem;
+    border-radius: 2px;
+    background: var(--surface-sunk);
+    color: var(--ink-soft);
+  }
+
+  /* --- result bands --- */
+  .bands { display: flex; flex-direction: column; gap: 1.75rem; }
+
+  .band__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--band-tone, var(--rule));
+  }
+  .band__head h2 {
+    font-size: var(--step-1);
+    color: var(--band-tone, var(--ink));
+  }
+  .band__count {
+    font: 500 var(--step--1)/1 "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-faint);
+    margin-left: auto;
+  }
+  .band__note { font-size: var(--step--1); color: var(--ink-soft); margin: 0.7rem 0 0; }
+
+  .band--pass    { --band-tone: var(--pass);    --band-wash: var(--pass-soft); }
+  .band--paid    { --band-tone: var(--paid);    --band-wash: var(--paid-soft); }
+  .band--fail    { --band-tone: var(--fail);    --band-wash: var(--fail-soft); }
+  .band--rule    { --band-tone: var(--accent);  --band-wash: var(--accent-soft); }
+  .band--unknown { --band-tone: var(--unknown); --band-wash: var(--unknown-soft); }
+
+  /* la regla del operador, citada textualmente */
+  .op__rule {
+    font-size: var(--step--1);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    background: var(--surface-sunk);
+    border-left: 2px solid var(--band-tone);
+    padding: 0.75rem 0.9rem;
+    margin: 0.3rem 0 0;
+  }
+  .op__rule cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.4rem;
+  }
+
+  .ops { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+
+  .op {
+    display: grid;
+    grid-template-columns: 3px 1fr;
+    gap: 0 0.95rem;
+  }
+  /* la barra de color va redondeada y no llega al borde inferior, así no se
+     forma la "L" con la línea separadora */
+  .op::before {
+    content: "";
+    background: var(--band-tone);
+    border-radius: 2px;
+    margin: 0.95rem 0 1.05rem;
+  }
+  /* la línea separadora arranca después de la barra, no debajo de ella */
+  .op__body {
+    padding: 0.95rem 0 1.05rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .ops > .op:last-child .op__body { border-bottom: 0; }
+
+  .op__top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem 0.7rem; }
+  .op__name { font-family: Archivo, system-ui, sans-serif; font-weight: 600; font-size: var(--step-1); }
+  .mode {
+    font: 600 0.6875rem/1 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.42rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--ink-faint);
+  }
+  .op__verdict { font-weight: 600; color: var(--band-tone); }
+
+  .op__detail { font-size: var(--step--1); color: var(--ink-soft); margin: 0; }
+  .op__detail strong { color: var(--ink); font-weight: 600; }
+  .dims {
+    font-family: "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .op__flag {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--band-wash);
+    border-left: 2px solid var(--band-tone);
+    padding: 0.5rem 0.7rem;
+    margin: 0.15rem 0 0;
+  }
+  .op__flag--neutral { background: var(--surface-sunk); border-left-color: var(--rule); }
+
+  .op__source {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--ink-faint);
+  }
+  .op__source a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .op__source time { font-family: "IBM Plex Mono", monospace; }
+
+  .empty {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    padding: 0.9rem 0 0;
+  }
+
+  /* --- prose blocks --- */
+  .prose h2 { font-size: var(--step-2); margin-bottom: 0.6rem; }
+  .prose h3 {
+    font-size: var(--step-0);
+    margin: 1.4rem 0 0.35rem;
+    letter-spacing: 0;
+  }
+  .prose p { margin: 0 0 0.85rem; max-width: 34em; color: var(--ink-soft); }
+  .prose p strong { color: var(--ink); }
+
+  .legend { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin: 0 0 0.5rem; padding: 0; }
+  .legend li {
+    display: grid;
+    grid-template-columns: 0.85rem 1fr;
+    gap: 0.7rem;
+    align-items: start;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .legend i { width: 0.85rem; height: 0.85rem; border-radius: 2px; margin-top: 0.3rem; }
+  .legend b { color: var(--ink); }
+
+  footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 1.25rem;
+    font-size: 0.8125rem;
+    color: var(--ink-faint);
+  }
+  footer p { margin: 0 0 0.5rem; max-width: 40em; }
+
+  /* --- comparación visual: una barra por eje --- */
+  .axes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    margin: 0.7rem 0 0.2rem;
+    padding: 0.8rem 0.9rem;
+    background: var(--surface-sunk);
+    border-radius: 3px;
+  }
+  .axes__title {
+    font: 600 0.6875rem/1 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 0.15rem;
+  }
+  .axis {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.3rem 0.7rem;
+  }
+  .axis__track {
+    position: relative;
+    height: 20px;
+    background: var(--surface);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  /* zona permitida por el operador */
+  .axis__allowed {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--rule-soft);
+  }
+  /* la valija del usuario */
+  .axis__bag {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 0;
+    background: var(--band-tone, var(--accent));
+    border-radius: 1px;
+    opacity: 0.85;
+  }
+  /* la línea del límite */
+  .axis__limit {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--ink-soft);
+  }
+  .axis__num {
+    font: 500 0.8125rem/1 "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .axis__num b { color: var(--band-tone, var(--ink)); font-weight: 600; }
+  .axes__legend {
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    margin: 0.35rem 0 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+
+  /* ============================================================
+     FICHA POR OPERADOR  (template_operator.html)
+     Reutiliza todo lo de arriba. Acá solo va lo que la home no usa.
+     ============================================================ */
+
+  /* miga de pan: dónde estoy y cómo vuelvo */
+  .crumbs {
+    font-size: var(--step--1);
+    color: var(--ink-faint);
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.5rem;
+    align-items: baseline;
+  }
+  .crumbs a { color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .crumbs a:hover { color: var(--accent); }
+  .crumbs span[aria-hidden] { color: var(--rule); }
+
+  /* las dos franquicias, una al lado de la otra */
+  .allows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1px;
+    background: var(--rule-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .allow {
+    background: var(--surface);
+    padding: 1.1rem 1.25rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .allow__label {
+    font: 600 var(--step--1)/1.2 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .allow__dims {
+    font: 500 var(--step-2)/1.15 "IBM Plex Mono", monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    margin: 0;
+  }
+  .allow__dims small {
+    display: block;
+    font: 400 var(--step--1)/1.4 "IBM Plex Sans", sans-serif;
+    color: var(--ink-faint);
+    margin-top: 0.25rem;
+  }
+  .allow__none {
+    font: 400 var(--step-0)/1.4 "IBM Plex Sans", sans-serif;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+  .status {
+    align-self: flex-start;
+    font: 600 0.6875rem/1.25 "IBM Plex Sans", sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.32rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--status-tone, var(--rule));
+    color: var(--status-tone, var(--ink-soft));
+    background: var(--status-wash, transparent);
+  }
+  .status--free { --status-tone: var(--pass); --status-wash: var(--pass-soft); }
+  .status--paid { --status-tone: var(--paid); --status-wash: var(--paid-soft); }
+  .status--none { --status-tone: var(--unknown); --status-wash: var(--unknown-soft); }
+  .allow__addon {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--paid-soft);
+    border-left: 2px solid var(--paid);
+    padding: 0.5rem 0.7rem;
+    margin: 0;
+  }
+  .allow__addon b { color: var(--ink); font-weight: 600; }
+
+  /* tira de procedencia: fuente oficial + fecha humana */
+  .provenance {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding: 0.95rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .provenance a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .provenance time { font-family: "IBM Plex Mono", monospace; color: var(--ink); font-weight: 500; }
+
+  /* aviso neutro dentro de la ficha */
+  .caveat {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: var(--surface-sunk);
+    border-left: 2px solid var(--rule);
+    padding: 0.6rem 0.8rem;
+    margin: 0;
+  }
+
+  /* volver al comparador */
+  .cta {
+    display: inline-block;
+    font: 600 var(--step-0)/1 "IBM Plex Sans", sans-serif;
+    padding: 0.8rem 1.1rem;
+    color: var(--surface);
+    background: var(--accent);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .cta:hover { filter: brightness(1.08); }
+  .cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* índice de operadores: enlaces reales, rastreables, en las dos home */
+  .index__group { margin-bottom: 1.4rem; }
+  .index__group h3 { margin: 0 0 0.5rem; }
+  .index__links { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .index__links a {
+    display: inline-block;
+    font-size: var(--step--1);
+    padding: 0.45rem 0.7rem;
+    color: var(--ink-soft);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .index__links a:hover { border-color: var(--accent); color: var(--accent); }
+  .index__links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* Los bloques enmarcados (citas y avisos) no heredan el ancho de lectura de
+     .prose p: ahí el marco define la medida, y cortar el texto a 34em dentro
+     de una caja ancha deja un hueco raro a la derecha. */
+  .prose .op__rule p,
+  .prose .caveat { max-width: none; }
+</style>
+</head>
+<body>
+
+<!-- Ficha por operador. Todo el contenido indexable sale ya escrito en el HTML:
+     no hay nada que dependa de JavaScript para leerse. Los datos los pone
+     build_site.py leyendo /operators.json; esta plantilla no contiene ni una
+     medida. -->
+
+<div class="shell">
+
+  <header>
+    <div class="topbar">
+      <p class="wordmark">Willitboard</p>
+      <nav class="langnav" aria-label="Language">
+        <a href="/airlines/easyjet/" lang="en" hreflang="en" aria-current="page">English</a>
+        <a href="/es/aerolineas/easyjet/" lang="es" hreflang="es">Español</a>
+      </nav>
+    </div>
+    <nav class="crumbs" aria-label="Breadcrumb">
+      <a href="/">Bag checker</a>
+      <span aria-hidden="true">/</span>
+      <span>Airlines</span>
+      <span aria-hidden="true">/</span>
+      <span>easyJet</span>
+    </nav>
+    <h1>easyJet cabin bag size and allowance</h1>
+    <p class="standfirst">What easyJet publishes for the personal item and the cabin bag, what the fare already includes, and what has to be bought separately. Every figure on this page comes from the operator's own page.</p>
+  </header>
+
+  <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
+       fecha humana son el diferenciador del sitio, no una nota al pie. -->
+  <section class="provenance">
+    <span><a href="https://www.easyjet.com/en/help/baggage/cabin-bags" target="_blank" rel="noopener nofollow">Official source ↗</a></span>
+    <span>Checked by a human on <time datetime="2026-09-12">2026-09-12</time></span>
+    <span>Not copied from a blog or a luggage brand.</span>
+  </section>
+
+  <section aria-labelledby="allowances-h">
+    <h2 id="allowances-h">What you can take</h2>
+    <div class="allows">
+    <div class="allow">
+      <p class="allow__label">Personal item</p>
+      <span class="status status--free">Included in the fare</span>
+      <p class="allow__dims">45 × 36 × 20 cm<small>Up to 15 kg</small></p>
+    </div>
+    <div class="allow">
+      <p class="allow__label">Cabin bag</p>
+      <span class="status status--paid">Costs extra</span>
+      <p class="allow__dims">56 × 45 × 25 cm<small>Up to 15 kg</small></p>
+      <p class="allow__addon">Requires buying: <b>Large cabin bag, or easyJet Plus</b>.</p>
+    </div>
+    </div>
+  </section>
+
+
+
+  <section class="prose">
+    <h2>Handles and wheels</h2>
+    <p class="caveat">Published limits already include handles and wheels, so measure your bag as it stands.</p>
+  </section>
+
+  <section class="prose">
+    <h2>Before you rely on this</h2>
+    <p class="caveat">An empty field on this page means the operator doesn't publish that figure. It never means there is no limit.</p>
+    <p class="caveat">Operators sell several fares, and what is included can differ between them. The source link above goes to the page these figures were read from.</p>
+    <p class="caveat">Meeting a published limit is not a promise that staff will accept your bag at the gate. At least one operator states that paying at the gate does not guarantee a bag over the limit will be carried.</p>
+  </section>
+
+  <section>
+    <a class="cta" href="/">Check your own bag against every operator</a>
+  </section>
+
+  <footer>
+    <p><strong>Willitboard</strong> covers cabin baggage: the personal item and the cabin bag. Checked baggage rules differ by operator and by what you buy, so we show them as reference rather than as a verdict.</p>
+    <p>Figures from dataset 1.3, generated 2026-09-20. Limits in cm and kg.</p>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://willitboard.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/"/>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/"/>
+  </url>
+  <url>
+    <loc>https://willitboard.com/airlines/ryanair/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/ryanair/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/ryanair/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/ryanair/"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/ryanair/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/ryanair/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/ryanair/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/ryanair/"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/airlines/wizz-air/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/wizz-air/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/wizz-air/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/wizz-air/"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/wizz-air/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/wizz-air/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/wizz-air/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/wizz-air/"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/airlines/easyjet/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/easyjet/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/easyjet/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/easyjet/"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/easyjet/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/easyjet/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/easyjet/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/easyjet/"/>
+    <lastmod>2026-09-12</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/trains/eurostar/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/trains/eurostar/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/trenes/eurostar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/trains/eurostar/"/>
+    <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/trenes/eurostar/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/trains/eurostar/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/trenes/eurostar/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/trains/eurostar/"/>
+    <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/trains/deutsche-bahn/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/trains/deutsche-bahn/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/trenes/deutsche-bahn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/trains/deutsche-bahn/"/>
+    <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/trenes/deutsche-bahn/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/trains/deutsche-bahn/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/trenes/deutsche-bahn/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/trains/deutsche-bahn/"/>
+    <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/trains/trenitalia/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/trains/trenitalia/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/trenes/trenitalia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/trains/trenitalia/"/>
+    <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/trenes/trenitalia/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/trains/trenitalia/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/trenes/trenitalia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/trains/trenitalia/"/>
+    <lastmod>2026-09-13</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/airlines/british-airways/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/british-airways/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/british-airways/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/british-airways/"/>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/british-airways/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/british-airways/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/british-airways/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/british-airways/"/>
+    <lastmod>2026-09-17</lastmod>
+  </url>
+</urlset>

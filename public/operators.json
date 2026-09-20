@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3",
-  "generated_on": "2026-09-17",
+  "generated_on": "2026-09-20",
   "canonical_units": {
     "length": "cm",
     "weight": "kg"
@@ -45,7 +45,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 8
     },
     {
       "id": "wizz-air",
@@ -86,7 +86,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 8
     },
     {
       "id": "easyjet",
@@ -127,7 +127,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 8
     },
     {
       "id": "eurostar",
@@ -144,7 +144,7 @@
         "es": null,
         "en": "Each piece of luggage can be up to 85 cm long on routes to and from London, or 75 cm on all other routes. There is no weight limit on your luggage, but you must be able to carry your bags safely on and off the train and store them in the designated areas. Eurostar Standard and Plus include 2 pieces of luggage plus 1 hand luggage; Premier includes 3 plus 1. \"Hand luggage\" covers items such as backpacks, handbags, briefcases and laptop bags. Children may take one piece of luggage and one piece of hand luggage. Pushchairs and prams travel free if folded away. Extra bags, oversized items, bicycles, musical instruments and sports equipment are carried for a fee, and both the fees and the maximum dimensions differ between routes to and from London and routes between Belgium, France, the Netherlands and Germany."
       },
-      "days_since_verified": 4
+      "days_since_verified": 7
     },
     {
       "id": "deutsche-bahn",
@@ -161,7 +161,7 @@
         "es": null,
         "en": "Luggage such as briefcases, laptops, backpacks and suitcases can be taken free of charge. In addition to your hand luggage, you are allowed to carry one additional larger piece of luggage or item free of charge, provided this load can be carried by one person alone. You do not need to reserve space for your luggage, or weigh or measure it before travelling. Because of its size, a larger item may have to be stored away from your seat, for example in the nearest luggage rack. Each passenger is responsible for looking after their own luggage. Note: Deutsche Bahn states that its luggage racks were sized around an assumed standard of 700 x 500 x 300 mm (height x width x depth), which has almost always proved suitable. That figure describes the racks, not a limit on your bag."
       },
-      "days_since_verified": 4
+      "days_since_verified": 7
     },
     {
       "id": "trenitalia",
@@ -178,7 +178,7 @@
         "es": null,
         "en": "Passengers may take luggage or other easily transportable items (such as strollers, prams, high chairs if foldable, umbrellas, deckchairs, skis, musical instruments) on board the coach free of charge, provided they are stored in the spaces made available for luggage. Luggage may be permitted to exceed this volume limit as long as it does not disturb or cause injury to other passengers, does not obstruct railway staff from carrying out their work, and does not damage the coach. On some trains, specific spaces have been made available for passengers to store larger luggage items. Trenitalia's Conditions of Carriage (SCIC-NRT, section 14) add that each passenger may take no more than three easy-to-handle items as hand luggage, and refer to each carrier's own conditions for exact maximum measurements. Note: the wording above refers to a volume limit that Trenitalia does not state on this page."
       },
-      "days_since_verified": 4
+      "days_since_verified": 7
     },
     {
       "id": "british-airways",
@@ -219,7 +219,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 0
+      "days_since_verified": 3
     }
   ]
 }
