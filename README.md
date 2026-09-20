@@ -18,6 +18,8 @@ Una fila sin fecha se omite del JSON publicado: queda como borrador.
     sitio/style.css                  el CSS, uno solo para todas las páginas
     sitio/template.html              la home: estructura y lógica del comparador
     sitio/template_operator.html     la ficha por operador
+    sitio/template_page.html         las páginas de texto (legales)
+    sitio/legal/<pagina>.<idioma>.html  el cuerpo de cada página de texto
     sitio/i18n/en.json, es.json      los textos de interfaz, uno por idioma
         └─ build_site.py             lee las plantillas Y public/operators.json,
                                      y genera las dos home, una ficha por
@@ -41,7 +43,7 @@ medias no llega a producción disfrazada de texto en inglés.
 
     python3 -m unittest pruebas.test_converter   # 24 pruebas del conversor
     python3 pruebas/test_bilingue.py             # 23 comprobaciones de la home
-    python3 pruebas/test_fichas.py               # 180 comprobaciones de las fichas
+    python3 pruebas/test_fichas.py               # 221 comprobaciones de fichas y legales
 
 La comprobación central de `test_bilingue`: **el idioma cambia el texto, nunca el
 veredicto.** Si un mismo equipaje se clasificara distinto en inglés y en español, falla.
@@ -58,6 +60,9 @@ sin peso publicado muestra alguna cifra.
     /airlines/{id}/            ficha de aerolínea      ↔  /es/aerolineas/{id}/
     /trains/{id}/              ficha de tren           ↔  /es/trenes/{id}/
     /ferries/{id}/             ficha de ferry          ↔  /es/ferris/{id}/
+    /privacy/                  privacidad             ↔  /es/privacidad/
+    /cookies/                  cookies                ↔  /es/cookies/
+    /disclosure/               publicidad y afiliados ↔  /es/divulgacion/
     /sitemap.xml               todas las páginas publicadas
 
 El `{id}` es el id del dataset, igual en los dos idiomas: una sola fuente para el
@@ -69,3 +74,16 @@ planilla genera sus dos fichas solo, sin tocar código.
 Cloudflare Worker con assets estáticos. `wrangler.jsonc` publica todo lo que haya
 en `public/`. El nombre del Worker tiene que seguir siendo `willitboard`: es el que
 tiene enganchado el dominio.
+
+## Páginas de texto
+
+El cuerpo de cada página legal vive en `sitio/legal/<pagina>.<idioma>.html` como
+fragmento HTML: son miles de palabras de prosa y meterlas en una cadena JSON las
+volvería imposibles de editar y de revisar. La plantilla solo aporta cabecera, pie y
+canonical.
+
+**La fecha de "última modificación" está escrita a mano** en `LEGAL_PAGES` de
+`build_site.py`, no sale del build. Si se moviera sola en cada regeneración, la página
+estaría fingiendo frescura — justo lo que el proyecto no hace con ningún otro dato.
+**Al cambiar el texto de una página hay que cambiar su fecha ahí y en
+`pruebas/test_fichas.py`**, que la comprueba a propósito.

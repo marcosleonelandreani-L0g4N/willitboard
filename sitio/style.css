@@ -652,3 +652,51 @@
      de una caja ancha deja un hueco raro a la derecha. */
   .prose .op__rule p,
   .prose .caveat { max-width: none; }
+
+  /* ============================================================
+     PÁGINAS DE TEXTO  (template_page.html)
+     ============================================================ */
+
+  .legaldoc h2 {
+    font-size: var(--step-1);
+    margin: 2rem 0 0.6rem;
+  }
+  .legaldoc h2:first-child { margin-top: 0; }
+  .legaldoc p { max-width: 36em; }
+  .legaldoc ul, .legaldoc ol {
+    max-width: 36em;
+    margin: 0 0 0.9rem;
+    padding-left: 1.2rem;
+    color: var(--ink-soft);
+  }
+  .legaldoc li { margin-bottom: 0.6rem; font-size: var(--step-0); }
+  .legaldoc li strong { color: var(--ink); }
+  .legaldoc a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .legaldoc code {
+    font: 500 0.9em/1 "IBM Plex Mono", monospace;
+    background: var(--surface-sunk);
+    padding: 0.15em 0.35em;
+    border-radius: 2px;
+  }
+  .legaldoc kbd {
+    font: 500 0.85em/1 "IBM Plex Mono", monospace;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    padding: 0.2em 0.45em;
+    color: var(--ink);
+  }
+
+  /* enlaces legales del pie, en todas las páginas */
+  .footlinks {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+  }
+  .footlinks a { color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  .footlinks a:hover { color: var(--accent); }
+  .footlinks a[aria-current="page"] { color: var(--accent); font-weight: 600; }

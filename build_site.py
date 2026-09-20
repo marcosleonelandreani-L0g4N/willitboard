@@ -57,6 +57,8 @@ ROOT = Path(__file__).resolve().parent
 SITE_DIR = ROOT / "sitio"
 TEMPLATE = SITE_DIR / "template.html"
 TEMPLATE_OP = SITE_DIR / "template_operator.html"
+TEMPLATE_PAGE = SITE_DIR / "template_page.html"
+LEGAL_DIR = SITE_DIR / "legal"
 STYLE = SITE_DIR / "style.css"
 I18N_DIR = SITE_DIR / "i18n"
 OUT_DIR = ROOT / "public"
@@ -82,14 +84,42 @@ TYPE_SEGMENT = {
 # clave del diccionario para el nombre del tipo en la miga de pan
 TYPE_CRUMB = {"air": "crumbs_air", "rail": "crumbs_rail", "ferry": "crumbs_ferry"}
 
+# Páginas de texto. El cuerpo de cada una está en sitio/legal/<clave>.<idioma>.html.
+#
+# `updated` es la fecha en que se editó EL CONTENIDO, escrita a mano. No es la
+# fecha del build a propósito: si se moviera sola en cada regeneración, la página
+# estaría fingiendo frescura, que es exactamente lo que este proyecto no hace con
+# ningún otro dato. Cambiar el texto de una página = cambiar su fecha acá.
+LEGAL_PAGES = {
+    "privacy": {
+        "slug": {"en": "privacy", "es": "es/privacidad"},
+        "nav": "nav_privacy",
+        "updated": "2026-09-20",
+    },
+    "cookies": {
+        "slug": {"en": "cookies", "es": "es/cookies"},
+        "nav": "nav_cookies",
+        "updated": "2026-09-20",
+    },
+    "disclosure": {
+        "slug": {"en": "disclosure", "es": "es/divulgacion"},
+        "nav": "nav_disclosure",
+        "updated": "2026-09-20",
+    },
+}
+
 # marcadores que calcula el script, no el diccionario
 COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON",
-                 "STYLE", "OPERATOR_INDEX"}
+                 "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS"}
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
                "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS",
-               "CHECKER_HREF", "FICHE_STAMP"}
+               "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS"}
+COMPUTED_PAGE = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION",
+                 "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
+                 "NAV_EN_CUR", "NAV_ES_CUR", "CRUMB_SELF", "H1", "STANDFIRST",
+                 "CONTENT", "CHECKER_HREF", "PAGE_UPDATED", "FOOTER_LINKS"}
 
 
 # ---------------------------------------------------------------- diccionarios
@@ -432,6 +462,53 @@ def block_operator_index(ops: list, lang: str, S: dict) -> str:
     )
 
 
+# ------------------------------------------------------- páginas de texto
+
+def legal_path(key: str, lang: str) -> str:
+    return f"/{LEGAL_PAGES[key]['slug'][lang]}/"
+
+
+def legal_outfile(key: str, lang: str) -> Path:
+    return OUT_DIR / LEGAL_PAGES[key]["slug"][lang] / "index.html"
+
+
+def block_footer_links(lang: str, S: dict, current: str | None = None) -> str:
+    """
+    Enlaces legales en el pie de TODAS las páginas. Una política de privacidad
+    a la que no se llega desde ninguna parte no sirve de nada.
+    """
+    items = []
+    for key, cfg in LEGAL_PAGES.items():
+        cur = ' aria-current="page"' if key == current else ""
+        items.append(
+            f'      <li><a href="{legal_path(key, lang)}"{cur}>{t(S, cfg["nav"])}</a></li>'
+        )
+    return (
+        f'    <ul class="footlinks" aria-label="{t(S, "footer_legal_label")}">\n'
+        + "\n".join(items)
+        + "\n    </ul>"
+    )
+
+
+def load_fragment(key: str, lang: str) -> str:
+    """
+    El cuerpo de cada página de texto vive como fragmento HTML propio, no en el
+    diccionario: son miles de palabras de prosa y meterlas en una cadena JSON
+    las volvería imposibles de editar y de revisar.
+    """
+    path = LEGAL_DIR / f"{key}.{lang}.html"
+    if not path.exists():
+        sys.exit(f"ERROR: falta el contenido {path}")
+    fragment = path.read_text(encoding="utf-8").rstrip("\n")
+    # Los fragmentos se enlazan entre sí. Se resuelve acá, antes de insertarlos,
+    # porque render() no vuelve a escanear lo que ya insertó.
+    hrefs = {f"HREF_{k.upper()}": legal_path(k, lang) for k in LEGAL_PAGES}
+    unknown = set(re.findall(r"\{\{(\w+)\}\}", fragment)) - set(hrefs)
+    if unknown:
+        sys.exit(f"ERROR: {path} usa marcadores desconocidos: {', '.join(sorted(unknown))}")
+    return render(fragment, hrefs)
+
+
 # ------------------------------------------------------------------- sitemap
 
 def build_sitemap(ops: list) -> str:
@@ -468,6 +545,8 @@ def build_sitemap(ops: list) -> str:
     entry({lang: PAGES[lang][1] for lang in PAGES}, None)
     for op in ops:
         entry({lang: op_path(op, lang) for lang in PAGES}, op.get("verified_on"))
+    for key, cfg in LEGAL_PAGES.items():
+        entry({lang: legal_path(key, lang) for lang in PAGES}, cfg["updated"])
 
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
@@ -476,7 +555,7 @@ def build_sitemap(ops: list) -> str:
 # ---------------------------------------------------------------------- main
 
 def main() -> None:
-    for required in (TEMPLATE, TEMPLATE_OP, STYLE):
+    for required in (TEMPLATE, TEMPLATE_OP, TEMPLATE_PAGE, STYLE):
         if not required.exists():
             sys.exit(f"ERROR: falta {required}")
     if not DATASET.exists():
@@ -484,6 +563,7 @@ def main() -> None:
 
     template = TEMPLATE.read_text(encoding="utf-8")
     template_op = TEMPLATE_OP.read_text(encoding="utf-8")
+    template_page = TEMPLATE_PAGE.read_text(encoding="utf-8")
     css = STYLE.read_text(encoding="utf-8").rstrip("\n")
 
     dicts = {lang: load_strings(lang) for lang in PAGES}
@@ -491,6 +571,7 @@ def main() -> None:
     check_placeholders(dicts)
     unused = check_template_keys(template, dicts["en"], COMPUTED_HOME, "template.html")
     check_template_keys(template_op, dicts["en"], COMPUTED_OP, "template_operator.html")
+    check_template_keys(template_page, dicts["en"], COMPUTED_PAGE, "template_page.html")
 
     with DATASET.open(encoding="utf-8") as fh:
         data = json.load(fh)
@@ -542,6 +623,7 @@ def main() -> None:
                     S, "fiche_stamp",
                     version=esc(data["schema_version"]), date=esc(data["generated_on"]),
                 ),
+                "FOOTER_LINKS": block_footer_links(lang, S),
             }
             values.update(S)
             out = op_outfile(op, lang)
@@ -559,6 +641,7 @@ def main() -> None:
         values["NAV_EN_CUR"] = ' aria-current="page"' if lang == "en" else ""
         values["NAV_ES_CUR"] = ' aria-current="page"' if lang == "es" else ""
         values["OPERATOR_INDEX"] = block_operator_index(published, lang, S)
+        values["FOOTER_LINKS"] = block_footer_links(lang, S)
         # El diccionario entero viaja al JS. ensure_ascii=False para que los
         # acentos y el × salgan como caracteres reales en un archivo UTF-8.
         values["STRINGS_JSON"] = json.dumps(S, ensure_ascii=False, indent=2)
@@ -568,6 +651,36 @@ def main() -> None:
         out_file = out_dir / "index.html"
         out_file.write_text(render(template, values), encoding="utf-8")
         written.append(out_file)
+
+    # ---------- páginas de texto ----------
+    for key, cfg in LEGAL_PAGES.items():
+        for lang in PAGES:
+            S = dicts[lang]
+            values = dict(S)
+            values.update({
+                "STYLE": css,
+                "LANG": lang,
+                "CANONICAL": BASE_URL + legal_path(key, lang),
+                "HREF_EN": BASE_URL + legal_path(key, "en"),
+                "HREF_ES": BASE_URL + legal_path(key, "es"),
+                "NAV_EN_PATH": legal_path(key, "en"),
+                "NAV_ES_PATH": legal_path(key, "es"),
+                "NAV_EN_CUR": ' aria-current="page"' if lang == "en" else "",
+                "NAV_ES_CUR": ' aria-current="page"' if lang == "es" else "",
+                "DOC_TITLE": t(S, f"{key}_title"),
+                "META_DESCRIPTION": t(S, f"{key}_meta"),
+                "H1": t(S, f"{key}_h1"),
+                "STANDFIRST": t(S, f"{key}_standfirst"),
+                "CRUMB_SELF": t(S, cfg["nav"]),
+                "CONTENT": load_fragment(key, lang),
+                "CHECKER_HREF": PAGES[lang][1],
+                "PAGE_UPDATED": t(S, "legal_updated", date=cfg["updated"]),
+                "FOOTER_LINKS": block_footer_links(lang, S, current=key),
+            })
+            out = legal_outfile(key, lang)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(render(template_page, values), encoding="utf-8")
+            written.append(out)
 
     # ---------- sitemap ----------
     sitemap = OUT_DIR / "sitemap.xml"
@@ -579,10 +692,11 @@ def main() -> None:
         rel = path.relative_to(ROOT)
         print(f"  {rel}  ({path.stat().st_size:,} bytes)")
 
-    n_urls = (len(published) + 1) * len(PAGES)
+    n_urls = (len(published) + 1 + len(LEGAL_PAGES)) * len(PAGES)
     print(
         f"\nOK. {len(dicts['en'])} textos por idioma, {len(dicts)} idiomas, "
-        f"{len(published)} de {len(all_ops)} operadores con ficha, {n_urls} URLs en el sitemap."
+        f"{len(published)} de {len(all_ops)} operadores con ficha, "
+        f"{len(LEGAL_PAGES)} páginas de texto, {n_urls} URLs en el sitemap."
     )
     if held:
         print("\nOperadores SIN ficha, por no alcanzar el umbral de publicación:")

@@ -135,5 +135,24 @@
   "fiche_cta": "Comprobar tu maleta contra todos los operadores",
   "fiche_stamp": "Cifras del conjunto de datos {version}, generado el {date}. Límites en cm y kg.",
   "index_h2": "Todos los operadores que cubrimos",
-  "index_intro": "Una página por operador, con sus límites publicados, su fuente oficial y la fecha en que se comprobó."
+  "index_intro": "Una página por operador, con sus límites publicados, su fuente oficial y la fecha en que se comprobó.",
+
+  "_comment_legal": "Textos de las páginas legales. El cuerpo de cada una vive en sitio/legal/<pagina>.<idioma>.html como fragmento HTML, no acá. REGISTRO: español neutro, sin voseo ni tuteo.",
+  "nav_privacy": "Privacidad",
+  "nav_cookies": "Cookies",
+  "nav_disclosure": "Divulgación",
+  "footer_legal_label": "Información del sitio",
+  "legal_updated": "Última modificación: {date}. Desde entonces no se ha ampliado nada en silencio.",
+  "privacy_title": "Privacidad | Willitboard",
+  "privacy_h1": "Privacidad",
+  "privacy_meta": "Willitboard no instala cookies, no usa analítica y no recoge nada sobre quien lo visita. Qué significa eso en la práctica y cuál es el único tercero implicado.",
+  "privacy_standfirst": "Qué sabe este sitio sobre quien lo usa, entero. La respuesta corta es nada, y esta página explica por qué eso es un hecho sobre cómo está construido y no una promesa.",
+  "cookies_title": "Cookies | Willitboard",
+  "cookies_h1": "Cookies",
+  "cookies_meta": "Willitboard no instala cookies ni escribe nada en el almacenamiento del navegador. Cómo comprobarlo uno mismo en quince segundos.",
+  "cookies_standfirst": "Este sitio no instala ninguna cookie, y por eso nunca apareció un banner de consentimiento. Acá está cómo confirmarlo sin creernos.",
+  "disclosure_title": "Publicidad y afiliados | Willitboard",
+  "disclosure_h1": "Publicidad y afiliados",
+  "disclosure_meta": "Willitboard hoy no lleva publicidad, enlaces de afiliado ni posiciones pagadas, y estas son las reglas a las que se compromete para cuando los lleve.",
+  "disclosure_standfirst": "Nada de este sitio está pagado. Esta página lo dice mientras todavía es cierto, y fija las reglas que no se mueven cuando haya dinero de por medio."
 }

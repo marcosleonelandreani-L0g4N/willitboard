@@ -18,10 +18,9 @@
 </head>
 <body>
 
-<!-- Ficha por operador. Todo el contenido indexable sale ya escrito en el HTML:
-     no hay nada que dependa de JavaScript para leerse. Los datos los pone
-     build_site.py leyendo /operators.json; esta plantilla no contiene ni una
-     medida. -->
+<!-- Página de texto (legales y las que vengan). El contenido vive en
+     sitio/legal/<pagina>.<idioma>.html como fragmento; esta plantilla solo
+     aporta la cabecera, el pie y el canonical. -->
 
 <div class="shell">
 
@@ -34,36 +33,20 @@
       </nav>
     </div>
     <nav class="crumbs" aria-label="{{crumbs_label}}">
-{{CRUMBS}}
+      <a href="{{CHECKER_HREF}}">{{crumbs_home}}</a>
+      <span aria-hidden="true">/</span>
+      <span>{{CRUMB_SELF}}</span>
     </nav>
     <h1>{{H1}}</h1>
     <p class="standfirst">{{STANDFIRST}}</p>
   </header>
 
-  <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
-       fecha humana son el diferenciador del sitio, no una nota al pie. -->
-  <section class="provenance">
-{{PROVENANCE}}
-  </section>
-
-{{ALLOWANCES}}
-
-{{RULE}}
-
-{{WHEELS}}
-
-  <section class="prose">
-    <h2>{{fiche_caveats_h}}</h2>
-{{CAVEATS}}
-  </section>
-
-  <section>
-    <a class="cta" href="{{CHECKER_HREF}}">{{fiche_cta}}</a>
+  <section class="prose legaldoc">
+{{CONTENT}}
   </section>
 
   <footer>
-    <p>{{footer_scope}}</p>
-    <p>{{FICHE_STAMP}}</p>
+    <p>{{PAGE_UPDATED}}</p>
 {{FOOTER_LINKS}}
   </footer>
 </div>

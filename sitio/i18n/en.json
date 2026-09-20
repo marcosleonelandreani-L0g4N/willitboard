@@ -134,5 +134,24 @@
   "fiche_cta": "Check your own bag against every operator",
   "fiche_stamp": "Figures from dataset {version}, generated {date}. Limits in cm and kg.",
   "index_h2": "Every operator we cover",
-  "index_intro": "One page per operator, with its published limits, its official source and the date it was checked."
+  "index_intro": "One page per operator, with its published limits, its official source and the date it was checked.",
+
+  "_comment_legal": "Textos de las páginas legales. El cuerpo de cada una vive en sitio/legal/<pagina>.<idioma>.html como fragmento HTML, no acá.",
+  "nav_privacy": "Privacy",
+  "nav_cookies": "Cookies",
+  "nav_disclosure": "Disclosure",
+  "footer_legal_label": "Site information",
+  "legal_updated": "Last changed on {date}. Nothing here has been quietly widened since.",
+  "privacy_title": "Privacy | Willitboard",
+  "privacy_h1": "Privacy",
+  "privacy_meta": "Willitboard sets no cookies, runs no analytics and collects nothing about you. What that means in practice, and the one third party involved.",
+  "privacy_standfirst": "What this site knows about you, in full. The short answer is nothing, and this page explains why that is a fact about how it is built rather than a promise.",
+  "cookies_title": "Cookies | Willitboard",
+  "cookies_h1": "Cookies",
+  "cookies_meta": "Willitboard sets no cookies and writes nothing to your browser's storage. How to check that yourself in fifteen seconds.",
+  "cookies_standfirst": "This site sets no cookies at all, which is why you were never shown a consent banner. Here is how to confirm that for yourself.",
+  "disclosure_title": "Advertising and affiliate disclosure | Willitboard",
+  "disclosure_h1": "Advertising and affiliates",
+  "disclosure_meta": "Willitboard carries no advertising, affiliate links or paid placement today, and the rules it commits to for when it does.",
+  "disclosure_standfirst": "Nothing on this site is paid for. This page says so while that is still true, and sets out the rules that stay fixed once money is involved."
 }

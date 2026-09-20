@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.1",
+  "generated_on": "2026-09-12",
+  "canonical_units": {
+    "length": "cm",
+    "weight": "kg"
+  },
+  "operators": [
+    {
+      "id": "ryanair",
+      "name": "Ryanair",
+      "type": "air",
+      "country": "IE",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Referencia: Basic Fare, adulto. Priority puede venir en otros paquetes y está sujeto a disponibilidad. Peso personal no publicado; ruedas/manijas sin mención explícita. Bodega y precios sin modelar en esta ficha. Vacío no significa sin límite. Fuentes y detalle: hoja Leyenda y revision_ryanair.html.",
+      "notes_en": null,
+      "source_url": "https://help.ryanair.com/hc/en-gb/articles/12888036565521-Ryanair-s-Bag-Policy",
+      "verified_on": "2026-09-12",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Priority & 2 Cabin Bags",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "includes_wheels_handles": null,
+      "checked": {
+        "max_kg": null,
+        "max_sum_cm": null
+      },
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "wizz-air",
+      "name": "Wizz Air",
+      "type": "air",
+      "country": "HU",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Referencia: Basic Fare, adulto. El bolso gratuito admite hasta 10 kg. La valija de 55 × 40 × 23 cm requiere WIZZ Priority. La medida publicada excluye manijas y ruedas, pero las ruedas sólo pueden añadir hasta 5 cm; el campo booleano no representa esa regla y queda vacío. Equipaje facturado ofrece 10/20/26/32 kg y dimensiones por eje, no suma. Precios no cargados. Fuentes y detalle: hoja Leyenda y revision_wizz_air.html.",
+      "notes_en": null,
+      "source_url": "https://ssr-weu2.wizzair.com/en-gb/help-centre/booking-information-and-services/baggage/baggage-allowance/cabin-baggage",
+      "verified_on": "2026-09-12",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "WIZZ Priority",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 23
+        },
+        "max_kg": 10
+      },
+      "includes_wheels_handles": null,
+      "checked": {
+        "max_kg": null,
+        "max_sum_cm": null
+      },
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    }
+  ]
+}

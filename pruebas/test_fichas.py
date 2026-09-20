@@ -51,6 +51,18 @@ TYPE_SEGMENT = {
     "ferry": {"en": "ferries",  "es": "es/ferris"},
 }
 
+LEGAL = {
+    "privacy":    {"en": "privacy",    "es": "es/privacidad"},
+    "cookies":    {"en": "cookies",    "es": "es/cookies"},
+    "disclosure": {"en": "disclosure", "es": "es/divulgacion"},
+}
+
+# Fecha de edición declarada de cada página de texto. Duplicada a propósito,
+# igual que las rutas: si alguien la mueve en build_site.py sin tocarla acá, la
+# prueba falla. La fecha es una afirmación y cambiarla tiene que costar algo.
+LEGAL_UPDATED = {"privacy": "2026-09-20", "cookies": "2026-09-20",
+                 "disclosure": "2026-09-20"}
+
 failures: list[str] = []
 checks = 0
 
@@ -264,12 +276,60 @@ def main() -> None:
                             bad.append((h, r.status))
                 check(f"ningún enlace de la home {lang} da error", not bad, str(bad))
 
+            # -------------------------------------------- páginas de texto
+            print("\nPáginas legales")
+            for key, slug in LEGAL.items():
+                for lang in ("en", "es"):
+                    path = f"/{slug[lang]}/"
+                    page.goto(f"{base}{path}", wait_until="load")
+                    tag = f"{key}/{lang}"
+                    check(f"{tag}: existe y tiene h1",
+                          bool(page.inner_text("h1").strip()))
+                    check(f"{tag}: html lang={lang}",
+                          page.get_attribute("html", "lang") == lang)
+                    check(f"{tag}: canonical propio",
+                          page.get_attribute('link[rel="canonical"]', "href")
+                          == BASE_URL + path)
+                    check(
+                        f"{tag}: hreflang recíprocos",
+                        page.get_attribute('link[hreflang="en"]', "href")
+                        == BASE_URL + f"/{slug['en']}/"
+                        and page.get_attribute('link[hreflang="es"]', "href")
+                        == BASE_URL + f"/{slug['es']}/",
+                    )
+                    # ningún marcador de plantilla sin resolver
+                    body = page.inner_text("body")
+                    check(f"{tag}: sin marcadores sin resolver",
+                          "{{" not in body and "}}" not in body)
+                    # los enlaces internos entre páginas legales resuelven
+                    hrefs = page.eval_on_selector_all(
+                        ".legaldoc a[href^='/'], .footlinks a",
+                        "els => [...new Set(els.map(e => e.getAttribute('href')))]")
+                    bad = []
+                    for h in hrefs:
+                        with urlopen(f"{base}{h}") as r:
+                            if r.status != 200: bad.append((h, r.status))
+                    check(f"{tag}: sus enlaces internos no dan error", not bad, str(bad))
+
+            print("\nEl pie enlaza las legales desde todas las páginas")
+            muestras = ["/", "/es/", op_path(ops[0], "en"), op_path(ops[0], "es")]
+            for path in muestras:
+                page.goto(f"{base}{path}", wait_until="load")
+                lang = "es" if path.startswith("/es/") else "en"
+                hrefs = sorted(page.eval_on_selector_all(
+                    ".footlinks a", "els => els.map(e => e.getAttribute('href'))"))
+                want = sorted(f"/{s[lang]}/" for s in LEGAL.values())
+                check(f"{path}: el pie lleva a las 3 páginas legales",
+                      hrefs == want, str(hrefs))
+
             # -------------------------------------------------------- sitemap
             print("\nSitemap")
             sm = (PUBLIC / "sitemap.xml").read_text(encoding="utf-8")
             locs = [l.split("<loc>")[1].split("</loc>")[0]
                     for l in sm.splitlines() if "<loc>" in l]
-            want = ["/", "/es/"] + [op_path(o, l) for o in ops for l in ("en", "es")]
+            want = (["/", "/es/"]
+                    + [op_path(o, l) for o in ops for l in ("en", "es")]
+                    + [f"/{s[l]}/" for s in LEGAL.values() for l in ("en", "es")])
             check("el sitemap lista todas las páginas publicadas",
                   sorted(locs) == sorted(BASE_URL + w for w in want),
                   f"{len(locs)} locs")
@@ -282,22 +342,31 @@ def main() -> None:
             check("todas las URLs del sitemap responden", not bad, str(bad))
             fechas = [l.split("<lastmod>")[1].split("</lastmod>")[0]
                       for l in sm.splitlines() if "<lastmod>" in l]
-            check("los lastmod son fechas de verificación humana, no de hoy",
-                  set(fechas) <= {o["verified_on"] for o in ops},
-                  str(sorted(set(fechas))))
+            # Ninguna fecha del sitemap puede ser inventada: o es la fecha en que
+            # una persona verificó a un operador, o es la fecha declarada de
+            # edición de una página de texto. Nada de "hoy" automático.
+            permitidas = {o["verified_on"] for o in ops} | set(LEGAL_UPDATED.values())
+            check("ningún lastmod es una fecha fabricada",
+                  set(fechas) <= permitidas,
+                  str(sorted(set(fechas) - permitidas)))
+            check("cada página de texto declara su fecha de edición en el sitemap",
+                  set(LEGAL_UPDATED.values()) <= set(fechas))
 
             # ---------------------------------------------------------- móvil
             print("\nMóvil a 375 px")
             phone = browser.new_page(viewport={"width": 375, "height": 780})
             overflow = []
-            for op in ops:
-                for lang in ("en", "es"):
-                    phone.goto(f"{base}{op_path(op, lang)}", wait_until="load")
-                    if phone.evaluate(
-                        "() => document.documentElement.scrollWidth > window.innerWidth + 1"
-                    ):
-                        overflow.append(f"{op['id']}/{lang}")
-            check("ninguna ficha desborda horizontalmente", not overflow, str(overflow))
+            rutas = [(op_path(o, l), f"{o['id']}/{l}") for o in ops for l in ("en", "es")]
+            rutas += [(f"/{s[l]}/", f"{k}/{l}")
+                      for k, s in LEGAL.items() for l in ("en", "es")]
+            for path, tag in rutas:
+                phone.goto(f"{base}{path}", wait_until="load")
+                if phone.evaluate(
+                    "() => document.documentElement.scrollWidth > window.innerWidth + 1"
+                ):
+                    overflow.append(tag)
+            check(f"ninguna de las {len(rutas)} páginas desborda horizontalmente",
+                  not overflow, str(overflow))
             phone.close()
 
             browser.close()

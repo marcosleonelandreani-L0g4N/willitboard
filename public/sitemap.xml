@@ -111,4 +111,46 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/british-airways/"/>
     <lastmod>2026-09-17</lastmod>
   </url>
+  <url>
+    <loc>https://willitboard.com/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/privacy/"/>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/privacidad/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/privacy/"/>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/cookies/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cookies/"/>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/cookies/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/cookies/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cookies/"/>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/disclosure/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/disclosure/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/divulgacion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/disclosure/"/>
+    <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/divulgacion/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/disclosure/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/divulgacion/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/disclosure/"/>
+    <lastmod>2026-09-20</lastmod>
+  </url>
 </urlset>
