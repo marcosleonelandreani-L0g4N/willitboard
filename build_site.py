@@ -110,7 +110,7 @@ LEGAL_PAGES = {
 
 # marcadores que calcula el script, no el diccionario
 COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON",
-                 "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS"}
+                 "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS", "HERO_STATS"}
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
@@ -509,6 +509,32 @@ def load_fragment(key: str, lang: str) -> str:
     return render(fragment, hrefs)
 
 
+# ---------------------------------------------------------- cifras del hero
+
+def block_hero_stats(ops: list, S: dict) -> str:
+    """
+    Las tres cifras del encabezado de la home. TODAS salen del dataset
+    publicado en el momento del build; ninguna se escribe a mano. Es el
+    equivalente honesto del "10.000 viajeros confían en nosotros" de los
+    constructores de sitios: llamativo, pero verdadero y comprobable.
+
+    - operadores: los que tienen ficha publicada.
+    - tipos de transporte: los que aparecen de verdad en el dataset (hoy
+      avión y tren; el día que se cargue un ferry, pasa a 3 solo).
+    - límites copiados de blogs: 0, porque convert.py rechaza cualquier fila
+      sin fuente oficial y fecha humana. Si eso dejara de ser cierto, esta
+      cifra tendría que desaparecer, no cambiar.
+    """
+    modes = len({o["type"] for o in ops})
+    items = [
+        (len(ops), t(S, "stat_ops_label")),
+        (modes, t(S, "stat_modes_label")),
+        (0, t(S, "stat_copied_label")),
+    ]
+    lis = "\n".join(f"          <li><b>{n}</b><span>{label}</span></li>" for n, label in items)
+    return f'        <ul class="stats">\n{lis}\n        </ul>'
+
+
 # ------------------------------------------------------------------- sitemap
 
 def build_sitemap(ops: list) -> str:
@@ -642,6 +668,7 @@ def main() -> None:
         values["NAV_ES_CUR"] = ' aria-current="page"' if lang == "es" else ""
         values["OPERATOR_INDEX"] = block_operator_index(published, lang, S)
         values["FOOTER_LINKS"] = block_footer_links(lang, S)
+        values["HERO_STATS"] = block_hero_stats(published, S)
         # El diccionario entero viaja al JS. ensure_ascii=False para que los
         # acentos y el × salgan como caracteres reales en un archivo UTF-8.
         values["STRINGS_JSON"] = json.dumps(S, ensure_ascii=False, indent=2)

@@ -164,7 +164,7 @@ def main() -> None:
             # ---------- las citas ----------
             print("\nCitas de los operadores")
             quotes = page.evaluate(
-                """() => Array.from(document.querySelectorAll('.op__rule')).map(q => ({
+                """() => Array.from(document.querySelectorAll('#results .op__rule')).map(q => ({
                      lang: q.getAttribute('lang'),
                      translate: q.getAttribute('translate'),
                      cite: q.getAttribute('cite'),
@@ -205,7 +205,10 @@ def main() -> None:
                   const bad = ['Travels free', 'Doesn\\'t fit', 'Fits, but costs extra',
                                'Check the baggage rule', 'Size not confirmed',
                                'Official source', 'Checked by a human', 'Your bag',
-                               'Airline', 'Train', 'How to read this'];
+                               'Airline', 'Train', 'How to read this',
+                               'Your results', 'Compare side by side',
+                               'Choose operators', 'How it works',
+                               'Try an example', 'Read their rule'];
                   // se ignora lo que esté dentro de una cita del operador
                   const clone = document.body.cloneNode(true);
                   clone.querySelectorAll('.op__rule p').forEach(n => n.remove());
@@ -228,6 +231,66 @@ def main() -> None:
                 "las bandas se mantienen iguales tras cambiar la unidad",
                 sorted(sorted(v) for v in bands_of(page).values() if v) == es_groups,
             )
+
+            # ---------- rediseño 23/09: cifras del hero ----------
+            print("\nCifras del encabezado (salen del dataset, no se escriben a mano)")
+            with (PUBLIC / "operators.json").open(encoding="utf-8") as fh:
+                ops = json.load(fh)["operators"]
+            nums = page.eval_on_selector_all(".stats b", "els => els.map(e => e.textContent.trim())")
+            check("operadores = los del dataset",
+                  nums and nums[0] == str(len(ops)), str(nums))
+            check("tipos de transporte = los presentes en el dataset",
+                  len(nums) > 1 and nums[1] == str(len({o["type"] for o in ops})), str(nums))
+
+            # ---------- comparador lado a lado ----------
+            print("\nComparador lado a lado")
+            page.click("#unit-cm"); page.wait_for_timeout(100)
+            cols = page.eval_on_selector_all(".cmp thead th", "els => els.length")
+            check("arranca comparando 3 operadores", cols == 3, str(cols))
+            boxes = page.eval_on_selector_all("#picker-list input", "els => els.length")
+            check("el desplegable ofrece todos los operadores", boxes == len(ops), str(boxes))
+            dis = page.eval_on_selector_all("#picker-list input:disabled", "els => els.length")
+            check("con 3 elegidos, el resto queda bloqueado", dis == len(ops) - 3, str(dis))
+
+            same = page.evaluate('''() => {
+              const card = {};
+              document.querySelectorAll('#results .rcard').forEach(c =>
+                card[c.querySelector('.op__name').textContent.trim()] =
+                  c.querySelector('.rcard__verdict').textContent.trim());
+              const out = [];
+              const names = [...document.querySelectorAll('.cmp thead .cmp__name')].map(n => n.textContent.trim());
+              const verdicts = [...document.querySelectorAll('.cmp tbody tr:nth-child(2) .vbadge')].map(v => v.textContent.trim());
+              names.forEach((n, i) => out.push([n, card[n], verdicts[i]]));
+              return out;
+            }''')
+            check("el comparador dice lo mismo que la tarjeta",
+                  same and all(c == v for _, c, v in same), str(same))
+
+            page.click("#cmp-clear"); page.wait_for_timeout(150)
+            check("limpiar deja el comparador vacío",
+                  page.query_selector(".cmp") is None and page.query_selector(".cmp__empty") is not None)
+            page.click("#results .rcard.band--rule .rcard__cmp"); page.wait_for_timeout(150)
+            check("una regla escrita se compara con su cita, sin traducir",
+                  page.get_attribute(".cmp__rules .op__rule", "translate") == "no")
+
+            # ---------- filtros del resumen ----------
+            print("\nFiltros del resumen")
+            page.click("#summary .tile.band--rule"); page.wait_for_timeout(150)
+            vis = page.evaluate("() => [...document.querySelectorAll('#results .rcard')].filter(c => !c.hidden).length")
+            rules = sum(1 for o in ops if o["limit_type"] != "dimensional")
+            check("filtrar por 'regla' deja solo esos", vis == rules, f"{vis} visibles")
+            page.click("#summary .tile.band--rule"); page.wait_for_timeout(150)
+            vis = page.evaluate("() => [...document.querySelectorAll('#results .rcard')].filter(c => !c.hidden).length")
+            check("tocar de nuevo muestra todos", vis == len(ops), f"{vis} visibles")
+
+            # ---------- móvil ----------
+            print("\nMóvil a 375 px")
+            phone = browser.new_page(viewport={"width": 375, "height": 800})
+            for path in ("/", "/es/"):
+                phone.goto(f"{base}{path}", wait_until="networkidle")
+                ov = phone.evaluate("() => document.documentElement.scrollWidth - window.innerWidth")
+                check(f"{path}: sin desborde horizontal", ov <= 1, f"{ov}px")
+            phone.close()
 
             browser.close()
     finally:

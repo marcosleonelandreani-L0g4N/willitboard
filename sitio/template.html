@@ -16,21 +16,72 @@
 {{STYLE}}
 </style>
 </head>
-<body>
+<body class="home">
 
-<div class="shell">
-
-  <header>
+<header class="hero">
+  <div class="hero__inner">
     <div class="topbar">
-      <p class="wordmark">Willitboard</p>
+      <p class="wordmark">
+        <svg class="wordmark__mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="7" width="15" height="12.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.5 11.5l2 2 3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Willitboard
+      </p>
       <nav class="langnav" aria-label="{{nav_label}}">
         <a href="/" lang="en" hreflang="en"{{NAV_EN_CUR}}>English</a>
         <a href="/es/" lang="es" hreflang="es"{{NAV_ES_CUR}}>Español</a>
       </nav>
     </div>
-    <h1>{{h1}}</h1>
-    <p class="standfirst">{{standfirst}}</p>
-  </header>
+
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <p class="hero__kicker">{{hero_kicker}}</p>
+        <h1>{{h1}}</h1>
+        <p class="standfirst">{{standfirst}}</p>
+{{HERO_STATS}}
+      </div>
+
+      <div class="hero__art" aria-hidden="true">
+        <svg viewBox="0 0 320 280" role="presentation">
+          <defs>
+            <linearGradient id="bagfill" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F7B955"/>
+              <stop offset="1" stop-color="#E8873A"/>
+            </linearGradient>
+          </defs>
+          <!-- el medidor de la puerta de embarque -->
+          <rect x="70" y="58" width="170" height="196" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.55)" stroke-width="2.5" stroke-dasharray="7 6"/>
+          <!-- la valija -->
+          <g class="art-bag">
+            <rect x="118" y="86" width="74" height="12" rx="6" fill="none" stroke="#fff" stroke-width="5"/>
+            <rect x="96" y="96" width="118" height="134" rx="16" fill="url(#bagfill)"/>
+            <rect x="96" y="96" width="118" height="134" rx="16" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
+            <line x1="126" y1="112" x2="126" y2="214" stroke="rgba(0,0,0,.14)" stroke-width="5" stroke-linecap="round"/>
+            <line x1="184" y1="112" x2="184" y2="214" stroke="rgba(0,0,0,.14)" stroke-width="5" stroke-linecap="round"/>
+            <circle cx="116" cy="238" r="8" fill="#1B2A36"/>
+            <circle cx="194" cy="238" r="8" fill="#1B2A36"/>
+            <circle cx="155" cy="160" r="20" fill="#fff"/>
+            <path d="M145 160l7 7 13-13" fill="none" stroke="#0F6B3D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <!-- cotas -->
+          <g stroke="#fff" stroke-width="2" fill="none" opacity=".85">
+            <path d="M260 96v134M254 102l6-6 6 6M254 224l6 6 6-6"/>
+            <path d="M96 268h118M102 262l-6 6 6 6M208 262l6 6-6 6"/>
+          </g>
+          <!-- el avioncito -->
+          <g class="art-plane">
+            <path d="M22 44c30-22 70-30 104-26" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5" stroke-dasharray="3 7" stroke-linecap="round"/>
+            <path d="M268 30l-34 10-14-9-6 3 9 11-12 5-7-4-5 2 7 9 36-11 30-10c5-2 6-7 1-8z" transform="translate(-102 -8) scale(.9)" fill="#fff"/>
+          </g>
+          <!-- estrellitas -->
+          <g fill="#F7B955">
+            <circle cx="42" cy="120" r="4"/><circle cx="286" cy="178" r="5"/><circle cx="56" cy="214" r="3"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="shell shell--home">
 
   <section class="panel" aria-labelledby="panel-title">
     <div class="panel__head">
@@ -84,6 +135,15 @@
       </div>
     </div>
 
+    <!-- Ejemplos rápidos. Son medidas de EJEMPLO de la valija del usuario, no
+         límites de ningún operador: por eso tienen nombres genéricos. -->
+    <div class="presets">
+      <span class="presets__label">{{presets_label}}</span>
+      <button type="button" class="preset" data-cm="40,25,20" data-kg="6">{{preset_backpack}} <small>40×25×20</small></button>
+      <button type="button" class="preset" data-cm="55,40,23" data-kg="9">{{preset_trolley}} <small>55×40×23</small></button>
+      <button type="button" class="preset" data-cm="60,42,26" data-kg="12">{{preset_big}} <small>60×42×26</small></button>
+    </div>
+
     <p class="panel__foot">
       <span class="tag-example">{{tag_example}}</span>
       {{measure_note}}
@@ -91,12 +151,57 @@
     <p class="panel__foot panel__foot--hint">{{nudge_hint}}</p>
   </section>
 
-  <section id="results" class="bands" aria-live="polite" aria-busy="true">
-    <p class="empty">{{loading}}</p>
+  <section class="results" aria-labelledby="results-h">
+    <h2 class="sec-h" id="results-h">{{summary_h2}}</h2>
+    <div id="summary" class="summary"></div>
+    <p id="summary-note" class="summary-note"></p>
+    <div id="results" class="bands" aria-live="polite" aria-busy="true">
+      <p class="empty">{{loading}}</p>
+    </div>
   </section>
 
-  <section class="prose">
-    <h2>{{how_h2}}</h2>
+  <section class="cmpwrap" id="compare" aria-labelledby="compare-h">
+    <div class="cmpwrap__head">
+      <div>
+        <h2 class="sec-h" id="compare-h">{{compare_h2}}</h2>
+        <p class="cmpwrap__hint">{{compare_hint}}</p>
+      </div>
+      <div class="cmpwrap__tools">
+        <details class="picker" id="picker">
+          <summary>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+            <span>{{compare_pick}}</span>
+            <span class="picker__count" id="picker-count"></span>
+          </summary>
+          <div class="picker__panel" id="picker-list"></div>
+        </details>
+        <button type="button" class="cmpwrap__clear" id="cmp-clear">{{compare_clear}}</button>
+      </div>
+    </div>
+    <p class="cmpwrap__note" id="cmp-note" role="status"></p>
+    <div id="compare-body"></div>
+  </section>
+
+  <section class="how" aria-labelledby="how-steps-h">
+    <h2 class="sec-h" id="how-steps-h">{{steps_h2}}</h2>
+    <ol class="steps">
+      <li class="step">
+        <span class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 7l2 2M10 10l1.5 1.5M7 13l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+        <div><h3>{{step1_t}}</h3><p>{{step1_d}}</p></div>
+      </li>
+      <li class="step">
+        <span class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><rect x="14" y="4" width="7" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+        <div><h3>{{step2_t}}</h3><p>{{step2_d}}</p></div>
+      </li>
+      <li class="step">
+        <span class="step__icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <div><h3>{{step3_t}}</h3><p>{{step3_d}}</p></div>
+      </li>
+    </ol>
+  </section>
+
+  <details class="howto prose">
+    <summary>{{how_h2}}</summary>
     <ul class="legend">
       <li><i style="background: var(--pass)"></i><span><b>{{legend_pass_b}}</b> {{legend_pass_t}}</span></li>
       <li><i style="background: var(--paid)"></i><span><b>{{legend_paid_b}}</b> {{legend_paid_t}}</span></li>
@@ -113,7 +218,7 @@
 
     <h3>{{h3_noguarantee}}</h3>
     <p>{{p_noguarantee}}</p>
-  </section>
+  </details>
 
   <!-- Enlaces reales a cada ficha. Van en el HTML servido, no los pone el JS:
        si dependieran del script, un rastreador podría no verlos nunca. -->
@@ -124,7 +229,7 @@
     <p id="dataset-stamp"></p>
 {{FOOTER_LINKS}}
   </footer>
-</div>
+</main>
 
 <script>
 (function () {
@@ -282,7 +387,8 @@
   function mkCompare(bagCm, allowance, label) {
     var limit = limitTriple(allowance.max_cm);
     if (!limit) return null;
-    return { bag: bagCm, limit: limit, label: label };
+    /* allowance viaja solo para mostrar la ficha; no interviene en el veredicto */
+    return { bag: bagCm, limit: limit, label: label, allowance: allowance };
   }
 
   /* Decides the band and builds the human sentences for one operator. */
@@ -440,17 +546,35 @@
     return out;
   }
 
-  /* ---------- rendering ---------- */
+
+  /* ---------- rendering ----------
+     Todo lo de abajo es PRESENTACIÓN. Los veredictos salen de verdictFor(),
+     que no se toca: el diseño cambia cómo se ve la respuesta, nunca cuál es. */
 
   var MODE_LABEL = { air: t("mode_air"), rail: t("mode_rail"), ferry: t("mode_ferry") };
 
   var BANDS = [
-    { key: FITS,    cls: "band--pass",    title: t("band_pass_title"),    empty: t("band_pass_empty") },
-    { key: "paid",  cls: "band--paid",    title: t("band_paid_title"),    empty: t("band_paid_empty") },
-    { key: OVER,    cls: "band--fail",    title: t("band_fail_title"),    empty: t("band_fail_empty") },
-    { key: RULE,    cls: "band--rule",    title: t("band_rule_title"),    empty: t("band_rule_empty") },
-    { key: UNKNOWN, cls: "band--unknown", title: t("band_unknown_title"), empty: t("band_unknown_empty") }
+    { key: FITS,    id: "pass",    cls: "band--pass",    title: t("band_pass_title"),    empty: t("band_pass_empty") },
+    { key: "paid",  id: "paid",    cls: "band--paid",    title: t("band_paid_title"),    empty: t("band_paid_empty") },
+    { key: OVER,    id: "fail",    cls: "band--fail",    title: t("band_fail_title"),    empty: t("band_fail_empty") },
+    { key: RULE,    id: "rule",    cls: "band--rule",    title: t("band_rule_title"),    empty: t("band_rule_empty") },
+    { key: UNKNOWN, id: "unknown", cls: "band--unknown", title: t("band_unknown_title"), empty: t("band_unknown_empty") }
   ];
+  var BAND_BY_KEY = {};
+  BANDS.forEach(function (b) { BAND_BY_KEY[b.key] = b; });
+
+  /* Íconos propios, dibujados acá. Nada de logos de aerolíneas: son marcas. */
+  var SV = '<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+  var ICON = {
+    air:   SV + '<path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>',
+    rail:  SV + '<rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 11h14M9 21l2-4M15 21l-2-4"/><circle cx="9" cy="14" r=".6"/><circle cx="15" cy="14" r=".6"/></svg>',
+    ferry: SV + '<path d="M3 17c1.5 1.3 3 1.3 4.5 0s3-1.3 4.5 0 3 1.3 4.5 0 3-1.3 4.5 0"/><path d="M5 14l1.5-5h11L19 14M9 9V5h6v4"/></svg>',
+    pass:  SV + '<path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    paid:  SV + '<circle cx="12" cy="12" r="8.5"/><path d="M14.5 9.2c-.5-.8-1.4-1.2-2.5-1.2-1.5 0-2.5.8-2.5 2s1 1.6 2.5 2 2.5.9 2.5 2.1-1 2-2.5 2c-1.1 0-2-.4-2.6-1.2M12 6.5V8M12 16v1.5"/></svg>',
+    fail:  SV + '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg>',
+    rule:  SV + '<path d="M5 4.5h10.5L19 8v11.5H5z"/><path d="M8.5 11h7M8.5 14.5h7M8.5 7.5h4"/></svg>',
+    unknown: SV + '<circle cx="12" cy="12" r="8.5"/><path d="M9.8 9.5a2.3 2.3 0 1 1 3.3 2.1c-.7.4-1.1.9-1.1 1.7v.5M12 16.6v.2"/></svg>'
+  };
 
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
@@ -458,171 +582,379 @@
     });
   }
 
-  /* Una barra por eje: la valija del usuario contra el límite de ese mismo eje.
-     Se comparan ordenados de mayor a menor, igual que el veredicto, porque una
-     valija se puede girar. Los números van en texto al lado, así el gráfico no
-     es la única fuente de la información. */
-  function axesNode(compare) {
-    var wrap = document.createElement("div");
-    wrap.className = "axes";
+  function node(tag, cls, html) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
 
-    var title = document.createElement("p");
-    title.className = "axes__title";
-    title.textContent = t("axes_title", { label: compare.label });
-    wrap.appendChild(title);
+  /* En memoria y nada más. /cookies/ promete que el sitio no escribe nada en
+     el navegador; guardar esta selección en localStorage rompería esa promesa. */
+  var MAX_CMP = 3;
+  var cmpSel = [];
+  var firstRender = true;
+  var lastVerdicts = [];
 
+  function allowanceName(v) {
+    return v.compare && v.compare.allowance === v.op.cabin_bag
+      ? t("fiche_label_cabin") : t("fiche_label_personal");
+  }
+
+  /* Una línea corta para la tarjeta: qué franquicia se evaluó y su medida. */
+  function keyLine(v) {
+    if (v.band === RULE) return esc(t("card_rule_short"));
+    if (v.compare) {
+      var a = v.compare.allowance;
+      return esc(allowanceName(v)) + ' · <span class="dims">' + esc(fmtCm(a.max_cm)) + "</span>" +
+        (a.max_kg === null || a.max_kg === undefined ? "" : " · " + esc(a.max_kg) + " kg");
+    }
+    return esc(t("card_unknown_short"));
+  }
+
+  /* Tres barritas cortas, una por lado de la valija. Los lados se comparan de
+     mayor a mayor, igual que el veredicto, porque una valija se puede girar. */
+  function miniBars(compare, withNums) {
+    var wrap = node("div", "mini" + (withNums ? " mini--nums" : ""));
+    wrap.setAttribute("aria-hidden", "true");
     for (var i = 0; i < 3; i++) {
       var bagV = compare.bag[i], limV = compare.limit[i];
-      var scale = Math.max(bagV, limV) * 1.08;
-
-      var row = document.createElement("div");
-      row.className = "axis";
-
-      var track = document.createElement("div");
-      track.className = "axis__track";
-      track.setAttribute("aria-hidden", "true");
-
-      var allowed = document.createElement("div");
-      allowed.className = "axis__allowed";
-      allowed.style.width = (limV / scale * 100).toFixed(2) + "%";
-      track.appendChild(allowed);
-
-      var bar = document.createElement("div");
-      bar.className = "axis__bag";
-      bar.style.width = (bagV / scale * 100).toFixed(2) + "%";
-      track.appendChild(bar);
-
-      var line = document.createElement("div");
-      line.className = "axis__limit";
-      line.style.left = "calc(" + (limV / scale * 100).toFixed(2) + "% - 1px)";
-      track.appendChild(line);
-
-      var num = document.createElement("span");
-      num.className = "axis__num";
-      num.innerHTML = "<b>" + esc(fmtLen(bagV)) + "</b> / " + esc(fmtLen(limV));
-
+      var scale = Math.max(bagV, limV) * 1.06;
+      var row = node("div", "mini__row");
+      var track = node("div", "mini__track");
+      var allowed = node("div", "mini__allowed");
+      allowed.style.width = (limV / scale * 100).toFixed(1) + "%";
+      var bar = node("div", "mini__bag" + (bagV > limV ? " is-over" : ""));
+      bar.style.width = (bagV / scale * 100).toFixed(1) + "%";
+      var tick = node("div", "mini__tick");
+      tick.style.left = "calc(" + (limV / scale * 100).toFixed(1) + "% - 1px)";
+      track.appendChild(allowed); track.appendChild(bar); track.appendChild(tick);
       row.appendChild(track);
-      row.appendChild(num);
+      if (withNums) {
+        row.appendChild(node("span", "mini__num",
+          "<b>" + esc(fmtLen(bagV)) + "</b> / " + esc(fmtLen(limV))));
+      }
       wrap.appendChild(row);
     }
-
-    var legend = document.createElement("p");
-    legend.className = "axes__legend";
-    legend.textContent = t("axes_legend");
-    wrap.appendChild(legend);
     return wrap;
   }
 
-  function opNode(v) {
-    var li = document.createElement("li");
-    li.className = "op";
-    var body = document.createElement("div");
-    body.className = "op__body";
+  /* La cita del operador NO se traduce nunca. Se marca su idioma real y, si no
+     coincide con el de la página, se rotula y se les pide a los traductores
+     automáticos que la dejen tal cual. */
+  function quoteNode(v, extraCls) {
+    var q = node("blockquote", "op__rule band--rule" + (extraCls ? " " + extraCls : ""));
+    if (v.ruleLang) q.setAttribute("lang", v.ruleLang);
+    if (v.ruleLang && v.ruleLang !== PAGE_LANG) q.setAttribute("translate", "no");
+    if (v.op.source_url) q.setAttribute("cite", v.op.source_url);
+    var c = document.createElement("cite");
+    var caption = t("cite_words", { name: v.op.name });
+    if (v.ruleLang && v.ruleLang !== PAGE_LANG) caption += t("cite_orig_" + v.ruleLang) || "";
+    c.textContent = caption;
+    c.setAttribute("lang", PAGE_LANG);
+    q.appendChild(c);
+    var p = document.createElement("p");
+    p.style.margin = "0";
+    p.textContent = v.rule;
+    q.appendChild(p);
+    return q;
+  }
 
-    var top = document.createElement("div");
-    top.className = "op__top";
-    top.innerHTML =
-      '<span class="op__name">' + esc(v.op.name) + "</span>" +
-      '<span class="mode">' + esc(MODE_LABEL[v.op.type] || v.op.type) + "</span>" +
-      '<span class="op__verdict">' + esc(v.verdict) + "</span>";
-    body.appendChild(top);
+  /* ---------- resumen: una ficha de color por grupo, que además filtra ----------
+     Filtrar solo oculta tarjetas: no cambia ningún veredicto. */
+  var bandFilter = null;
 
-    if (v.detail) {
-      var d = document.createElement("p");
-      d.className = "op__detail";
-      d.innerHTML = v.detail;
-      body.appendChild(d);
-    }
-
-    /* La cita del operador NO se traduce nunca. Se marca su idioma real y, si no
-       coincide con el de la página, se rotula y se le pide a los traductores
-       automáticos que la dejen tal cual. */
-    if (v.rule) {
-      var q = document.createElement("blockquote");
-      q.className = "op__rule";
-      if (v.ruleLang) q.setAttribute("lang", v.ruleLang);
-      if (v.ruleLang && v.ruleLang !== PAGE_LANG) q.setAttribute("translate", "no");
-      if (v.op.source_url) q.setAttribute("cite", v.op.source_url);
-
-      var c = document.createElement("cite");
-      var caption = t("cite_words", { name: v.op.name });
-      if (v.ruleLang && v.ruleLang !== PAGE_LANG) {
-        caption += t("cite_orig_" + v.ruleLang) || "";
-      }
-      c.textContent = caption;
-      c.setAttribute("lang", PAGE_LANG);
-      q.appendChild(c);
-
-      var p = document.createElement("p");
-      p.style.margin = "0";
-      p.textContent = v.rule;
-      q.appendChild(p);
-      body.appendChild(q);
-    }
-
-    if (v.compare) body.appendChild(axesNode(v.compare));
-
-    v.flags.forEach(function (f) {
-      var p2 = document.createElement("p");
-      p2.className = "op__flag" + (f.tone === "neutral" ? " op__flag--neutral" : "");
-      p2.textContent = f.text;
-      body.appendChild(p2);
+  function renderSummary(verdicts) {
+    var box = document.getElementById("summary");
+    box.innerHTML = "";
+    var counts = {};
+    BANDS.forEach(function (band) {
+      counts[band.key] = verdicts.filter(function (v) { return v.band === band.key; }).length;
     });
+    if (bandFilter !== null && !counts[bandFilter]) bandFilter = null;
+    BANDS.forEach(function (band) {
+      var n = counts[band.key];
+      var on = bandFilter === band.key;
+      var b = node("button", "tile " + band.cls + (n ? "" : " is-zero") + (on ? " is-on" : ""));
+      b.type = "button";
+      b.disabled = !n;
+      b.setAttribute("aria-pressed", String(on));
+      b.innerHTML = '<span class="tile__icon">' + ICON[band.id] + "</span>" +
+        "<b>" + n + "</b><span>" + esc(band.title) + "</span>";
+      b.addEventListener("click", function () {
+        bandFilter = on ? null : band.key;
+        render();
+      });
+      box.appendChild(b);
+    });
+    /* Si nada viaja gratis, se dice con todas las letras: es justo lo que
+       sorprende a la gente en la puerta de embarque. */
+    var note = document.getElementById("summary-note");
+    note.className = "summary-note" + (counts[FITS] ? "" : " is-alert");
+    note.textContent = counts[FITS] ? t("summary_filter_hint") : t("band_pass_empty");
+  }
 
-    var src = document.createElement("p");
-    src.className = "op__source";
-    var when = v.op.verified_on;
-    src.innerHTML =
-      '<a href="' + esc(v.op.source_url) + '" target="_blank" rel="noopener nofollow">' +
-      esc(t("src_link")) + "</a>" +
-      "<span>" + esc(t("src_checked")) + ' <time datetime="' + esc(when) + '">' + esc(when) + "</time></span>";
-    body.appendChild(src);
+  /* ---------- tarjetas compactas, agrupadas por resultado ---------- */
 
-    li.appendChild(body);
+  function cardNode(v, i) {
+    var band = BAND_BY_KEY[v.band];
+    var li = node("li", "rcard " + band.cls + (cmpSel.indexOf(v.op.id) >= 0 ? " is-cmp" : ""));
+    li.style.setProperty("--i", i);
+    if (bandFilter !== null && v.band !== bandFilter) li.hidden = true;
+
+    var top = node("div", "rcard__top");
+    top.appendChild(node("span", "rcard__icon", ICON[v.op.type] || ICON.air));
+    top.appendChild(node("span", "op__name", esc(v.op.name)));
+    top.appendChild(node("span", "mode", esc(MODE_LABEL[v.op.type] || v.op.type)));
+    li.appendChild(top);
+
+    li.appendChild(node("p", "rcard__verdict", '<span class="rcard__dot">' + ICON[band.id] + "</span>" + esc(v.verdict)));
+    li.appendChild(node("p", "rcard__line", keyLine(v)));
+
+    if (v.compare) li.appendChild(miniBars(v.compare, false));
+
+    var addon = v.band === "paid" && v.compare && v.compare.allowance.requires_addon;
+    if (addon) li.appendChild(node("span", "rcard__addon", "+ " + esc(v.compare.allowance.requires_addon)));
+
+    if (v.detail && v.band !== RULE) li.appendChild(node("p", "rcard__detail", v.detail));
+
+    if (v.rule) {
+      var d = node("details", "rcard__rule");
+      d.appendChild(node("summary", "", esc(t("card_read_rule"))));
+      d.appendChild(quoteNode(v));
+      li.appendChild(d);
+    }
+
+    var foot = node("div", "rcard__foot");
+    var on = cmpSel.indexOf(v.op.id) >= 0;
+    var btn = node("button", "rcard__cmp", esc(on ? t("compare_added") : t("compare_add")));
+    btn.type = "button";
+    btn.setAttribute("aria-pressed", String(on));
+    btn.addEventListener("click", function () { toggleCmp(v.op.id); });
+    foot.appendChild(btn);
+    li.appendChild(foot);
     return li;
+  }
+
+  function renderBands(verdicts) {
+    els.results.setAttribute("aria-busy", "false");
+    els.results.innerHTML = "";
+    els.results.classList.toggle("is-first", firstRender);
+    var i = 0;
+    BANDS.forEach(function (band) {
+      var mine = verdicts.filter(function (v) { return v.band === band.key; });
+      var section = node("section", "band " + band.cls + (mine.length ? "" : " band--empty"));
+      section.id = "band-" + band.id;
+      var head = node("div", "band__head");
+      head.innerHTML = '<span class="band__icon">' + ICON[band.id] + "</span>" +
+        "<h2>" + esc(band.title) + "</h2>" +
+        '<span class="band__count">' + mine.length + "</span>";
+      section.appendChild(head);
+      if (mine.length) {
+        var ul = node("ul", "rgrid");
+        mine.forEach(function (v) { ul.appendChild(cardNode(v, i++)); });
+        section.appendChild(ul);
+      } else {
+        section.appendChild(node("p", "empty", esc(band.empty)));
+      }
+      els.results.appendChild(section);
+    });
+  }
+
+  /* ---------- comparador lado a lado ---------- */
+
+  function note(msg) {
+    var n = document.getElementById("cmp-note");
+    n.textContent = msg || "";
+    n.classList.toggle("is-on", !!msg);
+  }
+
+  function toggleCmp(id) {
+    var at = cmpSel.indexOf(id);
+    if (at >= 0) {
+      cmpSel.splice(at, 1);
+      note("");
+    } else if (cmpSel.length < MAX_CMP) {
+      cmpSel.push(id);
+      note("");
+    } else {
+      note(t("compare_limit", { max: MAX_CMP }));
+      return;
+    }
+    render();
+  }
+
+  var pickerBuilt = false;
+  function buildPicker() {
+    var list = document.getElementById("picker-list");
+    list.innerHTML = "";
+    ["air", "rail", "ferry"].forEach(function (kind) {
+      var ops = dataset.operators.filter(function (o) { return o.type === kind; });
+      if (!ops.length) return;
+      var g = node("div", "picker__group");
+      g.appendChild(node("h3", "", '<span class="picker__gicon">' + ICON[kind] + "</span>" + esc(MODE_LABEL[kind])));
+      ops.slice().sort(function (x, y) { return x.name.localeCompare(y.name); }).forEach(function (op) {
+        var lab = node("label", "picker__opt");
+        var cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.value = op.id;
+        cb.addEventListener("change", function () { toggleCmp(op.id); });
+        lab.appendChild(cb);
+        lab.appendChild(node("span", "", esc(op.name)));
+        g.appendChild(lab);
+      });
+      list.appendChild(g);
+    });
+    pickerBuilt = true;
+  }
+
+  function syncPicker() {
+    if (!pickerBuilt) return;
+    var full = cmpSel.length >= MAX_CMP;
+    Array.prototype.forEach.call(document.querySelectorAll("#picker-list input"), function (cb) {
+      var on = cmpSel.indexOf(cb.value) >= 0;
+      cb.checked = on;
+      cb.disabled = full && !on;
+      cb.parentNode.classList.toggle("is-disabled", full && !on);
+    });
+    document.getElementById("picker-count").textContent = cmpSel.length + "/" + MAX_CMP;
+  }
+
+  function statusBadge(allow) {
+    if (!allow) return "—";
+    if (allow.included === true) return '<span class="status status--free">' + esc(t("status_free")) + "</span>";
+    if (allow.included === false) return '<span class="status status--paid">' + esc(t("status_paid")) + "</span>";
+    return '<span class="status status--none">' + esc(t("status_unknown")) + "</span>";
+  }
+
+  function allowanceCell(v, key) {
+    if (v.op.limit_type !== "dimensional") return '<span class="cmp__muted">' + esc(t("cmp_no_dims")) + "</span>";
+    var a = v.op[key];
+    if (!a) return "—";
+    var tri = limitTriple(a.max_cm);
+    var out = statusBadge(a);
+    out += '<div class="cmp__dims">' + (tri ? '<span class="dims">' + esc(fmtCm(a.max_cm)) + "</span>" : esc(t("status_unknown"))) + "</div>";
+    out += '<div class="cmp__muted">' + (a.max_kg === null || a.max_kg === undefined
+      ? esc(t("cmp_no_kg")) : esc(t("allow_kg", { kg: a.max_kg }))) + "</div>";
+    if (a.included === false && a.requires_addon) {
+      out += '<div class="cmp__addon">' + esc(t("flag_addon", { addon: a.requires_addon })) + "</div>";
+    }
+    return out;
+  }
+
+  function wheelsCell(v) {
+    if (v.op.limit_type !== "dimensional") return "—";
+    var w = v.op.wheels_handles || {};
+    if (w.included_in_measurement === true) return esc(t("wh_included"));
+    if (w.included_in_measurement === false) {
+      return w.tolerance_cm !== null && w.tolerance_cm !== undefined
+        ? esc(t("wh_excluded_tol", { tol: w.tolerance_cm })) : esc(t("wh_excluded"));
+    }
+    return '<span class="cmp__muted">' + esc(t("status_unknown")) + "</span>";
+  }
+
+  function renderCompare(verdicts) {
+    var body = document.getElementById("compare-body");
+    body.innerHTML = "";
+    var chosen = cmpSel.map(function (id) {
+      for (var i = 0; i < verdicts.length; i++) if (verdicts[i].op.id === id) return verdicts[i];
+      return null;
+    }).filter(Boolean);
+
+    if (!chosen.length) {
+      body.appendChild(node("div", "cmp__empty",
+        '<span class="cmp__empty-icon">' + ICON.rule + "</span><p>" + esc(t("compare_empty")) + "</p>"));
+      return;
+    }
+
+    var tbl = node("table", "cmp");
+    var n = chosen.length;
+
+    var thead = node("thead");
+    var hr = node("tr");
+    chosen.forEach(function (v) {
+      var band = BAND_BY_KEY[v.band];
+      var th = node("th", band.cls);
+      th.scope = "col";
+      th.innerHTML = '<div class="cmp__op"><span class="rcard__icon">' + (ICON[v.op.type] || ICON.air) +
+        '</span><span class="cmp__name">' + esc(v.op.name) + "</span></div>";
+      var x = node("button", "cmp__x", "× " + esc(t("compare_remove")));
+      x.type = "button";
+      x.addEventListener("click", function () { toggleCmp(v.op.id); });
+      th.appendChild(x);
+      hr.appendChild(th);
+    });
+    thead.appendChild(hr);
+    tbl.appendChild(thead);
+
+    var tb = node("tbody");
+    function row(label, cellFn) {
+      var lr = node("tr", "cmp__label");
+      var lth = node("th", "", esc(label));
+      lth.colSpan = n;
+      lth.scope = "colgroup";
+      lr.appendChild(lth);
+      tb.appendChild(lr);
+      var vr = node("tr");
+      chosen.forEach(function (v) {
+        var td = node("td", BAND_BY_KEY[v.band].cls);
+        var c = cellFn(v);
+        if (typeof c === "string") td.innerHTML = c; else td.appendChild(c);
+        vr.appendChild(td);
+      });
+      tb.appendChild(vr);
+    }
+
+    row(t("cmp_row_verdict"), function (v) {
+      var html = '<span class="vbadge">' + ICON[BAND_BY_KEY[v.band].id] + esc(v.verdict) + "</span>";
+      if (v.detail && v.band !== RULE) html += '<p class="cmp__detail">' + v.detail + "</p>";
+      return html;
+    });
+    row(t("cmp_row_fit"), function (v) {
+      return v.compare ? miniBars(v.compare, true) : '<span class="cmp__muted">—</span>';
+    });
+    row(t("fiche_label_personal"), function (v) { return allowanceCell(v, "personal_item"); });
+    row(t("fiche_label_cabin"), function (v) { return allowanceCell(v, "cabin_bag"); });
+    row(t("fiche_wheels_h"), wheelsCell);
+    row(t("cmp_row_source"), function (v) {
+      return '<a href="' + esc(v.op.source_url) + '" target="_blank" rel="noopener nofollow">' +
+        esc(t("src_link")) + '</a><div class="cmp__muted">' + esc(t("src_checked")) +
+        ' <time datetime="' + esc(v.op.verified_on) + '">' + esc(v.op.verified_on) + "</time></div>";
+    });
+    tbl.appendChild(tb);
+
+    var scroller = node("div", "cmp__scroll");
+    scroller.appendChild(tbl);
+    body.appendChild(scroller);
+
+    var rules = chosen.filter(function (v) { return v.rule; });
+    if (rules.length) {
+      var rb = node("div", "cmp__rules");
+      rb.appendChild(node("h3", "", esc(t("cmp_rule_h"))));
+      rules.forEach(function (v) { rb.appendChild(quoteNode(v, "cmp__rule")); });
+      body.appendChild(rb);
+    }
+    body.appendChild(node("p", "axes__legend", esc(t("axes_legend"))));
   }
 
   function render() {
     if (!dataset) return;
     var b = bag();
-    els.results.setAttribute("aria-busy", "false");
-    els.results.innerHTML = "";
-
     if (!b) {
-      var warn = document.createElement("p");
-      warn.className = "empty";
-      warn.textContent = t("need_dims");
-      els.results.appendChild(warn);
+      els.results.setAttribute("aria-busy", "false");
+      els.results.innerHTML = "";
+      els.results.appendChild(node("p", "empty", esc(t("need_dims"))));
+      document.getElementById("summary").innerHTML = "";
       return;
     }
-
-    var verdicts = dataset.operators.map(function (op) { return verdictFor(op, b); });
-
-    BANDS.forEach(function (band) {
-      var mine = verdicts.filter(function (v) { return v.band === band.key; });
-      var section = document.createElement("section");
-      section.className = "band " + band.cls;
-
-      var head = document.createElement("div");
-      head.className = "band__head";
-      head.innerHTML = "<h2>" + esc(band.title) + "</h2>" +
-        '<span class="band__count">' + mine.length + "</span>";
-      section.appendChild(head);
-
-      if (mine.length) {
-        var ul = document.createElement("ul");
-        ul.className = "ops";
-        mine.forEach(function (v) { ul.appendChild(opNode(v)); });
-        section.appendChild(ul);
-      } else {
-        var e = document.createElement("p");
-        e.className = "empty";
-        e.textContent = band.empty;
-        section.appendChild(e);
-      }
-      els.results.appendChild(section);
-    });
+    lastVerdicts = dataset.operators.map(function (op) { return verdictFor(op, b); });
+    renderSummary(lastVerdicts);
+    renderBands(lastVerdicts);
+    renderCompare(lastVerdicts);
+    syncPicker();
+    firstRender = false;
   }
+
 
   /* ---------- boot ---------- */
 
@@ -634,6 +966,27 @@
     document.getElementById("unit-" + u)
       .addEventListener("click", function () { setUnit("weight", u); });
   });
+
+  /* Ejemplos rápidos: cargan medidas en cm/kg y las muestran en la unidad
+     que el usuario tenga elegida. */
+  Array.prototype.forEach.call(document.querySelectorAll(".preset"), function (btn) {
+    btn.addEventListener("click", function () {
+      var cm = btn.getAttribute("data-cm").split(",").map(Number);
+      var kg = Number(btn.getAttribute("data-kg"));
+      [els.a, els.b, els.c].forEach(function (el, i) {
+        el.value = String(round1(fromCanonical(cm[i], "length")));
+      });
+      els.w.value = String(round1(fromCanonical(kg, "weight")));
+      render();
+    });
+  });
+
+  document.getElementById("cmp-clear").addEventListener("click", function () {
+    cmpSel = [];
+    note("");
+    render();
+  });
+
   /* ---------- empujar una cifra de a poco ----------
      Objetivo: que se pueda ver cuánto falta para el límite moviendo el número,
      no solo escribiéndolo. Tres vías, según el dispositivo:
@@ -681,8 +1034,8 @@
     }, { passive: false });
   });
 
-  /* Ruta absoluta desde la raíz: /es/ y las fichas futuras cargan el MISMO
-     dataset. Con "./operators.json" cada carpeta buscaría su propia copia. */
+  /* Ruta absoluta desde la raíz: /es/ y las fichas cargan el MISMO dataset.
+     Con "./operators.json" cada carpeta buscaría su propia copia. */
   fetch("/operators.json", { cache: "no-cache" })
     .then(function (r) {
       if (!r.ok) throw new Error("HTTP " + r.status);
@@ -697,6 +1050,11 @@
         n: n,
         opword: n === 1 ? t("op_one") : t("op_many")
       });
+      /* Arranca comparando las primeras aerolíneas del dataset, para que el
+         panel no aparezca vacío. Regla fija, sin elegir a dedo. */
+      cmpSel = json.operators.filter(function (o) { return o.type === "air"; })
+        .slice(0, MAX_CMP).map(function (o) { return o.id; });
+      buildPicker();
       render();
     })
     .catch(function (err) {
