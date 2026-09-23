@@ -1157,3 +1157,218 @@
     .cmp .status { font-size: 0.56rem; letter-spacing: 0.04em; padding: 0.2rem 0.3rem; }
     .cmp__addon { font-size: 0.68rem; }
   }
+
+  /* ============================================================
+     v3 — INTERACCIÓN (23/09/2026)
+     Reacción al pasar el mouse, al tocar y al navegar con teclado.
+     Regla: solo reacciona lo que se puede usar. Un texto que "salta"
+     parece botón y la gente lo toca sin que pase nada.
+     El levantamiento va dentro de (hover: hover) para que en el teléfono
+     no quede un botón "pegado" en estado hover después de tocarlo.
+     ============================================================ */
+
+  :root { --glow: rgba(11,110,110,.38); --lift: cubic-bezier(.2,.8,.2,1); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --glow: rgba(79,189,182,.4); } }
+  :root[data-theme="dark"] { --glow: rgba(79,189,182,.4); }
+
+  .units button, .nudge, .preset, .tile, .rcard, .rcard__cmp, .picker > summary,
+  .cmpwrap__clear, .cmp__x, .index__links a, .cta, .langnav a, .footlinks a,
+  .crumbs a, .share, .dock__icon, .dock-pill, .howto > summary, .picker__opt,
+  .rcard__rule summary, .field, .cmp td {
+    transition: transform .18s var(--lift), box-shadow .18s var(--lift),
+                background-color .18s, border-color .18s, color .18s, filter .18s;
+  }
+
+  /* el campo que estás editando se ilumina */
+  .home .field:focus-within { background: var(--accent-soft); box-shadow: inset 0 -3px 0 var(--accent); }
+  .home .field:focus-within label { color: var(--accent); }
+
+  @media (hover: hover) {
+    .home .field:hover:not(:focus-within) { background: var(--surface-sunk); }
+    .units button:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+    .nudge:hover { transform: translateY(-1px); box-shadow: 0 4px 10px -4px var(--glow); }
+    .preset:hover { box-shadow: 0 6px 14px -8px var(--glow); }
+    .tile:not(:disabled):hover { transform: translateY(-3px); box-shadow: 0 10px 22px -12px var(--band-tone); }
+    .rcard:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px var(--band-tone), var(--shadow); }
+    .rcard:hover .rcard__icon { transform: scale(1.08) rotate(-4deg); }
+    .rcard__icon { transition: transform .2s var(--lift); }
+    .rcard__cmp:hover { background: var(--accent-soft); }
+    .rcard__cmp[aria-pressed="true"]:hover { background: var(--accent); filter: brightness(1.1); }
+    .picker > summary:hover { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 8px 18px -8px var(--glow); }
+    .picker__opt:hover { background: var(--accent-soft); }
+    .cmpwrap__clear:hover { background: var(--accent-soft); }
+    .cmp tbody tr:not(.cmp__label):hover td { background: var(--surface-sunk); }
+    .index__links a:hover { transform: translateY(-2px); background: var(--accent-soft); box-shadow: 0 6px 14px -8px var(--glow); }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -10px var(--glow); }
+    .howto > summary:hover, .rcard__rule summary:hover { color: var(--accent); }
+    .hero__art:hover .art-bag { animation-duration: 1.6s; }
+  }
+
+  /* al tocar o hacer clic: se hunde un poco. Esto sí funciona en el móvil. */
+  .units button:active, .nudge:active, .preset:active, button.tile:not(:disabled):active,
+  .rcard__cmp:active, .picker > summary:active, .cmpwrap__clear:active,
+  .index__links a:active, .cta:active, .share:active, .dock__icon:active, .dock-pill:active {
+    transform: scale(.96);
+    transition-duration: .06s;
+  }
+
+  /* teclado: todo lo que se puede usar muestra dónde está el foco */
+  .cmpwrap__clear:focus-visible, .cmp__x:focus-visible, .howto > summary:focus-visible,
+  .rcard__rule summary:focus-visible, .footlinks a:focus-visible, .crumbs a:focus-visible,
+  .share:focus-visible, .dock__icon:focus-visible, .dock-pill:focus-visible,
+  .dock input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .picker__opt:focus-within { background: var(--accent-soft); }
+
+  /* ---------- compartir ---------- */
+  .results__head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; margin-bottom: 0.35rem; }
+  .results__head .sec-h { margin: 0; }
+  .share {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.55rem 0.95rem; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--accent); background: var(--surface); color: var(--accent);
+    font: 600 var(--step--1)/1 "IBM Plex Sans", sans-serif;
+  }
+  .share svg { width: 1rem; height: 1rem; }
+  @media (hover: hover) {
+    .share:hover { background: var(--accent); color: var(--surface); transform: translateY(-1px); box-shadow: 0 8px 18px -8px var(--glow); }
+  }
+  .share__hint { margin: 0 0 1rem; font-size: 0.8125rem; color: var(--ink-faint); }
+  .share__status:empty { display: none; }
+  .share__status {
+    margin: -0.4rem 0 1rem; padding: 0.55rem 0.75rem; border-radius: 10px;
+    background: var(--pass-soft); border-left: 3px solid var(--pass);
+    font-size: 0.8125rem; color: var(--ink);
+  }
+  .share__status input {
+    display: block; width: 100%; margin-top: 0.4rem; padding: 0.4rem 0.5rem;
+    font: 500 0.75rem/1.2 "IBM Plex Mono", monospace; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 6px;
+  }
+  .shared-note {
+    margin: 0; padding: 0.7rem 1.25rem; font-size: var(--step--1);
+    background: var(--accent-soft); color: var(--ink); border-top: 1px solid var(--rule-soft);
+  }
+  .shared-note[hidden] { display: none; }
+  @media (max-width: 34rem) {
+    .share { width: 100%; justify-content: center; }
+  }
+
+  /* ---------- panel flotante ----------
+     Tres formas según el ancho, siempre el mismo HTML:
+       - pantalla ancha (≥ 84rem): columna al costado derecho, donde sobra lugar;
+       - escritorio angosto y tablet: barra abajo, centrada con el contenido;
+       - teléfono: barra abajo en dos filas, para que los botones se puedan tocar. */
+  .dock {
+    position: fixed; z-index: 40;
+    left: 50%; bottom: 14px;
+    width: min(58rem, calc(100% - 24px));
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 0.55rem 0.65rem;
+    background: var(--surface);
+    border: 1px solid var(--rule-soft);
+    border-top: 3px solid var(--accent);
+    border-radius: var(--radius);
+    box-shadow: 0 22px 44px -18px rgba(0,0,0,.45), var(--shadow-sm);
+    opacity: 0; visibility: hidden;
+    transform: translate(-50%, 18px);
+    transition: opacity .2s, transform .28s var(--lift), visibility 0s linear .28s;
+  }
+  @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .dock { background: color-mix(in srgb, var(--surface) 90%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  }
+  .dock.is-on {
+    opacity: 1; visibility: visible; transform: translate(-50%, 0);
+    transition: opacity .2s, transform .28s var(--lift), visibility 0s;
+  }
+  .dock__head { display: flex; align-items: center; gap: 0.3rem; flex: none; }
+  .dock__title {
+    font: 600 0.68rem/1.1 "IBM Plex Sans", sans-serif; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-faint); margin-right: 0.2rem;
+  }
+  .dock__icon {
+    display: grid; place-items: center; width: 1.9rem; height: 1.9rem; padding: 0;
+    border-radius: 999px; border: 1px solid var(--rule); background: var(--surface);
+    color: var(--ink-soft); cursor: pointer;
+  }
+  .dock__icon svg { width: 1rem; height: 1rem; }
+  @media (hover: hover) { .dock__icon:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); } }
+  .dock__fields { flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.45rem; min-width: 0; }
+  .dock__f { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+  .dock__f label {
+    font: 600 0.64rem/1 "IBM Plex Sans", sans-serif; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink-faint); text-align: center;
+  }
+  .dock__f label span { font-family: "IBM Plex Mono", monospace; text-transform: none; letter-spacing: 0; }
+  .dock__row {
+    display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.2rem;
+    padding: 3px; border-radius: 10px; background: var(--surface-sunk);
+    transition: box-shadow .18s, background-color .18s;
+  }
+  .dock__row:focus-within { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent); }
+  .dock .nudge { width: 1.8rem; height: 1.8rem; border-radius: 8px; background: var(--surface); font-size: 1rem; }
+  .dock input {
+    width: 100%; min-width: 0; padding: 0; border: 0; background: transparent;
+    font: 600 1rem/1 "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums;
+    text-align: center; color: var(--accent);
+  }
+  .dock input::-webkit-outer-spin-button, .dock input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .dock input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+  .dock input:focus-visible { outline: none; }
+
+  /* botón para volver a abrirlo cuando alguien lo oculta */
+  .dock-pill {
+    position: fixed; z-index: 40; right: 16px; bottom: 16px;
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    padding: 0.7rem 1rem; border: 0; border-radius: 999px; cursor: pointer;
+    background: var(--accent); color: var(--surface);
+    font: 600 var(--step--1)/1 "IBM Plex Sans", sans-serif;
+    box-shadow: 0 14px 30px -12px rgba(0,0,0,.5);
+    opacity: 0; visibility: hidden; transform: translateY(14px);
+    transition: opacity .2s, transform .28s var(--lift), visibility 0s linear .28s;
+  }
+  .dock-pill svg { width: 1.05rem; height: 1.05rem; }
+  .dock-pill.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity .2s, transform .28s var(--lift), visibility 0s; }
+  @media (hover: hover) { .dock-pill.is-on:hover { transform: translateY(-2px); filter: brightness(1.08); } }
+
+  /* que el pie de página no quede tapado por la barra de abajo */
+  .home .shell--home { padding-bottom: 7.5rem; }
+
+  /* pantalla ancha: al costado */
+  @media (min-width: 84rem) {
+    .home .shell--home { padding-bottom: 4rem; }
+    .dock {
+      left: auto; right: 18px; bottom: auto; top: 50%;
+      width: 10.5rem; flex-direction: column; align-items: stretch; gap: 0.6rem;
+      padding: 0.7rem 0.65rem 0.75rem;
+      border-top: 1px solid var(--rule-soft); border-left: 3px solid var(--accent);
+      transform: translate(18px, -50%);
+    }
+    .dock.is-on { transform: translate(0, -50%); }
+    .dock__head { justify-content: flex-end; }
+    .dock__title { margin-right: auto; }
+    .dock__fields { grid-template-columns: 1fr; gap: 0.55rem; }
+    .dock__f label { text-align: left; padding-left: 0.2rem; }
+  }
+
+  /* teléfono: dos filas de dos, etiqueta a la izquierda */
+  @media (max-width: 34rem) {
+    .dock { bottom: 8px; width: calc(100% - 16px); gap: 0.4rem; padding: 0.45rem 0.45rem 0.45rem 0.55rem; }
+    .dock__title { display: none; }
+    .dock__head { order: 2; flex-direction: column; gap: 0.3rem; }
+    .dock__icon { width: 1.85rem; height: 1.85rem; }
+    .dock__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
+    .dock__f { flex-direction: row; align-items: center; gap: 0.3rem; }
+    .dock__f label { flex: none; width: 2.1rem; text-align: left; font-size: 0.6rem; line-height: 1.15; }
+    .dock__f label span { display: block; }
+    .dock__f .dock__row { flex: 1; }
+    .dock .nudge { width: 2rem; height: 2rem; }
+    .dock-pill { right: 12px; bottom: 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *:hover, *:active { transform: none !important; }
+    .dock, .dock.is-on { transform: translate(-50%, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) and (min-width: 84rem) {
+    .dock, .dock.is-on { transform: translate(0, -50%); }
+  }

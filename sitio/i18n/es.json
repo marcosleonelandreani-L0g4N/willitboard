@@ -194,5 +194,21 @@
   "step2_d": "Agrupados según si viaja gratis, se paga aparte o no entra. Se pueden comparar tres lado a lado.",
   "step3_t": "Comprobar la fuente",
   "step3_d": "Cada límite enlaza a la página del propio operador y muestra la fecha en que una persona lo comprobó.",
-  "summary_filter_hint": "Tocar un grupo para ver solo esos resultados. Tocarlo otra vez para verlos todos."
+  "summary_filter_hint": "Tocar un grupo para ver solo esos resultados. Tocarlo otra vez para verlos todos.",
+
+  "dock_label": "Tu maleta, siempre a mano",
+  "dock_title": "Tu maleta",
+  "dock_short_a": "Lar",
+  "dock_short_b": "Anc",
+  "dock_short_c": "Alt",
+  "dock_short_w": "Peso",
+  "dock_hide": "Ocultar el panel flotante",
+  "dock_show": "Editar maleta",
+  "dock_top": "Ir al panel completo",
+  "share_btn": "Compartir esta comprobación",
+  "share_hint": "¿Viajas con alguien? Envíale esta comprobación para que pruebe con su maleta.",
+  "share_text": "¿Entra? Mi maleta: {bag}. Compara la tuya con los límites oficiales:",
+  "share_copied": "Enlace copiado. Pégalo donde quieras.",
+  "share_failed": "No se pudo copiar automáticamente. Este es el enlace:",
+  "shared_loaded": "Estas medidas vienen de un enlace compartido. Cámbialas para probar con tu maleta."
 }

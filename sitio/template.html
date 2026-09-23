@@ -149,10 +149,21 @@
       {{measure_note}}
     </p>
     <p class="panel__foot panel__foot--hint">{{nudge_hint}}</p>
+    <p class="shared-note" id="shared-note" hidden>{{shared_loaded}}</p>
   </section>
 
   <section class="results" aria-labelledby="results-h">
-    <h2 class="sec-h" id="results-h">{{summary_h2}}</h2>
+    <div class="results__head">
+      <h2 class="sec-h" id="results-h">{{summary_h2}}</h2>
+      <!-- Compartir: el enlace lleva las MEDIDAS, no el veredicto. Quien lo abre
+           ve el chequeo recalculado con los datos vigentes ese día. -->
+      <button type="button" class="share" id="share-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="2"/></svg>
+        <span>{{share_btn}}</span>
+      </button>
+    </div>
+    <p class="share__hint">{{share_hint}}</p>
+    <div class="share__status" id="share-status" role="status"></div>
     <div id="summary" class="summary"></div>
     <p id="summary-note" class="summary-note"></p>
     <div id="results" class="bands" aria-live="polite" aria-busy="true">
@@ -231,6 +242,60 @@
   </footer>
 </main>
 
+<!-- Panel flotante. Aparece cuando el panel principal queda fuera de la
+     pantalla. NO es un segundo formulario: cada campo es un espejo del
+     principal y todo pasa por los mismos inputs, así que no puede haber dos
+     medidas distintas en juego. Mientras está oculto va con inert. -->
+<aside class="dock" id="dock" aria-label="{{dock_label}}" inert>
+  <div class="dock__head">
+    <span class="dock__title">{{dock_title}}</span>
+    <button type="button" class="dock__icon" id="dock-top" aria-label="{{dock_top}}" title="{{dock_top}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button type="button" class="dock__icon" id="dock-hide" aria-label="{{dock_hide}}" title="{{dock_hide}}">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="dock__fields">
+    <div class="dock__f">
+      <label for="dock-a">{{dock_short_a}} <span data-unit="length">cm</span></label>
+      <div class="dock__row">
+        <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="{{a11y_less}} {{f_length}}">−</button>
+        <input type="number" id="dock-a" data-mirror="dim-a" inputmode="decimal" min="0" step="0.1" aria-label="{{f_length}}">
+        <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="{{a11y_more}} {{f_length}}">+</button>
+      </div>
+    </div>
+    <div class="dock__f">
+      <label for="dock-b">{{dock_short_b}} <span data-unit="length">cm</span></label>
+      <div class="dock__row">
+        <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="{{a11y_less}} {{f_width}}">−</button>
+        <input type="number" id="dock-b" data-mirror="dim-b" inputmode="decimal" min="0" step="0.1" aria-label="{{f_width}}">
+        <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="{{a11y_more}} {{f_width}}">+</button>
+      </div>
+    </div>
+    <div class="dock__f">
+      <label for="dock-c">{{dock_short_c}} <span data-unit="length">cm</span></label>
+      <div class="dock__row">
+        <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="{{a11y_less}} {{f_height}}">−</button>
+        <input type="number" id="dock-c" data-mirror="dim-c" inputmode="decimal" min="0" step="0.1" aria-label="{{f_height}}">
+        <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="{{a11y_more}} {{f_height}}">+</button>
+      </div>
+    </div>
+    <div class="dock__f">
+      <label for="dock-w">{{dock_short_w}} <span data-unit="weight">kg</span></label>
+      <div class="dock__row">
+        <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="{{a11y_less}} {{f_weight}}">−</button>
+        <input type="number" id="dock-w" data-mirror="weight" inputmode="decimal" min="0" step="0.1" aria-label="{{f_weight}}">
+        <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="{{a11y_more}} {{f_weight}}">+</button>
+      </div>
+    </div>
+  </div>
+</aside>
+<button type="button" class="dock-pill" id="dock-pill" inert>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 7l2 2M10 10l1.5 1.5M7 13l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  <span>{{dock_show}}</span>
+</button>
+
 <script>
 (function () {
   "use strict";
@@ -284,26 +349,41 @@
     return raw;
   }
 
+  /* Cambiar de unidad NO puede cambiar un veredicto. 55 cm se muestra como
+     21.7 in, pero 21.7 in son 55.1 cm: si se recalculara desde lo que se ve,
+     tocar "in" pasaría una valija de "entra" a "no entra". Por eso, al
+     convertir, se guarda la medida exacta junto con el texto que se mostró, y
+     se usa mientras la persona no toque ese número. */
+  var exact = new WeakMap();
+
+  function canonicalOf(el, kind) {
+    var v = readField(el);
+    if (v === null) return null;
+    var keep = exact.get(el);
+    if (keep && keep.shown === el.value) return keep.canonical;
+    return toCanonical(v, kind);
+  }
+
   function bag() {
-    var dims = [readField(els.a), readField(els.b), readField(els.c)];
+    var dims = [els.a, els.b, els.c].map(function (el) { return canonicalOf(el, "length"); });
     if (dims.some(function (d) { return d === null; })) return null;
     return {
-      cm: dims.map(function (d) { return toCanonical(d, "length"); })
-              .sort(function (x, y) { return y - x; }),
-      kg: readField(els.w) === null ? null : toCanonical(readField(els.w), "weight")
+      cm: dims.sort(function (x, y) { return y - x; }),
+      kg: canonicalOf(els.w, "weight")
     };
   }
 
   function setUnit(kind, next) {
     if (units[kind] === next) return;
     var fields = kind === "length" ? [els.a, els.b, els.c] : [els.w];
-    var canonical = fields.map(function (el) {
-      var v = readField(el);
-      return v === null ? null : toCanonical(v, kind);
-    });
+    var canonical = fields.map(function (el) { return canonicalOf(el, kind); });
     units[kind] = next;
     fields.forEach(function (el, i) {
-      el.value = canonical[i] === null ? "" : String(round1(fromCanonical(canonical[i], kind)));
+      if (canonical[i] === null) { el.value = ""; exact.delete(el); return; }
+      var shown = round1(fromCanonical(canonical[i], kind));
+      /* de vuelta en la unidad de origen, la cifra redonda vuelve a ser exacta */
+      el.value = String(Math.abs(shown - Math.round(shown)) < 1e-9 ? Math.round(shown) : shown);
+      exact.set(el, { shown: el.value, canonical: canonical[i] });
     });
     Array.prototype.forEach.call(
       document.querySelectorAll('[data-unit="' + kind + '"]'),
@@ -945,6 +1025,7 @@
       els.results.innerHTML = "";
       els.results.appendChild(node("p", "empty", esc(t("need_dims"))));
       document.getElementById("summary").innerHTML = "";
+      syncDock();
       return;
     }
     lastVerdicts = dataset.operators.map(function (op) { return verdictFor(op, b); });
@@ -952,8 +1033,156 @@
     renderBands(lastVerdicts);
     renderCompare(lastVerdicts);
     syncPicker();
+    syncDock();
     firstRender = false;
   }
+
+  /* ---------- panel flotante ----------
+     Espejo del panel principal. La fuente de verdad son SIEMPRE los inputs
+     principales: el panel flotante escribe ahí y vuelve a leer de ahí. */
+  var dock = document.getElementById("dock");
+  var pill = document.getElementById("dock-pill");
+  var mirrors = Array.prototype.slice.call(document.querySelectorAll("[data-mirror]"));
+  var dockWanted = false, dockClosed = false;
+
+  function mainFor(mirror) { return document.getElementById(mirror.getAttribute("data-mirror")); }
+
+  function syncDock() {
+    mirrors.forEach(function (m) {
+      /* no pisar lo que la persona está escribiendo en ese mismo campo */
+      if (document.activeElement !== m) m.value = mainFor(m).value;
+    });
+  }
+
+  function setShown(elm, on) {
+    elm.classList.toggle("is-on", on);
+    if (on) elm.removeAttribute("inert"); else elm.setAttribute("inert", "");
+  }
+
+  function paintDock() {
+    setShown(dock, dockWanted && !dockClosed);
+    setShown(pill, dockWanted && dockClosed);
+  }
+
+  mirrors.forEach(function (m) {
+    var main = mainFor(m);
+    m.addEventListener("input", function () { main.value = m.value; render(); });
+    m.addEventListener("keydown", function (e) {
+      if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+      e.preventDefault();
+      nudge(main, e.key === "ArrowUp" ? 1 : -1, e.shiftKey);
+      m.value = main.value;
+    });
+    m.addEventListener("wheel", function (e) {
+      if (document.activeElement !== m) return;
+      e.preventDefault();
+      nudge(main, e.deltaY < 0 ? 1 : -1, e.shiftKey);
+      m.value = main.value;
+    }, { passive: false });
+    m.addEventListener("blur", syncDock);
+  });
+
+  document.getElementById("dock-hide").addEventListener("click", function () {
+    dockClosed = true; paintDock(); pill.focus();
+  });
+  pill.addEventListener("click", function () {
+    dockClosed = false; paintDock(); mirrors[0].focus();
+  });
+  document.getElementById("dock-top").addEventListener("click", function () {
+    document.querySelector(".panel").scrollIntoView({ block: "start" });
+    els.a.focus({ preventScroll: true });
+  });
+
+  /* Se muestra solo cuando el panel principal ya quedó ARRIBA de la pantalla,
+     no cuando todavía no se llegó a él. */
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      var e = entries[0];
+      dockWanted = !e.isIntersecting && e.boundingClientRect.top < 0;
+      paintDock();
+    }, { threshold: 0 }).observe(document.querySelector(".panel"));
+  }
+
+  /* ---------- compartir ----------
+     El enlace lleva las medidas en cm/kg y los operadores comparados. Nada se
+     guarda en el navegador: todo viaja en la dirección. */
+  var shareStatus = document.getElementById("share-status");
+
+  function shareLink() {
+    var p = new URLSearchParams();
+    var keys = ["l", "w", "h"];
+    [els.a, els.b, els.c].forEach(function (el, i) {
+      var v = canonicalOf(el, "length");
+      if (v !== null) p.set(keys[i], String(round1(v)));
+    });
+    var w = canonicalOf(els.w, "weight");
+    if (w !== null) p.set("kg", String(round1(w)));
+    if (cmpSel.length) p.set("c", cmpSel.join(","));
+    return location.origin + location.pathname + "?" + p.toString();
+  }
+
+  function bagText() {
+    var dims = [els.a, els.b, els.c].map(function (el) { return el.value; }).join(" × ") + " " + units.length;
+    var w = readField(els.w);
+    return w === null ? dims : dims + " · " + els.w.value + " " + units.weight;
+  }
+
+  function showStatus(msg, url) {
+    shareStatus.innerHTML = "";
+    shareStatus.classList.add("is-on");
+    shareStatus.appendChild(node("span", "", esc(msg)));
+    if (url) {
+      var box = document.createElement("input");
+      box.type = "text"; box.readOnly = true; box.value = url;
+      box.addEventListener("focus", function () { box.select(); });
+      shareStatus.appendChild(box);
+    }
+  }
+
+  function copyLink(text, url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text + " " + url)
+        .then(function () { showStatus(t("share_copied")); })
+        .catch(function () { showStatus(t("share_failed"), url); });
+    } else {
+      showStatus(t("share_failed"), url);
+    }
+  }
+
+  document.getElementById("share-btn").addEventListener("click", function () {
+    if (!bag()) { showStatus(t("need_dims")); return; }
+    var url = shareLink();
+    var text = t("share_text", { bag: bagText() });
+    /* En el teléfono, el menú nativo (WhatsApp, Instagram…). En la compu,
+       copiar: el menú de sistema de escritorio suele estorbar más que ayudar. */
+    var touch = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+    if (touch && navigator.share) {
+      navigator.share({ title: document.title, text: text, url: url })
+        .catch(function (err) { if (!err || err.name !== "AbortError") copyLink(text, url); });
+    } else {
+      copyLink(text, url);
+    }
+  });
+
+  /* Abrir un enlace compartido: se aceptan solo números razonables. Cualquier
+     cosa rara se ignora y queda el valor por defecto. */
+  var incoming = new URLSearchParams(location.search);
+  var sharedCmp = null;
+  function num(key, max) {
+    var v = parseFloat(incoming.get(key));
+    return isFinite(v) && v > 0 && v <= max ? round1(v) : null;
+  }
+  (function () {
+    var l = num("l", 300), w = num("w", 300), h = num("h", 300), kg = num("kg", 100);
+    var any = false;
+    if (l !== null && w !== null && h !== null) {
+      els.a.value = String(l); els.b.value = String(w); els.c.value = String(h); any = true;
+    }
+    if (kg !== null) { els.w.value = String(kg); any = true; }
+    var c = incoming.get("c");
+    if (c) { sharedCmp = c.split(",").slice(0, MAX_CMP); any = true; }
+    if (any) document.getElementById("shared-note").hidden = false;
+  })();
 
 
   /* ---------- boot ---------- */
@@ -973,10 +1202,13 @@
     btn.addEventListener("click", function () {
       var cm = btn.getAttribute("data-cm").split(",").map(Number);
       var kg = Number(btn.getAttribute("data-kg"));
+      /* igual que al cambiar de unidad: se guarda la medida exacta del ejemplo */
       [els.a, els.b, els.c].forEach(function (el, i) {
         el.value = String(round1(fromCanonical(cm[i], "length")));
+        exact.set(el, { shown: el.value, canonical: cm[i] });
       });
       els.w.value = String(round1(fromCanonical(kg, "weight")));
+      exact.set(els.w, { shown: els.w.value, canonical: kg });
       render();
     });
   });
@@ -1054,6 +1286,15 @@
          panel no aparezca vacío. Regla fija, sin elegir a dedo. */
       cmpSel = json.operators.filter(function (o) { return o.type === "air"; })
         .slice(0, MAX_CMP).map(function (o) { return o.id; });
+      /* Si vino un enlace compartido, se respetan sus operadores, pero solo
+         los que existen en el dataset de hoy. */
+      if (sharedCmp) {
+        var known = json.operators.map(function (o) { return o.id; });
+        var fromLink = sharedCmp.filter(function (id, i) {
+          return known.indexOf(id) >= 0 && sharedCmp.indexOf(id) === i;
+        });
+        if (fromLink.length) cmpSel = fromLink;
+      }
       buildPicker();
       render();
     })

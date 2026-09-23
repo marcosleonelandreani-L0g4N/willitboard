@@ -193,5 +193,21 @@
   "step2_d": "Grouped by whether it travels free, costs extra or doesn't fit. Compare any three side by side.",
   "step3_t": "Check the source",
   "step3_d": "Every limit links to the operator's own page and shows the date a person checked it.",
-  "summary_filter_hint": "Tap a group to see only those results. Tap it again to see them all."
+  "summary_filter_hint": "Tap a group to see only those results. Tap it again to see them all.",
+
+  "dock_label": "Your bag, always at hand",
+  "dock_title": "Your bag",
+  "dock_short_a": "L",
+  "dock_short_b": "W",
+  "dock_short_c": "H",
+  "dock_short_w": "Wt",
+  "dock_hide": "Hide the floating panel",
+  "dock_show": "Edit bag",
+  "dock_top": "Go to the full panel",
+  "share_btn": "Share this check",
+  "share_hint": "Travelling with someone? Send them this check so they can try their own bag.",
+  "share_text": "Will it board? My bag: {bag}. Check yours against the official limits:",
+  "share_copied": "Link copied. Paste it wherever you like.",
+  "share_failed": "Couldn't copy automatically. Here's the link:",
+  "shared_loaded": "These measurements came from a shared link. Change them to check your own bag."
 }
