@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3",
-  "generated_on": "2026-09-20",
+  "generated_on": "2026-09-23",
   "canonical_units": {
     "length": "cm",
     "weight": "kg"
@@ -45,7 +45,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 8
+      "days_since_verified": 11
     },
     {
       "id": "wizz-air",
@@ -86,7 +86,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 8
+      "days_since_verified": 11
     },
     {
       "id": "easyjet",
@@ -127,7 +127,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 8
+      "days_since_verified": 11
     },
     {
       "id": "eurostar",
@@ -144,7 +144,7 @@
         "es": null,
         "en": "Each piece of luggage can be up to 85 cm long on routes to and from London, or 75 cm on all other routes. There is no weight limit on your luggage, but you must be able to carry your bags safely on and off the train and store them in the designated areas. Eurostar Standard and Plus include 2 pieces of luggage plus 1 hand luggage; Premier includes 3 plus 1. \"Hand luggage\" covers items such as backpacks, handbags, briefcases and laptop bags. Children may take one piece of luggage and one piece of hand luggage. Pushchairs and prams travel free if folded away. Extra bags, oversized items, bicycles, musical instruments and sports equipment are carried for a fee, and both the fees and the maximum dimensions differ between routes to and from London and routes between Belgium, France, the Netherlands and Germany."
       },
-      "days_since_verified": 7
+      "days_since_verified": 10
     },
     {
       "id": "deutsche-bahn",
@@ -161,7 +161,7 @@
         "es": null,
         "en": "Luggage such as briefcases, laptops, backpacks and suitcases can be taken free of charge. In addition to your hand luggage, you are allowed to carry one additional larger piece of luggage or item free of charge, provided this load can be carried by one person alone. You do not need to reserve space for your luggage, or weigh or measure it before travelling. Because of its size, a larger item may have to be stored away from your seat, for example in the nearest luggage rack. Each passenger is responsible for looking after their own luggage. Note: Deutsche Bahn states that its luggage racks were sized around an assumed standard of 700 x 500 x 300 mm (height x width x depth), which has almost always proved suitable. That figure describes the racks, not a limit on your bag."
       },
-      "days_since_verified": 7
+      "days_since_verified": 10
     },
     {
       "id": "trenitalia",
@@ -178,7 +178,7 @@
         "es": null,
         "en": "Passengers may take luggage or other easily transportable items (such as strollers, prams, high chairs if foldable, umbrellas, deckchairs, skis, musical instruments) on board the coach free of charge, provided they are stored in the spaces made available for luggage. Luggage may be permitted to exceed this volume limit as long as it does not disturb or cause injury to other passengers, does not obstruct railway staff from carrying out their work, and does not damage the coach. On some trains, specific spaces have been made available for passengers to store larger luggage items. Trenitalia's Conditions of Carriage (SCIC-NRT, section 14) add that each passenger may take no more than three easy-to-handle items as hand luggage, and refer to each carrier's own conditions for exact maximum measurements. Note: the wording above refers to a volume limit that Trenitalia does not state on this page."
       },
-      "days_since_verified": 7
+      "days_since_verified": 10
     },
     {
       "id": "british-airways",
@@ -219,7 +219,24 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 3
+      "days_since_verified": 6
+    },
+    {
+      "id": "stena-line",
+      "name": "Stena Line",
+      "type": "ferry",
+      "country": "SE",
+      "region": "EU",
+      "limit_type": "descriptivo",
+      "notes": "Verificado por Marcos el 23/09/2026: pegó el texto completo de la página oficial y confirmó los cuatro puntos pedidos. PRIMER FERRY DEL DATASET. limit_type = descriptivo A PROPÓSITO, mismo criterio que Eurostar: la única medida publicada, 60 x 50 x 40 cm, aplica SOLO a pasajeros a pie hacia Irlanda y hacia el Reino Unido desde Irlanda. En las rutas a Suecia, Dinamarca, Alemania, Letonia y Polonia no hay límite de tamaño, y en Harwich-Hook of Holland tampoco. Cargar 60x50x40 en la terna de cabina la aplicaría a todas las rutas y sería falso en la mayoría. Por eso la cifra vive dentro de la regla, acotada a sus rutas. Sin ningún peso en kg publicado (confirmado). La regla es TEXTUAL: frases copiadas de la página, sin parafrasear. EXCLUIDO a propósito: el párrafo final sobre productos restringidos entre el Reino Unido y la UE, porque es una regla aduanera y no de tamaño de equipaje. FUENTE: el mismo texto figura en stenaline.co.uk y en stenalinetravel.com; se cita .co.uk por ser el sitio del propio operador. pais = SE por Stena Line AB (Gotemburgo).",
+      "notes_en": null,
+      "source_url": "https://www.stenaline.co.uk/customer-service/pre-travel/how-much-luggage-can-i-bring-with-me",
+      "verified_on": "2026-09-23",
+      "descriptive_rule": {
+        "es": null,
+        "en": "If you are travelling by car there is no limit to the amount of luggage you can carry in your vehicle as it will remain in your vehicle on our car deck. For foot passengers travelling to Sweden, Denmark, Germany, Latvia and Poland, there is no limit on the amount of luggage you can bring with you, however you need to be able to carry it onboard yourself. For foot passengers travelling to Ireland and to the UK from Ireland, there is no limit to the amount of luggage you can bring with you, however, hand luggage must be no larger than 60cm x 50cm x 40cm and you must be able to carry it yourself. If you are travelling with luggage that is larger than this it must be checked-in prior to boarding. Your luggage will be safely stowed during the sailing and can be collected upon arrival in the terminal. You will not be able to access your luggage during the sailing so please ensure you remove all necessary items before checking it in. If you are travelling by foot or by Rail & Sail on our Harwich-Hook of Holland route, you may take as much luggage as you like, as long as you can carry it onboard yourself. Passengers travelling on a day trip on our Irish Sea routes may carry one piece of small hand luggage. Any additional pieces of luggage will be charged at our discretion."
+      },
+      "days_since_verified": 0
     }
   ]
 }

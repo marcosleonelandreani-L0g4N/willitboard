@@ -82,7 +82,11 @@ def main() -> None:
     # equivocado. Lo que importa no es que sean 6 o 7, sino que TODOS los
     # publicados se clasifiquen y que los dos idiomas coincidan.
     with (PUBLIC / "operators.json").open(encoding="utf-8") as fh:
-        esperados = len(json.load(fh)["operators"])
+        _ops = json.load(fh)["operators"]
+    esperados = len(_ops)
+    # Igual con las citas: una por cada operador descriptivo publicado. Estaba
+    # escrito "3" a mano y se rompió el día que entró el primer ferry.
+    descriptivos = sum(1 for o in _ops if o["limit_type"] != "dimensional")
     httpd = serve()
     base = f"http://127.0.0.1:{PORT}"
     try:
@@ -172,7 +176,8 @@ def main() -> None:
                      text: q.querySelector('p').textContent.slice(0, 60)
                    }))"""
             )
-            check("hay 3 citas descriptivas", len(quotes) == 3, str(len(quotes)))
+            check(f"hay {descriptivos} citas descriptivas, una por operador descriptivo",
+                  len(quotes) == descriptivos, str(len(quotes)))
             check(
                 'todas marcadas lang="en"',
                 all(q["lang"] == "en" for q in quotes),
