@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{LANG}}">
+<html lang="{{LANG}}" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
 <link rel="alternate" hreflang="x-default" href="{{HREF_EN}}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 {{STYLE}}
 </style>
@@ -27,11 +27,17 @@
 
   <header>
     <div class="topbar">
-      <p class="wordmark">Willitboard</p>
-      <nav class="langnav" aria-label="{{nav_label}}">
+      <a class="wordmark" href="{{CHECKER_HREF}}"><svg class="wordmark__mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="7" width="15" height="12.5" rx="3.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9.5 13l2 2 3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Willitboard</a>
+      <div class="topbar__tools">
+        <button type="button" class="themetoggle" id="theme-toggle" aria-pressed="false" data-to-dark="{{theme_to_dark}}" data-to-light="{{theme_to_light}}" aria-label="{{theme_to_dark}}" title="{{theme_to_dark}}">
+          <svg class="themetoggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="themetoggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+        </button>
+        <nav class="langnav" aria-label="{{nav_label}}">
         <a href="{{NAV_EN_PATH}}" lang="en" hreflang="en"{{NAV_EN_CUR}}>English</a>
         <a href="{{NAV_ES_PATH}}" lang="es" hreflang="es"{{NAV_ES_CUR}}>Español</a>
       </nav>
+      </div>
     </div>
     <nav class="crumbs" aria-label="{{crumbs_label}}">
 {{CRUMBS}}
@@ -68,5 +74,26 @@
   </footer>
 </div>
 
+<script>
+/* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
+   la elección: /cookies/ promete que el sitio no escribe nada en el navegador.
+   Por eso cada página arranca en claro. */
+(function () {
+  var root = document.documentElement, b = document.getElementById("theme-toggle");
+  if (!b) return;
+  function paint() {
+    var dark = root.getAttribute("data-theme") === "dark";
+    var label = dark ? b.getAttribute("data-to-light") : b.getAttribute("data-to-dark");
+    b.setAttribute("aria-pressed", String(dark));
+    b.setAttribute("aria-label", label);
+    b.setAttribute("title", label);
+  }
+  b.addEventListener("click", function () {
+    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    paint();
+  });
+  paint();
+})();
+</script>
 </body>
 </html>

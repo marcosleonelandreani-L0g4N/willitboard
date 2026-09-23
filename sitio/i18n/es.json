@@ -6,7 +6,7 @@
 
   "nav_label": "Idioma",
   "h1": "¿Entra tu maleta?",
-  "standfirst": "Las medidas se cargan una sola vez. Después se ve dónde viaja gratis, dónde entra solo pagando un extra y dónde no entra. Las aerolíneas publican medidas; la mayoría de los trenes publica una regla escrita, y mostramos esa regla en vez de inventar un veredicto.",
+  "standfirst": "Escribe las medidas de tu maleta y mira en segundos con qué aerolíneas, trenes y ferris puede viajar.",
 
   "panel_title": "Tu maleta",
   "units_label": "Unidades",
@@ -210,5 +210,10 @@
   "share_text": "¿Entra? Mi maleta: {bag}. Compara la tuya con los límites oficiales:",
   "share_copied": "Enlace copiado. Pégalo donde quieras.",
   "share_failed": "No se pudo copiar automáticamente. Este es el enlace:",
-  "shared_loaded": "Estas medidas vienen de un enlace compartido. Cámbialas para probar con tu maleta."
+  "shared_loaded": "Estas medidas vienen de un enlace compartido. Cámbialas para probar con tu maleta.",
+
+  "theme_to_dark": "Cambiar a modo oscuro",
+  "theme_to_light": "Cambiar a modo claro",
+  "row_more": "Ver detalles",
+  "row_fiche": "Todas las reglas de {name} →"
 }

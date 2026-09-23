@@ -75,7 +75,9 @@ def dock_on(page) -> bool:
 
 
 def scroll_to_compare(page):
-    page.locator("#compare").scroll_into_view_if_needed()
+    # rediseño v4: la home es más corta y el comparador arranca plegado;
+    # se baja hasta el pie para dejar el panel de medidas bien arriba
+    page.locator("footer").scroll_into_view_if_needed()
     page.wait_for_timeout(350)
 
 
@@ -184,12 +186,15 @@ def main() -> int:
             page.fill("#dim-b", "39")
             page.fill("#dim-c", "21")
             page.fill("#weight", "8.5")
+            page.click("#compare > summary")  # v4: el comparador arranca plegado
             page.click("#cmp-clear")
             first_ops = page.eval_on_selector_all(".rcard .op__name", "els => els.map(e => e.textContent)")
             # elegir dos operadores cualquiera, en orden inverso al de la grilla
             chosen_names = [first_ops[-1], first_ops[1]]
             for name in chosen_names:
-                page.locator(".rcard", has_text=name).locator(".rcard__cmp").click()
+                row = page.locator(".rcard", has_text=name)
+                row.locator(".rrow__sum").click()
+                row.locator(".rcard__cmp").click()
             want_classes = classes(page)
             want_cmp = compared(page)
 

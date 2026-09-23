@@ -109,7 +109,7 @@ LEGAL_PAGES = {
 }
 
 # marcadores que calcula el script, no el diccionario
-COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON",
+COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON", "FICHE_PATHS",
                  "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS", "HERO_STATS"}
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
@@ -672,6 +672,11 @@ def main() -> None:
         # El diccionario entero viaja al JS. ensure_ascii=False para que los
         # acentos y el × salgan como caracteres reales en un archivo UTF-8.
         values["STRINGS_JSON"] = json.dumps(S, ensure_ascii=False, indent=2)
+        # Rutas de las fichas para los enlaces "Todas las reglas de…" de cada
+        # resultado. Salen de TYPE_SEGMENT, la misma tabla que genera las
+        # fichas: si una cambia, la otra la sigue sola.
+        values["FICHE_PATHS"] = json.dumps(
+            {kind: f"/{seg[lang]}/" for kind, seg in TYPE_SEGMENT.items()})
 
         out_dir = OUT_DIR / subdir if subdir else OUT_DIR
         out_dir.mkdir(parents=True, exist_ok=True)

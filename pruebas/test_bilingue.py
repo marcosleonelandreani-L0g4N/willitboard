@@ -271,9 +271,16 @@ def main() -> None:
             check("el comparador dice lo mismo que la tarjeta",
                   same and all(c == v for _, c, v in same), str(same))
 
+            # rediseño v4 (23/09): el comparador arranca plegado; se abre como
+            # lo haría una persona, tocando su encabezado
+            check("el comparador arranca plegado",
+                  page.get_attribute("#compare", "open") is None)
+            page.click("#compare > summary"); page.wait_for_timeout(150)
             page.click("#cmp-clear"); page.wait_for_timeout(150)
             check("limpiar deja el comparador vacío",
                   page.query_selector(".cmp") is None and page.query_selector(".cmp__empty") is not None)
+            # y cada resultado es una fila que se despliega: primero se abre
+            page.click("#results .rcard.band--rule .rrow__sum"); page.wait_for_timeout(150)
             page.click("#results .rcard.band--rule .rcard__cmp"); page.wait_for_timeout(150)
             check("una regla escrita se compara con su cita, sin traducir",
                   page.get_attribute(".cmp__rules .op__rule", "translate") == "no")

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{LANG}}">
+<html lang="{{LANG}}" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
 <link rel="alternate" hreflang="x-default" href="https://willitboard.com/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap">
 <style>
 {{STYLE}}
 </style>
@@ -25,10 +25,16 @@
         <svg class="wordmark__mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="7" width="15" height="12.5" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9.5 11.5l2 2 3.5-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Willitboard
       </p>
-      <nav class="langnav" aria-label="{{nav_label}}">
+      <div class="topbar__tools">
+        <button type="button" class="themetoggle" id="theme-toggle" aria-pressed="false" data-to-dark="{{theme_to_dark}}" data-to-light="{{theme_to_light}}" aria-label="{{theme_to_dark}}" title="{{theme_to_dark}}">
+          <svg class="themetoggle__sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="themetoggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
+        </button>
+        <nav class="langnav" aria-label="{{nav_label}}">
         <a href="/" lang="en" hreflang="en"{{NAV_EN_CUR}}>English</a>
         <a href="/es/" lang="es" hreflang="es"{{NAV_ES_CUR}}>Español</a>
       </nav>
+      </div>
     </div>
 
     <div class="hero__grid">
@@ -40,41 +46,62 @@
       </div>
 
       <div class="hero__art" aria-hidden="true">
-        <svg viewBox="0 0 320 280" role="presentation">
+        <!-- Ilustración propia, solo decorativa. Todo se mueve con CSS y se
+             queda quieto con prefers-reduced-motion. -->
+        <svg viewBox="0 0 360 300" role="presentation">
           <defs>
             <linearGradient id="bagfill" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#F7B955"/>
-              <stop offset="1" stop-color="#E8873A"/>
+              <stop offset="0" stop-color="#FF8A5B"/>
+              <stop offset="1" stop-color="#FF4F6D"/>
+            </linearGradient>
+            <linearGradient id="trail" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#7AA7FF" stop-opacity="0"/>
+              <stop offset="1" stop-color="#7AA7FF"/>
             </linearGradient>
           </defs>
-          <!-- el medidor de la puerta de embarque -->
-          <rect x="70" y="58" width="170" height="196" rx="10" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.55)" stroke-width="2.5" stroke-dasharray="7 6"/>
-          <!-- la valija -->
-          <g class="art-bag">
-            <rect x="118" y="86" width="74" height="12" rx="6" fill="none" stroke="#fff" stroke-width="5"/>
-            <rect x="96" y="96" width="118" height="134" rx="16" fill="url(#bagfill)"/>
-            <rect x="96" y="96" width="118" height="134" rx="16" fill="none" stroke="rgba(0,0,0,.12)" stroke-width="2"/>
-            <line x1="126" y1="112" x2="126" y2="214" stroke="rgba(0,0,0,.14)" stroke-width="5" stroke-linecap="round"/>
-            <line x1="184" y1="112" x2="184" y2="214" stroke="rgba(0,0,0,.14)" stroke-width="5" stroke-linecap="round"/>
-            <circle cx="116" cy="238" r="8" fill="#1B2A36"/>
-            <circle cx="194" cy="238" r="8" fill="#1B2A36"/>
-            <circle cx="155" cy="160" r="20" fill="#fff"/>
-            <path d="M145 160l7 7 13-13" fill="none" stroke="#0F6B3D" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- sol -->
+          <g class="art-sun">
+            <g class="art-sun__rays" stroke="#FFC83D" stroke-width="4" stroke-linecap="round">
+              <path d="M306 14v10M306 80v10M268 52h10M334 52h10M279 25l7 7M326 72l7 7M279 79l7-7M326 32l7-7"/>
+            </g>
+            <circle cx="306" cy="52" r="20" fill="#FFC83D"/>
           </g>
-          <!-- cotas -->
-          <g stroke="#fff" stroke-width="2" fill="none" opacity=".85">
-            <path d="M260 96v134M254 102l6-6 6 6M254 224l6 6 6-6"/>
-            <path d="M96 268h118M102 262l-6 6 6 6M208 262l6 6-6 6"/>
+          <!-- nubes -->
+          <g class="art-cloud art-cloud--a" fill="var(--cloud)">
+            <path d="M40 92h62a15 15 0 0 0-6-29 21 21 0 0 0-39-5 15 15 0 0 0-17 34z"/>
           </g>
-          <!-- el avioncito -->
+          <g class="art-cloud art-cloud--b" fill="var(--cloud)">
+            <path d="M232 128h50a12 12 0 0 0-5-23 17 17 0 0 0-31-4 12 12 0 0 0-14 27z"/>
+          </g>
+          <!-- avión con estela -->
           <g class="art-plane">
-            <path d="M22 44c30-22 70-30 104-26" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="2.5" stroke-dasharray="3 7" stroke-linecap="round"/>
-            <path d="M268 30l-34 10-14-9-6 3 9 11-12 5-7-4-5 2 7 9 36-11 30-10c5-2 6-7 1-8z" transform="translate(-102 -8) scale(.9)" fill="#fff"/>
+            <path d="M-70 8h64" stroke="url(#trail)" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 9"/>
+            <path d="M0 0l-12 4-8-6-4 2 5 8-8 3-4-3-3 1 4 7 22-7 20-7c3-1 3-4 0-5z" transform="scale(1.35)" fill="var(--plane)"/>
           </g>
-          <!-- estrellitas -->
-          <g fill="#F7B955">
-            <circle cx="42" cy="120" r="4"/><circle cx="286" cy="178" r="5"/><circle cx="56" cy="214" r="3"/>
+          <!-- piso y sombra -->
+          <ellipse class="art-shadow" cx="176" cy="268" rx="62" ry="8" fill="var(--shadow-art)"/>
+          <!-- medidor de la puerta de embarque -->
+          <rect x="102" y="96" width="148" height="176" rx="18" fill="var(--sizer-fill)" stroke="var(--sizer)" stroke-width="3" stroke-dasharray="9 7"/>
+          <!-- la maleta -->
+          <g class="art-bag">
+            <rect x="152" y="112" width="48" height="16" rx="8" fill="none" stroke="var(--handle)" stroke-width="6"/>
+            <rect x="126" y="124" width="100" height="126" rx="22" fill="url(#bagfill)"/>
+            <rect x="140" y="138" width="10" height="98" rx="5" fill="rgba(255,255,255,.28)"/>
+            <rect x="202" y="138" width="10" height="98" rx="5" fill="rgba(255,255,255,.28)"/>
+            <circle cx="176" cy="160" r="11" fill="#FFC83D"/>
+            <path d="M176 196l5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2z" fill="#7AE2C3"/>
+            <g transform="translate(146 254)"><g class="art-wheel"><circle r="9" fill="var(--wheel)"/><path d="M-5 0h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle r="2" fill="#fff"/></g></g>
+            <g transform="translate(206 254)"><g class="art-wheel"><circle r="9" fill="var(--wheel)"/><path d="M-5 0h10" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle r="2" fill="#fff"/></g></g>
           </g>
+          <!-- el OK -->
+          <g class="art-ok">
+            <circle cx="252" cy="104" r="22" fill="#22C55E"/>
+            <path d="M241 104l8 8 14-15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <!-- chispitas -->
+          <g class="art-spark" fill="#FFC83D"><path d="M62 180l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/></g>
+          <g class="art-spark art-spark--b" fill="#FF6B8B"><path d="M300 200l3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/></g>
+          <g class="art-spark art-spark--c" fill="#7AA7FF"><path d="M86 240l3 6 6 3-6 3-3 6-3-6-6-3 6-3z"/></g>
         </svg>
       </div>
     </div>
@@ -148,7 +175,6 @@
       <span class="tag-example">{{tag_example}}</span>
       {{measure_note}}
     </p>
-    <p class="panel__foot panel__foot--hint">{{nudge_hint}}</p>
     <p class="shared-note" id="shared-note" hidden>{{shared_loaded}}</p>
   </section>
 
@@ -157,12 +183,11 @@
       <h2 class="sec-h" id="results-h">{{summary_h2}}</h2>
       <!-- Compartir: el enlace lleva las MEDIDAS, no el veredicto. Quien lo abre
            ve el chequeo recalculado con los datos vigentes ese día. -->
-      <button type="button" class="share" id="share-btn">
+      <button type="button" class="share" id="share-btn" title="{{share_hint}}">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="2"/></svg>
         <span>{{share_btn}}</span>
       </button>
     </div>
-    <p class="share__hint">{{share_hint}}</p>
     <div class="share__status" id="share-status" role="status"></div>
     <div id="summary" class="summary"></div>
     <p id="summary-note" class="summary-note"></p>
@@ -171,12 +196,16 @@
     </div>
   </section>
 
-  <section class="cmpwrap" id="compare" aria-labelledby="compare-h">
+  <!-- El comparador lado a lado queda PLEGADO de entrada: la home tiene que
+       leerse de un vistazo. Se abre solo cuando alguien agrega un operador. -->
+  <details class="cmpwrap" id="compare">
+    <summary class="cmpwrap__summary">
+      <span class="cmpwrap__sicon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="14" y="4" width="7" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></span>
+      <span class="cmpwrap__stext"><span class="sec-h" id="compare-h">{{compare_h2}}</span><span class="cmpwrap__hint">{{compare_hint}}</span></span>
+      <span class="cmpwrap__badge" id="cmp-badge"></span>
+      <span class="cmpwrap__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </summary>
     <div class="cmpwrap__head">
-      <div>
-        <h2 class="sec-h" id="compare-h">{{compare_h2}}</h2>
-        <p class="cmpwrap__hint">{{compare_hint}}</p>
-      </div>
       <div class="cmpwrap__tools">
         <details class="picker" id="picker">
           <summary>
@@ -191,7 +220,7 @@
     </div>
     <p class="cmpwrap__note" id="cmp-note" role="status"></p>
     <div id="compare-body"></div>
-  </section>
+  </details>
 
   <section class="how" aria-labelledby="how-steps-h">
     <h2 class="sec-h" id="how-steps-h">{{steps_h2}}</h2>
@@ -304,6 +333,8 @@
      inyecta build_site.py: no editar el HTML generado, editar el diccionario. */
   var T = {{STRINGS_JSON}};
   var PAGE_LANG = "{{LANG}}";
+  /* ruta de la ficha de cada tipo en este idioma; la calcula build_site.py */
+  var FICHE_PATHS = {{FICHE_PATHS}};
 
   function t(key, vars) {
     var s = T[key];
@@ -776,43 +807,56 @@
 
   /* ---------- tarjetas compactas, agrupadas por resultado ---------- */
 
+  /* Qué filas están abiertas. Se re-dibuja todo en cada tecla, así que sin
+     esto una fila se cerraría sola mientras la persona mueve un número. */
+  var openRows = {};
+
+  /* Una fila por operador: nombre y veredicto a simple vista; medidas,
+     barras, regla y enlaces, al tocarla. Mismo veredicto que siempre: esto
+     solo decide cuánto se ve de entrada. */
   function cardNode(v, i) {
     var band = BAND_BY_KEY[v.band];
-    var li = node("li", "rcard " + band.cls + (cmpSel.indexOf(v.op.id) >= 0 ? " is-cmp" : ""));
+    var on = cmpSel.indexOf(v.op.id) >= 0;
+    var li = node("li", "rcard " + band.cls + (on ? " is-cmp" : ""));
     li.style.setProperty("--i", i);
     if (bandFilter !== null && v.band !== bandFilter) li.hidden = true;
 
-    var top = node("div", "rcard__top");
-    top.appendChild(node("span", "rcard__icon", ICON[v.op.type] || ICON.air));
-    top.appendChild(node("span", "op__name", esc(v.op.name)));
-    top.appendChild(node("span", "mode", esc(MODE_LABEL[v.op.type] || v.op.type)));
-    li.appendChild(top);
+    var d = node("details", "rrow");
+    if (openRows[v.op.id]) d.open = true;
+    d.addEventListener("toggle", function () { openRows[v.op.id] = d.open; });
 
-    li.appendChild(node("p", "rcard__verdict", '<span class="rcard__dot">' + ICON[band.id] + "</span>" + esc(v.verdict)));
-    li.appendChild(node("p", "rcard__line", keyLine(v)));
+    var sum = node("summary", "rrow__sum");
+    sum.appendChild(node("span", "rcard__icon", ICON[v.op.type] || ICON.air));
+    sum.appendChild(node("span", "op__name", esc(v.op.name)));
+    sum.appendChild(node("span", "rcard__verdict",
+      '<span class="rcard__dot">' + ICON[band.id] + "</span>" + esc(v.verdict)));
+    sum.appendChild(node("span", "rrow__chev",
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '<span class="sr-only">' + esc(t("row_more")) + "</span>"));
+    d.appendChild(sum);
 
-    if (v.compare) li.appendChild(miniBars(v.compare, false));
-
+    var more = node("div", "rrow__more");
+    more.appendChild(node("p", "rcard__line", keyLine(v)));
+    if (v.compare) more.appendChild(miniBars(v.compare, true));
     var addon = v.band === "paid" && v.compare && v.compare.allowance.requires_addon;
-    if (addon) li.appendChild(node("span", "rcard__addon", "+ " + esc(v.compare.allowance.requires_addon)));
-
-    if (v.detail && v.band !== RULE) li.appendChild(node("p", "rcard__detail", v.detail));
-
-    if (v.rule) {
-      var d = node("details", "rcard__rule");
-      d.appendChild(node("summary", "", esc(t("card_read_rule"))));
-      d.appendChild(quoteNode(v));
-      li.appendChild(d);
-    }
+    if (addon) more.appendChild(node("span", "rcard__addon", "+ " + esc(v.compare.allowance.requires_addon)));
+    if (v.detail && v.band !== RULE) more.appendChild(node("p", "rcard__detail", v.detail));
+    if (v.rule) more.appendChild(quoteNode(v));
 
     var foot = node("div", "rcard__foot");
-    var on = cmpSel.indexOf(v.op.id) >= 0;
     var btn = node("button", "rcard__cmp", esc(on ? t("compare_added") : t("compare_add")));
     btn.type = "button";
     btn.setAttribute("aria-pressed", String(on));
     btn.addEventListener("click", function () { toggleCmp(v.op.id); });
     foot.appendChild(btn);
-    li.appendChild(foot);
+    if (FICHE_PATHS[v.op.type]) {
+      var a = node("a", "rrow__fiche", esc(t("row_fiche", { name: v.op.name })));
+      a.href = FICHE_PATHS[v.op.type] + encodeURIComponent(v.op.id) + "/";
+      foot.appendChild(a);
+    }
+    more.appendChild(foot);
+    d.appendChild(more);
+    li.appendChild(d);
     return li;
   }
 
@@ -857,6 +901,8 @@
     } else if (cmpSel.length < MAX_CMP) {
       cmpSel.push(id);
       note("");
+      /* agregar algo al comparador lo abre: si no, el botón parecería no hacer nada */
+      document.getElementById("compare").open = true;
     } else {
       note(t("compare_limit", { max: MAX_CMP }));
       return;
@@ -898,6 +944,7 @@
       cb.parentNode.classList.toggle("is-disabled", full && !on);
     });
     document.getElementById("picker-count").textContent = cmpSel.length + "/" + MAX_CMP;
+    document.getElementById("cmp-badge").textContent = cmpSel.length ? String(cmpSel.length) : "";
   }
 
   function statusBadge(allow) {
@@ -1306,6 +1353,27 @@
       els.results.innerHTML = "";
       els.results.appendChild(p);
     });
+})();
+</script>
+<script>
+/* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
+   la elección: /cookies/ promete que el sitio no escribe nada en el navegador.
+   Por eso cada página arranca en claro. */
+(function () {
+  var root = document.documentElement, b = document.getElementById("theme-toggle");
+  if (!b) return;
+  function paint() {
+    var dark = root.getAttribute("data-theme") === "dark";
+    var label = dark ? b.getAttribute("data-to-light") : b.getAttribute("data-to-dark");
+    b.setAttribute("aria-pressed", String(dark));
+    b.setAttribute("aria-label", label);
+    b.setAttribute("title", label);
+  }
+  b.addEventListener("click", function () {
+    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    paint();
+  });
+  paint();
 })();
 </script>
 </body>
