@@ -365,9 +365,12 @@ def block_allowances(op, S: dict) -> str:
     if not parts:
         return ""
     inner = "\n".join(parts)
+    fare = op.get("reference_fare")
+    fare_html = f'    <p class="allows__fare">{t(S, "fiche_fare", fare=esc(fare))}</p>\n' if fare else ""
     return (
         '  <section aria-labelledby="allowances-h">\n'
         f'    <h2 id="allowances-h">{t(S, "fiche_allowances_h")}</h2>\n'
+        f"{fare_html}"
         f'    <div class="allows">\n{inner}\n    </div>\n'
         "  </section>"
     )
@@ -421,11 +424,12 @@ def block_wheels(op, S: dict) -> str:
 
 
 def block_caveats(op, S: dict) -> str:
-    keys = ["caveat_missing"]
+    lines = [t(S, "caveat_missing")]
     if op.get("limit_type") == "dimensional":
-        keys.append("caveat_fares")
-    keys.append("p_noguarantee")
-    return "\n".join(f'    <p class="caveat">{t(S, k)}</p>' for k in keys)
+        fare = op.get("reference_fare")
+        lines.append(t(S, "caveat_fares_named", fare=esc(fare)) if fare else t(S, "caveat_fares"))
+    lines.append(t(S, "p_noguarantee"))
+    return "\n".join(f'    <p class="caveat">{line}</p>' for line in lines)
 
 
 # --------------------------------------------- índice de operadores en la home

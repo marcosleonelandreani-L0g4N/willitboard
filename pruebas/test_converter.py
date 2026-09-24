@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pruebas automatizadas para convert.py (esquema 1.3).
+"""Pruebas automatizadas para convert.py (esquema 1.4).
 
 Reemplaza a pruebas/test_converter_v11.py: ese archivo no estaba disponible
 (no se encontró su ubicación) y en cualquier caso no cubría el esquema 1.2.
@@ -238,12 +238,54 @@ class ArchivoDeSalidaTests(unittest.TestCase):
         self.assertEqual(rc2, 1)
         self.assertEqual(dst.read_text(encoding="utf-8"), original_content)
 
-    def test_main_produce_schema_1_3(self):
+    def test_main_produce_schema_1_4(self):
         good = make_workbook([dict(BASE_ROW)], self.tmp, "buena2.xlsx")
         dst = self.tmp / "operators.json"
         convert.main([str(good), str(dst)])
         payload = json.loads(dst.read_text(encoding="utf-8"))
-        self.assertEqual(payload["schema_version"], "1.3")
+        self.assertEqual(payload["schema_version"], "1.4")
+
+
+class TarifaReferenciaTests(unittest.TestCase):
+    """Columna opcional desde el esquema 1.4 (24/09/2026)."""
+
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def _convert(self, rows, headers):
+        wb = openpyxl.Workbook()
+        wb.remove(wb.active)
+        ws = wb.create_sheet("Operadores")
+        ws.append(headers)
+        ws.append([""] * len(headers))
+        for row in rows:
+            ws.append([row.get(h) for h in headers])
+        src = self.tmp / "t.xlsx"
+        wb.save(src)
+        dst = self.tmp / "o.json"
+        rc = convert.main([str(src), str(dst)])
+        return rc, (json.loads(dst.read_text(encoding="utf-8")) if dst.exists() else None)
+
+    def test_planilla_vieja_sin_columna_sigue_convirtiendo(self):
+        rc, payload = self._convert([dict(BASE_ROW)], list(HEADERS))
+        self.assertEqual(rc, 0)
+        self.assertIsNone(payload["operators"][0]["reference_fare"])
+
+    def test_tarifa_se_publica_tal_cual(self):
+        row = dict(BASE_ROW, tarifa_referencia="  Basic Fare ")
+        rc, payload = self._convert([row], list(HEADERS) + ["tarifa_referencia"])
+        self.assertEqual(rc, 0)
+        self.assertEqual(payload["operators"][0]["reference_fare"], "Basic Fare")
+
+    def test_tarifa_vacia_es_none_nunca_texto_inventado(self):
+        rc, payload = self._convert([dict(BASE_ROW, tarifa_referencia="")],
+                                    list(HEADERS) + ["tarifa_referencia"])
+        self.assertIsNone(payload["operators"][0]["reference_fare"])
+
+    def test_tarifa_con_parrafo_se_rechaza(self):
+        row = dict(BASE_ROW, tarifa_referencia="Basic\nincluye un bolso")
+        rc, _ = self._convert([row], list(HEADERS) + ["tarifa_referencia"])
+        self.assertEqual(rc, 1)
 
 
 class AlcanceSoloCabinaTests(unittest.TestCase):

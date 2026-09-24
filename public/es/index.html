@@ -704,6 +704,8 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 }
 .provenance a { font-weight: 800; }
 .provenance time { color: var(--ink); font-weight: 800; }
+.allows__fare { margin: 0.35rem 0 0; font-size: var(--step--1); color: var(--ink-soft); }
+.allows__fare b { color: var(--ink); }
 .allows { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 0.8rem; margin-top: 0.8rem; }
 .allow {
   display: flex; flex-direction: column; gap: 0.55rem; padding: 1.2rem 1.3rem 1.3rem;
@@ -861,6 +863,47 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 }
 
 /* ------------------------------------------------------------ movimiento reducido */
+/* --- guía de medición (24/09/2026) --- */
+.measure { border-top: 1px solid var(--rule-soft); background: var(--surface); }
+.measure__summary {
+  list-style: none; display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.85rem 1.4rem; cursor: pointer;
+  font: 700 var(--step-0)/1.2 var(--font-body); color: var(--accent);
+}
+.measure__summary::-webkit-details-marker { display: none; }
+.measure__summary:hover { background: var(--accent-soft); }
+.measure__icon { width: 1.25rem; height: 1.25rem; flex: none; }
+.measure__chev { width: 1.1rem; height: 1.1rem; margin-left: auto; transition: transform .2s var(--lift); }
+.measure[open] .measure__chev { transform: rotate(180deg); }
+.measure__body {
+  display: grid; grid-template-columns: minmax(0, 17rem) minmax(0, 1fr); gap: 1rem 1.5rem;
+  align-items: center; padding: 0.25rem 1.4rem 1.3rem;
+}
+@media (max-width: 40rem) { .measure__body { grid-template-columns: 1fr; padding-inline: 1rem; } .measure__summary { padding-inline: 1rem; } }
+.measure__art { width: 100%; max-width: 17rem; height: auto; justify-self: center; }
+.m-front { fill: var(--sizer-fill); stroke: var(--handle); stroke-width: 2.5; }
+.m-top, .m-side { fill: var(--surface-sunk); stroke: var(--handle); stroke-width: 2.5; stroke-linejoin: round; }
+.m-seam { fill: none; stroke: var(--rule); stroke-width: 2; stroke-linecap: round; }
+.m-handle { fill: none; stroke: var(--handle); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.m-wheel { fill: var(--handle); }
+.m-ext { fill: none; stroke: var(--ink-faint); stroke-width: 1.2; stroke-dasharray: 3 4; }
+.m-dim { fill: none; stroke-width: 2.5; }
+.m-dim--a, .m-tag--a, .m-key--a { stroke: var(--accent); }
+.m-dim--b, .m-tag--b, .m-key--b { stroke: var(--pass); }
+.m-dim--c, .m-tag--c, .m-key--c { stroke: var(--info); }
+.m-tag--a, .m-key--a { fill: var(--accent); background: var(--accent); }
+.m-tag--b, .m-key--b { fill: var(--pass); background: var(--pass); }
+.m-tag--c, .m-key--c { fill: var(--info); background: var(--info); }
+.m-tip--a { fill: var(--accent); } .m-tip--b { fill: var(--pass); } .m-tip--c { fill: var(--info); }
+.m-tags text { fill: var(--accent-ink); font: 800 13px/1 var(--font-body); text-anchor: middle; }
+.measure__keys, .measure__tips { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+.measure__keys li { display: grid; grid-template-columns: 1.5rem 1fr; gap: 0.6rem; align-items: start; font-size: var(--step--1); color: var(--ink-soft); }
+.measure__keys b { color: var(--ink); }
+.m-key { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 999px; color: var(--accent-ink); font: 800 0.78rem/1 var(--font-body); }
+.measure__tips { margin-top: 0.9rem; padding-top: 0.9rem; border-top: 1px dashed var(--rule); }
+.measure__tips li { position: relative; padding-left: 1.1rem; font-size: var(--step--1); color: var(--ink-soft); }
+.measure__tips li::before { content: ""; position: absolute; left: 0.2rem; top: 0.55em; width: 0.4rem; height: 0.4rem; border-radius: 999px; background: var(--sun); }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -1035,6 +1078,66 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       <span class="tag-example">Maleta de ejemplo</span>
       Medir la maleta entera, con asas y ruedas incluidas. Cualquier cifra se puede cambiar para comprobar la tuya.
     </p>
+
+    <!-- Guía de medición (24/09/2026). Plegada para no empujar el comparador en
+         el móvil. Enseña lo que de verdad cambia el veredicto: medir el EXTERIOR
+         con ruedas, asas y bolsillos. El orden de las tres cifras no importa:
+         el comparador ordena las medidas y prueba cualquier giro de la valija. -->
+    <details class="measure" id="measure">
+      <summary class="measure__summary">
+        <svg class="measure__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 7l2 2M10 10l1.5 1.5M7 13l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Cómo medir la maleta</span>
+        <svg class="measure__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </summary>
+      <div class="measure__body">
+        <svg class="measure__art" viewBox="0 32 312 230" role="img" aria-labelledby="measure-art-t">
+          <title id="measure-art-t">Una maleta de pie. La flecha 1 va desde la base de las ruedas hasta arriba del asa, la flecha 2 cruza el frente y la flecha 3 va de adelante hacia atrás.</title>
+          <!-- valija de pie, vista en perspectiva -->
+          <path class="m-side" d="M196 70 L246 42 L246 178 L196 206 Z"/>
+          <path class="m-top" d="M76 70 L126 42 L246 42 L196 70 Z"/>
+          <rect class="m-front" x="76" y="70" width="120" height="136" rx="10"/>
+          <path class="m-seam" d="M88 104 H184 M88 172 H184"/>
+          <path class="m-handle" d="M116 70 V58 Q116 52 122 52 H150 Q156 52 156 58 V70"/>
+          <circle class="m-wheel" cx="92" cy="212" r="7"/>
+          <circle class="m-wheel" cx="180" cy="212" r="7"/>
+          <circle class="m-wheel" cx="236" cy="186" r="7"/>
+          <!-- líneas de referencia punteadas -->
+          <path class="m-ext" d="M156 52 H40 M92 219 H40 M76 219 V234 M196 219 V234 M246 186 H300 M196 206 L214 222 M246 178 L300 147"/>
+          <!-- flechas de medida -->
+          <path class="m-dim m-dim--a" d="M48 58 V213" marker-start="url(#m-arr-a)" marker-end="url(#m-arr-a)"/>
+          <path class="m-dim m-dim--b" d="M82 230 H190" marker-start="url(#m-arr-b)" marker-end="url(#m-arr-b)"/>
+          <path class="m-dim m-dim--c" d="M226 222 L286 188" marker-start="url(#m-arr-c)" marker-end="url(#m-arr-c)"/>
+          <defs>
+            <marker id="m-arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="m-tip m-tip--a" d="M0 1 L9 5 L0 9 z"/>
+            </marker>
+            <marker id="m-arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="m-tip m-tip--b" d="M0 1 L9 5 L0 9 z"/>
+            </marker>
+            <marker id="m-arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="m-tip m-tip--c" d="M0 1 L9 5 L0 9 z"/>
+            </marker>
+          </defs>
+          <g class="m-tags">
+            <g transform="translate(14 136)"><rect class="m-tag m-tag--a" x="-12" y="-11" width="24" height="22" rx="11"/><text x="0" y="5">1</text></g>
+            <g transform="translate(136 244)"><rect class="m-tag m-tag--b" x="-12" y="-11" width="24" height="22" rx="11"/><text x="0" y="5">2</text></g>
+            <g transform="translate(298 180)"><rect class="m-tag m-tag--c" x="-12" y="-11" width="24" height="22" rx="11"/><text x="0" y="5">3</text></g>
+          </g>
+        </svg>
+        <div class="measure__text">
+          <ol class="measure__keys">
+            <li><span class="m-key m-key--a">1</span><span><b>Largo:</b> el lado más largo. Con la maleta de pie, desde el suelo hasta arriba del asa, con las ruedas incluidas.</span></li>
+            <li><span class="m-key m-key--b">2</span><span><b>Ancho:</b> el lado del medio, de un costado al otro del frente.</span></li>
+            <li><span class="m-key m-key--c">3</span><span><b>Alto:</b> el lado más corto: la profundidad, de adelante hacia atrás, con los bolsillos incluidos.</span></li>
+          </ol>
+          <ul class="measure__tips">
+            <li>Medí el exterior en la parte más ancha, con el asa telescópica bajada del todo. Cuentan las ruedas, las asas, las patas y los bolsillos de afuera.</li>
+            <li>Medila llena. Una maleta blanda o con cierre expandible puede crecer unos centímetros al cargarla.</li>
+            <li>¿Confundiste el largo con el ancho? No pasa nada: probamos todas las formas en que la maleta puede girar, igual que al meterla en el medidor de la puerta de embarque.</li>
+          </ul>
+        </div>
+      </div>
+    </details>
     <p class="shared-note" id="shared-note" hidden>Estas medidas vienen de un enlace compartido. Cámbialas para probar con tu maleta.</p>
   </section>
 
@@ -1235,6 +1338,14 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   "f_weight": "Peso",
   "tag_example": "Maleta de ejemplo",
   "measure_note": "Medir la maleta entera, con asas y ruedas incluidas. Cualquier cifra se puede cambiar para comprobar la tuya.",
+  "m_summary": "Cómo medir la maleta",
+  "m_art_alt": "Una maleta de pie. La flecha 1 va desde la base de las ruedas hasta arriba del asa, la flecha 2 cruza el frente y la flecha 3 va de adelante hacia atrás.",
+  "m_len": "el lado más largo. Con la maleta de pie, desde el suelo hasta arriba del asa, con las ruedas incluidas.",
+  "m_wid": "el lado del medio, de un costado al otro del frente.",
+  "m_hei": "el lado más corto: la profundidad, de adelante hacia atrás, con los bolsillos incluidos.",
+  "m_tip_outside": "Medí el exterior en la parte más ancha, con el asa telescópica bajada del todo. Cuentan las ruedas, las asas, las patas y los bolsillos de afuera.",
+  "m_tip_packed": "Medila llena. Una maleta blanda o con cierre expandible puede crecer unos centímetros al cargarla.",
+  "m_tip_order": "¿Confundiste el largo con el ancho? No pasa nada: probamos todas las formas en que la maleta puede girar, igual que al meterla en el medidor de la puerta de embarque.",
   "a11y_more": "Aumentar",
   "a11y_less": "Reducir",
   "nudge_hint": "Cada cifra se puede mover con los botones − y +, con las flechas arriba y abajo, o con la rueda del ratón mientras el campo está seleccionado, y los resultados cambian al instante. Con Mayúsculas, de a décimas.",
@@ -1333,6 +1444,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   "fiche_caveats_h": "Antes de fiarse de esto",
   "caveat_missing": "Un campo vacío en esta página significa que el operador no publica esa cifra. Nunca significa que no haya límite.",
   "caveat_fares": "Los operadores venden varias tarifas, y lo que va incluido puede cambiar entre ellas. El enlace de fuente que está más arriba lleva a la página de la que se leyeron estas cifras.",
+  "flag_fare": "Estos límites son los de la tarifa {fare}. Otras tarifas del mismo operador pueden incluir más.",
+  "fiche_fare": "Cifras de la tarifa <b>{fare}</b>, con el nombre que usa el operador.",
+  "caveat_fares_named": "Estas cifras corresponden a la tarifa {fare}. El operador vende otras tarifas, y lo que va incluido puede cambiar entre ellas. El enlace de fuente que está más arriba lleva a la página de la que se leyeron estas cifras.",
   "prov_source": "Fuente oficial",
   "prov_checked": "Comprobado por una persona el",
   "prov_why": "No copiado de un blog ni de una marca de maletas.",
@@ -1627,6 +1741,13 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       });
     } else {
       out.flags.push({ tone: "neutral", text: t("flag_wheels_unknown") });
+    }
+
+    /* La tarifa a la que corresponden las cifras (esquema 1.4). Nombre
+       comercial del operador, sin traducir. Si no está confirmada, no se
+       muestra nada: el aviso genérico de tarifas vive en la ficha. */
+    if (op.reference_fare) {
+      out.flags.push({ tone: "neutral", text: t("flag_fare", { fare: op.reference_fare }) });
     }
 
     var candidates = [];

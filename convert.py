@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Convierte la hoja Operadores a JSON 1.3 sin publicar datos inválidos.
+"""Convierte la hoja Operadores a JSON 1.4 sin publicar datos inválidos.
 
 Uso: python convert.py planilla.xlsx public/operators.json --report informe.txt
 Requiere Python 3.9+ y openpyxl. La fecha de revisión la carga una persona.
@@ -22,7 +22,7 @@ from urllib.parse import urlsplit
 from zipfile import BadZipFile
 
 
-SCHEMA_VERSION = "1.3"
+SCHEMA_VERSION = "1.4"
 STALE_DAYS = 180
 EXAMPLE_MARKER = "EJEMPLO SIN VERIFICAR"
 REQUIRED_HEADERS = (
@@ -40,6 +40,13 @@ POSITIVE_FIELDS = (
 )
 FEE_FIELDS = ("tarifa_online_desde", "tarifa_en_puerta_desde")
 NONNEGATIVE_FIELDS = ("tolerancia_ruedas_manijas_cm",)
+# Columna opcional desde el esquema 1.4 (24/09/2026): el nombre comercial de la
+# tarifa a la que corresponden las cifras, tal como lo escribe el operador
+# ("Basic Fare", "Standard"...). No se traduce. Opcional para que una planilla
+# vieja siga convirtiendo: vacío significa "no confirmado", y la ficha muestra
+# entonces el aviso genérico de tarifas.
+OPTIONAL_HEADERS = ("tarifa_referencia",)
+MAX_FARE_LEN = 80
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 DECIMAL = re.compile(r"[+-]?(?:[0-9]+(?:[.,][0-9]+)?|[.,][0-9]+)\Z")
 
@@ -249,6 +256,11 @@ def build_operator(row, line, today):
             "included_in_measurement": booleans["incluye_ruedas_manijas"],
             "tolerance_cm": tolerance,
         }
+        fare = text(row.get("tarifa_referencia"))
+        if fare is not None and (len(fare) > MAX_FARE_LEN or "\n" in fare):
+            errors.append(f"Fila {line}, tarifa_referencia: usar solo el nombre de la tarifa, "
+                          f"en una línea y hasta {MAX_FARE_LEN} caracteres.")
+        op["reference_fare"] = fare
         op["excess_fee"] = {
             "currency": currency, "online_from": numbers["tarifa_online_desde"],
             "at_gate_from": numbers["tarifa_en_puerta_desde"],

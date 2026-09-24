@@ -175,6 +175,66 @@
       <span class="tag-example">{{tag_example}}</span>
       {{measure_note}}
     </p>
+
+    <!-- Guía de medición (24/09/2026). Plegada para no empujar el comparador en
+         el móvil. Enseña lo que de verdad cambia el veredicto: medir el EXTERIOR
+         con ruedas, asas y bolsillos. El orden de las tres cifras no importa:
+         el comparador ordena las medidas y prueba cualquier giro de la valija. -->
+    <details class="measure" id="measure">
+      <summary class="measure__summary">
+        <svg class="measure__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 7l2 2M10 10l1.5 1.5M7 13l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>{{m_summary}}</span>
+        <svg class="measure__chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </summary>
+      <div class="measure__body">
+        <svg class="measure__art" viewBox="0 32 312 230" role="img" aria-labelledby="measure-art-t">
+          <title id="measure-art-t">{{m_art_alt}}</title>
+          <!-- valija de pie, vista en perspectiva -->
+          <path class="m-side" d="M196 70 L246 42 L246 178 L196 206 Z"/>
+          <path class="m-top" d="M76 70 L126 42 L246 42 L196 70 Z"/>
+          <rect class="m-front" x="76" y="70" width="120" height="136" rx="10"/>
+          <path class="m-seam" d="M88 104 H184 M88 172 H184"/>
+          <path class="m-handle" d="M116 70 V58 Q116 52 122 52 H150 Q156 52 156 58 V70"/>
+          <circle class="m-wheel" cx="92" cy="212" r="7"/>
+          <circle class="m-wheel" cx="180" cy="212" r="7"/>
+          <circle class="m-wheel" cx="236" cy="186" r="7"/>
+          <!-- líneas de referencia punteadas -->
+          <path class="m-ext" d="M156 52 H40 M92 219 H40 M76 219 V234 M196 219 V234 M246 186 H300 M196 206 L214 222 M246 178 L300 147"/>
+          <!-- flechas de medida -->
+          <path class="m-dim m-dim--a" d="M48 58 V213" marker-start="url(#m-arr-a)" marker-end="url(#m-arr-a)"/>
+          <path class="m-dim m-dim--b" d="M82 230 H190" marker-start="url(#m-arr-b)" marker-end="url(#m-arr-b)"/>
+          <path class="m-dim m-dim--c" d="M226 222 L286 188" marker-start="url(#m-arr-c)" marker-end="url(#m-arr-c)"/>
+          <defs>
+            <marker id="m-arr-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="m-tip m-tip--a" d="M0 1 L9 5 L0 9 z"/>
+            </marker>
+            <marker id="m-arr-b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="m-tip m-tip--b" d="M0 1 L9 5 L0 9 z"/>
+            </marker>
+            <marker id="m-arr-c" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path class="m-tip m-tip--c" d="M0 1 L9 5 L0 9 z"/>
+            </marker>
+          </defs>
+          <g class="m-tags">
+            <g transform="translate(14 136)"><rect class="m-tag m-tag--a" x="-12" y="-11" width="24" height="22" rx="11"/><text x="0" y="5">1</text></g>
+            <g transform="translate(136 244)"><rect class="m-tag m-tag--b" x="-12" y="-11" width="24" height="22" rx="11"/><text x="0" y="5">2</text></g>
+            <g transform="translate(298 180)"><rect class="m-tag m-tag--c" x="-12" y="-11" width="24" height="22" rx="11"/><text x="0" y="5">3</text></g>
+          </g>
+        </svg>
+        <div class="measure__text">
+          <ol class="measure__keys">
+            <li><span class="m-key m-key--a">1</span><span><b>{{f_length}}:</b> {{m_len}}</span></li>
+            <li><span class="m-key m-key--b">2</span><span><b>{{f_width}}:</b> {{m_wid}}</span></li>
+            <li><span class="m-key m-key--c">3</span><span><b>{{f_height}}:</b> {{m_hei}}</span></li>
+          </ol>
+          <ul class="measure__tips">
+            <li>{{m_tip_outside}}</li>
+            <li>{{m_tip_packed}}</li>
+            <li>{{m_tip_order}}</li>
+          </ul>
+        </div>
+      </div>
+    </details>
     <p class="shared-note" id="shared-note" hidden>{{shared_loaded}}</p>
   </section>
 
@@ -544,6 +604,13 @@
       });
     } else {
       out.flags.push({ tone: "neutral", text: t("flag_wheels_unknown") });
+    }
+
+    /* La tarifa a la que corresponden las cifras (esquema 1.4). Nombre
+       comercial del operador, sin traducir. Si no está confirmada, no se
+       muestra nada: el aviso genérico de tarifas vive en la ficha. */
+    if (op.reference_fare) {
+      out.flags.push({ tone: "neutral", text: t("flag_fare", { fare: op.reference_fare }) });
     }
 
     var candidates = [];
