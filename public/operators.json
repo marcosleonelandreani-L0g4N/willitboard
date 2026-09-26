@@ -247,6 +247,135 @@
       "days_since_verified": 3
     },
     {
+      "id": "vueling",
+      "name": "Vueling",
+      "type": "air",
+      "country": "ES",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas de la página oficial. Fly Light bundle: '1 free underseat cabin bag size (max. 40x30x20 cm)'; opción de valija en el compartimento '(max. 10 kg and 55x40x20 cm) by adding the 2 pieces on board service or choosing Space One, Space Plus or Space seats'. Fly, Fly Grande, Fly Pro y Premium la incluyen. Peso del bolso no publicado. Ruedas y asas: no lo dice; queda vacío.",
+      "notes_en": null,
+      "source_url": "https://help.vueling.com/hc/en-gb/articles/19798835176081-Hand-Luggage-Allowance-Cabin-bags-allowance",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "2 pieces on board service, or a Space One / Space Plus / Space seat",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Fly Light",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "lufthansa",
+      "name": "Lufthansa",
+      "type": "air",
+      "country": "DE",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas de la página oficial. 'The fare includes one personal item (up to a maximum of 40 x 30 x 15 cm)'; 'the Economy Basic fare does not include a carry-on bag (8 kg, 55 x 40 x 23 cm)'; 'Carry-on baggage can only be purchased online and is not available at the airport', hasta 2 h antes. Peso del artículo personal no publicado. Ruedas y asas: no lo dice; queda vacío.",
+      "notes_en": null,
+      "source_url": "https://www.lufthansa.com/ba/en/prepare-for-your-trip/travel-classes/economy-basic",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Carry-on bag (online only)",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 23
+        },
+        "max_kg": 8
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Economy Basic",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "sas",
+      "name": "SAS",
+      "type": "air",
+      "country": "SE",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas de la página oficial. Underseat bag 'Max size: 40 x 30 x 15 cm', 'Max capacity: 18 L' (dato que el esquema no guarda); carry-on 'Max size: 55 x 40 x 23 cm', 'Max weight: 8 kg'; 'The purchase of a carry-on bag is only available for travelers with an Economy Light ticket'; Standard, Flex, Premium y Business ya la incluyen. Ruedas y asas: el texto no lo dice (Marcos cree por el dibujo que no las incluye); queda vacío.",
+      "notes_en": null,
+      "source_url": "https://www.flysas.com/us-en/travel-info/baggage/carry-on",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Carry-on bag (Economy Light only)",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 23
+        },
+        "max_kg": 8
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Economy Light",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
       "id": "norwegian",
       "name": "Norwegian",
       "type": "air",
@@ -411,6 +540,49 @@
       },
       "reference_fare": "Basic",
       "combined_max_kg": 10,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "iberia",
+      "name": "Iberia",
+      "type": "air",
+      "country": "ES",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas de la página oficial. Fuente cambiada a la página pública de iberia.com. 'En Iberia, todas nuestras tarifas incluyen un equipaje de hasta 10 Kg y un equipaje de mano personal gratuito'; Clase Turista: '1 equipaje de hasta 10 kg. 56 x 40 x 25 cm' y '1 equipaje de mano personal 30 x 40 x 15 cm' bajo el asiento. Como todas las tarifas incluyen lo mismo, tarifa_referencia queda vacía. Ruedas y asas: no lo dice; queda vacío.",
+      "notes_en": null,
+      "source_url": "https://www.iberia.com/es/equipajes/de-mano/",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": true,
+        "requires_addon": null,
+        "max_cm": {
+          "length": 56,
+          "width": 40,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": null,
+      "combined_max_kg": null,
       "excess_fee": {
         "currency": null,
         "online_from": null,
