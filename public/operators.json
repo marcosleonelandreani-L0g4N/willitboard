@@ -245,6 +245,178 @@
         "en": "If you are travelling by car there is no limit to the amount of luggage you can carry in your vehicle as it will remain in your vehicle on our car deck. For foot passengers travelling to Sweden, Denmark, Germany, Latvia and Poland, there is no limit on the amount of luggage you can bring with you, however you need to be able to carry it onboard yourself. For foot passengers travelling to Ireland and to the UK from Ireland, there is no limit to the amount of luggage you can bring with you, however, hand luggage must be no larger than 60cm x 50cm x 40cm and you must be able to carry it yourself. If you are travelling with luggage that is larger than this it must be checked-in prior to boarding. Your luggage will be safely stowed during the sailing and can be collected upon arrival in the terminal. You will not be able to access your luggage during the sailing so please ensure you remove all necessary items before checking it in. If you are travelling by foot or by Rail & Sail on our Harwich-Hook of Holland route, you may take as much luggage as you like, as long as you can carry it onboard yourself. Passengers travelling on a day trip on our Irish Sea routes may carry one piece of small hand luggage. Any additional pieces of luggage will be charged at our discretion."
       },
       "days_since_verified": 3
+    },
+    {
+      "id": "norwegian",
+      "name": "Norwegian",
+      "type": "air",
+      "country": "NO",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas de la página oficial: LowFare = solo el bolso bajo el asiento (30x40x20cm), 'Max weight limit 10 kg'; LowFare+ = bolso + 'Overhead cabin bag (55x40x23cm)', 'Combined weight limit of 10 kg'; Flex = 'Combined weight limit of 15 kg' (no se modela: la fila describe LowFare/LowFare+). 'If you're travelling on a LowFare+ or Flex ticket, you can also bring one overhead cabin bag.' RUEDAS Y ASAS: el texto no lo dice. El asistente revisó también la versión /en/ de la página el 26/09/2026: sin mención. El dibujo muestra la flecha de 55 cm de punta a punta, pero un dibujo no es una regla escrita: incluye_ruedas_manijas queda vacío y la ficha dice que no se sabe.",
+      "notes_en": null,
+      "source_url": "https://www.norwegian.com/us/travel-info/baggage/hand-baggage/",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "LowFare+ or Flex ticket",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 23
+        },
+        "max_kg": null
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "LowFare",
+      "combined_max_kg": 10,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "air-france",
+      "name": "Air France",
+      "type": "air",
+      "country": "FR",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas. El enlace wwws.airfrance.fr/en lo llevó a airfrance.dk (Dinamarca - EN), misma página. Textos: 'In the Economy cabin, 0 to 1 hand baggage depending on the fare chosen + 1 small bag (maximum total weight: 12 kg/26.4 lb.)'; small bag '40 x 30 x 15 cm'; hand baggage '55 x 35 x 25 cm (21.7 x 13.8 x 9.9 in.), including pockets, wheels, and handles'; 'Are you traveling with a Basic fare and would like to bring a hand baggage item in addition to your small bag?' -> Flying Blue Gold o superior la lleva gratis; el resto 'can purchase the Hand Baggage option'. Pesos por bulto vacíos: Air France solo publica el total.",
+      "notes_en": null,
+      "source_url": "https://wwws.airfrance.fr/en/information/bagages/bagage-cabine-soute",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Hand Baggage option",
+        "max_cm": {
+          "length": 55,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": null
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Basic",
+      "combined_max_kg": 12,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "klm",
+      "name": "KLM",
+      "type": "air",
+      "country": "NL",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con capturas (página en inglés que Chrome le tradujo al español). Texto original en inglés confirmado por el asistente el 26/09/2026 en la misma URL: 'If you have a Basic ticket, you're always allowed to bring 1 small bag with a maximum size of 40 x 30 x 15 cm.'; 'You can purchase 1 piece of hand baggage via My Trip up to 4 hours before your flight departs.'; 'Your small bag and hand baggage combined may weigh up to 12 kg.'; 'Your hand baggage, including handles and wheels, must not exceed the maximum size of 55 x 35 x 25 cm.' Light, Standard y Flex incluyen la valija. tarifa_referencia pasó de 'Economy Basic' a 'Basic', como lo escribe KLM.",
+      "notes_en": null,
+      "source_url": "https://www.klm.nl/en/information/baggage/hand-baggage-allowance",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "1 piece of hand baggage (via My Trip)",
+        "max_cm": {
+          "length": 55,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": null
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Basic",
+      "combined_max_kg": 12,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "transavia",
+      "name": "Transavia",
+      "type": "air",
+      "country": "NL",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 26/09/2026 con captura: bolso 'max. 40 x 30 x 20 cm', 'The maximum allowed weight for your hand luggage is 10 kg'; valija 'max. 55 x 40 x 25 cm' 'for a fee'; 'Your hand luggage and cabin bag combined may weigh up to 10 kg'; 'If you have booked the Smart or Max fare, then your fare includes a cabin bag and Priority Boarding.' Confirmado por el asistente el 26/09/2026: la nota (*) de la misma página dice 'The measurements include the wheels and handles.'; el nombre de la tarifa base, 'Basic fare', sale de https://www.transavia.com/help/en-eu/search-and-book/basic-smart-plus-max-fare/basic-fare ('One piece of hand luggage of maximum 40 x 30 x 20 cm').",
+      "notes_en": null,
+      "source_url": "https://www.transavia.com/help/en-eu/baggage/cabin-baggage/how-much-to-bring",
+      "verified_on": "2026-09-26",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Smart or Max fare, or a cabin bag added for a fee",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 25
+        },
+        "max_kg": null
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Basic",
+      "combined_max_kg": 10,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
     }
   ]
 }
