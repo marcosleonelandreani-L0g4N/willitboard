@@ -282,6 +282,30 @@ class TarifaReferenciaTests(unittest.TestCase):
                                     list(HEADERS) + ["tarifa_referencia"])
         self.assertIsNone(payload["operators"][0]["reference_fare"])
 
+    def test_peso_combinado_se_publica(self):
+        row = dict(BASE_ROW, cabina_kg=None, peso_combinado_kg=12)
+        rc, payload = self._convert([row], list(HEADERS) + ["peso_combinado_kg"])
+        self.assertEqual(rc, 0)
+        op = payload["operators"][0]
+        self.assertEqual(op["combined_max_kg"], 12)
+        # el combinado NUNCA se copia a los bultos: no se inventa un peso por bulto
+        self.assertIsNone(op["cabin_bag"]["max_kg"])
+        self.assertIsNone(op["personal_item"]["max_kg"])
+
+    def test_sin_columna_combinado_es_none(self):
+        rc, payload = self._convert([dict(BASE_ROW)], list(HEADERS))
+        self.assertIsNone(payload["operators"][0]["combined_max_kg"])
+
+    def test_bulto_mas_pesado_que_el_combinado_se_rechaza(self):
+        row = dict(BASE_ROW, cabina_kg=15, peso_combinado_kg=12)
+        rc, _ = self._convert([row], list(HEADERS) + ["peso_combinado_kg"])
+        self.assertEqual(rc, 1)
+
+    def test_peso_combinado_cero_se_rechaza(self):
+        row = dict(BASE_ROW, cabina_kg=None, peso_combinado_kg=0)
+        rc, _ = self._convert([row], list(HEADERS) + ["peso_combinado_kg"])
+        self.assertEqual(rc, 1)
+
     def test_tarifa_con_parrafo_se_rechaza(self):
         row = dict(BASE_ROW, tarifa_referencia="Basic\nincluye un bolso")
         rc, _ = self._convert([row], list(HEADERS) + ["tarifa_referencia"])

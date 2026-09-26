@@ -62,14 +62,19 @@ def serve() -> socketserver.TCPServer:
 
 
 def bands_of(page) -> dict:
-    """Devuelve {titulo_de_banda: [nombres de operador]} tal como se ve."""
+    """Devuelve {grupo_de_resultado: [nombres de operador]}.
+
+    v5 (26/09/2026): los resultados se agrupan por tipo de transporte y cada
+    tarjeta lleva su resultado en data-band (pass/paid/fail/rule/unknown). El
+    id del grupo no depende del idioma, así que las dos versiones se comparan
+    directamente.
+    """
     return page.evaluate(
         """() => {
           const out = {};
-          document.querySelectorAll('#results .band').forEach(b => {
-            const title = b.querySelector('h2').textContent.trim();
-            out[title] = Array.from(b.querySelectorAll('.op__name'))
-                              .map(n => n.textContent.trim());
+          document.querySelectorAll('#results .rcard').forEach(c => {
+            const band = c.getAttribute('data-band');
+            (out[band] = out[band] || []).push(c.querySelector('.op__name').textContent.trim());
           });
           return out;
         }"""
@@ -207,7 +212,7 @@ def main() -> None:
             print("\nInterfaz española sin restos en inglés")
             leaks = page.evaluate(
                 """() => {
-                  const bad = ['Travels free', 'Doesn\\'t fit', 'Fits, but costs extra',
+                  const bad = ['Travels free', 'No extra cost', 'Doesn\\'t fit', 'Fits, but costs extra',
                                'Check the baggage rule', 'Size not confirmed',
                                'Official source', 'Checked by a human', 'Your bag',
                                'Airline', 'Train', 'How to read this',
@@ -252,9 +257,9 @@ def main() -> None:
             page.click("#unit-cm"); page.wait_for_timeout(100)
             cols = page.eval_on_selector_all(".cmp thead th", "els => els.length")
             check("arranca comparando 3 operadores", cols == 3, str(cols))
-            boxes = page.eval_on_selector_all("#picker-list input", "els => els.length")
-            check("el desplegable ofrece todos los operadores", boxes == len(ops), str(boxes))
-            dis = page.eval_on_selector_all("#picker-list input:disabled", "els => els.length")
+            boxes = page.eval_on_selector_all("#oplist input", "els => els.length")
+            check("la lista del comparador ofrece todos los operadores", boxes == len(ops), str(boxes))
+            dis = page.eval_on_selector_all("#oplist input:disabled", "els => els.length")
             check("con 3 elegidos, el resto queda bloqueado", dis == len(ops) - 3, str(dis))
 
             same = page.evaluate('''() => {
@@ -271,15 +276,18 @@ def main() -> None:
             check("el comparador dice lo mismo que la tarjeta",
                   same and all(c == v for _, c, v in same), str(same))
 
-            # rediseño v4 (23/09): el comparador arranca plegado; se abre como
-            # lo haría una persona, tocando su encabezado
-            check("el comparador arranca plegado",
-                  page.get_attribute("#compare", "open") is None)
-            page.click("#compare > summary"); page.wait_for_timeout(150)
+            # v5 (26/09): el comparador vive en su propia pestaña, oculta de
+            # entrada; se abre como lo haría una persona, tocando la pestaña
+            check("el comparador arranca en una pestaña oculta",
+                  page.get_attribute("#panel-compare", "hidden") is not None)
+            page.click("#tab-compare"); page.wait_for_timeout(150)
             page.click("#cmp-clear"); page.wait_for_timeout(150)
             check("limpiar deja el comparador vacío",
                   page.query_selector(".cmp") is None and page.query_selector(".cmp__empty") is not None)
-            # y cada resultado es una fila que se despliega: primero se abre
+            # de vuelta a la pestaña de comprobar: primero se abre el grupo del
+            # tren y después la fila, como en la pantalla
+            page.click("#tab-check"); page.wait_for_timeout(150)
+            page.click('.tgroup[data-type="rail"] > summary'); page.wait_for_timeout(150)
             page.click("#results .rcard.band--rule .rrow__sum"); page.wait_for_timeout(150)
             page.click("#results .rcard.band--rule .rcard__cmp"); page.wait_for_timeout(150)
             check("una regla escrita se compara con su cita, sin traducir",

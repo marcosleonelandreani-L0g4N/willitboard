@@ -45,7 +45,12 @@ NONNEGATIVE_FIELDS = ("tolerancia_ruedas_manijas_cm",)
 # ("Basic Fare", "Standard"...). No se traduce. Opcional para que una planilla
 # vieja siga convirtiendo: vacío significa "no confirmado", y la ficha muestra
 # entonces el aviso genérico de tarifas.
-OPTIONAL_HEADERS = ("tarifa_referencia",)
+OPTIONAL_HEADERS = ("tarifa_referencia", "peso_combinado_kg")
+# peso_combinado_kg (esquema 1.4, 26/09/2026): algunos operadores publican UN
+# peso para el artículo personal y la valija JUNTOS (Air France, KLM, Transavia,
+# Norwegian). Se guarda aparte del peso por bulto: dejarlo vacío haría decir a
+# la ficha "sin peso publicado", que sería falso, y repartirlo entre los dos
+# bultos sería inventar una cifra que el operador nunca publicó.
 MAX_FARE_LEN = 80
 SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
 DECIMAL = re.compile(r"[+-]?(?:[0-9]+(?:[.,][0-9]+)?|[.,][0-9]+)\Z")
@@ -261,6 +266,13 @@ def build_operator(row, line, today):
             errors.append(f"Fila {line}, tarifa_referencia: usar solo el nombre de la tarifa, "
                           f"en una línea y hasta {MAX_FARE_LEN} caracteres.")
         op["reference_fare"] = fare
+        combined = read("peso_combinado_kg", number)
+        op["combined_max_kg"] = combined
+        for key, label in (("personal_kg", "personal"), ("cabina_kg", "cabina")):
+            single = numbers[key]
+            if combined is not None and single is not None and single > combined:
+                errors.append(f"Fila {line}, {key}: {single} kg supera el peso combinado de "
+                              f"{combined} kg; un bulto solo no puede pesar más que los dos juntos.")
         op["excess_fee"] = {
             "currency": currency, "online_from": numbers["tarifa_online_desde"],
             "at_gate_from": numbers["tarifa_en_puerta_desde"],

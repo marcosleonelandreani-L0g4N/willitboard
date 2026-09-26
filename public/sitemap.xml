@@ -130,28 +130,28 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/privacy/"/>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://willitboard.com/es/privacidad/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/privacy/"/>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://willitboard.com/cookies/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cookies/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/cookies/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cookies/"/>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://willitboard.com/es/cookies/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cookies/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/cookies/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cookies/"/>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-26</lastmod>
   </url>
   <url>
     <loc>https://willitboard.com/disclosure/</loc>
@@ -166,5 +166,47 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/divulgacion/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/disclosure/"/>
     <lastmod>2026-09-20</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/how-to-measure-luggage/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/how-to-measure-luggage/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/como-medir-una-maleta/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/how-to-measure-luggage/"/>
+    <lastmod>2026-09-26</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/como-medir-una-maleta/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/how-to-measure-luggage/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/como-medir-una-maleta/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/how-to-measure-luggage/"/>
+    <lastmod>2026-09-26</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/cabin-bag-sizes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cabin-bag-sizes/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/medidas-equipaje-de-mano/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cabin-bag-sizes/"/>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/medidas-equipaje-de-mano/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cabin-bag-sizes/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/medidas-equipaje-de-mano/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cabin-bag-sizes/"/>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/about/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/sobre-willitboard/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/about/"/>
+    <lastmod>2026-09-26</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/sobre-willitboard/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/about/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/sobre-willitboard/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/about/"/>
+    <lastmod>2026-09-26</lastmod>
   </url>
 </urlset>

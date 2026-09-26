@@ -66,6 +66,32 @@ DATASET = OUT_DIR / "operators.json"
 
 BASE_URL = "https://willitboard.com"
 
+# Archivos que se copian tal cual a public/ (tipografías, favicon, imágenes
+# para compartir). Se sirven desde el propio dominio: el sitio no carga nada
+# de terceros desde el 26/09/2026.
+STATIC_DIR = SITE_DIR / "static"
+BRAND_DIR = SITE_DIR / "brand"
+PARTIALS_DIR = SITE_DIR / "partials"
+GUIDES_DIR = SITE_DIR / "guides"
+
+# Logo en uso: sitio/brand/mark-<letra>.svg. Hay cuatro propuestas (a, b, c, d);
+# cambiar de logo es cambiar esta letra y volver a correr el script.
+BRAND_MARK = "b"
+
+# AdSense, paso 1 de 2: verificar el sitio. Vacío = nada de AdSense (hoy).
+# Con el ID de editor ("pub-" y 16 dígitos, figura en AdSense > Cuenta) el build
+# agrega a todas las páginas <meta name="google-adsense-account"> y escribe
+# public/ads.txt. Ninguna de las dos cosas carga nada de Google ni instala
+# cookies: solo sirven para que Google compruebe que el sitio es de Marcos y
+# para pedir la revisión. El código que MUESTRA anuncios (paso 2) no está acá a
+# propósito: entra el día de la aprobación junto con privacidad, cookies y
+# divulgación reescritas, porque hoy esas tres páginas prometen "sin cookies y
+# sin publicidad", y la de cookies promete cambiar ANTES de la primera cookie.
+ADSENSE_PUB_ID = ""
+# Identificador fijo de Google en ads.txt, tal como lo da la guía oficial:
+# https://support.google.com/adsense/answer/12171612
+ADS_TXT_GOOGLE_ID = "f08c47fec0942fa0"
+
 # lang -> (subcarpeta de salida, ruta canónica)
 PAGES = {
     "en": ("", "/"),
@@ -94,12 +120,12 @@ LEGAL_PAGES = {
     "privacy": {
         "slug": {"en": "privacy", "es": "es/privacidad"},
         "nav": "nav_privacy",
-        "updated": "2026-09-20",
+        "updated": "2026-09-26",
     },
     "cookies": {
         "slug": {"en": "cookies", "es": "es/cookies"},
         "nav": "nav_cookies",
-        "updated": "2026-09-20",
+        "updated": "2026-09-26",
     },
     "disclosure": {
         "slug": {"en": "disclosure", "es": "es/divulgacion"},
@@ -108,15 +134,41 @@ LEGAL_PAGES = {
     },
 }
 
+# Guías y páginas propias (26/09/2026). Mismo mecanismo que las legales: un
+# fragmento HTML por idioma en sitio/guides/, salvo "sizes", que se GENERA
+# desde el dataset en cada build (así la tabla nunca se despega de los datos).
+# `updated` = fecha en que se editó el TEXTO, a mano. Para "sizes" no hay fecha
+# manual: su lastmod es la última verificación humana del dataset.
+GUIDE_PAGES = {
+    "measure": {
+        "slug": {"en": "how-to-measure-luggage", "es": "es/como-medir-una-maleta"},
+        "nav": "nav_guide_measure",
+        "updated": "2026-09-26",
+    },
+    "sizes": {
+        "slug": {"en": "cabin-bag-sizes", "es": "es/medidas-equipaje-de-mano"},
+        "nav": "nav_guide_sizes",
+        "updated": None,
+    },
+    "about": {
+        "slug": {"en": "about", "es": "es/sobre-willitboard"},
+        "nav": "nav_about",
+        "updated": "2026-09-26",
+    },
+}
+
 # marcadores que calcula el script, no el diccionario
 COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON", "FICHE_PATHS",
-                 "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS", "HERO_STATS"}
-COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION",
+                 "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS", "HERO_STATS", "HEAD_EXTRA", "BRAND",
+                 "SLIDE_1_LABEL", "SLIDE_2_LABEL", "SLIDE_3_LABEL", "SLIDE_4_LABEL",
+                 "SLIDE_1_GO", "SLIDE_2_GO", "SLIDE_3_GO", "SLIDE_4_GO",
+                 "MEASURE_ART", "GUIDE_MEASURE_HREF", "CMP_INTRO"}
+COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
                "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS",
                "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS"}
-COMPUTED_PAGE = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION",
+COMPUTED_PAGE = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                  "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                  "NAV_EN_CUR", "NAV_ES_CUR", "CRUMB_SELF", "H1", "STANDFIRST",
                  "CONTENT", "CHECKER_HREF", "PAGE_UPDATED", "FOOTER_LINKS"}
@@ -331,7 +383,15 @@ def one_allowance(op, key: str, label_key: str, S: dict) -> str:
     dims = triple(allow.get("max_cm"))
     if dims:
         kg = allow.get("max_kg")
-        sub = t(S, "allow_kg", kg=kg) if kg is not None else t(S, "allow_no_kg")
+        shared = op.get("combined_max_kg")
+        # Peso por bulto si existe; si el operador solo publica un peso para los
+        # dos bultos juntos, se dice así. Nunca se reparte entre los bultos.
+        if kg is not None:
+            sub = t(S, "allow_kg", kg=kg)
+        elif shared is not None:
+            sub = t(S, "allow_kg_shared", kg=shared)
+        else:
+            sub = t(S, "allow_no_kg")
         figure = (
             f'      <p class="allow__dims">{esc(" × ".join(str(d) for d in dims))} cm'
             f"<small>{sub}</small></p>"
@@ -457,8 +517,18 @@ def block_operator_index(ops: list, lang: str, S: dict) -> str:
             f'      <ul class="index__links">\n{links}\n      </ul>\n'
             f"    </div>"
         )
+    guide_links = "\n".join(
+        f'        <li><a href="{guide_path(k, lang)}">{t(S, cfg["nav"])}</a></li>'
+        for k, cfg in GUIDE_PAGES.items() if k != "about"
+    )
+    groups.append(
+        f'    <div class="index__group">\n'
+        f'      <h3>{t(S, "guides_h2")}</h3>\n'
+        f'      <ul class="index__links index__links--guides">\n{guide_links}\n      </ul>\n'
+        f"    </div>"
+    )
     return (
-        '  <section class="prose" aria-labelledby="index-h">\n'
+        '  <section class="prose index" aria-labelledby="index-h">\n'
         f'    <h2 id="index-h">{t(S, "index_h2")}</h2>\n'
         f'    <p>{t(S, "index_intro")}</p>\n'
         + "\n".join(groups)
@@ -481,6 +551,12 @@ def block_footer_links(lang: str, S: dict, current: str | None = None) -> str:
     Enlaces legales en el pie de TODAS las páginas. Una política de privacidad
     a la que no se llega desde ninguna parte no sirve de nada.
     """
+    guides = []
+    for key, cfg in GUIDE_PAGES.items():
+        cur = ' aria-current="page"' if key == current else ""
+        guides.append(
+            f'      <li><a href="{guide_path(key, lang)}"{cur}>{t(S, cfg["nav"])}</a></li>'
+        )
     items = []
     for key, cfg in LEGAL_PAGES.items():
         cur = ' aria-current="page"' if key == current else ""
@@ -488,6 +564,9 @@ def block_footer_links(lang: str, S: dict, current: str | None = None) -> str:
             f'      <li><a href="{legal_path(key, lang)}"{cur}>{t(S, cfg["nav"])}</a></li>'
         )
     return (
+        f'    <ul class="footlinks footlinks--guides" aria-label="{t(S, "footer_guides_label")}">\n'
+        + "\n".join(guides)
+        + "\n    </ul>\n"
         f'    <ul class="footlinks" aria-label="{t(S, "footer_legal_label")}">\n'
         + "\n".join(items)
         + "\n    </ul>"
@@ -577,9 +656,266 @@ def build_sitemap(ops: list) -> str:
         entry({lang: op_path(op, lang) for lang in PAGES}, op.get("verified_on"))
     for key, cfg in LEGAL_PAGES.items():
         entry({lang: legal_path(key, lang) for lang in PAGES}, cfg["updated"])
+    last_check = max((o.get("verified_on") or "" for o in ops), default="") or None
+    for key, cfg in GUIDE_PAGES.items():
+        entry({lang: guide_path(key, lang) for lang in PAGES}, cfg["updated"] or last_check)
 
     lines.append("</urlset>")
     return "\n".join(lines) + "\n"
+
+
+
+# ------------------------------------------------------ marca, cabecera, <head>
+
+def brand_mark(inline: bool = True) -> str:
+    """
+    El logo en uso, leído de sitio/brand/mark-<BRAND_MARK>.svg.
+
+    inline=True: para la cabecera de cada página. El azul sale de --accent y la
+    tinta de currentColor, así el modo noche lo repinta solo.
+    inline=False: el favicon.svg, que vive fuera de la página y no ve el CSS
+    del sitio; lleva sus colores fijos y su propio modo oscuro.
+    """
+    path = BRAND_DIR / f"mark-{BRAND_MARK}.svg"
+    if not path.exists():
+        sys.exit(f"ERROR: falta el logo {path}")
+    svg = path.read_text(encoding="utf-8").strip()
+    if inline:
+        svg = svg.replace("{BLUE}", "var(--accent)").replace("{GRAD}", "wb-grad")
+        svg = svg.replace('<svg xmlns="http://www.w3.org/2000/svg"',
+                          '<svg class="wordmark__svg" aria-hidden="true" focusable="false"', 1)
+        return svg
+    svg = svg.replace("{BLUE}", "#1F5EFF").replace("{GRAD}", "g")
+    style = ("<style>svg{color:#172033}@media (prefers-color-scheme:dark)"
+             "{svg{color:#EEF2F9}}</style>")
+    return svg.replace(">", ">" + style, 1)
+
+
+def block_brand(home_href: str) -> str:
+    return (
+        f'      <a class="wordmark" href="{home_href}">'
+        f'<span class="wordmark__mark">{brand_mark()}</span>'
+        f'<span class="wordmark__name">Willitboard</span></a>'
+    )
+
+
+def adsense_pub_id() -> str:
+    """
+    El ID de editor de AdSense validado, o "" si todavía no hay cuenta.
+    Acepta "pub-…" o "ca-pub-…" (AdSense muestra las dos formas) y devuelve "pub-…".
+    """
+    pub = ADSENSE_PUB_ID.strip()
+    if pub.startswith("ca-"):
+        pub = pub[3:]
+    if pub and not re.fullmatch(r"pub-\d{16}", pub):
+        sys.exit('ERROR: ADSENSE_PUB_ID tiene que ser "pub-" seguido de 16 dígitos, '
+                 "o quedar vacío.")
+    return pub
+
+
+def ads_txt_line(pub: str) -> str:
+    return f"google.com, {pub}, DIRECT, {ADS_TXT_GOOGLE_ID}"
+
+
+def attr(text: str) -> str:
+    """Para meter un texto YA escapado para HTML dentro de un atributo."""
+    return str(text).replace('"', "&quot;")
+
+
+def head_extra(lang: str, S: dict, canonical: str, title: str, description: str) -> str:
+    """
+    Favicon, color de la barra del navegador y las etiquetas que usan WhatsApp,
+    Facebook, LinkedIn o X para armar la vista previa cuando alguien comparte
+    un enlace. Sin esto, un enlace compartido sale como texto pelado.
+    """
+    image = f"{BASE_URL}/og-{lang}.png"
+    pub = adsense_pub_id()
+    # Verificación de AdSense (paso 1): una etiqueta inerte, no pide nada a Google.
+    adsense = [f'<meta name="google-adsense-account" content="ca-{pub}">'] if pub else []
+    return "\n".join(adsense + [
+        '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+        '<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">',
+        '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
+        '<meta name="theme-color" content="#1F5EFF">',
+        '<meta property="og:type" content="website">',
+        '<meta property="og:site_name" content="Willitboard">',
+        f'<meta property="og:locale" content="{t(S, "og_locale")}">',
+        f'<meta property="og:title" content="{attr(title)}">',
+        f'<meta property="og:description" content="{attr(description)}">',
+        f'<meta property="og:url" content="{canonical}">',
+        f'<meta property="og:image" content="{image}">',
+        '<meta property="og:image:width" content="1200">',
+        '<meta property="og:image:height" content="630">',
+        f'<meta property="og:image:alt" content="{attr(t(S, "og_image_alt"))}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+    ])
+
+
+def measure_art(S: dict) -> str:
+    """El dibujo de la maleta de frente y de costado, con sus rótulos."""
+    path = PARTIALS_DIR / "measure_art.svg"
+    if not path.exists():
+        sys.exit(f"ERROR: falta {path}")
+    svg = path.read_text(encoding="utf-8").rstrip("\n")
+    return render(svg, {"m_art_alt": t(S, "m_art_alt"), "m_front": t(S, "m_front"),
+                        "m_side": t(S, "m_side")})
+
+
+def copy_static() -> list[Path]:
+    """Copia sitio/static/** a public/ y escribe el favicon.svg desde el logo."""
+    out = []
+    if STATIC_DIR.exists():
+        for src in sorted(STATIC_DIR.rglob("*")):
+            if src.is_file():
+                dst = OUT_DIR / src.relative_to(STATIC_DIR)
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                data = src.read_bytes()
+                if not dst.exists() or dst.read_bytes() != data:
+                    dst.write_bytes(data)
+                out.append(dst)
+    fav = OUT_DIR / "favicon.svg"
+    fav.write_text(brand_mark(inline=False) + "\n", encoding="utf-8")
+    out.append(fav)
+    return out
+
+
+# ------------------------------------------------------------ guías
+
+def guide_path(key: str, lang: str) -> str:
+    return f"/{GUIDE_PAGES[key]['slug'][lang]}/"
+
+
+def guide_outfile(key: str, lang: str) -> Path:
+    return OUT_DIR / GUIDE_PAGES[key]["slug"][lang] / "index.html"
+
+
+def link_markers(lang: str) -> dict:
+    """Enlaces internos que pueden usar los fragmentos de texto."""
+    hrefs = {f"HREF_{k.upper()}": legal_path(k, lang) for k in LEGAL_PAGES}
+    hrefs.update({f"HREF_{k.upper()}": guide_path(k, lang) for k in GUIDE_PAGES})
+    hrefs["CHECKER_HREF"] = PAGES[lang][1]
+    hrefs["COMPARE_HREF"] = PAGES[lang][1] + "#compare"
+    return hrefs
+
+
+def load_guide_fragment(key: str, lang: str, S: dict) -> str:
+    path = GUIDES_DIR / f"{key}.{lang}.html"
+    if not path.exists():
+        sys.exit(f"ERROR: falta el contenido {path}")
+    fragment = path.read_text(encoding="utf-8").rstrip("\n")
+    values = link_markers(lang)
+    values["MEASURE_ART"] = measure_art(S)
+    unknown = set(re.findall(r"\{\{(\w+)\}\}", fragment)) - set(values)
+    if unknown:
+        sys.exit(f"ERROR: {path} usa marcadores desconocidos: {', '.join(sorted(unknown))}")
+    return render(fragment, values)
+
+
+def sizes_status(allow: dict, S: dict) -> str:
+    included = allow.get("included")
+    if included is True:
+        return f'<span class="status status--free">{t(S, "status_free")}</span>'
+    if included is False:
+        return f'<span class="status status--paid">{t(S, "status_paid")}</span>'
+    return f'<span class="status status--none">{t(S, "status_unknown")}</span>'
+
+
+def sizes_cell(op, key: str, S: dict) -> str:
+    allow = op.get(key)
+    if not isinstance(allow, dict):
+        return '<td class="sz__none">—</td>'
+    dims = triple(allow.get("max_cm"))
+    if not dims:
+        return f'<td class="sz__none">{sizes_status(allow, S)}<br>{t(S, "status_unknown")}</td>'
+    kg = allow.get("max_kg")
+    if kg is not None:
+        kg_txt = t(S, "allow_kg", kg=esc(kg))
+    elif op.get("combined_max_kg") is not None:
+        kg_txt = t(S, "allow_kg_shared", kg=esc(op["combined_max_kg"]))
+    else:
+        kg_txt = t(S, "cmp_no_kg")
+    addon = allow.get("requires_addon")
+    addon_html = (f'<span class="sz__addon">{t(S, "flag_addon", addon=esc(addon))}</span>'
+                  if allow.get("included") is False and addon else "")
+    return (
+        f'<td>{sizes_status(allow, S)}'
+        f'<span class="sz__dims dims">{esc(" × ".join(str(d) for d in dims))} cm</span>'
+        f'<span class="sz__kg">{kg_txt}</span>{addon_html}</td>'
+    )
+
+
+def sizes_wheels(op, S: dict) -> str:
+    w = op.get("wheels_handles") or {}
+    basis = w.get("included_in_measurement")
+    if basis is True:
+        return t(S, "wh_included")
+    if basis is False:
+        tol = w.get("tolerance_cm")
+        return t(S, "wh_excluded_tol", tol=esc(tol)) if tol is not None else t(S, "wh_excluded")
+    return t(S, "status_unknown")
+
+
+def block_sizes(ops: list, lang: str, S: dict) -> str:
+    """
+    La tabla comparativa de medidas. SE GENERA desde operators.json en cada
+    build: ninguna cifra se escribe a mano, así que la tabla no puede decir
+    algo distinto de las fichas ni del comparador.
+    """
+    dim = sorted([o for o in ops if o.get("limit_type") == "dimensional"],
+                 key=lambda o: o["name"].lower())
+    rules = sorted([o for o in ops if o.get("limit_type") != "dimensional"],
+                   key=lambda o: (o["type"], o["name"].lower()))
+    parts = [f'    <p>{t(S, "sizes_intro")}</p>']
+
+    incl = [o for o in dim if (o.get("cabin_bag") or {}).get("included") is True]
+    if incl:
+        names = ", ".join(f'<a href="{op_path(o, lang)}">{esc(o["name"])}</a>' for o in incl)
+        parts.append(f'    <p class="caveat">{t(S, "sizes_included", names=names)}</p>')
+    elif dim:
+        parts.append(f'    <p class="caveat">{t(S, "sizes_included_none")}</p>')
+
+    rows = []
+    for o in dim:
+        fare = o.get("reference_fare")
+        fare_html = (f'<small class="sz__fare">{t(S, "sizes_fare", fare=esc(fare))}</small>'
+                     if fare else "")
+        rows.append(
+            "        <tr>\n"
+            f'          <th scope="row"><a href="{op_path(o, lang)}">{esc(o["name"])}</a>{fare_html}</th>\n'
+            f"          {sizes_cell(o, 'personal_item', S)}\n"
+            f"          {sizes_cell(o, 'cabin_bag', S)}\n"
+            f"          <td>{sizes_wheels(o, S)}</td>\n"
+            f'          <td><a href="{esc(o["source_url"])}" target="_blank" rel="noopener nofollow">'
+            f'{t(S, "sizes_source")}</a><br><time datetime="{esc(o["verified_on"])}">{esc(o["verified_on"])}</time></td>\n'
+            "        </tr>"
+        )
+    if rows:
+        parts.append(
+            '    <div class="sz__scroll">\n'
+            '      <table class="sz">\n'
+            "        <thead><tr>"
+            f'<th scope="col">{t(S, "sizes_col_op")}</th>'
+            f'<th scope="col">{t(S, "fiche_label_personal")}</th>'
+            f'<th scope="col">{t(S, "fiche_label_cabin")}</th>'
+            f'<th scope="col">{t(S, "fiche_wheels_h")}</th>'
+            f'<th scope="col">{t(S, "sizes_col_checked")}</th>'
+            "</tr></thead>\n"
+            "        <tbody>\n" + "\n".join(rows) + "\n        </tbody>\n"
+            "      </table>\n"
+            "    </div>"
+        )
+    if rules:
+        items = "\n".join(
+            f'      <li><a href="{op_path(o, lang)}">{esc(o["name"])}</a> '
+            f'<span class="sz__mode">({t(S, "mode_" + o["type"])})</span></li>'
+            for o in rules
+        )
+        parts.append(f'    <h2>{t(S, "sizes_rules_h")}</h2>\n    <p>{t(S, "sizes_rules_p")}</p>\n'
+                     f'    <ul class="sz__rules">\n{items}\n    </ul>')
+    parts.append(f'    <p class="caveat">{t(S, "caveat_missing")}</p>')
+    parts.append(f'    <p class="caveat">{t(S, "p_noguarantee")}</p>')
+    parts.append(f'    <p><a class="cta" href="{PAGES[lang][1]}">{t(S, "fiche_cta")}</a></p>')
+    return "\n".join(parts)
 
 
 # ---------------------------------------------------------------------- main
@@ -590,6 +926,7 @@ def main() -> None:
             sys.exit(f"ERROR: falta {required}")
     if not DATASET.exists():
         sys.exit(f"ERROR: falta {DATASET}. Correr convert.py primero.")
+    adsense_pub_id()  # un ID mal copiado frena el build antes de escribir nada
 
     template = TEMPLATE.read_text(encoding="utf-8")
     template_op = TEMPLATE_OP.read_text(encoding="utf-8")
@@ -654,7 +991,10 @@ def main() -> None:
                     version=esc(data["schema_version"]), date=esc(data["generated_on"]),
                 ),
                 "FOOTER_LINKS": block_footer_links(lang, S),
+                "BRAND": block_brand(PAGES[lang][1]),
             }
+            values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],
+                                              values["DOC_TITLE"], values["META_DESCRIPTION"])
             values.update(S)
             out = op_outfile(op, lang)
             out.parent.mkdir(parents=True, exist_ok=True)
@@ -673,6 +1013,15 @@ def main() -> None:
         values["OPERATOR_INDEX"] = block_operator_index(published, lang, S)
         values["FOOTER_LINKS"] = block_footer_links(lang, S)
         values["HERO_STATS"] = block_hero_stats(published, S)
+        values["BRAND"] = block_brand(canonical_path)
+        values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],
+                                          S["doc_title"], S["meta_description"])
+        for n in range(1, 5):
+            values[f"SLIDE_{n}_LABEL"] = t(S, "slide_n", n=n, total=4)
+            values[f"SLIDE_{n}_GO"] = t(S, "slide_go", n=n)
+        values["MEASURE_ART"] = measure_art(S)
+        values["GUIDE_MEASURE_HREF"] = guide_path("measure", lang)
+        values["CMP_INTRO"] = t(S, "cmp_intro", max=3)
         # El diccionario entero viaja al JS. ensure_ascii=False para que los
         # acentos y el × salgan como caracteres reales en un archivo UTF-8.
         values["STRINGS_JSON"] = json.dumps(S, ensure_ascii=False, indent=2)
@@ -712,11 +1061,66 @@ def main() -> None:
                 "CHECKER_HREF": PAGES[lang][1],
                 "PAGE_UPDATED": t(S, "legal_updated", date=cfg["updated"]),
                 "FOOTER_LINKS": block_footer_links(lang, S, current=key),
+                "BRAND": block_brand(PAGES[lang][1]),
             })
+            values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],
+                                              values["DOC_TITLE"], values["META_DESCRIPTION"])
             out = legal_outfile(key, lang)
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(render(template_page, values), encoding="utf-8")
             written.append(out)
+
+    # ---------- guías ----------
+    last_check = max((o.get("verified_on") or "" for o in published), default="")
+    for key, cfg in GUIDE_PAGES.items():
+        for lang in PAGES:
+            S = dicts[lang]
+            if key == "sizes":
+                content = block_sizes(published, lang, S)
+                updated = t(S, "sizes_updated", date=esc(last_check))
+            else:
+                content = load_guide_fragment(key, lang, S)
+                updated = t(S, "guide_updated", date=cfg["updated"])
+            values = dict(S)
+            values.update({
+                "STYLE": css,
+                "LANG": lang,
+                "CANONICAL": BASE_URL + guide_path(key, lang),
+                "HREF_EN": BASE_URL + guide_path(key, "en"),
+                "HREF_ES": BASE_URL + guide_path(key, "es"),
+                "NAV_EN_PATH": guide_path(key, "en"),
+                "NAV_ES_PATH": guide_path(key, "es"),
+                "NAV_EN_CUR": ' aria-current="page"' if lang == "en" else "",
+                "NAV_ES_CUR": ' aria-current="page"' if lang == "es" else "",
+                "DOC_TITLE": t(S, f"{key}_title"),
+                "META_DESCRIPTION": t(S, f"{key}_meta"),
+                "H1": t(S, f"{key}_h1"),
+                "STANDFIRST": t(S, f"{key}_standfirst"),
+                "CRUMB_SELF": t(S, cfg["nav"]),
+                "CONTENT": content,
+                "CHECKER_HREF": PAGES[lang][1],
+                "PAGE_UPDATED": updated,
+                "FOOTER_LINKS": block_footer_links(lang, S, current=key),
+                "BRAND": block_brand(PAGES[lang][1]),
+            })
+            values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],
+                                              values["DOC_TITLE"], values["META_DESCRIPTION"])
+            out = guide_outfile(key, lang)
+            out.parent.mkdir(parents=True, exist_ok=True)
+            out.write_text(render(template_page, values), encoding="utf-8")
+            written.append(out)
+
+    # ---------- archivos estáticos ----------
+    written.extend(copy_static())
+
+    # ---------- ads.txt (AdSense, paso 1) ----------
+    ads = OUT_DIR / "ads.txt"
+    pub = adsense_pub_id()
+    if pub:
+        ads.write_text(ads_txt_line(pub) + "\n", encoding="utf-8")
+        written.append(ads)
+    elif ads.exists():
+        ads.unlink()
 
     # ---------- sitemap ----------
     sitemap = OUT_DIR / "sitemap.xml"
@@ -726,13 +1130,16 @@ def main() -> None:
     # ---------- informe ----------
     for path in written:
         rel = path.relative_to(ROOT)
+        if rel.parts[:2] == ("public", "fonts"):
+            continue
         print(f"  {rel}  ({path.stat().st_size:,} bytes)")
 
-    n_urls = (len(published) + 1 + len(LEGAL_PAGES)) * len(PAGES)
+    n_urls = (len(published) + 1 + len(LEGAL_PAGES) + len(GUIDE_PAGES)) * len(PAGES)
     print(
         f"\nOK. {len(dicts['en'])} textos por idioma, {len(dicts)} idiomas, "
         f"{len(published)} de {len(all_ops)} operadores con ficha, "
-        f"{len(LEGAL_PAGES)} páginas de texto, {n_urls} URLs en el sitemap."
+        f"{len(LEGAL_PAGES)} páginas legales, {len(GUIDE_PAGES)} guías, "
+        f"{n_urls} URLs en el sitemap."
     )
     if held:
         print("\nOperadores SIN ficha, por no alcanzar el umbral de publicación:")
