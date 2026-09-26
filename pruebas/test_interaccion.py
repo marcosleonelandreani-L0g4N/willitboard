@@ -64,7 +64,8 @@ def compared(page) -> list:
 
 def ready(page, url):
     page.goto(url)
-    page.wait_for_selector(".rcard")
+    # v5: las filas viven dentro de grupos plegados; alcanza con que existan
+    page.wait_for_selector(".rcard", state="attached")
 
 
 def dock_on(page) -> bool:
@@ -186,18 +187,19 @@ def main() -> int:
             page.fill("#dim-b", "39")
             page.fill("#dim-c", "21")
             page.fill("#weight", "8.5")
-            page.click("#compare > summary")  # v4: el comparador arranca plegado
+            # v5: el comparador tiene su propia pestaña, con una lista para marcar
+            page.click("#tab-compare")
             page.click("#cmp-clear")
-            first_ops = page.eval_on_selector_all(".rcard .op__name", "els => els.map(e => e.textContent)")
-            # elegir dos operadores cualquiera, en orden inverso al de la grilla
+            first_ops = page.eval_on_selector_all(".opt .opt__name", "els => els.map(e => e.textContent)")
+            # elegir dos operadores cualquiera, en orden inverso al de la lista
             chosen_names = [first_ops[-1], first_ops[1]]
             for name in chosen_names:
-                row = page.locator(".rcard", has_text=name)
-                row.locator(".rrow__sum").click()
-                row.locator(".rcard__cmp").click()
+                page.locator(".opt", has_text=name).locator("input").check()
             want_classes = classes(page)
             want_cmp = compared(page)
+            check(want_cmp == chosen_names, f"{lang}: el comparador muestra lo marcado, en ese orden ({want_cmp})")
 
+            page.click("#tab-check")
             page.click("#share-btn")
             page.wait_for_selector("#share-status.is-on")
             clip = page.evaluate("navigator.clipboard.readText()")

@@ -60,8 +60,18 @@ LEGAL = {
 # Fecha de edición declarada de cada página de texto. Duplicada a propósito,
 # igual que las rutas: si alguien la mueve en build_site.py sin tocarla acá, la
 # prueba falla. La fecha es una afirmación y cambiarla tiene que costar algo.
-LEGAL_UPDATED = {"privacy": "2026-09-20", "cookies": "2026-09-20",
+LEGAL_UPDATED = {"privacy": "2026-09-26", "cookies": "2026-09-26",
                  "disclosure": "2026-09-20"}
+
+# Guías y páginas propias (v5, 26/09/2026). "sizes" no tiene fecha manual: su
+# lastmod es la última verificación humana del dataset.
+GUIDES = {
+    "measure": {"en": "how-to-measure-luggage", "es": "es/como-medir-una-maleta"},
+    "sizes":   {"en": "cabin-bag-sizes",        "es": "es/medidas-equipaje-de-mano"},
+    "about":   {"en": "about",                  "es": "es/sobre-willitboard"},
+}
+GUIDE_UPDATED = {"measure": "2026-09-26", "about": "2026-09-26"}
+TEXT_PAGES = {**LEGAL, **GUIDES}
 
 failures: list[str] = []
 checks = 0
@@ -178,7 +188,11 @@ def main() -> None:
                     for key in ("personal_item", "cabin_bag"):
                         allow = op.get(key) or {}
                         if triple(allow.get("max_cm")):
-                            kgs.append(allow.get("max_kg"))
+                            # sin peso por bulto, vale el combinado si existe
+                            kg = allow.get("max_kg")
+                            if kg is None:
+                                kg = op.get("combined_max_kg")
+                            kgs.append(kg)
                     # Cuando el dataset no publica peso, la ficha no puede
                     # mostrar NINGUNA cifra en ese renglón: un número inventado
                     # ahí sería el peor error posible del sitio.
@@ -264,9 +278,15 @@ def main() -> None:
             for lang, home in (("en", "/"), ("es", "/es/")):
                 page.goto(f"{base}{home}", wait_until="load")
                 hrefs = page.eval_on_selector_all(
-                    ".index__links a", "els => els.map(e => e.getAttribute('href'))"
+                    ".index__links:not(.index__links--guides) a",
+                    "els => els.map(e => e.getAttribute('href'))"
                 )
                 want = sorted(op_path(o, lang) for o in ops)
+                guides = sorted(page.eval_on_selector_all(
+                    ".index__links--guides a", "els => els.map(e => e.getAttribute('href'))"))
+                check(f"la home {lang} enlaza las guías",
+                      guides == sorted(f"/{GUIDES[k][lang]}/" for k in ("measure", "sizes")),
+                      str(guides))
                 check(f"la home {lang} enlaza las {len(ops)} fichas",
                       sorted(hrefs) == want, f"{sorted(hrefs)}")
                 bad = []
@@ -277,8 +297,8 @@ def main() -> None:
                 check(f"ningún enlace de la home {lang} da error", not bad, str(bad))
 
             # -------------------------------------------- páginas de texto
-            print("\nPáginas legales")
-            for key, slug in LEGAL.items():
+            print("\nPáginas de texto (legales y guías)")
+            for key, slug in TEXT_PAGES.items():
                 for lang in ("en", "es"):
                     path = f"/{slug[lang]}/"
                     page.goto(f"{base}{path}", wait_until="load")
@@ -318,9 +338,25 @@ def main() -> None:
                 lang = "es" if path.startswith("/es/") else "en"
                 hrefs = sorted(page.eval_on_selector_all(
                     ".footlinks a", "els => els.map(e => e.getAttribute('href'))"))
-                want = sorted(f"/{s[lang]}/" for s in LEGAL.values())
-                check(f"{path}: el pie lleva a las 3 páginas legales",
+                want = sorted(f"/{s[lang]}/" for s in TEXT_PAGES.values())
+                check(f"{path}: el pie lleva a las 3 páginas legales y a las 3 guías",
                       hrefs == want, str(hrefs))
+
+            # ------------------------------------------ tabla de medidas
+            print("\nLa tabla comparativa dice lo mismo que el dataset")
+            for lang in ("en", "es"):
+                page.goto(f"{base}/{GUIDES['sizes'][lang]}/", wait_until="load")
+                rows = page.evaluate("""() => Object.fromEntries([...document.querySelectorAll('.sz tbody tr')].map(r =>
+                    [r.querySelector('th a').textContent.trim(),
+                     [...r.querySelectorAll('.sz__dims')].map(d => d.textContent.trim())]))""")
+                dim_ops = [o for o in ops if o["limit_type"] == "dimensional"]
+                ok = len(rows) == len(dim_ops)
+                for o in dim_ops:
+                    want_dims = [" × ".join(str(d) for d in triple((o.get(k) or {}).get("max_cm"))) + " cm"
+                                 for k in ("personal_item", "cabin_bag") if triple((o.get(k) or {}).get("max_cm"))]
+                    if rows.get(o["name"]) != want_dims:
+                        ok = False
+                check(f"tabla {lang}: cada cifra es la del dataset, carácter por carácter", ok, str(rows))
 
             # -------------------------------------------------------- sitemap
             print("\nSitemap")
@@ -329,7 +365,7 @@ def main() -> None:
                     for l in sm.splitlines() if "<loc>" in l]
             want = (["/", "/es/"]
                     + [op_path(o, l) for o in ops for l in ("en", "es")]
-                    + [f"/{s[l]}/" for s in LEGAL.values() for l in ("en", "es")])
+                    + [f"/{s[l]}/" for s in TEXT_PAGES.values() for l in ("en", "es")])
             check("el sitemap lista todas las páginas publicadas",
                   sorted(locs) == sorted(BASE_URL + w for w in want),
                   f"{len(locs)} locs")
@@ -345,7 +381,8 @@ def main() -> None:
             # Ninguna fecha del sitemap puede ser inventada: o es la fecha en que
             # una persona verificó a un operador, o es la fecha declarada de
             # edición de una página de texto. Nada de "hoy" automático.
-            permitidas = {o["verified_on"] for o in ops} | set(LEGAL_UPDATED.values())
+            permitidas = ({o["verified_on"] for o in ops} | set(LEGAL_UPDATED.values())
+                          | set(GUIDE_UPDATED.values()))
             check("ningún lastmod es una fecha fabricada",
                   set(fechas) <= permitidas,
                   str(sorted(set(fechas) - permitidas)))
@@ -358,7 +395,7 @@ def main() -> None:
             overflow = []
             rutas = [(op_path(o, l), f"{o['id']}/{l}") for o in ops for l in ("en", "es")]
             rutas += [(f"/{s[l]}/", f"{k}/{l}")
-                      for k, s in LEGAL.items() for l in ("en", "es")]
+                      for k, s in TEXT_PAGES.items() for l in ("en", "es")]
             for path, tag in rutas:
                 phone.goto(f"{base}{path}", wait_until="load")
                 if phone.evaluate(
