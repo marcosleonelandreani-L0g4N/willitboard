@@ -145,7 +145,7 @@
   "legal_updated": "Última modificación: {date}. Desde entonces no se ha ampliado nada en silencio.",
   "privacy_title": "Privacidad | Willitboard",
   "privacy_h1": "Privacidad",
-  "privacy_meta": "Willitboard no instala cookies, no usa analítica y no recoge nada sobre quien lo visita. Qué significa eso en la práctica y cuál es el único tercero implicado.",
+  "privacy_meta": "Willitboard no instala cookies ni arma perfiles: solo cuenta visitas en total, con Cloudflare. Qué significa eso en la práctica.",
   "privacy_standfirst": "Qué sabe este sitio sobre quien lo usa, entero. La respuesta corta es nada, y esta página explica por qué eso es un hecho sobre cómo está construido y no una promesa.",
   "cookies_title": "Cookies | Willitboard",
   "cookies_h1": "Cookies",

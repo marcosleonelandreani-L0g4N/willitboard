@@ -120,12 +120,12 @@ LEGAL_PAGES = {
     "privacy": {
         "slug": {"en": "privacy", "es": "es/privacidad"},
         "nav": "nav_privacy",
-        "updated": "2026-09-26",
+        "updated": "2026-10-01",
     },
     "cookies": {
         "slug": {"en": "cookies", "es": "es/cookies"},
         "nav": "nav_cookies",
-        "updated": "2026-09-26",
+        "updated": "2026-10-01",
     },
     "disclosure": {
         "slug": {"en": "disclosure", "es": "es/divulgacion"},
@@ -153,7 +153,7 @@ GUIDE_PAGES = {
     "about": {
         "slug": {"en": "about", "es": "es/sobre-willitboard"},
         "nav": "nav_about",
-        "updated": "2026-09-26",
+        "updated": "2026-10-01",
     },
 }
 
@@ -699,6 +699,24 @@ def block_brand(home_href: str) -> str:
     )
 
 
+# Cloudflare Web Analytics (01/10/2026). Cuenta visitas sin cookies ni
+# almacenamiento local; lo pide el navegador a Cloudflare, que ya es quien aloja
+# el sitio, así que no suma ninguna empresa nueva. El token es público (va en el
+# HTML de cualquier sitio que lo use). Vacío = el sitio no carga nada.
+# La página de privacidad lo describe: si se saca esto, hay que cambiar ese texto.
+CF_BEACON_TOKEN = "913c52a0ac4e4b3f9625c4bd93518318"
+
+
+def cf_beacon() -> list[str]:
+    tok = CF_BEACON_TOKEN.strip()
+    if not tok:
+        return []
+    if not re.fullmatch(r"[0-9a-f]{32}", tok):
+        sys.exit("ERROR: CF_BEACON_TOKEN tiene que ser 32 caracteres hexadecimales, o quedar vacío.")
+    return ["<script defer src=\"https://static.cloudflareinsights.com/beacon.min.js\" "
+            f"data-cf-beacon='{{\"token\": \"{tok}\"}}'></script>"]
+
+
 def adsense_pub_id() -> str:
     """
     El ID de editor de AdSense validado, o "" si todavía no hay cuenta.
@@ -732,7 +750,7 @@ def head_extra(lang: str, S: dict, canonical: str, title: str, description: str)
     pub = adsense_pub_id()
     # Verificación de AdSense (paso 1): una etiqueta inerte, no pide nada a Google.
     adsense = [f'<meta name="google-adsense-account" content="ca-{pub}">'] if pub else []
-    return "\n".join(adsense + [
+    return "\n".join(adsense + cf_beacon() + [
         '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
         '<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">',
         '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',

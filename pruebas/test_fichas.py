@@ -60,7 +60,7 @@ LEGAL = {
 # Fecha de edición declarada de cada página de texto. Duplicada a propósito,
 # igual que las rutas: si alguien la mueve en build_site.py sin tocarla acá, la
 # prueba falla. La fecha es una afirmación y cambiarla tiene que costar algo.
-LEGAL_UPDATED = {"privacy": "2026-09-26", "cookies": "2026-09-26",
+LEGAL_UPDATED = {"privacy": "2026-10-01", "cookies": "2026-10-01",
                  "disclosure": "2026-09-20"}
 
 # Guías y páginas propias (v5, 26/09/2026). "sizes" no tiene fecha manual: su
@@ -70,7 +70,7 @@ GUIDES = {
     "sizes":   {"en": "cabin-bag-sizes",        "es": "es/medidas-equipaje-de-mano"},
     "about":   {"en": "about",                  "es": "es/sobre-willitboard"},
 }
-GUIDE_UPDATED = {"measure": "2026-09-26", "about": "2026-09-26"}
+GUIDE_UPDATED = {"measure": "2026-09-26", "about": "2026-10-01"}
 TEXT_PAGES = {**LEGAL, **GUIDES}
 
 failures: list[str] = []

@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy | Willitboard</title>
-<meta name="description" content="Willitboard sets no cookies, runs no analytics and collects nothing about you. What that means in practice, and the one third party involved.">
+<meta name="description" content="Willitboard sets no cookies and builds no profiles: it only counts total visits, with Cloudflare. What that means in practice.">
 <link rel="canonical" href="https://willitboard.com/privacy/">
 <link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/">
 <link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/">
 <link rel="alternate" hreflang="x-default" href="https://willitboard.com/privacy/">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "913c52a0ac4e4b3f9625c4bd93518318"}'></script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -17,7 +18,7 @@
 <meta property="og:site_name" content="Willitboard">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Privacy | Willitboard">
-<meta property="og:description" content="Willitboard sets no cookies, runs no analytics and collects nothing about you. What that means in practice, and the one third party involved.">
+<meta property="og:description" content="Willitboard sets no cookies and builds no profiles: it only counts total visits, with Cloudflare. What that means in practice.">
 <meta property="og:url" content="https://willitboard.com/privacy/">
 <meta property="og:image" content="https://willitboard.com/og-en.png">
 <meta property="og:image:width" content="1200">
@@ -1244,8 +1245,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
     <h2>The short version</h2>
 
     <p><strong>Willitboard collects nothing about you.</strong> There is no account, no
-    sign-up, no form, no analytics, no advertising and no tracking of any kind. The site
-    sets no cookies. The measurements you type never leave your browser.</p>
+    sign-up, no form, no advertising and no tracking of individuals. The site sets no
+    cookies. The only thing we count is total visits, without cookies and without
+    identifying anyone (see <em>Analytics</em> below). The measurements you type never leave your browser.</p>
 
     <p>That is not a promise about our intentions. It is a description of how the site is
     built: it is a set of static files with no server behind them and no database
@@ -1273,8 +1275,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
     <p>Nobody else is involved. The typefaces, the icons, the images and the operator data
     are all served from this site's own domain. Until 26 September 2026 the typefaces came
-    from Google Fonts, which meant Google also received your IP address; that has stopped,
-    and the site now loads nothing at all from third parties.</p>
+    from Google Fonts, which meant Google also received your IP address; that has stopped.
+    The only thing your browser now requests outside this domain is Cloudflare's visit
+    counter, from the same company that hosts the site (see <em>Analytics</em>).</p>
 
     <h2>Cookies</h2>
 
@@ -1283,10 +1286,19 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
     <h2>Analytics</h2>
 
-    <p>There are none today — no Google Analytics, no pixel, no heatmap, no session
-    recording. If we ever add a way of counting visits, we will pick one that does not
-    build profiles of individual people, and <strong>this page will say what it is before
-    it starts running</strong>, not after.</p>
+    <p>Since 1 October 2026 the site counts visits with <strong>Cloudflare Web
+    Analytics</strong>. It is the kind of tool this page promised to choose: one that does
+    not build profiles of individual people. According to Cloudflare, it uses no cookies
+    and no browser local storage, and it does not "fingerprint" anyone by IP address or
+    browser. What we see is totals: how many visits, which pages, from which country and
+    which site people came from, and how long pages took to load. We cannot see who
+    anyone is.</p>
+
+    <p>It works through a small file your browser requests from
+    <code>static.cloudflareinsights.com</code>, a Cloudflare domain. There is no Google
+    Analytics, no pixel, no heatmap and no session recording. Details are on
+    <a href="https://www.cloudflare.com/web-analytics/" target="_blank"
+    rel="noopener">Cloudflare's Web Analytics page</a>.</p>
 
     <h2>Advertising and affiliate links</h2>
 
@@ -1324,7 +1336,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   </section>
 
   <footer>
-    <p>Last changed on 2026-09-26. Nothing here has been quietly widened since.</p>
+    <p>Last changed on 2026-10-01. Nothing here has been quietly widened since.</p>
     <ul class="footlinks footlinks--guides" aria-label="Guides">
       <li><a href="/how-to-measure-luggage/">How to measure your bag</a></li>
       <li><a href="/cabin-bag-sizes/">Cabin bag sizes compared</a></li>

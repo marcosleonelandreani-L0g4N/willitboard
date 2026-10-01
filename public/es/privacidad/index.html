@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacidad | Willitboard</title>
-<meta name="description" content="Willitboard no instala cookies, no usa analítica y no recoge nada sobre quien lo visita. Qué significa eso en la práctica y cuál es el único tercero implicado.">
+<meta name="description" content="Willitboard no instala cookies ni arma perfiles: solo cuenta visitas en total, con Cloudflare. Qué significa eso en la práctica.">
 <link rel="canonical" href="https://willitboard.com/es/privacidad/">
 <link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/">
 <link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/">
 <link rel="alternate" hreflang="x-default" href="https://willitboard.com/privacy/">
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "913c52a0ac4e4b3f9625c4bd93518318"}'></script>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -17,7 +18,7 @@
 <meta property="og:site_name" content="Willitboard">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Privacidad | Willitboard">
-<meta property="og:description" content="Willitboard no instala cookies, no usa analítica y no recoge nada sobre quien lo visita. Qué significa eso en la práctica y cuál es el único tercero implicado.">
+<meta property="og:description" content="Willitboard no instala cookies ni arma perfiles: solo cuenta visitas en total, con Cloudflare. Qué significa eso en la práctica.">
 <meta property="og:url" content="https://willitboard.com/es/privacidad/">
 <meta property="og:image" content="https://willitboard.com/og-es.png">
 <meta property="og:image:width" content="1200">
@@ -1244,8 +1245,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
     <h2>La versión corta</h2>
 
     <p><strong>Willitboard no recoge nada sobre quien lo usa.</strong> No hay cuenta, ni
-    registro, ni formulario, ni analítica, ni publicidad, ni seguimiento de ningún tipo.
-    El sitio no instala cookies. Las medidas que se escriben no salen nunca del
+    registro, ni formulario, ni publicidad, ni seguimiento de personas. El sitio no instala
+    cookies. Lo único que se cuenta son visitas en total, sin cookies y sin identificar a
+    nadie (ver <em>Analítica</em> más abajo). Las medidas que se escriben no salen nunca del
     navegador.</p>
 
     <p>Esto no es una promesa sobre nuestras intenciones. Es una descripción de cómo está
@@ -1276,7 +1278,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
     <p>Nadie más interviene. Las tipografías, los íconos, las imágenes y los datos de los
     operadores se sirven desde el propio dominio del sitio. Hasta el 26 de septiembre de
     2026 las tipografías venían de Google Fonts, lo que significaba que Google también
-    recibía la dirección IP; eso se terminó, y hoy el sitio no carga nada de terceros.</p>
+    recibía la dirección IP; eso se terminó. Hoy lo único que el navegador pide fuera de
+    este dominio es el contador de visitas de Cloudflare, que es la misma empresa que aloja
+    el sitio (ver <em>Analítica</em>).</p>
 
     <h2>Cookies</h2>
 
@@ -1285,10 +1289,19 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
     <h2>Analítica</h2>
 
-    <p>Hoy no hay ninguna: ni Google Analytics, ni píxeles, ni mapas de calor, ni
-    grabación de sesiones. Si alguna vez se añade una forma de contar visitas, se va a
-    elegir una que no construya perfiles de personas concretas, y <strong>esta página va a
-    decir cuál es antes de que empiece a funcionar</strong>, no después.</p>
+    <p>Desde el 1 de octubre de 2026 el sitio cuenta visitas con <strong>Cloudflare Web
+    Analytics</strong>. Es la herramienta que esta página prometía elegir: una que no
+    construye perfiles de personas concretas. Según Cloudflare, no usa cookies ni el
+    almacenamiento local del navegador y no hace "huella digital" de nadie por su
+    dirección IP ni por su navegador. Lo que vemos son números en total: cuántas visitas,
+    qué páginas, desde qué país y desde qué sitio llegaron, y cuánto tardó en cargar la
+    página. No vemos quién es nadie.</p>
+
+    <p>Funciona con un pequeño archivo que el navegador pide a
+    <code>static.cloudflareinsights.com</code>, un dominio de Cloudflare. No hay Google
+    Analytics, ni píxeles, ni mapas de calor, ni grabación de sesiones. Los detalles están
+    en <a href="https://www.cloudflare.com/web-analytics/" target="_blank"
+    rel="noopener">la página de Cloudflare Web Analytics</a>.</p>
 
     <h2>Publicidad y enlaces de afiliado</h2>
 
@@ -1301,8 +1314,8 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
     <p>El RGPD reconoce derechos sobre los datos personales que un sitio tenga sobre una
     persona: acceder a ellos, corregirlos, pedir que se borren y oponerse a su uso.
-    <strong>No tenemos ningún dato personal</strong>, así que no hay nada que mostrar, que
-    corregir ni que borrar. No lo decimos para esquivar la obligación: lo decimos porque
+    <strong>No tenemos ningún dato personal</strong>: el contador de visitas solo nos muestra
+    totales, así que no hay nada que mostrar, que corregir ni que borrar. No lo decimos para esquivar la obligación: lo decimos porque
     la respuesta honesta a "¿qué tienen sobre mí?" es "nada".</p>
 
     <p>Los datos que recibe Cloudflare, como se describe arriba, los guarda Cloudflare,
@@ -1326,7 +1339,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   </section>
 
   <footer>
-    <p>Última modificación: 2026-09-26. Desde entonces no se ha ampliado nada en silencio.</p>
+    <p>Última modificación: 2026-10-01. Desde entonces no se ha ampliado nada en silencio.</p>
     <ul class="footlinks footlinks--guides" aria-label="Guías">
       <li><a href="/es/como-medir-una-maleta/">Cómo medir tu maleta</a></li>
       <li><a href="/es/medidas-equipaje-de-mano/">Medidas de equipaje de mano comparadas</a></li>

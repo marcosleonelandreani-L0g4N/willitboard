@@ -243,7 +243,11 @@ def main() -> int:
         fonts: list[str] = []
 
         def on_req(r):
-            if not r.url.startswith(BASE) and not r.url.startswith("data:"):
+            # Única excepción, decidida el 01/10/2026: el contador de visitas de
+            # Cloudflare (la misma empresa que aloja el sitio), sin cookies.
+            if not r.url.startswith(BASE) and not r.url.startswith("data:") \
+                    and not r.url.startswith(("https://static.cloudflareinsights.com/",
+                                              "https://cloudflareinsights.com/")):
                 ext.append(r.url)
             if "/fonts/" in r.url:
                 fonts.append(r.url)
