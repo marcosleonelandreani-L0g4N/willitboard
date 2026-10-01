@@ -147,3 +147,16 @@ El **paso 2** (el código que muestra anuncios) no está programado a propósito
 el día de la aprobación junto con privacidad, cookies y divulgación reescritas,
 porque hoy esas páginas prometen "sin cookies y sin publicidad".
 `pruebas/test_adsense.py` falla si aparece código de anuncios antes de tiempo.
+
+## Productos (desde el 01/10/2026)
+
+    willitboard_productos.xlsx       catálogo de productos (hoja Productos)
+        └─ convert_productos.py      valida y genera public/products.json
+
+    python3 convert_productos.py
+    python3 -m unittest pruebas.test_productos
+
+Un producto se publica solo con `estado` = listo/publicado, `verificado_el` puesto
+por una persona, `fuente_url` del fabricante y al menos un enlace de tienda. Bolsos y
+maletas necesitan las tres medidas exteriores. Precios y notas no se publican nunca.
+`operators.json` no se toca: el dataset de operadores sigue siendo uno solo.
