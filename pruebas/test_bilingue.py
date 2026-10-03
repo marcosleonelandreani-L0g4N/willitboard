@@ -101,7 +101,9 @@ def main() -> None:
 
             # ---------- inglés ----------
             print("\nPágina inglesa  /")
-            page.goto(f"{base}/", wait_until="networkidle")
+            # ?region=all: esta prueba clasifica TODO el dataset (el selector de región
+            # arranca en Europa según la zona horaria del navegador).
+            page.goto(f"{base}/?region=all", wait_until="networkidle")
             check("html lang=en", page.get_attribute("html", "lang") == "en")
             check(
                 "canonical apunta a la raíz",
@@ -129,7 +131,7 @@ def main() -> None:
 
             # ---------- español ----------
             print("\nPágina española  /es/")
-            page.goto(f"{base}/es/", wait_until="networkidle")
+            page.goto(f"{base}/es/?region=all", wait_until="networkidle")
             check("html lang=es", page.get_attribute("html", "lang") == "es")
             check(
                 "canonical apunta a sí misma, no al inglés",

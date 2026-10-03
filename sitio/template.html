@@ -49,9 +49,7 @@
       <section class="slides" id="slides" aria-roledescription="{{slides_role}}" aria-label="{{slides_label}}">
         <div class="slides__viewport" id="slides-track">
           <article class="slide slide--measure" id="slide-1" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_1_LABEL}}">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><rect x="31" y="12" width="26" height="9" rx="4.5" fill="var(--handle)"/><rect x="24" y="19" width="46" height="72" rx="11" fill="#FF6B63"/><rect x="34" y="29" width="5" height="52" rx="2.5" fill="#fff" fill-opacity=".35"/><rect x="55" y="29" width="5" height="52" rx="2.5" fill="#fff" fill-opacity=".35"/><circle cx="33" cy="97" r="5" fill="var(--handle)"/><circle cx="61" cy="97" r="5" fill="var(--handle)"/><path d="M12 12v90M8 16l4-5 4 5M8 98l4 5 4-5" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 112h46M28 108l-5 4 5 4M66 108l5 4-5 4" fill="none" stroke="var(--pass)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M84 40l22 0M88 36l-5 4 5 4M102 36l5 4-5 4" fill="none" stroke="var(--info)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="84" y="50" width="22" height="40" rx="7" fill="#E8465F"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true">{{SCENE_MEASURE}}</div>
             <div class="slide__text">
               <p class="slide__h">{{s1_h}}</p>
               <p class="slide__p">{{s1_p}}</p>
@@ -59,9 +57,7 @@
             </div>
           </article>
           <article class="slide slide--compare" id="slide-2" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_2_LABEL}}">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><rect x="8" y="20" width="30" height="80" rx="9" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><rect x="45" y="20" width="30" height="80" rx="9" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><rect x="82" y="20" width="30" height="80" rx="9" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><circle cx="23" cy="36" r="7" fill="var(--pass-fill)"/><circle cx="60" cy="36" r="7" fill="var(--paid-fill)"/><circle cx="97" cy="36" r="7" fill="var(--fail-fill)"/><path d="M15 56h16M15 66h12M52 56h16M52 66h10M89 56h16M89 66h13" stroke="var(--rule)" stroke-width="4" stroke-linecap="round"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true">{{SCENE_COMPARE}}</div>
             <div class="slide__text">
               <p class="slide__h">{{s2_h}}</p>
               <p class="slide__p">{{s2_p}}</p>
@@ -69,9 +65,7 @@
             </div>
           </article>
           <article class="slide slide--trust" id="slide-3" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_3_LABEL}}">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><path d="M60 10l38 14v28c0 26-16 46-38 56C38 98 22 78 22 52V24z" fill="var(--pass-soft)" stroke="var(--pass)" stroke-width="4" stroke-linejoin="round"/><path d="M42 60l12 12 25-26" fill="none" stroke="var(--pass)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true">{{SCENE_TRUST}}</div>
             <div class="slide__text">
               <p class="slide__h">{{s3_h}}</p>
               <p class="slide__p">{{s3_p}}</p>
@@ -79,9 +73,7 @@
             </div>
           </article>
           <article class="slide slide--share" id="slide-4" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_4_LABEL}}">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><circle cx="86" cy="28" r="14" fill="var(--accent)"/><circle cx="30" cy="60" r="14" fill="var(--coral)"/><circle cx="86" cy="92" r="14" fill="var(--mint)"/><path d="M42 54l32-18M42 66l32 18" stroke="var(--ink-faint)" stroke-width="5" stroke-linecap="round"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true">{{SCENE_SHARE}}</div>
             <div class="slide__text">
               <p class="slide__h">{{s4_h}}</p>
               <p class="slide__p">{{s4_p}}</p>
@@ -107,6 +99,18 @@
 </header>
 
 <main class="shell shell--home">
+
+  <!-- ============================================================ buscador
+       Busca empresas de transporte y guías (y productos, cuando haya alguno
+       verificado). Solo navega: no cambia ningún veredicto. -->
+  <div class="gsearch" role="search">
+    <label class="gsearch__box">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span class="sr-only">{{gsearch_label}}</span>
+      <input type="search" id="gq" placeholder="{{gsearch_ph}}" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
+    </label>
+    <div class="gsug" id="gsug" hidden></div>
+  </div>
 
   <!-- ============================================================ pestañas
        Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo
@@ -137,6 +141,8 @@
         </div>
       </div>
 
+      <div class="chosen" id="chosen" hidden></div>
+      <div class="panel__grid">
       <div class="fields">
         <div class="field">
           <label for="dim-a"><span class="m-key m-key--a" aria-hidden="true">1</span>{{f_length}}</label>
@@ -174,6 +180,20 @@
           </div>
           <span class="field__unit" data-unit="weight">kg</span>
         </div>
+      </div>
+      <!-- Resultado compacto: cuántos operadores de cada medio caen en cada
+           color. Tocar un número filtra la lista de abajo y abre ese grupo. -->
+      <div class="modes-col">
+        <!-- Región: Europa / Latinoamérica / Todas. Solo aparece si el dataset
+             tiene más de una región. La elección va en la URL (?region=), nunca
+             en el navegador: /cookies/ promete que el sitio no guarda nada. -->
+        <div class="region" id="region" role="group" aria-label="{{region_label}}" hidden>
+          <button type="button" data-region="EU" aria-pressed="false">{{region_eu}}</button>
+          <button type="button" data-region="LATAM" aria-pressed="false">{{region_latam}}</button>
+          <button type="button" data-region="all" aria-pressed="false">{{region_all}}</button>
+        </div>
+        <div class="modes" id="modes" aria-live="polite"></div>
+      </div>
       </div>
 
       <!-- Guía de medición: dibujo de frente y de costado. Enseña lo que de
@@ -246,6 +266,15 @@
       <div id="results" class="groups" aria-live="polite" aria-busy="true">
         <p class="empty">{{loading}}</p>
       </div>
+    </section>
+
+    <!-- Productos: este bloque queda oculto hasta que /products.json tenga
+         al menos un producto con fecha de verificación humana. El veredicto de
+         cada bolso sale de verdictFor(), la misma función de arriba. -->
+    <section class="reco" id="reco" aria-labelledby="reco-h" hidden>
+      <h2 class="sec-h" id="reco-h">{{reco_h2}}</h2>
+      <p class="aff"><b>{{aff_label}}</b> · {{aff_text}}</p>
+      <div class="hscroll" id="reco-list"></div>
     </section>
 
     <section class="how" id="how" aria-labelledby="how-steps-h">
@@ -1336,6 +1365,236 @@
     body.appendChild(node("p", "axes__legend", esc(t("axes_legend"))));
   }
 
+  /* ---------- resumen por medio de transporte (al lado de las medidas) ----------
+     Los mismos veredictos de verdictFor(), contados por medio y por color.
+     Tocar un número filtra la lista de abajo y abre ese grupo. */
+  var GUIDE_LINKS = {{GUIDE_LINKS}};
+  var MODE_ORDER = [FITS, "paid", OVER, UNKNOWN, RULE];
+  var MODE_SYM = {};
+  MODE_SYM[FITS] = "✓"; MODE_SYM.paid = "$"; MODE_SYM[OVER] = "✕"; MODE_SYM[UNKNOWN] = "?"; MODE_SYM[RULE] = "≡";
+
+  function renderModes(verdicts) {
+    var box = document.getElementById("modes");
+    if (!box) return;
+    box.innerHTML = "";
+    if (!verdicts) return;
+    box.appendChild(node("p", "modes__h", esc(t("modes_h"))));
+    TYPES.forEach(function (kind) {
+      var mine = verdicts.filter(function (v) { return v.op.type === kind; });
+      if (!mine.length) return;
+      var row = node("div", "mode");
+      row.appendChild(node("p", "mode__h", ICON[kind] + "<span>" + esc(GROUP_LABEL[kind]) + "</span><small>" + mine.length + "</small>"));
+      var counts = node("div", "mode__counts");
+      MODE_ORDER.forEach(function (key) {
+        var n = mine.filter(function (v) { return v.band === key; }).length;
+        if (!n) return;
+        var band = BAND_BY_KEY[key];
+        var on = bandFilter === key && openGroups[kind];
+        var b = node("button", "cnt " + band.cls + (on ? " is-on" : ""),
+          '<i aria-hidden="true">' + MODE_SYM[key] + "</i>" + n);
+        b.type = "button";
+        b.setAttribute("aria-pressed", String(on));
+        b.setAttribute("aria-label", n + " · " + band.title + " · " + GROUP_LABEL[kind]);
+        b.title = band.title;
+        b.addEventListener("click", function () {
+          if (on) { bandFilter = null; }
+          else {
+            bandFilter = key;
+            TYPES.forEach(function (k) { openGroups[k] = k === kind; });
+          }
+          render();
+          if (!on) {
+            var g = document.querySelector('.tgroup[data-type="' + kind + '"]');
+            if (g) g.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+          }
+        });
+        counts.appendChild(b);
+      });
+      row.appendChild(counts);
+      box.appendChild(row);
+    });
+    box.appendChild(node("p", "modes__hint", esc(t("modes_hint"))));
+  }
+
+  /* ---------- región ----------
+     Valor inicial: ?region= en la URL; si no, la zona horaria del navegador
+     (Europa → EU; América → LATAM si el idioma es español o portugués, si no
+     Todas); si no hay zona horaria, el idioma (es-AR, es-MX… → LATAM).
+     No se guarda nada en el navegador: el cambio se refleja en la URL con
+     replaceState, así sobrevive a recargar y a compartir el enlace. */
+  var LATAM_LANG = /^(es-(419|AR|BO|CL|CO|CR|CU|DO|EC|GT|HN|MX|NI|PA|PE|PR|PY|SV|UY|VE)|pt-BR)$/i;
+  function initialRegion() {
+    var m = /[?&]region=(eu|latam|all)(?:&|$)/i.exec(location.search);
+    if (m) return m[1].toLowerCase() === "all" ? "all" : m[1].toUpperCase();
+    var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    var first = "";
+    for (var i = 0; i < langs.length; i++) if (/^(es|pt)\b/i.test(langs[i])) { first = langs[i]; break; }
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { tz = ""; }
+    if (/^America\//.test(tz)) return /^(es|pt)\b/i.test(langs[0] || "") ? "LATAM" : "all";
+    if (/^(Europe|Africa|Asia|Atlantic)\//.test(tz)) return "EU";
+    return LATAM_LANG.test(first) ? "LATAM" : "EU";
+  }
+  var region = initialRegion();
+
+  function datasetRegions() {
+    var seen = {};
+    dataset.operators.forEach(function (o) { seen[o.region] = true; });
+    return Object.keys(seen);
+  }
+  /* Operadores de la región elegida. Si esa región no tiene ninguno, todos:
+     nunca una lista vacía por un valor raro en la URL. */
+  function regionOps() {
+    if (!dataset) return [];
+    if (region === "all") return dataset.operators;
+    var mine = dataset.operators.filter(function (o) { return o.region === region; });
+    return mine.length ? mine : dataset.operators;
+  }
+  function renderRegion() {
+    var box = document.getElementById("region");
+    if (!box || !dataset) return;
+    box.hidden = datasetRegions().length < 2;
+    Array.prototype.forEach.call(box.querySelectorAll("button"), function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === region));
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#region button"), function (b) {
+    b.addEventListener("click", function () {
+      region = b.getAttribute("data-region");
+      bandFilter = null;
+      try {
+        var u = new URL(location.href);
+        u.searchParams.set("region", region === "all" ? "all" : region.toLowerCase());
+        history.replaceState(null, "", u.pathname + u.search + u.hash);
+      } catch (e) { /* sin URL API: el filtro igual funciona */ }
+      renderRegion();
+      render();
+      renderReco();
+    });
+  });
+
+  /* ---------- productos (ocultos hasta que haya alguno verificado) ----------
+     /products.json lo genera convert_productos.py: solo trae productos con
+     fecha de verificación humana. El veredicto de cada bolso es verdictFor()
+     contra cada aerolínea, sin peso (el bolso vacío no es la maleta llena). */
+  var PRODUCTS = [];
+  var chosen = null;
+
+  function productFree(p) {
+    var pb = { cm: p.dims_cm.slice().sort(function (x, y) { return y - x; }), kg: null };
+    return regionOps().filter(function (op) {
+      return op.type === "air" && verdictFor(op, pb).band === FITS;
+    });
+  }
+
+  function storeLink(p) {
+    var l = p.links || {};
+    return l.amazon_de || l.amazon_se || l.amazon_uk || l.other || null;
+  }
+
+  function renderChosen() {
+    var box = document.getElementById("chosen");
+    if (!box) return;
+    if (!chosen) { box.hidden = true; box.innerHTML = ""; return; }
+    var href = storeLink(chosen);
+    box.hidden = false;
+    box.innerHTML = '<span class="chosen__lbl">' + esc(t("chosen_label")) + "</span>" +
+      '<span class="chosen__name">' + esc(chosen.brand) + " · " +
+      (href ? '<a href="' + esc(href) + '" target="_blank" rel="sponsored noopener">' + esc(chosen.name) + " ↗</a>" : esc(chosen.name)) +
+      "</span>";
+    var x = node("button", "chosen__x", "✕");
+    x.type = "button";
+    x.setAttribute("aria-label", t("chosen_clear"));
+    x.addEventListener("click", function () { chosen = null; renderChosen(); });
+    box.appendChild(x);
+  }
+
+  function tryProduct(p) {
+    if (units.length !== "cm") setUnit("length", "cm");
+    chosen = p;
+    els.a.value = String(p.dims_cm[0]); els.b.value = String(p.dims_cm[1]); els.c.value = String(p.dims_cm[2]);
+    els.w.value = "";
+    [els.a, els.b, els.c, els.w].forEach(function (el) { exact.delete(el); });
+    renderChosen();
+    render();
+    document.querySelector(".panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function renderReco() {
+    var sec = document.getElementById("reco");
+    if (!sec) return;
+    var bags = PRODUCTS.filter(function (p) { return p.dims_cm && storeLink(p); });
+    if (!bags.length || !dataset) { sec.hidden = true; return; }
+    var total = regionOps().filter(function (o) { return o.type === "air"; }).length;
+    var list = document.getElementById("reco-list");
+    list.innerHTML = "";
+    bags.map(function (p) { return { p: p, free: productFree(p) }; })
+      .filter(function (x) { return x.free.length; })
+      .sort(function (x, y) { return y.free.length - x.free.length; })
+      .forEach(function (x) {
+        var p = x.p, card = node("div", "pc");
+        card.innerHTML = '<div class="pc__brand">' + esc(p.brand) + "</div>" +
+          '<h3 class="pc__name">' + esc(p.name) + "</h3>" +
+          '<div class="pc__dims">' + p.dims_cm.join(" × ") + " cm" + (p.capacity_l ? " · " + p.capacity_l + " L" : "") + "</div>" +
+          '<span class="pc__badge">✓ ' + esc(t("reco_free", { n: x.free.length, total: total })) + "</span>";
+        var acts = node("div", "pc__acts");
+        var tryb = node("button", "pc__try", esc(t("reco_try")));
+        tryb.type = "button";
+        tryb.addEventListener("click", function () { tryProduct(p); });
+        var a = node("a", "pc__buy", esc(t("reco_buy")) + " ↗");
+        a.href = storeLink(p); a.target = "_blank"; a.rel = "sponsored noopener";
+        acts.appendChild(tryb); acts.appendChild(a);
+        card.appendChild(acts);
+        list.appendChild(card);
+      });
+    sec.hidden = !list.children.length;
+  }
+
+  /* ---------- buscador de arriba ---------- */
+  (function () {
+    var gq = document.getElementById("gq"), box = document.getElementById("gsug");
+    if (!gq || !box) return;
+    function close() { box.hidden = true; gq.setAttribute("aria-expanded", "false"); }
+    gq.addEventListener("input", function () {
+      var raw = gq.value.trim(), q = fold(raw);
+      if (!q || !dataset) { close(); return; }
+      var html = "";
+      var ops = dataset.operators.filter(function (o) { return fold(o.name).indexOf(q) >= 0 || fold(GROUP_LABEL[o.type]).indexOf(q) >= 0; }).slice(0, 8);
+      if (ops.length) {
+        html += "<h4>" + esc(t("gsearch_ops")) + "</h4>";
+        ops.forEach(function (o) {
+          html += '<a href="' + FICHE_PATHS[o.type] + encodeURIComponent(o.id) + '/"><span class="gsug__ico">' + ICON[o.type] +
+            "</span>" + esc(o.name) + "<small>" + esc(MODE_LABEL[o.type]) + " · " + esc(t("gsearch_fiche")) + "</small></a>";
+        });
+      }
+      var prods = PRODUCTS.filter(function (p) { return fold(p.brand + " " + p.name).indexOf(q) >= 0; }).slice(0, 5);
+      if (prods.length) {
+        html += "<h4>" + esc(t("gsearch_products")) + "</h4>";
+        prods.forEach(function (p, i) {
+          html += '<button type="button" data-pi="' + PRODUCTS.indexOf(p) + '"><span class="gsug__ico">' + ICON.pass + "</span>" + esc(p.brand + " " + p.name) + "</button>";
+        });
+      }
+      var gl = GUIDE_LINKS.filter(function (g) { return fold(g.name).indexOf(q) >= 0; });
+      if (gl.length) {
+        html += "<h4>" + esc(t("gsearch_guides")) + "</h4>";
+        gl.forEach(function (g) { html += '<a href="' + g.href + '"><span class="gsug__ico">' + ICON.rule + "</span>" + esc(g.name) + "</a>"; });
+      }
+      if (!html) html = '<p class="gsug__none">' + esc(t("gsearch_none", { q: raw })) + "</p>";
+      box.innerHTML = html;
+      box.hidden = false;
+      gq.setAttribute("aria-expanded", "true");
+      Array.prototype.forEach.call(box.querySelectorAll("[data-pi]"), function (b) {
+        b.addEventListener("click", function () {
+          var p = PRODUCTS[Number(b.getAttribute("data-pi"))];
+          close(); gq.value = "";
+          if (p.dims_cm) tryProduct(p); else if (storeLink(p)) window.open(storeLink(p), "_blank", "noopener");
+        });
+      });
+    });
+    gq.addEventListener("keydown", function (e) { if (e.key === "Escape") { gq.value = ""; close(); } });
+    document.addEventListener("click", function (e) { if (!e.target.closest(".gsearch")) close(); });
+  })();
+
   function render() {
     if (!dataset) return;
     var b = bag();
@@ -1346,14 +1605,16 @@
       document.getElementById("summary").innerHTML = "";
       document.getElementById("oplist").innerHTML = "";
       document.getElementById("compare-body").innerHTML = "";
+      renderModes(null);
       syncDock();
       return;
     }
-    lastVerdicts = dataset.operators.map(function (op) { return verdictFor(op, b); });
+    lastVerdicts = regionOps().map(function (op) { return verdictFor(op, b); });
     renderSummary(lastVerdicts);
     renderGroups(lastVerdicts);
     renderOpList(lastVerdicts);
     renderCompare(lastVerdicts);
+    renderModes(lastVerdicts);
     syncDock();
     firstRender = false;
   }
@@ -1723,7 +1984,10 @@
   });
 
   [els.a, els.b, els.c, els.w].forEach(function (el) {
-    el.addEventListener("input", render);
+    el.addEventListener("input", function () {
+      if (chosen && el !== els.w) { chosen = null; renderChosen(); }
+      render();
+    });
 
     el.addEventListener("keydown", function (e) {
       if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
@@ -1758,7 +2022,8 @@
       });
       /* Arranca comparando las primeras aerolíneas del dataset, para que el
          comparador no aparezca vacío. Regla fija, sin elegir a dedo. */
-      cmpSel = json.operators.filter(function (o) { return o.type === "air"; })
+      renderRegion();
+      cmpSel = regionOps().filter(function (o) { return o.type === "air"; })
         .slice(0, MAX_CMP).map(function (o) { return o.id; });
       /* Si vino un enlace compartido, se respetan sus operadores, pero solo
          los que existen en el dataset de hoy. */
@@ -1770,6 +2035,10 @@
         if (fromLink.length) cmpSel = fromLink;
       }
       render();
+      return fetch("/products.json", { cache: "no-cache" })
+        .then(function (r) { return r.ok ? r.json() : { products: [] }; })
+        .then(function (pj) { PRODUCTS = (pj && pj.products) || []; renderReco(); })
+        .catch(function () { PRODUCTS = []; });
     })
     .catch(function (err) {
       els.results.setAttribute("aria-busy", "false");
@@ -1781,6 +2050,7 @@
     });
 })();
 </script>
+{{TOTOP}}
 <script>
 /* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
    la elección: /cookies/ promete que el sitio no escribe nada en el navegador.

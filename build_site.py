@@ -162,13 +162,15 @@ COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON"
                  "STYLE", "OPERATOR_INDEX", "FOOTER_LINKS", "HERO_STATS", "HEAD_EXTRA", "BRAND",
                  "SLIDE_1_LABEL", "SLIDE_2_LABEL", "SLIDE_3_LABEL", "SLIDE_4_LABEL",
                  "SLIDE_1_GO", "SLIDE_2_GO", "SLIDE_3_GO", "SLIDE_4_GO",
-                 "MEASURE_ART", "GUIDE_MEASURE_HREF", "CMP_INTRO"}
+                 "MEASURE_ART", "GUIDE_MEASURE_HREF", "CMP_INTRO",
+                 "SCENE_MEASURE", "SCENE_COMPARE", "SCENE_TRUST", "SCENE_SHARE",
+                 "TOTOP", "GUIDE_LINKS"}
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
                "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS",
-               "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS"}
-COMPUTED_PAGE = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
+               "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS", "TOTOP"}
+COMPUTED_PAGE = {"TOTOP", "LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                  "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                  "NAV_EN_CUR", "NAV_ES_CUR", "CRUMB_SELF", "H1", "STANDFIRST",
                  "CONTENT", "CHECKER_HREF", "PAGE_UPDATED", "FOOTER_LINKS"}
@@ -769,6 +771,37 @@ def head_extra(lang: str, S: dict, canonical: str, title: str, description: str)
     ])
 
 
+def scene_art(name: str) -> str:
+    """
+    Ilustración de una diapositiva del carrusel, estilo "Volumen" (elegido el
+    30/09/2026). Dibujo propio, sin texto de equipaje que haya que verificar:
+    las cifras del medidor son decorativas y no se presentan como límite de nadie.
+    """
+    path = PARTIALS_DIR / f"scene_{name}.svg"
+    if not path.exists():
+        sys.exit(f"ERROR: falta {path}")
+    return path.read_text(encoding="utf-8").strip()
+
+
+def totop_block(S: dict) -> str:
+    """Botón para volver arriba. Aparece después de bajar un poco; sin guardar nada."""
+    label = attr(t(S, "totop"))
+    return (
+        f'<button type="button" class="totop" id="totop" aria-label="{label}" title="{label}" hidden>'
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" '
+        'stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n'
+        "<script>\n(function () {\n"
+        '  var b = document.getElementById("totop"); if (!b) return;\n'
+        "  var busy = false;\n"
+        "  function sync() { b.hidden = window.scrollY < 300; busy = false; }\n"
+        '  window.addEventListener("scroll", function () { if (!busy) { busy = true; requestAnimationFrame(sync); } }, { passive: true });\n'
+        '  b.addEventListener("click", function () {\n'
+        '    var calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;\n'
+        '    window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });\n'
+        "  });\n  sync();\n})();\n</script>"
+    )
+
+
 def measure_art(S: dict) -> str:
     """El dibujo de la maleta de frente y de costado, con sus rótulos."""
     path = PARTIALS_DIR / "measure_art.svg"
@@ -1009,6 +1042,7 @@ def main() -> None:
                     version=esc(data["schema_version"]), date=esc(data["generated_on"]),
                 ),
                 "FOOTER_LINKS": block_footer_links(lang, S),
+                "TOTOP": totop_block(S),
                 "BRAND": block_brand(PAGES[lang][1]),
             }
             values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],
@@ -1039,6 +1073,13 @@ def main() -> None:
             values[f"SLIDE_{n}_GO"] = t(S, "slide_go", n=n)
         values["MEASURE_ART"] = measure_art(S)
         values["GUIDE_MEASURE_HREF"] = guide_path("measure", lang)
+        for key in ("MEASURE", "COMPARE", "TRUST", "SHARE"):
+            values["SCENE_" + key] = scene_art(key.lower())
+        values["TOTOP"] = totop_block(S)
+        # guías que también encuentra el buscador de arriba
+        values["GUIDE_LINKS"] = json.dumps(
+            [{"name": t(S, GUIDE_PAGES[k]["nav"]), "href": guide_path(k, lang)} for k in GUIDE_PAGES],
+            ensure_ascii=False)
         values["CMP_INTRO"] = t(S, "cmp_intro", max=3)
         # El diccionario entero viaja al JS. ensure_ascii=False para que los
         # acentos y el × salgan como caracteres reales en un archivo UTF-8.
@@ -1079,6 +1120,7 @@ def main() -> None:
                 "CHECKER_HREF": PAGES[lang][1],
                 "PAGE_UPDATED": t(S, "legal_updated", date=cfg["updated"]),
                 "FOOTER_LINKS": block_footer_links(lang, S, current=key),
+                "TOTOP": totop_block(S),
                 "BRAND": block_brand(PAGES[lang][1]),
             })
             values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],
@@ -1119,6 +1161,7 @@ def main() -> None:
                 "CHECKER_HREF": PAGES[lang][1],
                 "PAGE_UPDATED": updated,
                 "FOOTER_LINKS": block_footer_links(lang, S, current=key),
+                "TOTOP": totop_block(S),
                 "BRAND": block_brand(PAGES[lang][1]),
             })
             values["HEAD_EXTRA"] = head_extra(lang, S, values["CANONICAL"],

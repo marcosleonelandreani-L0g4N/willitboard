@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Will Your Bag Fit?</title>
-<meta name="description" content="Check your bag against the official cabin baggage limits of European airlines, trains and ferries. Every limit links to the operator's own page and shows the date it was checked.">
+<meta name="description" content="Check your bag against the official cabin baggage limits of airlines in Europe and Latin America, and of European trains and ferries. Every limit links to the operator's own page and shows the date it was checked.">
 <link rel="canonical" href="https://willitboard.com/">
 <link rel="alternate" hreflang="en" href="https://willitboard.com/">
 <link rel="alternate" hreflang="es" href="https://willitboard.com/es/">
@@ -18,12 +18,12 @@
 <meta property="og:site_name" content="Willitboard">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Will Your Bag Fit?">
-<meta property="og:description" content="Check your bag against the official cabin baggage limits of European airlines, trains and ferries. Every limit links to the operator's own page and shows the date it was checked.">
+<meta property="og:description" content="Check your bag against the official cabin baggage limits of airlines in Europe and Latin America, and of European trains and ferries. Every limit links to the operator's own page and shows the date it was checked.">
 <meta property="og:url" content="https://willitboard.com/">
 <meta property="og:image" content="https://willitboard.com/og-en.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Willitboard: will your bag fit? Cabin bag limits of European airlines, trains and ferries.">
+<meta property="og:image:alt" content="Willitboard: will your bag fit? Cabin bag limits of airlines in Europe and Latin America, and of European trains and ferries.">
 <meta name="twitter:card" content="summary_large_image">
 <style>
 /* ==================================================================
@@ -1199,6 +1199,191 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 @media (prefers-reduced-motion: reduce) and (min-width: 84rem) {
   .dock, .dock.is-on { transform: translate(0, -50%); }
 }
+
+/* ================================================================= v6 (01/10/2026)
+   Diseño aprobado en la simulación: carrusel grande con ilustraciones en
+   estilo "Volumen", buscador arriba, resumen por medio al lado de las
+   medidas, botón para volver arriba y un modo noche índigo. */
+
+/* ---------- carrusel grande ---------- */
+.hero__grid { grid-template-columns: minmax(0, 1fr) !important; gap: 1rem; margin-top: 1rem; }
+.hero .standfirst { max-width: 40rem; }
+.slides { border-radius: var(--radius-lg); }
+.slide {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: flex-end;
+  min-height: 15rem; padding: 1.2rem 1.2rem 2.8rem;
+  background: linear-gradient(135deg, var(--sky-a), var(--sky-b)) !important;
+}
+.slide__art { position: absolute; inset: 0; z-index: -1; }
+.slide__art svg { width: 100%; height: 100%; display: block; }
+.slide__text {
+  width: min(100%, 25rem); padding: 0.9rem 1rem;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--surface) 90%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2);
+  border-radius: var(--radius); box-shadow: 0 12px 30px -18px var(--glow);
+}
+@media (min-width: 44.01rem) {
+  .slide { min-height: 17rem; padding: 1.6rem 1.6rem 3rem; align-items: center; }
+}
+@media (max-width: 44rem) {
+  .slide { min-height: 13.5rem; padding: 0.8rem 0.8rem 2.6rem; display: flex; }
+  .slide__text { width: 64%; padding: 0.65rem 0.7rem; }
+  .slide__h { font-size: 1.02rem; }
+  .slide__p { font-size: 0.8rem; margin-top: 0.3rem; }
+  .slide__cta { font-size: 0.76rem; padding: 0.45rem 0.7rem; margin-top: 0.5rem; }
+  .slide .stats { display: none; }
+}
+
+/* ---------- buscador de arriba ---------- */
+.gsearch { position: relative; z-index: 30; }
+.gsearch__box {
+  display: flex; align-items: center; gap: 0.55rem; cursor: text;
+  background: var(--surface); border: 1.5px solid var(--rule); border-radius: 999px;
+  padding: 0.7rem 1rem; box-shadow: var(--shadow);
+}
+.gsearch__box:focus-within { border-color: var(--accent); }
+.gsearch__box svg { width: 1.15rem; height: 1.15rem; color: var(--ink-faint); flex: none; }
+.gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 600 1rem var(--font-body); }
+.gsug {
+  position: absolute; left: 0; right: 0; top: calc(100% + 0.4rem);
+  background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  box-shadow: 0 20px 44px -20px rgba(23,32,51,.45); padding: 0.35rem; max-height: 22rem; overflow: auto;
+}
+.gsug h4 { margin: 0.45rem 0.55rem 0.2rem; font: 800 0.68rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.gsug a, .gsug button {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left;
+  border: 0; background: none; color: var(--ink); text-decoration: none; cursor: pointer;
+  font: 600 0.95rem var(--font-body); padding: 0.55rem; border-radius: 10px;
+}
+.gsug a:hover, .gsug a:focus-visible, .gsug button:hover, .gsug button:focus-visible { background: var(--surface-sunk); outline: none; }
+.gsug small { margin-left: auto; color: var(--ink-faint); font-weight: 700; white-space: nowrap; }
+.gsug__ico { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 8px; background: var(--accent-soft); color: var(--accent); flex: none; }
+.gsug__ico svg { width: 1rem; height: 1rem; }
+.gsug__none { margin: 0.6rem; color: var(--ink-faint); }
+
+/* ---------- medidas + resumen por medio, lado a lado ---------- */
+.panel__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 15rem); gap: 0.8rem; align-items: start; padding: 0.6rem 1.4rem 1.1rem; }
+.panel__grid .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+.modes {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  background: var(--surface-soft); border-radius: var(--radius); padding: 0.8rem;
+  min-height: 100%;
+}
+.modes:empty { display: none; }
+.modes__h { margin: 0; font: 800 0.72rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.mode__h { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.3rem; font: 600 0.95rem/1.1 var(--font-head); color: var(--ink); }
+.mode__h svg { width: 1.1rem; height: 1.1rem; color: var(--accent); flex: none; }
+.mode__h small { margin-left: auto; font: 700 0.78rem var(--font-body); color: var(--ink-faint); }
+.mode__counts { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.cnt {
+  display: inline-flex; align-items: center; gap: 0.2rem; min-height: 2rem;
+  padding: 0.25rem 0.55rem; border: 2px solid transparent; border-radius: 999px; cursor: pointer;
+  background: var(--band-wash); color: var(--band-tone);
+  font: 800 0.92rem/1 var(--font-body); font-variant-numeric: tabular-nums;
+}
+.cnt i { font-style: normal; font-size: 0.8rem; }
+.cnt.is-on { border-color: currentColor; }
+.cnt:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.modes__hint { margin: auto 0 0; font-size: 0.74rem; color: var(--ink-faint); }
+@media (max-width: 34rem) {
+  .panel__grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 0.55rem; padding-inline: 0.8rem; }
+  .panel__grid .fields { grid-template-columns: minmax(0, 1fr); gap: 0.45rem; }
+  .panel__grid .field { padding: 0.45rem 0.4rem; gap: 0.2rem; }
+  .panel__grid .field label { font-size: 0.68rem; }
+  .panel__grid .field input { font-size: 1.2rem; }
+  .panel__grid .field__unit { font-size: 0.7rem; }
+  .panel__grid .nudge { width: 2rem; height: 2rem; font-size: 1rem; }
+  .modes { padding: 0.6rem 0.5rem; gap: 0.5rem; }
+  .mode__h { font-size: 0.86rem; }
+  .cnt { font-size: 0.84rem; padding: 0.2rem 0.45rem; }
+}
+
+/* ---------- producto que se está probando ---------- */
+.chosen {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.7rem;
+  margin: 0.2rem 1.4rem 0; padding: 0.6rem 0.8rem; border-radius: var(--radius-sm);
+  background: var(--accent-soft); border: 1.5px solid var(--accent);
+}
+.chosen__lbl { font: 800 0.68rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.chosen__name { font: 600 1rem/1.2 var(--font-head); color: var(--ink); }
+.chosen__name a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.chosen__x { margin-left: auto; border: 0; background: none; color: var(--ink-faint); cursor: pointer; font-size: 1rem; padding: 0.3rem; border-radius: 8px; }
+@media (max-width: 34rem) { .chosen { margin-inline: 0.8rem; } }
+
+/* ---------- bolsos recomendados (solo con productos verificados) ---------- */
+.reco { display: flex; flex-direction: column; gap: 0.5rem; }
+.reco .sec-h { margin: 0; }
+.aff { margin: 0; font-size: 0.78rem; color: var(--ink-faint); }
+.aff b { color: var(--ink-soft); }
+.hscroll { display: flex; gap: 0.6rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.4rem; }
+.pc {
+  flex: none; width: 13rem; scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: 0.35rem; padding: 0.8rem;
+  background: var(--surface); border: 1px solid var(--rule-soft); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+}
+.pc__brand { font: 800 0.66rem/1 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+.pc__name { margin: 0; font: 600 1rem/1.15 var(--font-head); }
+.pc__dims { font-size: 0.82rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.pc__badge { width: fit-content; padding: 0.2rem 0.55rem; border-radius: 999px; background: var(--pass-soft); color: var(--pass); font: 800 0.76rem var(--font-body); }
+.pc__acts { display: flex; gap: 0.35rem; margin-top: auto; }
+.pc__try, .pc__buy { flex: 1; text-align: center; border: 0; border-radius: 999px; padding: 0.5rem 0.4rem; font: 800 0.78rem/1.1 var(--font-body); cursor: pointer; text-decoration: none; }
+.pc__try { background: var(--surface-sunk); color: var(--ink); }
+.pc__buy { background: var(--accent); color: var(--accent-ink); }
+
+/* ---------- volver arriba ---------- */
+.totop {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+  display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--accent); color: var(--accent-ink); box-shadow: 0 12px 26px -10px var(--glow);
+}
+.totop[hidden] { display: none; }
+.totop svg { width: 1.35rem; height: 1.35rem; }
+.totop:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+/* en la home, por encima de la barra fija de medidas del teléfono */
+body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+
+/* ---------- modo noche: índigo con resplandores ---------- */
+:root[data-theme="dark"] {
+  --ground: #100C2B; --surface: #1B1646; --surface-soft: #221C58; --surface-sunk: #28226A;
+  --ink: #F5F3FF; --ink-soft: #CEC8F5; --ink-faint: #A39BDD; --rule: #3A3486; --rule-soft: #2E2872;
+  --accent: #7FA6FF; --accent-ink: #0E0B26; --accent-soft: #2B2A7A;
+  --pass: #5BEA9A; --pass-soft: #163A3A; --paid: #FFCB5C; --paid-soft: #3A2E36;
+  --fail: #FF8FA6; --fail-soft: #3D1D44; --info: #C9B3FF; --info-soft: #2F2470;
+  --unknown: #BCC2DE; --unknown-soft: #262256;
+  --sky-a: #1A1650; --sky-b: #241E66; --cloud: rgba(255,255,255,.10);
+  --sizer: #8FB0FF; --sizer-fill: rgba(143,176,255,.10); --handle: #E7E4FF;
+  --glow: rgba(166,124,255,.45);
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(40rem 26rem at 110% -5%, rgba(255,79,118,.20), transparent 60%),
+    radial-gradient(34rem 26rem at -10% 30%, rgba(0,200,190,.16), transparent 60%),
+    radial-gradient(40rem 30rem at 50% 110%, rgba(111,160,255,.20), transparent 60%), var(--ground);
+}
+:root[data-theme="dark"] .hero { background: transparent; }
+:root[data-theme="dark"] .totop,
+:root[data-theme="dark"] .slide__cta,
+:root[data-theme="dark"] .pc__buy { background: linear-gradient(135deg, #7FA6FF, #A67CFF); color: #0E0B26; }
+.chosen[hidden], .reco[hidden], .gsug[hidden] { display: none; }
+.slides__nav { left: auto; right: 0.9rem; justify-content: flex-end; }
+
+/* ---------- región (Europa / Latinoamérica / Todas) ---------- */
+.modes-col { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.region { display: flex; gap: 0.25rem; padding: 0.25rem; border-radius: 999px; background: var(--surface-sunk); }
+.region[hidden] { display: none; }
+.region button {
+  flex: 1 1 auto; min-width: 0; min-height: 2.1rem; padding: 0.3rem 0.5rem;
+  border: 0; border-radius: 999px; background: none; cursor: pointer;
+  color: var(--ink-soft); font: 800 0.78rem/1.1 var(--font-body); white-space: nowrap;
+}
+.region button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); box-shadow: 0 4px 10px -4px var(--glow); }
+.region button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 34rem) {
+  .region { flex-direction: column; border-radius: 16px; }
+  .region button { width: 100%; }
+}
 </style>
 </head>
 <body class="home">
@@ -1233,7 +1418,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
     <div class="hero__grid">
       <div class="hero__copy">
-        <p class="hero__kicker">Cabin bag checker for Europe</p>
+        <p class="hero__kicker">Cabin bag checker · Europe and Latin America</p>
         <h1>Will your bag fit?</h1>
         <p class="standfirst">Type your bag's size and see in seconds which airlines, trains and ferries will let it on.</p>
       </div>
@@ -1245,9 +1430,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       <section class="slides" id="slides" aria-roledescription="carousel" aria-label="Highlights">
         <div class="slides__viewport" id="slides-track">
           <article class="slide slide--measure" id="slide-1" role="group" aria-roledescription="slide" aria-label="1 of 4">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><rect x="31" y="12" width="26" height="9" rx="4.5" fill="var(--handle)"/><rect x="24" y="19" width="46" height="72" rx="11" fill="#FF6B63"/><rect x="34" y="29" width="5" height="52" rx="2.5" fill="#fff" fill-opacity=".35"/><rect x="55" y="29" width="5" height="52" rx="2.5" fill="#fff" fill-opacity=".35"/><circle cx="33" cy="97" r="5" fill="var(--handle)"/><circle cx="61" cy="97" r="5" fill="var(--handle)"/><path d="M12 12v90M8 16l4-5 4 5M8 98l4 5 4-5" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 112h46M28 108l-5 4 5 4M66 108l5 4-5 4" fill="none" stroke="var(--pass)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M84 40l22 0M88 36l-5 4 5 4M102 36l5 4-5 4" fill="none" stroke="var(--info)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="84" y="50" width="22" height="40" rx="7" fill="#E8465F"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClscheckh" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shscheckh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shsscheckh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowscheckh" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowscheckh)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-70 -40) scale(1.12)"><rect x="490" y="106" width="262" height="290" rx="22" fill="var(--sizer-fill)" stroke="var(--sizer)" stroke-width="5" stroke-dasharray="14 11" stroke-linecap="round"/><g transform="translate(556.8 86)"><rect width="128.39999999999998" height="36" rx="18" fill="url(#gAscheckh)"/><text x="64.19999999999999" y="24.5" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="800" font-size="17" fill="#fff">55 × 40 × 20</text></g><g filter="url(#shscheckh)"><g transform="translate(520 134) scale(.98)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gCscheckh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><circle cx="744" cy="136" r="26" fill="var(--pass-fill)"/><path d="M733.08 136.52l7.8 7.8 14.3-15.6" fill="none" stroke="#fff" stroke-width="6.76" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg></div>
             <div class="slide__text">
               <p class="slide__h">Wheels and handles count</p>
               <p class="slide__p">Most bags get stopped by a few centimetres. Measure the outside, with the handle pushed down.</p>
@@ -1255,9 +1438,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
             </div>
           </article>
           <article class="slide slide--compare" id="slide-2" role="group" aria-roledescription="slide" aria-label="2 of 4">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><rect x="8" y="20" width="30" height="80" rx="9" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><rect x="45" y="20" width="30" height="80" rx="9" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><rect x="82" y="20" width="30" height="80" rx="9" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"/><circle cx="23" cy="36" r="7" fill="var(--pass-fill)"/><circle cx="60" cy="36" r="7" fill="var(--paid-fill)"/><circle cx="97" cy="36" r="7" fill="var(--fail-fill)"/><path d="M15 56h16M15 66h12M52 56h16M52 66h10M89 56h16M89 66h13" stroke="var(--rule)" stroke-width="4" stroke-linecap="round"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClscompareh" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shscompareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shsscompareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowscompareh" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowscompareh)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-130 0) scale(1.0)"><g transform="translate(480 180) scale(.62)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gMscompareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><g transform="translate(592 140) scale(.8)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gSscompareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><g filter="url(#shscompareh)"><g transform="translate(718 110) scale(.95)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gCscompareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><circle cx="542" cy="170" r="17" fill="var(--pass-fill)"/><text x="542" y="176" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="17" fill="#fff">✓</text><circle cx="672" cy="130" r="17" fill="var(--paid-fill)"/><text x="672" y="136" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="17" fill="#fff">$</text><circle cx="813" cy="100" r="17" fill="var(--fail-fill)"/><text x="813" y="106" text-anchor="middle" font-family="Nunito, sans-serif" font-weight="900" font-size="17" fill="#fff">✕</text></g></g></svg></div>
             <div class="slide__text">
               <p class="slide__h">Compare side by side</p>
               <p class="slide__p">Pick up to three airlines, trains or ferries and see their limits next to each other.</p>
@@ -1265,23 +1446,19 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
             </div>
           </article>
           <article class="slide slide--trust" id="slide-3" role="group" aria-roledescription="slide" aria-label="3 of 4">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><path d="M60 10l38 14v28c0 26-16 46-38 56C38 98 22 78 22 52V24z" fill="var(--pass-soft)" stroke="var(--pass)" stroke-width="4" stroke-linejoin="round"/><path d="M42 60l12 12 25-26" fill="none" stroke="var(--pass)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClstrusth" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shstrusth" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shsstrusth" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowstrusth" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowstrusth)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-20 -20) scale(1.05)"><g filter="url(#shstrusth)"><g transform="translate(520 100)"><rect x="0" y="0" width="210" height="270" rx="22" fill="#fff"/><rect x="0" y="0" width="210" height="56" rx="22" fill="url(#gAstrusth)"/><rect x="0" y="34" width="210" height="22" fill="url(#gAstrusth)"/><rect x="26" y="20" width="100" height="14" rx="7" fill="#fff" fill-opacity=".85"/><rect x="26" y="86" width="150" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="116" width="110" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="146" width="150" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="176" width="110" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="206" width="150" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="236" width="88" height="20" rx="10" fill="var(--accent-soft)"/><circle cx="186" cy="246" r="40" fill="var(--pass-fill)"/><path d="M168 247l13 13 24-26" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g></g></g></svg></div>
             <div class="slide__text">
               <p class="slide__h">Straight from the operator</p>
               <p class="slide__p">Every limit links to the operator's own page, with the date a person checked it.</p>
         <ul class="stats">
-          <li><b>16</b><span>operators, checked by a person</span></li>
+          <li><b>19</b><span>operators, checked by a person</span></li>
           <li><b>3</b><span>kinds of transport</span></li>
           <li><b>0</b><span>limits copied from blogs</span></li>
         </ul>
             </div>
           </article>
           <article class="slide slide--share" id="slide-4" role="group" aria-roledescription="slide" aria-label="4 of 4">
-            <div class="slide__art" aria-hidden="true">
-              <svg viewBox="0 0 120 120"><circle cx="86" cy="28" r="14" fill="var(--accent)"/><circle cx="30" cy="60" r="14" fill="var(--coral)"/><circle cx="86" cy="92" r="14" fill="var(--mint)"/><path d="M42 54l32-18M42 66l32 18" stroke="var(--ink-faint)" stroke-width="5" stroke-linecap="round"/></svg>
-            </div>
+            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClsshareh" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shsshareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shssshareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowsshareh" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowsshareh)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-10 10) scale(1.0)"><g transform="translate(540 90)"><rect x="0" y="0" width="170" height="300" rx="30" fill="#2B3A5C"/><rect x="12" y="16" width="146" height="268" rx="20" fill="#fff"/><rect x="26" y="40" width="104" height="42" rx="18" fill="#DCE3EE"/><rect x="48" y="96" width="98" height="96" rx="20" fill="url(#gAsshareh)"/><g transform="translate(70 104) scale(.3)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gCsshareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><rect x="26" y="208" width="90" height="38" rx="18" fill="#DCE3EE"/></g><circle cx="716" cy="196" r="30" fill="var(--pass-fill)"/><path d="M703.4 196.6l9.0 9.0 16.5-18.0" fill="none" stroke="#fff" stroke-width="7.800000000000001" stroke-linecap="round" stroke-linejoin="round"/><g filter="url(#shsshareh)"><g transform="translate(500 120) scale(0.8)"><path d="M-150 60c40-40 80-50 130-30" fill="none" stroke="var(--sizer)" stroke-width="4" stroke-dasharray="3 12" stroke-linecap="round"/><path d="M0 0l62 22-62 22 12-22z" fill="var(--plane)"/><path d="M12 22h50" stroke="var(--sky-a)" stroke-width="3"/></g></g></g></svg></div>
             <div class="slide__text">
               <p class="slide__h">Travelling with someone?</p>
               <p class="slide__p">Send them this check. They see the same bag, worked out with today's limits.</p>
@@ -1307,6 +1484,18 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 </header>
 
 <main class="shell shell--home">
+
+  <!-- ============================================================ buscador
+       Busca empresas de transporte y guías (y productos, cuando haya alguno
+       verificado). Solo navega: no cambia ningún veredicto. -->
+  <div class="gsearch" role="search">
+    <label class="gsearch__box">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span class="sr-only">Search airlines, trains, ferries and guides</span>
+      <input type="search" id="gq" placeholder="Search Ryanair, a train, a ferry…" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
+    </label>
+    <div class="gsug" id="gsug" hidden></div>
+  </div>
 
   <!-- ============================================================ pestañas
        Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo
@@ -1337,6 +1526,8 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
         </div>
       </div>
 
+      <div class="chosen" id="chosen" hidden></div>
+      <div class="panel__grid">
       <div class="fields">
         <div class="field">
           <label for="dim-a"><span class="m-key m-key--a" aria-hidden="true">1</span>Length</label>
@@ -1374,6 +1565,20 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
           </div>
           <span class="field__unit" data-unit="weight">kg</span>
         </div>
+      </div>
+      <!-- Resultado compacto: cuántos operadores de cada medio caen en cada
+           color. Tocar un número filtra la lista de abajo y abre ese grupo. -->
+      <div class="modes-col">
+        <!-- Región: Europa / Latinoamérica / Todas. Solo aparece si el dataset
+             tiene más de una región. La elección va en la URL (?region=), nunca
+             en el navegador: /cookies/ promete que el sitio no guarda nada. -->
+        <div class="region" id="region" role="group" aria-label="Region" hidden>
+          <button type="button" data-region="EU" aria-pressed="false">Europe</button>
+          <button type="button" data-region="LATAM" aria-pressed="false">Latin America</button>
+          <button type="button" data-region="all" aria-pressed="false">All</button>
+        </div>
+        <div class="modes" id="modes" aria-live="polite"></div>
+      </div>
       </div>
 
       <!-- Guía de medición: dibujo de frente y de costado. Enseña lo que de
@@ -1506,6 +1711,15 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       <div id="results" class="groups" aria-live="polite" aria-busy="true">
         <p class="empty">Loading operator limits…</p>
       </div>
+    </section>
+
+    <!-- Productos: este bloque queda oculto hasta que /products.json tenga
+         al menos un producto con fecha de verificación humana. El veredicto de
+         cada bolso sale de verdictFor(), la misma función de arriba. -->
+    <section class="reco" id="reco" aria-labelledby="reco-h" hidden>
+      <h2 class="sec-h" id="reco-h">Bags that fit for free in more airlines</h2>
+      <p class="aff"><b>Ad</b> · Affiliate links: no extra cost to you</p>
+      <div class="hscroll" id="reco-list"></div>
     </section>
 
     <section class="how" id="how" aria-labelledby="how-steps-h">
@@ -1643,15 +1857,18 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       <h3>Airlines</h3>
       <ul class="index__links">
         <li><a href="/airlines/air-france/">Air France</a></li>
+        <li><a href="/airlines/avianca/">Avianca</a></li>
         <li><a href="/airlines/british-airways/">British Airways</a></li>
         <li><a href="/airlines/easyjet/">easyJet</a></li>
         <li><a href="/airlines/iberia/">Iberia</a></li>
+        <li><a href="/airlines/jetsmart/">JetSMART</a></li>
         <li><a href="/airlines/klm/">KLM</a></li>
         <li><a href="/airlines/lufthansa/">Lufthansa</a></li>
         <li><a href="/airlines/norwegian/">Norwegian</a></li>
         <li><a href="/airlines/ryanair/">Ryanair</a></li>
         <li><a href="/airlines/sas/">SAS</a></li>
         <li><a href="/airlines/transavia/">Transavia</a></li>
+        <li><a href="/airlines/volaris/">Volaris</a></li>
         <li><a href="/airlines/vueling/">Vueling</a></li>
         <li><a href="/airlines/wizz-air/">Wizz Air</a></li>
       </ul>
@@ -1758,7 +1975,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
      inyecta build_site.py: no editar el HTML generado, editar el diccionario. */
   var T = {
   "doc_title": "Will Your Bag Fit?",
-  "meta_description": "Check your bag against the official cabin baggage limits of European airlines, trains and ferries. Every limit links to the operator's own page and shows the date it was checked.",
+  "meta_description": "Check your bag against the official cabin baggage limits of airlines in Europe and Latin America, and of European trains and ferries. Every limit links to the operator's own page and shows the date it was checked.",
   "nav_label": "Language",
   "h1": "Will your bag fit?",
   "standfirst": "Type your bag's size and see in seconds which airlines, trains and ferries will let it on.",
@@ -1905,7 +2122,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   "disclosure_h1": "Advertising and affiliates",
   "disclosure_meta": "Willitboard carries no advertising, affiliate links or paid placement today, and the rules it commits to for when it does.",
   "disclosure_standfirst": "Nothing on this site is paid for. This page says so while that is still true, and sets out the rules that stay fixed once money is involved.",
-  "hero_kicker": "Cabin bag checker for Europe",
+  "hero_kicker": "Cabin bag checker · Europe and Latin America",
   "stat_ops_label": "operators, checked by a person",
   "stat_modes_label": "kinds of transport",
   "stat_copied_label": "limits copied from blogs",
@@ -2007,7 +2224,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   "cmp_none_match": "Nothing matches these filters.",
   "kg_suffix_shared": ", up to {kg} kg in total with the other bag",
   "og_locale": "en_GB",
-  "og_image_alt": "Willitboard: will your bag fit? Cabin bag limits of European airlines, trains and ferries.",
+  "og_image_alt": "Willitboard: will your bag fit? Cabin bag limits of airlines in Europe and Latin America, and of European trains and ferries.",
   "guides_h2": "Guides",
   "footer_guides_label": "Guides",
   "nav_guide_measure": "How to measure your bag",
@@ -2017,8 +2234,8 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   "measure_meta": "How to measure a suitcase or cabin bag for a flight, train or ferry: height, width and depth, wheels and handles, weight, and the mistakes that get bags stopped at the gate.",
   "measure_h1": "How to measure your bag",
   "measure_standfirst": "Three measurements and a weight, taken the way the sizer at the gate takes them. It takes two minutes and a tape measure.",
-  "sizes_title": "Cabin Bag Sizes Compared: European Airlines | Willitboard",
-  "sizes_meta": "Personal item and cabin bag size limits of European airlines side by side, in cm and kg, with what the fare includes. Every figure links to the airline's own page and the date it was checked.",
+  "sizes_title": "Cabin Bag Sizes Compared, Airline by Airline | Willitboard",
+  "sizes_meta": "Personal item and cabin bag size limits of airlines in Europe and Latin America side by side, in cm and kg, with what the fare includes. Every figure links to the airline's own page and the date it was checked.",
   "sizes_h1": "Cabin bag sizes compared",
   "sizes_standfirst": "The personal item and the cabin bag of every airline we cover, side by side, straight from each operator's own page.",
   "sizes_intro": "This table is built from the same data as the bag checker, so the two can never disagree. Measurements are shown as each operator publishes them, in cm. Weight is per bag unless it says otherwise.",
@@ -2035,7 +2252,29 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   "about_meta": "What Willitboard is, where every limit comes from, what it will never do, and how to report a mistake.",
   "about_h1": "About Willitboard",
   "about_standfirst": "A free tool that answers one question — will your bag fit? — using only what each operator publishes itself.",
-  "guide_updated": "Text last edited on {date}."
+  "guide_updated": "Text last edited on {date}.",
+  "gsearch_label": "Search airlines, trains, ferries and guides",
+  "gsearch_ph": "Search Ryanair, a train, a ferry…",
+  "gsearch_ops": "Airlines, trains and ferries",
+  "gsearch_guides": "Guides",
+  "gsearch_products": "Bags",
+  "gsearch_none": "Nothing found for “{q}”.",
+  "gsearch_fiche": "rules",
+  "modes_h": "At a glance",
+  "modes_hint": "Tap a number to see which ones.",
+  "totop": "Back to top",
+  "reco_h2": "Bags that fit for free in more airlines",
+  "aff_label": "Ad",
+  "aff_text": "Affiliate links: no extra cost to you",
+  "reco_free": "Free on {n} of {total} airlines",
+  "reco_try": "Try these sizes",
+  "reco_buy": "View in store",
+  "chosen_label": "Trying",
+  "chosen_clear": "Clear the product",
+  "region_label": "Region",
+  "region_eu": "Europe",
+  "region_latam": "Latin America",
+  "region_all": "All"
 };
   var PAGE_LANG = "en";
   /* ruta de la ficha de cada tipo en este idioma; la calcula build_site.py */
@@ -2926,6 +3165,236 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
     body.appendChild(node("p", "axes__legend", esc(t("axes_legend"))));
   }
 
+  /* ---------- resumen por medio de transporte (al lado de las medidas) ----------
+     Los mismos veredictos de verdictFor(), contados por medio y por color.
+     Tocar un número filtra la lista de abajo y abre ese grupo. */
+  var GUIDE_LINKS = [{"name": "How to measure your bag", "href": "/how-to-measure-luggage/"}, {"name": "Cabin bag sizes compared", "href": "/cabin-bag-sizes/"}, {"name": "About", "href": "/about/"}];
+  var MODE_ORDER = [FITS, "paid", OVER, UNKNOWN, RULE];
+  var MODE_SYM = {};
+  MODE_SYM[FITS] = "✓"; MODE_SYM.paid = "$"; MODE_SYM[OVER] = "✕"; MODE_SYM[UNKNOWN] = "?"; MODE_SYM[RULE] = "≡";
+
+  function renderModes(verdicts) {
+    var box = document.getElementById("modes");
+    if (!box) return;
+    box.innerHTML = "";
+    if (!verdicts) return;
+    box.appendChild(node("p", "modes__h", esc(t("modes_h"))));
+    TYPES.forEach(function (kind) {
+      var mine = verdicts.filter(function (v) { return v.op.type === kind; });
+      if (!mine.length) return;
+      var row = node("div", "mode");
+      row.appendChild(node("p", "mode__h", ICON[kind] + "<span>" + esc(GROUP_LABEL[kind]) + "</span><small>" + mine.length + "</small>"));
+      var counts = node("div", "mode__counts");
+      MODE_ORDER.forEach(function (key) {
+        var n = mine.filter(function (v) { return v.band === key; }).length;
+        if (!n) return;
+        var band = BAND_BY_KEY[key];
+        var on = bandFilter === key && openGroups[kind];
+        var b = node("button", "cnt " + band.cls + (on ? " is-on" : ""),
+          '<i aria-hidden="true">' + MODE_SYM[key] + "</i>" + n);
+        b.type = "button";
+        b.setAttribute("aria-pressed", String(on));
+        b.setAttribute("aria-label", n + " · " + band.title + " · " + GROUP_LABEL[kind]);
+        b.title = band.title;
+        b.addEventListener("click", function () {
+          if (on) { bandFilter = null; }
+          else {
+            bandFilter = key;
+            TYPES.forEach(function (k) { openGroups[k] = k === kind; });
+          }
+          render();
+          if (!on) {
+            var g = document.querySelector('.tgroup[data-type="' + kind + '"]');
+            if (g) g.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+          }
+        });
+        counts.appendChild(b);
+      });
+      row.appendChild(counts);
+      box.appendChild(row);
+    });
+    box.appendChild(node("p", "modes__hint", esc(t("modes_hint"))));
+  }
+
+  /* ---------- región ----------
+     Valor inicial: ?region= en la URL; si no, la zona horaria del navegador
+     (Europa → EU; América → LATAM si el idioma es español o portugués, si no
+     Todas); si no hay zona horaria, el idioma (es-AR, es-MX… → LATAM).
+     No se guarda nada en el navegador: el cambio se refleja en la URL con
+     replaceState, así sobrevive a recargar y a compartir el enlace. */
+  var LATAM_LANG = /^(es-(419|AR|BO|CL|CO|CR|CU|DO|EC|GT|HN|MX|NI|PA|PE|PR|PY|SV|UY|VE)|pt-BR)$/i;
+  function initialRegion() {
+    var m = /[?&]region=(eu|latam|all)(?:&|$)/i.exec(location.search);
+    if (m) return m[1].toLowerCase() === "all" ? "all" : m[1].toUpperCase();
+    var langs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""];
+    var first = "";
+    for (var i = 0; i < langs.length; i++) if (/^(es|pt)\b/i.test(langs[i])) { first = langs[i]; break; }
+    var tz = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) { tz = ""; }
+    if (/^America\//.test(tz)) return /^(es|pt)\b/i.test(langs[0] || "") ? "LATAM" : "all";
+    if (/^(Europe|Africa|Asia|Atlantic)\//.test(tz)) return "EU";
+    return LATAM_LANG.test(first) ? "LATAM" : "EU";
+  }
+  var region = initialRegion();
+
+  function datasetRegions() {
+    var seen = {};
+    dataset.operators.forEach(function (o) { seen[o.region] = true; });
+    return Object.keys(seen);
+  }
+  /* Operadores de la región elegida. Si esa región no tiene ninguno, todos:
+     nunca una lista vacía por un valor raro en la URL. */
+  function regionOps() {
+    if (!dataset) return [];
+    if (region === "all") return dataset.operators;
+    var mine = dataset.operators.filter(function (o) { return o.region === region; });
+    return mine.length ? mine : dataset.operators;
+  }
+  function renderRegion() {
+    var box = document.getElementById("region");
+    if (!box || !dataset) return;
+    box.hidden = datasetRegions().length < 2;
+    Array.prototype.forEach.call(box.querySelectorAll("button"), function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === region));
+    });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll("#region button"), function (b) {
+    b.addEventListener("click", function () {
+      region = b.getAttribute("data-region");
+      bandFilter = null;
+      try {
+        var u = new URL(location.href);
+        u.searchParams.set("region", region === "all" ? "all" : region.toLowerCase());
+        history.replaceState(null, "", u.pathname + u.search + u.hash);
+      } catch (e) { /* sin URL API: el filtro igual funciona */ }
+      renderRegion();
+      render();
+      renderReco();
+    });
+  });
+
+  /* ---------- productos (ocultos hasta que haya alguno verificado) ----------
+     /products.json lo genera convert_productos.py: solo trae productos con
+     fecha de verificación humana. El veredicto de cada bolso es verdictFor()
+     contra cada aerolínea, sin peso (el bolso vacío no es la maleta llena). */
+  var PRODUCTS = [];
+  var chosen = null;
+
+  function productFree(p) {
+    var pb = { cm: p.dims_cm.slice().sort(function (x, y) { return y - x; }), kg: null };
+    return regionOps().filter(function (op) {
+      return op.type === "air" && verdictFor(op, pb).band === FITS;
+    });
+  }
+
+  function storeLink(p) {
+    var l = p.links || {};
+    return l.amazon_de || l.amazon_se || l.amazon_uk || l.other || null;
+  }
+
+  function renderChosen() {
+    var box = document.getElementById("chosen");
+    if (!box) return;
+    if (!chosen) { box.hidden = true; box.innerHTML = ""; return; }
+    var href = storeLink(chosen);
+    box.hidden = false;
+    box.innerHTML = '<span class="chosen__lbl">' + esc(t("chosen_label")) + "</span>" +
+      '<span class="chosen__name">' + esc(chosen.brand) + " · " +
+      (href ? '<a href="' + esc(href) + '" target="_blank" rel="sponsored noopener">' + esc(chosen.name) + " ↗</a>" : esc(chosen.name)) +
+      "</span>";
+    var x = node("button", "chosen__x", "✕");
+    x.type = "button";
+    x.setAttribute("aria-label", t("chosen_clear"));
+    x.addEventListener("click", function () { chosen = null; renderChosen(); });
+    box.appendChild(x);
+  }
+
+  function tryProduct(p) {
+    if (units.length !== "cm") setUnit("length", "cm");
+    chosen = p;
+    els.a.value = String(p.dims_cm[0]); els.b.value = String(p.dims_cm[1]); els.c.value = String(p.dims_cm[2]);
+    els.w.value = "";
+    [els.a, els.b, els.c, els.w].forEach(function (el) { exact.delete(el); });
+    renderChosen();
+    render();
+    document.querySelector(".panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function renderReco() {
+    var sec = document.getElementById("reco");
+    if (!sec) return;
+    var bags = PRODUCTS.filter(function (p) { return p.dims_cm && storeLink(p); });
+    if (!bags.length || !dataset) { sec.hidden = true; return; }
+    var total = regionOps().filter(function (o) { return o.type === "air"; }).length;
+    var list = document.getElementById("reco-list");
+    list.innerHTML = "";
+    bags.map(function (p) { return { p: p, free: productFree(p) }; })
+      .filter(function (x) { return x.free.length; })
+      .sort(function (x, y) { return y.free.length - x.free.length; })
+      .forEach(function (x) {
+        var p = x.p, card = node("div", "pc");
+        card.innerHTML = '<div class="pc__brand">' + esc(p.brand) + "</div>" +
+          '<h3 class="pc__name">' + esc(p.name) + "</h3>" +
+          '<div class="pc__dims">' + p.dims_cm.join(" × ") + " cm" + (p.capacity_l ? " · " + p.capacity_l + " L" : "") + "</div>" +
+          '<span class="pc__badge">✓ ' + esc(t("reco_free", { n: x.free.length, total: total })) + "</span>";
+        var acts = node("div", "pc__acts");
+        var tryb = node("button", "pc__try", esc(t("reco_try")));
+        tryb.type = "button";
+        tryb.addEventListener("click", function () { tryProduct(p); });
+        var a = node("a", "pc__buy", esc(t("reco_buy")) + " ↗");
+        a.href = storeLink(p); a.target = "_blank"; a.rel = "sponsored noopener";
+        acts.appendChild(tryb); acts.appendChild(a);
+        card.appendChild(acts);
+        list.appendChild(card);
+      });
+    sec.hidden = !list.children.length;
+  }
+
+  /* ---------- buscador de arriba ---------- */
+  (function () {
+    var gq = document.getElementById("gq"), box = document.getElementById("gsug");
+    if (!gq || !box) return;
+    function close() { box.hidden = true; gq.setAttribute("aria-expanded", "false"); }
+    gq.addEventListener("input", function () {
+      var raw = gq.value.trim(), q = fold(raw);
+      if (!q || !dataset) { close(); return; }
+      var html = "";
+      var ops = dataset.operators.filter(function (o) { return fold(o.name).indexOf(q) >= 0 || fold(GROUP_LABEL[o.type]).indexOf(q) >= 0; }).slice(0, 8);
+      if (ops.length) {
+        html += "<h4>" + esc(t("gsearch_ops")) + "</h4>";
+        ops.forEach(function (o) {
+          html += '<a href="' + FICHE_PATHS[o.type] + encodeURIComponent(o.id) + '/"><span class="gsug__ico">' + ICON[o.type] +
+            "</span>" + esc(o.name) + "<small>" + esc(MODE_LABEL[o.type]) + " · " + esc(t("gsearch_fiche")) + "</small></a>";
+        });
+      }
+      var prods = PRODUCTS.filter(function (p) { return fold(p.brand + " " + p.name).indexOf(q) >= 0; }).slice(0, 5);
+      if (prods.length) {
+        html += "<h4>" + esc(t("gsearch_products")) + "</h4>";
+        prods.forEach(function (p, i) {
+          html += '<button type="button" data-pi="' + PRODUCTS.indexOf(p) + '"><span class="gsug__ico">' + ICON.pass + "</span>" + esc(p.brand + " " + p.name) + "</button>";
+        });
+      }
+      var gl = GUIDE_LINKS.filter(function (g) { return fold(g.name).indexOf(q) >= 0; });
+      if (gl.length) {
+        html += "<h4>" + esc(t("gsearch_guides")) + "</h4>";
+        gl.forEach(function (g) { html += '<a href="' + g.href + '"><span class="gsug__ico">' + ICON.rule + "</span>" + esc(g.name) + "</a>"; });
+      }
+      if (!html) html = '<p class="gsug__none">' + esc(t("gsearch_none", { q: raw })) + "</p>";
+      box.innerHTML = html;
+      box.hidden = false;
+      gq.setAttribute("aria-expanded", "true");
+      Array.prototype.forEach.call(box.querySelectorAll("[data-pi]"), function (b) {
+        b.addEventListener("click", function () {
+          var p = PRODUCTS[Number(b.getAttribute("data-pi"))];
+          close(); gq.value = "";
+          if (p.dims_cm) tryProduct(p); else if (storeLink(p)) window.open(storeLink(p), "_blank", "noopener");
+        });
+      });
+    });
+    gq.addEventListener("keydown", function (e) { if (e.key === "Escape") { gq.value = ""; close(); } });
+    document.addEventListener("click", function (e) { if (!e.target.closest(".gsearch")) close(); });
+  })();
+
   function render() {
     if (!dataset) return;
     var b = bag();
@@ -2936,14 +3405,16 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       document.getElementById("summary").innerHTML = "";
       document.getElementById("oplist").innerHTML = "";
       document.getElementById("compare-body").innerHTML = "";
+      renderModes(null);
       syncDock();
       return;
     }
-    lastVerdicts = dataset.operators.map(function (op) { return verdictFor(op, b); });
+    lastVerdicts = regionOps().map(function (op) { return verdictFor(op, b); });
     renderSummary(lastVerdicts);
     renderGroups(lastVerdicts);
     renderOpList(lastVerdicts);
     renderCompare(lastVerdicts);
+    renderModes(lastVerdicts);
     syncDock();
     firstRender = false;
   }
@@ -3313,7 +3784,10 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   });
 
   [els.a, els.b, els.c, els.w].forEach(function (el) {
-    el.addEventListener("input", render);
+    el.addEventListener("input", function () {
+      if (chosen && el !== els.w) { chosen = null; renderChosen(); }
+      render();
+    });
 
     el.addEventListener("keydown", function (e) {
       if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
@@ -3348,7 +3822,8 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       });
       /* Arranca comparando las primeras aerolíneas del dataset, para que el
          comparador no aparezca vacío. Regla fija, sin elegir a dedo. */
-      cmpSel = json.operators.filter(function (o) { return o.type === "air"; })
+      renderRegion();
+      cmpSel = regionOps().filter(function (o) { return o.type === "air"; })
         .slice(0, MAX_CMP).map(function (o) { return o.id; });
       /* Si vino un enlace compartido, se respetan sus operadores, pero solo
          los que existen en el dataset de hoy. */
@@ -3360,6 +3835,10 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
         if (fromLink.length) cmpSel = fromLink;
       }
       render();
+      return fetch("/products.json", { cache: "no-cache" })
+        .then(function (r) { return r.ok ? r.json() : { products: [] }; })
+        .then(function (pj) { PRODUCTS = (pj && pj.products) || []; renderReco(); })
+        .catch(function () { PRODUCTS = []; });
     })
     .catch(function (err) {
       els.results.setAttribute("aria-busy", "false");
@@ -3369,6 +3848,20 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
       els.results.innerHTML = "";
       els.results.appendChild(p);
     });
+})();
+</script>
+<button type="button" class="totop" id="totop" aria-label="Back to top" title="Back to top" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<script>
+(function () {
+  var b = document.getElementById("totop"); if (!b) return;
+  var busy = false;
+  function sync() { b.hidden = window.scrollY < 300; busy = false; }
+  window.addEventListener("scroll", function () { if (!busy) { busy = true; requestAnimationFrame(sync); } }, { passive: true });
+  b.addEventListener("click", function () {
+    var calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
+  });
+  sync();
 })();
 </script>
 <script>

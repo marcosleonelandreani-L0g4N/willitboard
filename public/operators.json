@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "generated_on": "2026-10-01",
+  "generated_on": "2026-10-03",
   "canonical_units": {
     "length": "cm",
     "weight": "kg"
@@ -47,7 +47,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 19
+      "days_since_verified": 21
     },
     {
       "id": "wizz-air",
@@ -90,7 +90,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 19
+      "days_since_verified": 21
     },
     {
       "id": "easyjet",
@@ -133,7 +133,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 19
+      "days_since_verified": 21
     },
     {
       "id": "eurostar",
@@ -150,7 +150,7 @@
         "es": null,
         "en": "Each piece of luggage can be up to 85 cm long on routes to and from London, or 75 cm on all other routes. There is no weight limit on your luggage, but you must be able to carry your bags safely on and off the train and store them in the designated areas. Eurostar Standard and Plus include 2 pieces of luggage plus 1 hand luggage; Premier includes 3 plus 1. \"Hand luggage\" covers items such as backpacks, handbags, briefcases and laptop bags. Children may take one piece of luggage and one piece of hand luggage. Pushchairs and prams travel free if folded away. Extra bags, oversized items, bicycles, musical instruments and sports equipment are carried for a fee, and both the fees and the maximum dimensions differ between routes to and from London and routes between Belgium, France, the Netherlands and Germany."
       },
-      "days_since_verified": 18
+      "days_since_verified": 20
     },
     {
       "id": "deutsche-bahn",
@@ -167,7 +167,7 @@
         "es": null,
         "en": "Luggage such as briefcases, laptops, backpacks and suitcases can be taken free of charge. In addition to your hand luggage, you are allowed to carry one additional larger piece of luggage or item free of charge, provided this load can be carried by one person alone. You do not need to reserve space for your luggage, or weigh or measure it before travelling. Because of its size, a larger item may have to be stored away from your seat, for example in the nearest luggage rack. Each passenger is responsible for looking after their own luggage. Note: Deutsche Bahn states that its luggage racks were sized around an assumed standard of 700 x 500 x 300 mm (height x width x depth), which has almost always proved suitable. That figure describes the racks, not a limit on your bag."
       },
-      "days_since_verified": 18
+      "days_since_verified": 20
     },
     {
       "id": "trenitalia",
@@ -184,7 +184,7 @@
         "es": null,
         "en": "Passengers may take luggage or other easily transportable items (such as strollers, prams, high chairs if foldable, umbrellas, deckchairs, skis, musical instruments) on board the coach free of charge, provided they are stored in the spaces made available for luggage. Luggage may be permitted to exceed this volume limit as long as it does not disturb or cause injury to other passengers, does not obstruct railway staff from carrying out their work, and does not damage the coach. On some trains, specific spaces have been made available for passengers to store larger luggage items. Trenitalia's Conditions of Carriage (SCIC-NRT, section 14) add that each passenger may take no more than three easy-to-handle items as hand luggage, and refer to each carrier's own conditions for exact maximum measurements. Note: the wording above refers to a volume limit that Trenitalia does not state on this page."
       },
-      "days_since_verified": 18
+      "days_since_verified": 20
     },
     {
       "id": "british-airways",
@@ -227,7 +227,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 14
+      "days_since_verified": 16
     },
     {
       "id": "stena-line",
@@ -244,7 +244,7 @@
         "es": null,
         "en": "If you are travelling by car there is no limit to the amount of luggage you can carry in your vehicle as it will remain in your vehicle on our car deck. For foot passengers travelling to Sweden, Denmark, Germany, Latvia and Poland, there is no limit on the amount of luggage you can bring with you, however you need to be able to carry it onboard yourself. For foot passengers travelling to Ireland and to the UK from Ireland, there is no limit to the amount of luggage you can bring with you, however, hand luggage must be no larger than 60cm x 50cm x 40cm and you must be able to carry it yourself. If you are travelling with luggage that is larger than this it must be checked-in prior to boarding. Your luggage will be safely stowed during the sailing and can be collected upon arrival in the terminal. You will not be able to access your luggage during the sailing so please ensure you remove all necessary items before checking it in. If you are travelling by foot or by Rail & Sail on our Harwich-Hook of Holland route, you may take as much luggage as you like, as long as you can carry it onboard yourself. Passengers travelling on a day trip on our Irish Sea routes may carry one piece of small hand luggage. Any additional pieces of luggage will be charged at our discretion."
       },
-      "days_since_verified": 8
+      "days_since_verified": 10
     },
     {
       "id": "vueling",
@@ -287,7 +287,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "lufthansa",
@@ -330,7 +330,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "sas",
@@ -373,7 +373,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "norwegian",
@@ -416,7 +416,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "air-france",
@@ -459,7 +459,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "klm",
@@ -502,7 +502,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "transavia",
@@ -545,7 +545,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
     },
     {
       "id": "iberia",
@@ -588,7 +588,136 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 5
+      "days_since_verified": 7
+    },
+    {
+      "id": "jetsmart",
+      "name": "JetSMART",
+      "type": "air",
+      "country": "CL",
+      "region": "LATAM",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 03/10/2026 con capturas de la página oficial jetsmart.com/cl/es/opcionales (Opcionales - Condiciones y Precios). Bolso o Mochila pequeña: 'No puede exceder los 10 Kg ni las siguientes dimensiones: 45cm x 35cm x 25cm (largo, ancho, alto), incluyendo ruedas, asas y bolsillos'; 'puedes llevar sin costo un porta notebook, porta traje o pañalera'; bajo el asiento delantero. Equipaje de mano: 'No puede exceder los 10 Kg ni las siguientes dimensiones: 55cm x 35cm x 25cm (largo, ancho, alto), incluyendo ruedas, asas y bolsillos'; compartimientos superiores; 'Límite de una unidad por pasajero'. Es un opcional que se compra (página de Opcionales); precio no cargado. Marcos confirmó que las medidas son las mismas en Chile, Argentina y Perú. Nombre de la tarifa base: no encontrado, tarifa_referencia vacía.",
+      "notes_en": null,
+      "source_url": "https://jetsmart.com/cl/es/opcionales",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 45,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Equipaje de mano",
+        "max_cm": {
+          "length": 55,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": null,
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "volaris",
+      "name": "Volaris",
+      "type": "air",
+      "country": "MX",
+      "region": "LATAM",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 03/10/2026 con capturas de la página oficial. Tarifas Zero, Básica y Plus. Objeto personal en las tres, 'Sus dimensiones máximas son 35 × 45 × 20 cm', sin peso propio publicado. Equipaje de mano '55 × 40 × 25 cm (largo × ancho × alto) y un peso máximo de 10 kg': solo incluido en Plus; Zero: 'El equipaje de mano y documentado no están incluidos en esta opción'; Básica: 'El equipaje de mano no está incluido en esta opción'. 'El peso total del equipaje de mano y el artículo personal no debe exceder los 20 kg en conjunto' (peso_combinado_kg). 'Las medidas y pesos indicados a continuación aplican para vuelos nacionales e internacionales.' Ruedas y asas: no lo dice; queda vacío.",
+      "notes_en": null,
+      "source_url": "https://cms.volaris.com/es/informacion-util/politicas-de-equipaje/",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 45,
+          "width": 35,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Equipaje de mano",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Zero",
+      "combined_max_kg": 20,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "avianca",
+      "name": "Avianca",
+      "type": "air",
+      "country": "CO",
+      "region": "LATAM",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 03/10/2026 con capturas de avianca.com/es/mi-reserva/prepara-tu-viaje/equipaje y de avianca.com/es/experiencia-avianca/clases-y-tarifas/tipos-de-tarifas. Artículo personal: 'Medidas máximas: 45 × 35 × 20 cm (alto, largo y ancho)', bajo el asiento, 'En todas nuestras tarifas podrás llevar un artículo personal gratis'; sin peso publicado. Equipaje de mano: 'Medidas máximas: 55 x 35 x 25 cm (alto, largo y ancho), incluyendo ruedas y manijas'; 'Peso máximo: 10 kg'; 'Incluido en todas las tarifas a excepción de la tarifa Basic'. La tarifa Basic lleva la etiqueta 'Vuelos nacionales'; en internacionales la más barata es Light, que SÍ incluye el equipaje de mano. Referencia elegida: Basic (la más barata). Precio del extra no cargado.",
+      "notes_en": null,
+      "source_url": "https://www.avianca.com/es/mi-reserva/prepara-tu-viaje/equipaje",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 45,
+          "width": 35,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Equipaje de mano",
+        "max_cm": {
+          "length": 55,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Basic",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
     }
   ]
 }

@@ -180,7 +180,7 @@ def main() -> int:
         print("\n[pestaña Comparar]")
         page = ctx.new_page()
         page.on("pageerror", lambda e: errors.append(str(e)))
-        page.goto(BASE + "/#compare")
+        page.goto(BASE + "/?region=all#compare")  # todo el dataset, sin filtro de región
         page.wait_for_selector(".opt", state="attached")
         check(page.is_visible("#panel-compare") and not page.is_visible("#panel-check"),
               "#compare en la dirección abre directo la pestaña Comparar")

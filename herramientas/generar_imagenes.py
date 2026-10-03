@@ -49,8 +49,8 @@ def fontface() -> str:
 def og_html(lang: str) -> str:
     S = json.loads((ROOT / "sitio" / "i18n" / f"{lang}.json").read_text(encoding="utf-8"))
     sub = {
-        "en": "Cabin bag limits of European airlines, trains and ferries — from each operator's own page, checked by a person.",
-        "es": "Límites de equipaje de mano de aerolíneas, trenes y ferris europeos — de la página de cada operador, comprobados por una persona.",
+        "en": "Cabin bag limits of airlines in Europe and Latin America, and of European trains and ferries — from each operator's own page, checked by a person.",
+        "es": "Límites de equipaje de mano de aerolíneas de Europa y Latinoamérica, y de trenes y ferris europeos — de la página de cada operador, comprobados por una persona.",
     }[lang]
     return f"""<html><head><style>{fontface()}
     body{{margin:0;width:1200px;height:630px;overflow:hidden;font-family:Nunito,sans-serif;

@@ -23,7 +23,7 @@
 <meta property="og:image" content="https://willitboard.com/og-es.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Willitboard: ¿entra tu maleta? Límites de equipaje de mano de aerolíneas, trenes y ferris europeos.">
+<meta property="og:image:alt" content="Willitboard: ¿entra tu maleta? Límites de equipaje de mano de aerolíneas de Europa y Latinoamérica, y de trenes y ferris europeos.">
 <meta name="twitter:card" content="summary_large_image">
 <style>
 /* ==================================================================
@@ -1199,6 +1199,191 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 @media (prefers-reduced-motion: reduce) and (min-width: 84rem) {
   .dock, .dock.is-on { transform: translate(0, -50%); }
 }
+
+/* ================================================================= v6 (01/10/2026)
+   Diseño aprobado en la simulación: carrusel grande con ilustraciones en
+   estilo "Volumen", buscador arriba, resumen por medio al lado de las
+   medidas, botón para volver arriba y un modo noche índigo. */
+
+/* ---------- carrusel grande ---------- */
+.hero__grid { grid-template-columns: minmax(0, 1fr) !important; gap: 1rem; margin-top: 1rem; }
+.hero .standfirst { max-width: 40rem; }
+.slides { border-radius: var(--radius-lg); }
+.slide {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: flex-end;
+  min-height: 15rem; padding: 1.2rem 1.2rem 2.8rem;
+  background: linear-gradient(135deg, var(--sky-a), var(--sky-b)) !important;
+}
+.slide__art { position: absolute; inset: 0; z-index: -1; }
+.slide__art svg { width: 100%; height: 100%; display: block; }
+.slide__text {
+  width: min(100%, 25rem); padding: 0.9rem 1rem;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  border: 1px solid color-mix(in srgb, var(--surface) 90%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2); backdrop-filter: blur(12px) saturate(1.2);
+  border-radius: var(--radius); box-shadow: 0 12px 30px -18px var(--glow);
+}
+@media (min-width: 44.01rem) {
+  .slide { min-height: 17rem; padding: 1.6rem 1.6rem 3rem; align-items: center; }
+}
+@media (max-width: 44rem) {
+  .slide { min-height: 13.5rem; padding: 0.8rem 0.8rem 2.6rem; display: flex; }
+  .slide__text { width: 64%; padding: 0.65rem 0.7rem; }
+  .slide__h { font-size: 1.02rem; }
+  .slide__p { font-size: 0.8rem; margin-top: 0.3rem; }
+  .slide__cta { font-size: 0.76rem; padding: 0.45rem 0.7rem; margin-top: 0.5rem; }
+  .slide .stats { display: none; }
+}
+
+/* ---------- buscador de arriba ---------- */
+.gsearch { position: relative; z-index: 30; }
+.gsearch__box {
+  display: flex; align-items: center; gap: 0.55rem; cursor: text;
+  background: var(--surface); border: 1.5px solid var(--rule); border-radius: 999px;
+  padding: 0.7rem 1rem; box-shadow: var(--shadow);
+}
+.gsearch__box:focus-within { border-color: var(--accent); }
+.gsearch__box svg { width: 1.15rem; height: 1.15rem; color: var(--ink-faint); flex: none; }
+.gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 600 1rem var(--font-body); }
+.gsug {
+  position: absolute; left: 0; right: 0; top: calc(100% + 0.4rem);
+  background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-sm);
+  box-shadow: 0 20px 44px -20px rgba(23,32,51,.45); padding: 0.35rem; max-height: 22rem; overflow: auto;
+}
+.gsug h4 { margin: 0.45rem 0.55rem 0.2rem; font: 800 0.68rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.gsug a, .gsug button {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left;
+  border: 0; background: none; color: var(--ink); text-decoration: none; cursor: pointer;
+  font: 600 0.95rem var(--font-body); padding: 0.55rem; border-radius: 10px;
+}
+.gsug a:hover, .gsug a:focus-visible, .gsug button:hover, .gsug button:focus-visible { background: var(--surface-sunk); outline: none; }
+.gsug small { margin-left: auto; color: var(--ink-faint); font-weight: 700; white-space: nowrap; }
+.gsug__ico { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 8px; background: var(--accent-soft); color: var(--accent); flex: none; }
+.gsug__ico svg { width: 1rem; height: 1rem; }
+.gsug__none { margin: 0.6rem; color: var(--ink-faint); }
+
+/* ---------- medidas + resumen por medio, lado a lado ---------- */
+.panel__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 15rem); gap: 0.8rem; align-items: start; padding: 0.6rem 1.4rem 1.1rem; }
+.panel__grid .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+.modes {
+  display: flex; flex-direction: column; gap: 0.6rem;
+  background: var(--surface-soft); border-radius: var(--radius); padding: 0.8rem;
+  min-height: 100%;
+}
+.modes:empty { display: none; }
+.modes__h { margin: 0; font: 800 0.72rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
+.mode__h { display: flex; align-items: center; gap: 0.4rem; margin: 0 0 0.3rem; font: 600 0.95rem/1.1 var(--font-head); color: var(--ink); }
+.mode__h svg { width: 1.1rem; height: 1.1rem; color: var(--accent); flex: none; }
+.mode__h small { margin-left: auto; font: 700 0.78rem var(--font-body); color: var(--ink-faint); }
+.mode__counts { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.cnt {
+  display: inline-flex; align-items: center; gap: 0.2rem; min-height: 2rem;
+  padding: 0.25rem 0.55rem; border: 2px solid transparent; border-radius: 999px; cursor: pointer;
+  background: var(--band-wash); color: var(--band-tone);
+  font: 800 0.92rem/1 var(--font-body); font-variant-numeric: tabular-nums;
+}
+.cnt i { font-style: normal; font-size: 0.8rem; }
+.cnt.is-on { border-color: currentColor; }
+.cnt:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.modes__hint { margin: auto 0 0; font-size: 0.74rem; color: var(--ink-faint); }
+@media (max-width: 34rem) {
+  .panel__grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 0.55rem; padding-inline: 0.8rem; }
+  .panel__grid .fields { grid-template-columns: minmax(0, 1fr); gap: 0.45rem; }
+  .panel__grid .field { padding: 0.45rem 0.4rem; gap: 0.2rem; }
+  .panel__grid .field label { font-size: 0.68rem; }
+  .panel__grid .field input { font-size: 1.2rem; }
+  .panel__grid .field__unit { font-size: 0.7rem; }
+  .panel__grid .nudge { width: 2rem; height: 2rem; font-size: 1rem; }
+  .modes { padding: 0.6rem 0.5rem; gap: 0.5rem; }
+  .mode__h { font-size: 0.86rem; }
+  .cnt { font-size: 0.84rem; padding: 0.2rem 0.45rem; }
+}
+
+/* ---------- producto que se está probando ---------- */
+.chosen {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.7rem;
+  margin: 0.2rem 1.4rem 0; padding: 0.6rem 0.8rem; border-radius: var(--radius-sm);
+  background: var(--accent-soft); border: 1.5px solid var(--accent);
+}
+.chosen__lbl { font: 800 0.68rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.chosen__name { font: 600 1rem/1.2 var(--font-head); color: var(--ink); }
+.chosen__name a { color: inherit; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+.chosen__x { margin-left: auto; border: 0; background: none; color: var(--ink-faint); cursor: pointer; font-size: 1rem; padding: 0.3rem; border-radius: 8px; }
+@media (max-width: 34rem) { .chosen { margin-inline: 0.8rem; } }
+
+/* ---------- bolsos recomendados (solo con productos verificados) ---------- */
+.reco { display: flex; flex-direction: column; gap: 0.5rem; }
+.reco .sec-h { margin: 0; }
+.aff { margin: 0; font-size: 0.78rem; color: var(--ink-faint); }
+.aff b { color: var(--ink-soft); }
+.hscroll { display: flex; gap: 0.6rem; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.4rem; }
+.pc {
+  flex: none; width: 13rem; scroll-snap-align: start;
+  display: flex; flex-direction: column; gap: 0.35rem; padding: 0.8rem;
+  background: var(--surface); border: 1px solid var(--rule-soft); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+}
+.pc__brand { font: 800 0.66rem/1 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+.pc__name { margin: 0; font: 600 1rem/1.15 var(--font-head); }
+.pc__dims { font-size: 0.82rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.pc__badge { width: fit-content; padding: 0.2rem 0.55rem; border-radius: 999px; background: var(--pass-soft); color: var(--pass); font: 800 0.76rem var(--font-body); }
+.pc__acts { display: flex; gap: 0.35rem; margin-top: auto; }
+.pc__try, .pc__buy { flex: 1; text-align: center; border: 0; border-radius: 999px; padding: 0.5rem 0.4rem; font: 800 0.78rem/1.1 var(--font-body); cursor: pointer; text-decoration: none; }
+.pc__try { background: var(--surface-sunk); color: var(--ink); }
+.pc__buy { background: var(--accent); color: var(--accent-ink); }
+
+/* ---------- volver arriba ---------- */
+.totop {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 60;
+  display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; border: 0; cursor: pointer;
+  background: var(--accent); color: var(--accent-ink); box-shadow: 0 12px 26px -10px var(--glow);
+}
+.totop[hidden] { display: none; }
+.totop svg { width: 1.35rem; height: 1.35rem; }
+.totop:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+/* en la home, por encima de la barra fija de medidas del teléfono */
+body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
+
+/* ---------- modo noche: índigo con resplandores ---------- */
+:root[data-theme="dark"] {
+  --ground: #100C2B; --surface: #1B1646; --surface-soft: #221C58; --surface-sunk: #28226A;
+  --ink: #F5F3FF; --ink-soft: #CEC8F5; --ink-faint: #A39BDD; --rule: #3A3486; --rule-soft: #2E2872;
+  --accent: #7FA6FF; --accent-ink: #0E0B26; --accent-soft: #2B2A7A;
+  --pass: #5BEA9A; --pass-soft: #163A3A; --paid: #FFCB5C; --paid-soft: #3A2E36;
+  --fail: #FF8FA6; --fail-soft: #3D1D44; --info: #C9B3FF; --info-soft: #2F2470;
+  --unknown: #BCC2DE; --unknown-soft: #262256;
+  --sky-a: #1A1650; --sky-b: #241E66; --cloud: rgba(255,255,255,.10);
+  --sizer: #8FB0FF; --sizer-fill: rgba(143,176,255,.10); --handle: #E7E4FF;
+  --glow: rgba(166,124,255,.45);
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(40rem 26rem at 110% -5%, rgba(255,79,118,.20), transparent 60%),
+    radial-gradient(34rem 26rem at -10% 30%, rgba(0,200,190,.16), transparent 60%),
+    radial-gradient(40rem 30rem at 50% 110%, rgba(111,160,255,.20), transparent 60%), var(--ground);
+}
+:root[data-theme="dark"] .hero { background: transparent; }
+:root[data-theme="dark"] .totop,
+:root[data-theme="dark"] .slide__cta,
+:root[data-theme="dark"] .pc__buy { background: linear-gradient(135deg, #7FA6FF, #A67CFF); color: #0E0B26; }
+.chosen[hidden], .reco[hidden], .gsug[hidden] { display: none; }
+.slides__nav { left: auto; right: 0.9rem; justify-content: flex-end; }
+
+/* ---------- región (Europa / Latinoamérica / Todas) ---------- */
+.modes-col { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.region { display: flex; gap: 0.25rem; padding: 0.25rem; border-radius: 999px; background: var(--surface-sunk); }
+.region[hidden] { display: none; }
+.region button {
+  flex: 1 1 auto; min-width: 0; min-height: 2.1rem; padding: 0.3rem 0.5rem;
+  border: 0; border-radius: 999px; background: none; cursor: pointer;
+  color: var(--ink-soft); font: 800 0.78rem/1.1 var(--font-body); white-space: nowrap;
+}
+.region button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); box-shadow: 0 4px 10px -4px var(--glow); }
+.region button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (max-width: 34rem) {
+  .region { flex-direction: column; border-radius: 16px; }
+  .region button { width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -1276,7 +1461,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
   <footer>
     <p><strong>Willitboard</strong> cubre el equipaje de mano: el artículo personal y la maleta de cabina. Las reglas de equipaje facturado cambian según el operador y según lo que se compre, así que las mostramos como referencia y no como veredicto.</p>
-    <p>Cifras del conjunto de datos 1.4, generado el 2026-10-01. Límites en cm y kg.</p>
+    <p>Cifras del conjunto de datos 1.4, generado el 2026-10-03. Límites en cm y kg.</p>
     <ul class="footlinks footlinks--guides" aria-label="Guías">
       <li><a href="/es/como-medir-una-maleta/">Cómo medir tu maleta</a></li>
       <li><a href="/es/medidas-equipaje-de-mano/">Medidas de equipaje de mano comparadas</a></li>
@@ -1290,6 +1475,20 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   </footer>
 </div>
 
+<button type="button" class="totop" id="totop" aria-label="Volver arriba" title="Volver arriba" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+<script>
+(function () {
+  var b = document.getElementById("totop"); if (!b) return;
+  var busy = false;
+  function sync() { b.hidden = window.scrollY < 300; busy = false; }
+  window.addEventListener("scroll", function () { if (!busy) { busy = true; requestAnimationFrame(sync); } }, { passive: true });
+  b.addEventListener("click", function () {
+    var calm = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
+  });
+  sync();
+})();
+</script>
 <script>
 /* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
    la elección: /cookies/ promete que el sitio no escribe nada en el navegador.

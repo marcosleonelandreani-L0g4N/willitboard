@@ -1,7 +1,7 @@
 # Willitboard
 
 Herramienta gratuita que responde "¿mi valija entra?" comparando las medidas del
-equipaje contra los límites **oficiales** de aerolíneas, trenes y ferries europeos.
+equipaje contra los límites **oficiales** de aerolíneas de Europa y Latinoamérica, y de trenes y ferries europeos.
 En vivo: https://willitboard.com — español en https://willitboard.com/es/
 
 ## Regla de datos, no negociable
@@ -155,6 +155,8 @@ porque hoy esas páginas prometen "sin cookies y sin publicidad".
 
     python3 convert_productos.py
     python3 -m unittest pruebas.test_productos
+    python3 pruebas/test_v6.py                   # diseño v6: resumen por medio, buscador, productos, volver arriba
+    python3 pruebas/test_region.py               # selector Europa / Latinoamérica / Todas (filtra lista, números y productos; nada guardado en el navegador)
 
 Un producto se publica solo con `estado` = listo/publicado, `verificado_el` puesto
 por una persona, `fuente_url` del fabricante y al menos un enlace de tienda. Bolsos y
