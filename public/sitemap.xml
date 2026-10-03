@@ -266,6 +266,20 @@
     <lastmod>2026-10-03</lastmod>
   </url>
   <url>
+    <loc>https://willitboard.com/airlines/latam/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/latam/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/latam/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/latam/"/>
+    <lastmod>2026-10-03</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/latam/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/latam/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/latam/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/latam/"/>
+    <lastmod>2026-10-03</lastmod>
+  </url>
+  <url>
     <loc>https://willitboard.com/airlines/avianca/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/avianca/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/avianca/"/>

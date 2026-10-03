@@ -677,6 +677,49 @@
       "days_since_verified": 0
     },
     {
+      "id": "latam",
+      "name": "LATAM Airlines",
+      "type": "air",
+      "country": "CL",
+      "region": "LATAM",
+      "limit_type": "dimensional",
+      "notes": "Verificado por Marcos el 03/10/2026 con capturas, página /co/es/centro-ayuda/preguntas/equipaje/incluido/dimensiones-peso. Bolso o mochila pequeña: 'El peso máximo es de 10 kg (22 lb)'; 'Las medidas máximas son de 45 x 35 x 20 cm (alto x largo x ancho), incluyendo los bolsillos, las ruedas, el asa, etc.'. Equipaje de mano: 'El peso máximo es de 12 kg (26 lb) si viajas en cabina Economy y 16 kg (35 lb) si viajas en cabina Premium Economy o Premium Business'; 'Las medidas máximas de este equipaje son de 55 cm alto + 35 cm largo + 25 cm ancho' (no menciona ruedas para la maleta: incluye_ruedas_manijas queda vacío). Tabla oficial (confirmada por Marcos con captura el 03/10/2026) de tarifas latamairlines.com/co/es/centro-ayuda/preguntas/compras/asistencia/tarifas-pasaje-domestico (cabinas Economy): 'Equipaje de mano de 12 kg': Basic 'Con costo extra', Light '1 pieza', Full '1 pieza'. Restricción: Basic disponible en rutas domésticas de Chile, Colombia, Ecuador y Perú, además de Caribe y rutas regionales que no salgan de Brasil; no aplica a vuelos domésticos de Brasil. Referencia elegida: Basic (la más barata), mismo criterio que Avianca. OJO: la página en inglés /us/en/help-center/faq/purchases/asistance/ticket-fares habla de 'a 10 kg suitcase' en Basic; contradice los 12 kg de dimensiones-peso y de la tabla de tarifas. Marcos eligió 12 kg el 03/10/2026. El asistente comprobó ese día que /cl/, /pe/ y /ec/ dimensiones-peso dicen lo mismo (12 kg Economy, 55 x 35 x 25) y que la tabla /cl/ de tarifas coincide (Basic 'Con costo extra', Light y Full '1 pieza').",
+      "notes_en": null,
+      "source_url": "https://www.latamairlines.com/co/es/centro-ayuda/preguntas/equipaje/incluido/dimensiones-peso",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 45,
+          "width": 35,
+          "height": 20
+        },
+        "max_kg": 10
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Equipaje de mano",
+        "max_cm": {
+          "length": 55,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": 12
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Basic",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
       "id": "avianca",
       "name": "Avianca",
       "type": "air",

@@ -212,8 +212,12 @@ def main() -> None:
 
             # ---------- fugas de inglés en la interfaz ----------
             print("\nInterfaz española sin restos en inglés")
+            # Los nombres comerciales no se traducen ("LATAM Airlines"): se sacan
+            # del texto antes de buscar restos en inglés, igual que las citas.
+            op_names = [o["name"] for o in json.loads(
+                (PUBLIC / "operators.json").read_text(encoding="utf-8"))["operators"]]
             leaks = page.evaluate(
-                """() => {
+                """(names) => {
                   const bad = ['Travels free', 'No extra cost', 'Doesn\\'t fit', 'Fits, but costs extra',
                                'Check the baggage rule', 'Size not confirmed',
                                'Official source', 'Checked by a human', 'Your bag',
@@ -224,9 +228,11 @@ def main() -> None:
                   // se ignora lo que esté dentro de una cita del operador
                   const clone = document.body.cloneNode(true);
                   clone.querySelectorAll('.op__rule p').forEach(n => n.remove());
-                  const txt = clone.innerText;
+                  let txt = clone.innerText;
+                  for (const n of names) txt = txt.split(n).join(' ');
                   return bad.filter(s => txt.includes(s));
-                }"""
+                }""",
+                op_names,
             )
             check("no quedan cadenas en inglés fuera de las citas", not leaks, str(leaks))
 
