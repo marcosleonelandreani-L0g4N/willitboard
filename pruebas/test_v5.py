@@ -208,7 +208,9 @@ def main() -> int:
                 return -1
             return c["length"] * c["width"] * c["height"]
         order = page.eval_on_selector_all(".opt", "els => els.map(e => e.dataset.id)")
-        want = [o["id"] for o in sorted(ops, key=lambda o: (-vol(o), o["name"]))]
+        # Empate de tamaño -> orden alfabético sin distinguir mayúsculas, como
+        # localeCompare en la página (British Airways, easyJet, Jet2 empatan).
+        want = [o["id"] for o in sorted(ops, key=lambda o: (-vol(o), o["name"].casefold()))]
         check(order == want, f"ordenar por maleta de cabina sigue el tamaño publicado ({order[:3]}…)")
         page.close()
 

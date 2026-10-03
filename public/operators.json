@@ -559,6 +559,170 @@
       "days_since_verified": 7
     },
     {
+      "id": "aer-lingus",
+      "name": "Aer Lingus",
+      "type": "air",
+      "country": "IE",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "source_url": "https://www.aerlingus.com/prepare/bags/carry-on-baggage/",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "10kg carry-on bag",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 24
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Saver",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "eurowings",
+      "name": "Eurowings",
+      "type": "air",
+      "country": "DE",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "source_url": "https://www.eurowings.com/en/information/baggage/hand-baggage-policy.html",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 25
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": false,
+        "requires_addon": "Large cabin bag",
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 23
+        },
+        "max_kg": 8
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Basic",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "tap-air-portugal",
+      "name": "TAP Air Portugal",
+      "type": "air",
+      "country": "PT",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "source_url": "https://www.flytap.com/en-pt/baggage/hand-baggage",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": 2
+      },
+      "cabin_bag": {
+        "included": true,
+        "requires_addon": null,
+        "max_cm": {
+          "length": 55,
+          "width": 40,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": "Discount",
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
+      "id": "jet2",
+      "name": "Jet2",
+      "type": "air",
+      "country": "GB",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "source_url": "https://www.jet2.com/en/baggage",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 20
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": true,
+        "requires_addon": null,
+        "max_cm": {
+          "length": 56,
+          "width": 45,
+          "height": 25
+        },
+        "max_kg": 10
+      },
+      "wheels_handles": {
+        "included_in_measurement": true,
+        "tolerance_cm": null
+      },
+      "reference_fare": null,
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": null,
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 0
+    },
+    {
       "id": "jetsmart",
       "name": "JetSMART",
       "type": "air",
