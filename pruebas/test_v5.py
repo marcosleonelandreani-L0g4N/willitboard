@@ -50,7 +50,7 @@ def check(cond: bool, label: str) -> None:
 # combinado sin depender de que un operador real esté verificado.
 FAKE_OP = {
     "id": "test-air", "name": "Test Air", "type": "air", "country": "ES", "region": "EU",
-    "limit_type": "dimensional", "notes": None, "notes_en": None,
+    "limit_type": "dimensional",
     "source_url": "https://example.com/bags", "verified_on": "2026-09-26",
     "personal_item": {"included": True, "max_cm": {"length": 40, "width": 30, "height": 20}, "max_kg": None},
     "cabin_bag": {"included": False, "requires_addon": "Test Plus",

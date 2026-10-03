@@ -111,10 +111,33 @@ def triple(max_cm):
     return None if any(x is None for x in v) else v
 
 
+def internal_notes() -> dict:
+    """Notas internas por id, leídas de la PLANILLA (desde el 03/10/2026 ya no
+    viajan en operators.json). Hacen falta para comprobar que ningún trozo de
+    ellas se filtre a una página pública."""
+    from openpyxl import load_workbook
+    ws = load_workbook(ROOT / "willitboard_operadores.xlsx", read_only=True,
+                       data_only=True)["Operadores"]
+    rows = ws.iter_rows(values_only=True)
+    header = list(next(rows))
+    i_id, i_notas = header.index("id"), header.index("notas")
+    return {r[i_id]: (r[i_notas] or "") for r in rows if r and r[i_id]}
+
+
 def main() -> None:
     with (PUBLIC / "operators.json").open(encoding="utf-8") as fh:
         data = json.load(fh)
     ops = data["operators"]
+    notas = internal_notes()
+
+    # El JSON público no lleva las notas internas (decisión 03/10/2026).
+    print("\nJSON público sin notas internas")
+    check("operators.json no tiene campo notes ni notes_en en ningún operador",
+          not any(("notes" in o or "notes_en" in o) for o in ops))
+    # Si la planilla no devolviera ninguna nota, el guardián de más abajo
+    # pasaría sin comprobar nada.
+    check("el guardián de notas tiene notas reales para comparar",
+          any(notas.get(o["id"]) for o in ops))
 
     httpd = serve()
     base = f"http://127.0.0.1:{PORT}"
@@ -218,7 +241,7 @@ def main() -> None:
                     venenos = ["[SIN VERIFICAR]", "hoja Leyenda", "del asistente",
                                "revision_", "decisión abierta", "NO SÉ"]
                     filtradas = [v for v in venenos if v in body]
-                    nota = (op.get("notes") or "")
+                    nota = notas.get(op["id"], "")
                     trozo = nota[:60].strip()
                     if trozo and trozo in body:
                         filtradas.append("texto literal de notes")

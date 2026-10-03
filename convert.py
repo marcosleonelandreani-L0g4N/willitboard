@@ -236,7 +236,8 @@ def build_operator(row, line, today):
     op = {
         "id": text(row.get("id")), "name": name, "type": operator_type,
         "country": country, "region": region, "limit_type": limit_type,
-        "notes": text(row.get("notas")), "notes_en": text(row.get("notes_en")),
+        # La columna `notas` es interna (español, marcas de trabajo): se queda en
+        # la planilla y NO viaja al JSON público. Decisión del 03/10/2026.
         "source_url": source, "verified_on": verified.isoformat() if verified else None,
     }
     if limit_type == "dimensional":

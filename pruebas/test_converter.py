@@ -122,6 +122,15 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(len(operators), 1)
         self.assertEqual(operators[0]["id"], "testop")
 
+    def test_notas_internas_no_viajan_al_json(self):
+        # Decisión 03/10/2026: `notas` es interna y se queda en la planilla.
+        row = dict(BASE_ROW, notas="[SIN VERIFICAR] nota interna de prueba")
+        operators, errors, drafts, warnings = self._convert([row])
+        self.assertEqual(errors, [])
+        self.assertNotIn("notes", operators[0])
+        self.assertNotIn("notes_en", operators[0])
+        self.assertNotIn("nota interna de prueba", json.dumps(operators, ensure_ascii=False))
+
     def test_borrador_sin_fecha_se_omite(self):
         row = dict(BASE_ROW, verificado_el=None)
         operators, errors, drafts, warnings = self._convert([row])
