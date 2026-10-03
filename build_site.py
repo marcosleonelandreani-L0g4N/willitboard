@@ -87,7 +87,7 @@ BRAND_MARK = "b"
 # propósito: entra el día de la aprobación junto con privacidad, cookies y
 # divulgación reescritas, porque hoy esas tres páginas prometen "sin cookies y
 # sin publicidad", y la de cookies promete cambiar ANTES de la primera cookie.
-ADSENSE_PUB_ID = ""
+ADSENSE_PUB_ID = "pub-5571641673142734"
 # Identificador fijo de Google en ads.txt, tal como lo da la guía oficial:
 # https://support.google.com/adsense/answer/12171612
 ADS_TXT_GOOGLE_ID = "f08c47fec0942fa0"
