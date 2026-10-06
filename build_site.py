@@ -120,7 +120,7 @@ LEGAL_PAGES = {
     "privacy": {
         "slug": {"en": "privacy", "es": "es/privacidad"},
         "nav": "nav_privacy",
-        "updated": "2026-10-01",
+        "updated": "2026-10-06",
     },
     "cookies": {
         "slug": {"en": "cookies", "es": "es/cookies"},
@@ -163,6 +163,13 @@ GUIDE_PAGES = {
         "updated": "2026-10-05",
     },
 }
+
+# Página 404 (06/10/2026). Cloudflare la sirve con estado 404 para cualquier URL
+# que no exista, gracias a "not_found_handling": "404-page" en wrangler.jsonc, y
+# elige el 404.html MÁS CERCANO: una URL rota bajo /es/ recibe la versión en
+# español. No va al sitemap, lleva noindex y no tiene canonical ni hreflang,
+# porque no es una página que se pueda enlazar: aparece en direcciones ajenas.
+NOT_FOUND_PAGES = {"en": "404.html", "es": "es/404.html"}
 
 # marcadores que calcula el script, no el diccionario
 COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON", "FICHE_PATHS",
@@ -839,6 +846,27 @@ def copy_static() -> list[Path]:
 
 # ------------------------------------------------------------ guías
 
+def strip_linkable_head(html: str) -> str:
+    """
+    La 404 se sirve en direcciones que no son suyas. Un canonical, unos hreflang
+    o un og:url ahí le dirían a Google que esa dirección rota es una página real.
+    Se quitan y se agrega noindex.
+    """
+    out = []
+    for line in html.split("\n"):
+        s = line.strip()
+        if s.startswith('<link rel="canonical"') or s.startswith('<link rel="alternate"'):
+            continue
+        if s.startswith('<meta property="og:url"'):
+            continue
+        out.append(line)
+    html = "\n".join(out)
+    marker = '<meta name="viewport"'
+    i = html.index(marker)
+    j = html.index("\n", i)
+    return html[: j + 1] + '<meta name="robots" content="noindex">' + html[j:]
+
+
 def guide_path(key: str, lang: str) -> str:
     return f"/{GUIDE_PAGES[key]['slug'][lang]}/"
 
@@ -1177,6 +1205,47 @@ def main() -> None:
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(render(template_page, values), encoding="utf-8")
             written.append(out)
+
+    # ---------- página 404 ----------
+    for lang in PAGES:
+        S = dicts[lang]
+        home = PAGES[lang][1]
+        content = (
+            f'    <p>{t(S, "notfound_body")}</p>\n'
+            f'    <p><a class="cta" href="{home}">{t(S, "fiche_cta")}</a></p>\n'
+            + block_operator_index(published, lang, S)
+        )
+        values = dict(S)
+        values.update({
+            "STYLE": css,
+            "LANG": lang,
+            "CANONICAL": "",
+            "HREF_EN": "",
+            "HREF_ES": "",
+            "NAV_EN_PATH": PAGES["en"][1],
+            "NAV_ES_PATH": PAGES["es"][1],
+            "NAV_EN_CUR": ' aria-current="page"' if lang == "en" else "",
+            "NAV_ES_CUR": ' aria-current="page"' if lang == "es" else "",
+            "DOC_TITLE": t(S, "notfound_title"),
+            "META_DESCRIPTION": t(S, "notfound_meta"),
+            "H1": t(S, "notfound_h1"),
+            "STANDFIRST": t(S, "notfound_standfirst"),
+            "CRUMB_SELF": t(S, "notfound_crumb"),
+            "CONTENT": content,
+            "CHECKER_HREF": home,
+            "PAGE_UPDATED": "",
+            "FOOTER_LINKS": block_footer_links(lang, S),
+            "TOTOP": totop_block(S),
+            "BRAND": block_brand(home),
+        })
+        values["HEAD_EXTRA"] = head_extra(lang, S, BASE_URL + home,
+                                          values["DOC_TITLE"], values["META_DESCRIPTION"])
+        html = strip_linkable_head(render(template_page, values))
+        html = html.replace("    <p></p>\n", "")
+        out = OUT_DIR / NOT_FOUND_PAGES[lang]
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(html, encoding="utf-8")
+        written.append(out)
 
     # ---------- archivos estáticos ----------
     written.extend(copy_static())

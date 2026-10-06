@@ -60,7 +60,7 @@ LEGAL = {
 # Fecha de edición declarada de cada página de texto. Duplicada a propósito,
 # igual que las rutas: si alguien la mueve en build_site.py sin tocarla acá, la
 # prueba falla. La fecha es una afirmación y cambiarla tiene que costar algo.
-LEGAL_UPDATED = {"privacy": "2026-10-01", "cookies": "2026-10-01",
+LEGAL_UPDATED = {"privacy": "2026-10-06", "cookies": "2026-10-01",
                  "disclosure": "2026-09-20"}
 
 # Guías y páginas propias (v5, 26/09/2026). "sizes" no tiene fecha manual: su

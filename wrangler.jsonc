@@ -9,6 +9,10 @@
   // Todo lo que esté dentro de public/ se publica como sitio estático.
   // Este archivo queda afuera a propósito, para que no se sirva como página.
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    // Una URL que no existe recibe el 404.html más cercano (public/404.html o
+    // public/es/404.html) con estado 404. Sin esto, Cloudflare devuelve un 404
+    // sin cuerpo: una página en blanco.
+    "not_found_handling": "404-page"
   }
 }
