@@ -69,8 +69,10 @@ GUIDES = {
     "measure": {"en": "how-to-measure-luggage", "es": "es/como-medir-una-maleta"},
     "sizes":   {"en": "cabin-bag-sizes",        "es": "es/medidas-equipaje-de-mano"},
     "about":   {"en": "about",                  "es": "es/sobre-willitboard"},
+    "contact": {"en": "contact",                "es": "es/contacto"},
 }
-GUIDE_UPDATED = {"measure": "2026-09-26", "about": "2026-10-01"}
+GUIDE_UPDATED = {"measure": "2026-09-26", "about": "2026-10-01",
+                 "contact": "2026-10-05"}
 TEXT_PAGES = {**LEGAL, **GUIDES}
 
 failures: list[str] = []

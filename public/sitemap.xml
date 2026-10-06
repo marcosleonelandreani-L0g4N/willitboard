@@ -433,4 +433,18 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/about/"/>
     <lastmod>2026-10-01</lastmod>
   </url>
+  <url>
+    <loc>https://willitboard.com/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/contacto/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/contact/"/>
+    <lastmod>2026-10-05</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/contacto/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/contact/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/contacto/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/contact/"/>
+    <lastmod>2026-10-05</lastmod>
+  </url>
 </urlset>

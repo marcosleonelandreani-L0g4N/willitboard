@@ -155,6 +155,13 @@ GUIDE_PAGES = {
         "nav": "nav_about",
         "updated": "2026-10-01",
     },
+    # Contacto (05/10/2026). Solo correo: el sitio es estático y un formulario
+    # exigiría un servicio de terceros que reciba los datos.
+    "contact": {
+        "slug": {"en": "contact", "es": "es/contacto"},
+        "nav": "nav_contact",
+        "updated": "2026-10-05",
+    },
 }
 
 # marcadores que calcula el script, no el diccionario
@@ -521,7 +528,7 @@ def block_operator_index(ops: list, lang: str, S: dict) -> str:
         )
     guide_links = "\n".join(
         f'        <li><a href="{guide_path(k, lang)}">{t(S, cfg["nav"])}</a></li>'
-        for k, cfg in GUIDE_PAGES.items() if k != "about"
+        for k, cfg in GUIDE_PAGES.items() if k not in ("about", "contact")
     )
     groups.append(
         f'    <div class="index__group">\n'
