@@ -1373,3 +1373,33 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   .region { flex-direction: column; border-radius: 16px; }
   .region button { width: 100%; }
 }
+
+/* ---------- objetos prohibidos (10/10/2026): franja desplegable con enlaces oficiales ---------- */
+/* la home separa sus bloques con gap: 2rem; esta franja va pegada al buscador */
+.banned {
+  margin-top: -1.25rem; background: var(--surface); border: 1.5px solid var(--rule-soft);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.banned__sum {
+  list-style: none; display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem 0.95rem; cursor: pointer; border-radius: var(--radius); color: var(--ink);
+  min-height: 3rem;
+}
+.banned__sum::-webkit-details-marker { display: none; }
+.banned__sum:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.banned__icon { flex: none; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 999px; background: var(--fail-soft); color: var(--fail); }
+.banned__icon svg { width: 1.3rem; height: 1.3rem; }
+.banned__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.banned__txt b { font: 800 1rem/1.25 var(--font-body); }
+.banned__sub { font-size: 0.86rem; color: var(--ink-soft); }
+.banned__chev { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 999px; background: var(--surface-sunk); color: var(--ink-soft); transition: transform .2s var(--lift); }
+.banned__chev svg { width: 1.1rem; height: 1.1rem; }
+.banned[open] .banned__chev { transform: rotate(180deg); }
+.banned__body { padding: 0 0.95rem 0.95rem; font-size: 0.95rem; color: var(--ink-soft); }
+.banned__body p { margin: 0 0 0.7rem; max-width: 42rem; }
+.banned__links { list-style: none; margin: 0 0 0.7rem; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.banned__links li { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.65rem 0.8rem; border-radius: var(--radius); background: var(--surface-sunk); }
+.banned__links a { color: var(--accent); font-weight: 800; text-underline-offset: 2px; }
+.banned__links span { font-size: 0.86rem; }
+.banned__foot { font-size: 0.86rem; }
+@media (hover: hover) { .banned__sum:hover .banned__chev { background: var(--accent-soft); color: var(--accent); } }

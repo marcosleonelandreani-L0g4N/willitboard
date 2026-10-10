@@ -1416,6 +1416,36 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   .region { flex-direction: column; border-radius: 16px; }
   .region button { width: 100%; }
 }
+
+/* ---------- objetos prohibidos (10/10/2026): franja desplegable con enlaces oficiales ---------- */
+/* la home separa sus bloques con gap: 2rem; esta franja va pegada al buscador */
+.banned {
+  margin-top: -1.25rem; background: var(--surface); border: 1.5px solid var(--rule-soft);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.banned__sum {
+  list-style: none; display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem 0.95rem; cursor: pointer; border-radius: var(--radius); color: var(--ink);
+  min-height: 3rem;
+}
+.banned__sum::-webkit-details-marker { display: none; }
+.banned__sum:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.banned__icon { flex: none; display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 999px; background: var(--fail-soft); color: var(--fail); }
+.banned__icon svg { width: 1.3rem; height: 1.3rem; }
+.banned__txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
+.banned__txt b { font: 800 1rem/1.25 var(--font-body); }
+.banned__sub { font-size: 0.86rem; color: var(--ink-soft); }
+.banned__chev { flex: none; display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 999px; background: var(--surface-sunk); color: var(--ink-soft); transition: transform .2s var(--lift); }
+.banned__chev svg { width: 1.1rem; height: 1.1rem; }
+.banned[open] .banned__chev { transform: rotate(180deg); }
+.banned__body { padding: 0 0.95rem 0.95rem; font-size: 0.95rem; color: var(--ink-soft); }
+.banned__body p { margin: 0 0 0.7rem; max-width: 42rem; }
+.banned__links { list-style: none; margin: 0 0 0.7rem; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.banned__links li { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.65rem 0.8rem; border-radius: var(--radius); background: var(--surface-sunk); }
+.banned__links a { color: var(--accent); font-weight: 800; text-underline-offset: 2px; }
+.banned__links span { font-size: 0.86rem; }
+.banned__foot { font-size: 0.86rem; }
+@media (hover: hover) { .banned__sum:hover .banned__chev { background: var(--accent-soft); color: var(--accent); } }
 </style>
 </head>
 <body class="home">
@@ -1534,6 +1564,26 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     </label>
     <div class="gsug" id="gsug" hidden></div>
   </div>
+
+  <!-- ============================================================ objetos prohibidos
+       (10/10/2026) Solo enlaces a páginas oficiales: las reglas de seguridad
+       las pone la autoridad y el aeropuerto, no el operador, y cambian por
+       aeropuerto. Willitboard no copia ni resume ninguna lista. -->
+  <details class="banned" id="banned">
+    <summary class="banned__sum">
+      <span class="banned__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+      <span class="banned__txt"><b>What can't go in your hand luggage?</b><span class="banned__sub">Liquids, sharp objects and more: official lists</span></span>
+      <span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    </summary>
+    <div class="banned__body">
+      <p>Banned items are set by aviation security, separately from the size limits Willitboard checks. We don't copy those rules: we link to the official pages.</p>
+      <ul class="banned__links">
+        <li><a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_en.htm" target="_blank" rel="noopener nofollow">European Union — Your Europe</a><span>Flights from EU airports. It recommends checking your airport's website for the detailed list.</span></li>
+        <li><a href="https://www.gov.uk/hand-luggage-restrictions" target="_blank" rel="noopener nofollow" hreflang="en">United Kingdom — GOV.UK</a><span>Flights from UK airports. Liquid rules have changed at some UK airports.</span></li>
+      </ul>
+      <p class="banned__foot">Flying from somewhere else, or not sure? Your departure airport's website has the final list, and your airline can confirm before you travel.</p>
+    </div>
+  </details>
 
   <!-- ============================================================ pestañas
        Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo
@@ -2312,6 +2362,15 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   "guide_updated": "Text last edited on {date}.",
   "gsearch_label": "Search airlines, trains, ferries and guides",
   "gsearch_ph": "Search Ryanair, a train, a ferry…",
+  "banned_h": "What can't go in your hand luggage?",
+  "banned_sub": "Liquids, sharp objects and more: official lists",
+  "banned_p": "Banned items are set by aviation security, separately from the size limits Willitboard checks. We don't copy those rules: we link to the official pages.",
+  "banned_eu": "European Union — Your Europe",
+  "banned_eu_url": "https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_en.htm",
+  "banned_eu_note": "Flights from EU airports. It recommends checking your airport's website for the detailed list.",
+  "banned_uk": "United Kingdom — GOV.UK",
+  "banned_uk_note": "Flights from UK airports. Liquid rules have changed at some UK airports.",
+  "banned_foot": "Flying from somewhere else, or not sure? Your departure airport's website has the final list, and your airline can confirm before you travel.",
   "gsearch_ops": "Airlines, trains and ferries",
   "gsearch_guides": "Guides",
   "gsearch_products": "Bags",
@@ -3581,13 +3640,26 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 
   /* Se muestra solo cuando el panel principal ya quedó ARRIBA de la pantalla,
      no cuando todavía no se llegó a él. */
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(function (entries) {
-      var e = entries[0];
-      dockWanted = !e.isIntersecting && e.boundingClientRect.top < 0;
-      paintDock();
-    }, { threshold: 0 }).observe(document.querySelector(".panel"));
+  /* (10/10/2026) Antes solo lo decidía un IntersectionObserver, que avisa
+     cuando el panel CRUZA el borde de la pantalla. Si la página salta de
+     golpe (tecla Fin, un enlace al pie) de "todavía abajo" a "ya arriba",
+     el panel nunca cruza y el flotante no aparecía. Ahora también se mide
+     al hacer scroll, una vez por cuadro. */
+  var mainPanel = document.querySelector(".panel");
+  function checkDock() {
+    var want = mainPanel.getBoundingClientRect().bottom <= 0;
+    if (want !== dockWanted) { dockWanted = want; paintDock(); }
   }
+  var dockRaf = 0;
+  window.addEventListener("scroll", function () {
+    if (dockRaf) return;
+    dockRaf = requestAnimationFrame(function () { dockRaf = 0; checkDock(); });
+  }, { passive: true });
+  window.addEventListener("resize", checkDock, { passive: true });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(checkDock, { threshold: 0 }).observe(mainPanel);
+  }
+  checkDock();
 
   /* ---------- compartir ----------
      El enlace lleva las medidas en cm/kg y los operadores comparados. Nada se
