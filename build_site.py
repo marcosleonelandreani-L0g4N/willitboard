@@ -649,6 +649,15 @@ def block_hero_stats(ops: list, S: dict) -> str:
 BANNED_VERIFIED_ON = "2026-10-10"
 BANNED_SOURCE_EN = "https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_en.htm"
 BANNED_SOURCE_UK = "https://www.gov.uk/hand-luggage-restrictions"
+# Latinoamérica (10/10/2026): solo enlaces, con una nota que dice en qué se
+# aparta de la UE. Sus reglas NO son las de la UE, así que nunca se les
+# aplican las fichas. Las tres páginas las abrió Marcos el 2026-10-10 y mandó
+# capturas: Chile (líquidos permitidos; 100 ml solo en vuelos a EE. UU.),
+# Colombia (100 ml figura solo para vuelos internacionales; publicada
+# 15/11/2024, modificada 16/04/2025) y México (aeropuertos GAP: 100 ml).
+BANNED_SOURCE_CL = "https://www.dgac.gob.cl/pasajeros/articulos-prohibidos"
+BANNED_SOURCE_CO = "https://www.aerocivil.gov.co/autoridad_aeronautica/publicaciones/3673/articulos-prohibidos-en-equipajes/"
+BANNED_SOURCE_MX = "https://www.aeropuertosgap.com.mx/es/informacion-util-para-viajar/equipaje.html"
 
 # (clave de texto, estado, ícono). Estados: no = no va en cabina,
 # never = ni en cabina ni en bodega, limit = va con límites,
@@ -694,6 +703,9 @@ def block_banned(lang: str, S: dict, verified_on: str = None, draft: bool = Fals
         '      <ul class="banned__links">\n'
         f'        <li><a href="{e(eu_url)}" target="_blank" rel="noopener nofollow">{e(t(S, "banned_eu"))}</a><span>{e(t(S, "banned_eu_note"))}</span></li>\n'
         f'        <li><a href="{BANNED_SOURCE_UK}" target="_blank" rel="noopener nofollow" hreflang="en">{e(t(S, "banned_uk"))}</a><span>{e(t(S, "banned_uk_note"))}</span></li>\n'
+        f'        <li><a href="{BANNED_SOURCE_CL}" target="_blank" rel="noopener nofollow" hreflang="es">{e(t(S, "banned_cl"))}</a><span>{e(t(S, "banned_cl_note"))}</span></li>\n'
+        f'        <li><a href="{BANNED_SOURCE_CO}" target="_blank" rel="noopener nofollow" hreflang="es">{e(t(S, "banned_co"))}</a><span>{e(t(S, "banned_co_note"))}</span></li>\n'
+        f'        <li><a href="{BANNED_SOURCE_MX}" target="_blank" rel="noopener nofollow" hreflang="es">{e(t(S, "banned_mx"))}</a><span>{e(t(S, "banned_mx_note"))}</span></li>\n'
         '      </ul>\n'
         f'      <p class="banned__foot">{e(t(S, "banned_foot"))}</p>\n'
     )

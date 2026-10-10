@@ -219,7 +219,9 @@ def main() -> int:
             page.click("#banned summary")
             check(page.locator("#banned .banned__links").is_visible(), f"{path}: al tocarla se abre")
             hrefs = page.eval_on_selector_all("#banned a", "els => els.map(e => e.href)")
-            ok_domains = all(h.startswith("https://europa.eu/") or h.startswith("https://www.gov.uk/") for h in hrefs)
+            official = ("https://europa.eu/", "https://www.gov.uk/", "https://www.dgac.gob.cl/",
+                        "https://www.aeropuertosgap.com.mx/", "https://www.aerocivil.gov.co/")
+            ok_domains = all(h.startswith(official) for h in hrefs)
             check(len(hrefs) >= 2 and ok_domains, f"{path}: solo enlaza páginas oficiales ({hrefs})")
             check(any(h.endswith(eu) for h in hrefs), f"{path}: la página de la UE va en el idioma de la página")
             rels = page.eval_on_selector_all("#banned a", "els => els.map(e => e.rel)")
