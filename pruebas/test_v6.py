@@ -185,6 +185,26 @@ def main() -> int:
         page.goto(BASE + "/")
         arts = page.eval_on_selector_all(".slide__art svg", "els => els.length")
         check(arts == 4, f"las cuatro diapositivas tienen ilustración ({arts})")
+
+        # Flechas (10/10/2026): avanzan, retroceden y dan la vuelta.
+        cur = "document.querySelector('#slides-dots [aria-current]').getAttribute('aria-controls')"
+        page.click("#slides-next"); page.wait_for_timeout(700)
+        check(page.evaluate(cur) == "slide-2", "la flecha derecha pasa a la diapositiva 2")
+        page.click("#slides-prev"); page.click("#slides-prev"); page.wait_for_timeout(900)
+        check(page.evaluate(cur) == "slide-4", "la flecha izquierda da la vuelta hasta la última")
+        page.focus("#slides-next"); page.keyboard.press("ArrowRight"); page.wait_for_timeout(900)
+        check(page.evaluate(cur) == "slide-1", "la tecla → avanza con el foco en el carrusel")
+        check(bool(page.get_attribute("#slides-prev", "aria-label")) and bool(page.get_attribute("#slides-next", "aria-label")),
+              "las dos flechas tienen nombre para lectores de pantalla")
+        # En el teléfono, la fila de botones no pisa el panel de texto.
+        clash = page.evaluate("""() => {
+          const n = document.querySelector('.slides__nav').getBoundingClientRect();
+          return [...document.querySelectorAll('.slide__text')].some(e => {
+            const t = e.getBoundingClientRect();
+            return t.left >= 0 && t.left < innerWidth && n.top < t.bottom;
+          });
+        }""")
+        check(not clash, "en el teléfono, las flechas no tapan el texto de la diapositiva")
         ctx.close()
         browser.close()
     srv.shutdown()

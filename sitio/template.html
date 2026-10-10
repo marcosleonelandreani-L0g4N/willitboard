@@ -96,6 +96,9 @@
           </article>
         </div>
         <div class="slides__nav">
+          <button type="button" class="slides__arrow" id="slides-prev" aria-controls="slides-track" aria-label="{{slides_prev}}" title="{{slides_prev}}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
           <button type="button" class="slides__pause" id="slides-pause" aria-pressed="false" data-pause="{{slides_pause}}" data-play="{{slides_play}}" aria-label="{{slides_pause}}" title="{{slides_pause}}">
             <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="6" width="3.5" height="12" rx="1.2" fill="currentColor"/><rect x="13.5" y="6" width="3.5" height="12" rx="1.2" fill="currentColor"/></svg>
             <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5v11l9-5.5z" fill="currentColor"/></svg>
@@ -106,6 +109,9 @@
             <button type="button" aria-controls="slide-3" aria-label="{{SLIDE_3_GO}}"></button>
             <button type="button" aria-controls="slide-4" aria-label="{{SLIDE_4_GO}}"></button>
           </div>
+          <button type="button" class="slides__arrow" id="slides-next" aria-controls="slides-track" aria-label="{{slides_next}}" title="{{slides_next}}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
         </div>
       </section>
     </div>
@@ -1866,8 +1872,25 @@
     goSlide(slideIdx + 1);
   }
 
+  /* Cuando la persona elige a mano (punto, flecha o teclado), el contador de
+     7 s vuelve a empezar: así no salta solo justo después de que eligió. */
+  function restartTimer() {
+    if (reduce) return;
+    clearInterval(timer);
+    timer = setInterval(tick, 7000);
+  }
+  function stepTo(i) { goSlide(i); restartTimer(); }
+
   dotEls.forEach(function (d, i) {
-    d.addEventListener("click", function () { goSlide(i); });
+    d.addEventListener("click", function () { stepTo(i); });
+  });
+  document.getElementById("slides-prev").addEventListener("click", function () { stepTo(slideIdx - 1); });
+  document.getElementById("slides-next").addEventListener("click", function () { stepTo(slideIdx + 1); });
+  /* Flechas del teclado con el foco dentro del carrusel (no en un campo de texto). */
+  document.getElementById("slides").addEventListener("keydown", function (e) {
+    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
+    if (e.key === "ArrowLeft") { e.preventDefault(); stepTo(slideIdx - 1); }
+    else if (e.key === "ArrowRight") { e.preventDefault(); stepTo(slideIdx + 1); }
   });
   pauseBtn.addEventListener("click", function () { paused = !paused; paintPause(); });
 
