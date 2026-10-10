@@ -127,8 +127,8 @@ def main() -> None:
                           page.evaluate("document.documentElement.scrollWidth") <= width)
                     check(f"{label}: tiene la lista de operadores",
                           page.locator(".index__links a").count() > 0)
-                    check(f"{label}: tipografía propia cargada",
-                          page.evaluate("document.fonts.check('16px Nunito')"))
+                    check(f"{label}: usa la letra del aparato",
+                          page.evaluate("getComputedStyle(document.body).fontFamily").startswith("-apple-system"))
                 page.close()
             browser.close()
         httpd.shutdown()

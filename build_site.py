@@ -66,9 +66,10 @@ DATASET = OUT_DIR / "operators.json"
 
 BASE_URL = "https://willitboard.com"
 
-# Archivos que se copian tal cual a public/ (tipografías, favicon, imágenes
-# para compartir). Se sirven desde el propio dominio: el sitio no carga nada
-# de terceros desde el 26/09/2026.
+# Archivos que se copian tal cual a public/ (favicon, imágenes para compartir y
+# las viejas tipografías, que desde el 10/10/2026 ya no usa ninguna página: el
+# texto sale con la letra del aparato). Todo se sirve desde el propio dominio:
+# el sitio no carga nada de terceros desde el 26/09/2026.
 STATIC_DIR = SITE_DIR / "static"
 BRAND_DIR = SITE_DIR / "brand"
 PARTIALS_DIR = SITE_DIR / "partials"
@@ -120,7 +121,7 @@ LEGAL_PAGES = {
     "privacy": {
         "slug": {"en": "privacy", "es": "es/privacidad"},
         "nav": "nav_privacy",
-        "updated": "2026-10-06",
+        "updated": "2026-10-10",
     },
     "cookies": {
         "slug": {"en": "cookies", "es": "es/cookies"},

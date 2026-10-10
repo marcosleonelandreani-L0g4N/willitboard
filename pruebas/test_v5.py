@@ -17,7 +17,7 @@ Lo importante que verifica
 5. Las pestañas se manejan con el teclado y #compare abre directo la segunda.
 6. Los botones del carrusel llevan a donde dicen.
 7. CERO terceros: ninguna página pide nada fuera del propio sitio (las
-   tipografías se sirven desde /fonts/), y las etiquetas para compartir
+   tipografías: desde el 10/10/2026, la del aparato, sin descargas), y las etiquetas para compartir
    apuntan a archivos que existen.
 
 Uso:  python3 pruebas/test_v5.py
@@ -260,8 +260,14 @@ def main() -> int:
             page = ctx.new_page()
             page.on("pageerror", lambda e: errors.append(str(e)))
             page.goto(BASE + path, wait_until="networkidle")
-            loaded = page.evaluate("document.fonts.check('700 20px Fredoka') && document.fonts.check('600 16px Nunito')")
-            check(loaded, f"{path}: las tipografías cargan desde el propio sitio")
+            # Desde el 10/10/2026 el texto usa la letra del aparato: ninguna
+            # @font-face, ningún nombre de las viejas tipografías.
+            fams = page.evaluate("""() => [document.body, document.querySelector('h1')]
+                .filter(Boolean).map(e => getComputedStyle(e).fontFamily)""")
+            n_faces = page.evaluate("[...document.fonts].length")
+            check(all(f.startswith("-apple-system") for f in fams) and n_faces == 0
+                  and not any("Nunito" in f or "Fredoka" in f for f in fams),
+                  f"{path}: usa la letra del aparato, sin descargar tipografías ({fams[0][:30]}…)")
             og = page.get_attribute('meta[property="og:image"]', "content") or ""
             local = ROOT / og.replace("https://willitboard.com/", "")
             check(og.startswith("https://willitboard.com/") and local.exists(),
@@ -275,7 +281,7 @@ def main() -> int:
                   f"{path}: los íconos del sitio existen ({len(icons)})")
             page.close()
         check(not ext, f"ninguna página pidió nada a terceros ({ext[:3]})")
-        check(bool(fonts), f"las tipografías se pidieron a /fonts/ ({len(fonts)} pedidos)")
+        check(not fonts, f"ninguna página pidió tipografías a /fonts/ ({fonts[:2]})")
         ctx.close()
         browser.close()
     srv.shutdown()
