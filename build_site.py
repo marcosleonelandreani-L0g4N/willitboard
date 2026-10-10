@@ -125,7 +125,7 @@ LEGAL_PAGES = {
     "cookies": {
         "slug": {"en": "cookies", "es": "es/cookies"},
         "nav": "nav_cookies",
-        "updated": "2026-10-01",
+        "updated": "2026-10-10",
     },
     "disclosure": {
         "slug": {"en": "disclosure", "es": "es/divulgacion"},

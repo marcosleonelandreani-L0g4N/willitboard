@@ -3,9 +3,13 @@
     <p>Not "only essential cookies". Not "cookies you can opt out of". None. That is why
     there is no consent banner on this site: there is nothing to ask you about.</p>
 
-    <p>The site also writes nothing to your browser's local storage, session storage or
-    databases. Your bag measurements, your chosen language and your unit preference live
-    in the page's memory while the tab is open and are gone the moment you close it.</p>
+    <p>The site writes exactly one thing to your browser, and only if you ask for it. If
+    you switch to night mode, that choice is kept in the browser's <em>session
+    storage</em> under the name <code>wib-theme</code>, so the next page — or the other
+    language — opens in night mode too. It is never sent anywhere, switching back to
+    light deletes it, and closing the tab deletes it as well. Nothing else is stored:
+    your bag measurements, your chosen language and your unit preference live in the
+    page's memory while the tab is open and are gone the moment you close it.</p>
 
     <h2>Don't take our word for it — check</h2>
 
@@ -21,8 +25,10 @@
       <strong>Session storage</strong> for <code>willitboard.com</code>.</li>
     </ol>
 
-    <p>All three should be empty. If they are not, something has changed that we have not
-    documented, and we would like to know:
+    <p>Cookies and local storage should be empty. Session storage should be empty too,
+    unless you turned on night mode: then it holds that single entry,
+    <code>wib-theme</code>, set to <code>dark</code>. If you find anything else,
+    something has changed that we have not documented, and we would like to know:
     <a href="mailto:hello@willitboard.com">hello@willitboard.com</a>.</p>
 
     <h2>No third parties either</h2>

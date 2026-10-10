@@ -2,6 +2,20 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
+<script>
+/* Modo noche recordado (decisión del 10/10/2026). Va arriba de todo para pintar
+   el tema antes de mostrar la página, sin parpadeo en claro. Lo único que el
+   sitio guarda es "wib-theme" = "dark", en sessionStorage: dura mientras la
+   pestaña está abierta y se borra al cerrarla (una preferencia de interfaz de
+   solo sesión no necesita banner de consentimiento). Volver a claro lo borra.
+   Si el navegador no deja usar el almacenamiento, arranca en claro. */
+(function () {
+  try {
+    if (sessionStorage.getItem("wib-theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Will Your Bag Fit?</title>
 <meta name="description" content="Check your bag against the official cabin baggage limits of airlines in Europe and Latin America, and of European trains and ferries. Every limit links to the operator's own page and shows the date it was checked.">
@@ -1572,7 +1586,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
       <div class="modes-col">
         <!-- Región: Europa / Latinoamérica / Todas. Solo aparece si el dataset
              tiene más de una región. La elección va en la URL (?region=), nunca
-             en el navegador: /cookies/ promete que el sitio no guarda nada. -->
+             en el navegador: /cookies/ promete que lo único guardado es el modo noche. -->
         <div class="region" id="region" role="group" aria-label="Region" hidden>
           <button type="button" data-region="EU" aria-pressed="false">Europe</button>
           <button type="button" data-region="LATAM" aria-pressed="false">Latin America</button>
@@ -2123,7 +2137,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   "privacy_standfirst": "What this site knows about you, in full. The short answer is nothing, and this page explains why that is a fact about how it is built rather than a promise.",
   "cookies_title": "Cookies | Willitboard",
   "cookies_h1": "Cookies",
-  "cookies_meta": "Willitboard sets no cookies and writes nothing to your browser's storage. How to check that yourself in fifteen seconds.",
+  "cookies_meta": "Willitboard sets no cookies; the only thing it keeps in your browser is night mode, and only until you close the tab. How to check that yourself in fifteen seconds.",
   "cookies_standfirst": "This site sets no cookies at all, which is why you were never shown a consent banner. Here is how to confirm that for yourself.",
   "disclosure_title": "Advertising and affiliate disclosure | Willitboard",
   "disclosure_h1": "Advertising and affiliates",
@@ -2706,8 +2720,8 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").trim();
   }
 
-  /* En memoria y nada más. /cookies/ promete que el sitio no escribe nada en
-     el navegador; guardar esta selección en localStorage rompería esa promesa. */
+  /* En memoria y nada más. /cookies/ promete que lo único que el sitio guarda
+     en el navegador es el modo noche; guardar esta selección rompería esa promesa. */
   var MAX_CMP = 3;
   var cmpSel = [];
   var firstRender = true;
@@ -3883,9 +3897,9 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 })();
 </script>
 <script>
-/* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
-   la elección: /cookies/ promete que el sitio no escribe nada en el navegador.
-   Por eso cada página arranca en claro. */
+/* Modo claro por defecto, modo noche con el botón. La elección se recuerda en
+   sessionStorage ("wib-theme"), así se mantiene al cambiar de página o de idioma.
+   El script del <head> la aplica antes de pintar; acá solo se guarda. */
 (function () {
   var root = document.documentElement, b = document.getElementById("theme-toggle");
   if (!b) return;
@@ -3897,7 +3911,12 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     b.setAttribute("title", label);
   }
   b.addEventListener("click", function () {
-    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    var dark = root.getAttribute("data-theme") !== "dark";
+    root.setAttribute("data-theme", dark ? "dark" : "light");
+    try {
+      if (dark) sessionStorage.setItem("wib-theme", "dark");
+      else sessionStorage.removeItem("wib-theme");
+    } catch (e) { /* sin almacenamiento: el cambio vale solo para esta página */ }
     paint();
   });
   paint();

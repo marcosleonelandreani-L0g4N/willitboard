@@ -3,10 +3,13 @@
     <p>No es "solo cookies esenciales". No es "cookies que se pueden rechazar". Ninguna.
     Por eso no hay banner de consentimiento: no hay nada que preguntar.</p>
 
-    <p>El sitio tampoco escribe nada en el almacenamiento local, el de sesión ni las bases
-    de datos del navegador. Las medidas de la maleta, el idioma elegido y la unidad
-    preferida viven en la memoria de la página mientras la pestaña está abierta y
-    desaparecen al cerrarla.</p>
+    <p>El sitio escribe una sola cosa en el navegador, y solo si se le pide. Al pasar al
+    modo noche, esa elección se guarda en el <em>almacenamiento de sesión</em> del
+    navegador con el nombre <code>wib-theme</code>, para que la página siguiente —o el
+    otro idioma— se abra también en modo noche. No se envía a ningún lado, volver al modo
+    claro la borra y cerrar la pestaña también. Nada más se guarda: las medidas de la
+    maleta, el idioma elegido y la unidad preferida viven en la memoria de la página
+    mientras la pestaña está abierta y desaparecen al cerrarla.</p>
 
     <h2>No hace falta creernos: se puede comprobar</h2>
 
@@ -22,8 +25,10 @@
       <strong>Session storage</strong> lo que haya para <code>willitboard.com</code>.</li>
     </ol>
 
-    <p>Las tres deberían estar vacías. Si no lo están, algo cambió que no documentamos, y
-    nos gustaría saberlo: <a href="mailto:hello@willitboard.com">hello@willitboard.com</a>.</p>
+    <p>Las cookies y el almacenamiento local deberían estar vacíos. El de sesión también,
+    salvo que se haya activado el modo noche: entonces tiene esa única entrada,
+    <code>wib-theme</code>, con el valor <code>dark</code>. Si aparece cualquier otra
+    cosa, algo cambió que no documentamos, y nos gustaría saberlo: <a href="mailto:hello@willitboard.com">hello@willitboard.com</a>.</p>
 
     <h2>Tampoco hay terceros</h2>
 

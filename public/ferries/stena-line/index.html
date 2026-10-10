@@ -2,6 +2,20 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
+<script>
+/* Modo noche recordado (decisión del 10/10/2026). Va arriba de todo para pintar
+   el tema antes de mostrar la página, sin parpadeo en claro. Lo único que el
+   sitio guarda es "wib-theme" = "dark", en sessionStorage: dura mientras la
+   pestaña está abierta y se borra al cerrarla (una preferencia de interfaz de
+   solo sesión no necesita banner de consentimiento). Volver a claro lo borra.
+   Si el navegador no deja usar el almacenamiento, arranca en claro. */
+(function () {
+  try {
+    if (sessionStorage.getItem("wib-theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stena Line Luggage Allowance | Willitboard</title>
 <meta name="description" content="What Stena Line publishes about luggage, quoted in their own words. Linked to the operator's own page, with the date a human checked it. No invented measurements.">
@@ -1492,9 +1506,9 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 })();
 </script>
 <script>
-/* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
-   la elección: /cookies/ promete que el sitio no escribe nada en el navegador.
-   Por eso cada página arranca en claro. */
+/* Modo claro por defecto, modo noche con el botón. La elección se recuerda en
+   sessionStorage ("wib-theme"), así se mantiene al cambiar de página o de idioma.
+   El script del <head> la aplica antes de pintar; acá solo se guarda. */
 (function () {
   var root = document.documentElement, b = document.getElementById("theme-toggle");
   if (!b) return;
@@ -1506,7 +1520,12 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     b.setAttribute("title", label);
   }
   b.addEventListener("click", function () {
-    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    var dark = root.getAttribute("data-theme") !== "dark";
+    root.setAttribute("data-theme", dark ? "dark" : "light");
+    try {
+      if (dark) sessionStorage.setItem("wib-theme", "dark");
+      else sessionStorage.removeItem("wib-theme");
+    } catch (e) { /* sin almacenamiento: el cambio vale solo para esta página */ }
     paint();
   });
   paint();

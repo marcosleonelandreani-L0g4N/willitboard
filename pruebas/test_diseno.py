@@ -5,8 +5,9 @@ test_diseno.py — rediseño v4 (23/09/2026), en Chromium real.
 Lo que verifica
 ---------------
 1. Modo claro por defecto (fondo blanco) en las tres clases de página, y el
-   botón sol/luna cambia a oscuro. La elección NO se guarda: /cookies/ promete
-   que el sitio no escribe nada en el navegador.
+   botón sol/luna cambia a oscuro. Desde el 10/10/2026 la elección se recuerda
+   en sessionStorage ("wib-theme"): sigue al recargar y al cambiar de idioma, se
+   borra al volver a claro, y una pestaña nueva arranca en claro.
 2. La home arranca "liviana" (v5, 26/09/2026): los resultados van en un
    desplegable por tipo de transporte, cerrados, y el encabezado de cada uno
    ya cuenta cuántos entran y cuántos no. Adentro, cada operador es una fila
@@ -78,12 +79,36 @@ def main() -> int:
             check(dark and bg(page) != "rgb(255, 255, 255)" and
                   page.get_attribute("#theme-toggle", "aria-pressed") == "true",
                   f"{path}: el botón pasa a modo noche")
-            store = page.evaluate("[document.cookie, localStorage.length, sessionStorage.length]")
-            check(store == ["", 0, 0], f"{path}: no se guarda nada en el navegador ({store})")
+            store = page.evaluate("[document.cookie, localStorage.length, sessionStorage.length, sessionStorage.getItem('wib-theme')]")
+            check(store == ["", 0, 1, "dark"],
+                  f"{path}: lo único guardado es wib-theme=dark en sessionStorage ({store})")
             page.reload()
-            check(page.get_attribute("html", "data-theme") == "light",
-                  f"{path}: al recargar vuelve a claro (no se guarda la elección)")
+            check(page.get_attribute("html", "data-theme") == "dark" and
+                  page.get_attribute("#theme-toggle", "aria-pressed") == "true",
+                  f"{path}: al recargar sigue en modo noche")
+            # cambiar de idioma con el enlace de la barra mantiene el modo noche
+            other = page.eval_on_selector(".langnav a:not([aria-current])", "a => a.getAttribute('href')")
+            page.click(".langnav a:not([aria-current])")
+            page.wait_for_load_state()
+            check(page.get_attribute("html", "data-theme") == "dark" and bg(page) != "rgb(255, 255, 255)",
+                  f"{path} -> {other}: el otro idioma abre en modo noche")
+            page.click("#theme-toggle")
+            page.wait_for_timeout(350)
+            store = page.evaluate("[document.cookie, localStorage.length, sessionStorage.length]")
+            check(page.get_attribute("html", "data-theme") == "light" and store == ["", 0, 0],
+                  f"{path}: volver a claro borra lo guardado ({store})")
             page.close()
+
+        # pestaña nueva = sesión nueva: arranca en claro aunque antes se eligió noche
+        page = ctx.new_page()
+        page.goto(BASE + "/")
+        page.click("#theme-toggle")
+        page.close()
+        page = ctx.new_page()
+        page.goto(BASE + "/es/")
+        check(page.get_attribute("html", "data-theme") == "light",
+              "pestaña nueva: arranca en claro (la elección dura lo que dura la pestaña)")
+        page.close()
 
         print("\n[home liviana]")
         for path in ("/", "/es/"):

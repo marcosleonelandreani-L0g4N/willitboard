@@ -2,9 +2,23 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
+<script>
+/* Modo noche recordado (decisión del 10/10/2026). Va arriba de todo para pintar
+   el tema antes de mostrar la página, sin parpadeo en claro. Lo único que el
+   sitio guarda es "wib-theme" = "dark", en sessionStorage: dura mientras la
+   pestaña está abierta y se borra al cerrarla (una preferencia de interfaz de
+   solo sesión no necesita banner de consentimiento). Volver a claro lo borra.
+   Si el navegador no deja usar el almacenamiento, arranca en claro. */
+(function () {
+  try {
+    if (sessionStorage.getItem("wib-theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
+  } catch (e) {}
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cookies | Willitboard</title>
-<meta name="description" content="Willitboard sets no cookies and writes nothing to your browser's storage. How to check that yourself in fifteen seconds.">
+<meta name="description" content="Willitboard sets no cookies; the only thing it keeps in your browser is night mode, and only until you close the tab. How to check that yourself in fifteen seconds.">
 <link rel="canonical" href="https://willitboard.com/cookies/">
 <link rel="alternate" hreflang="en" href="https://willitboard.com/cookies/">
 <link rel="alternate" hreflang="es" href="https://willitboard.com/es/cookies/">
@@ -19,7 +33,7 @@
 <meta property="og:site_name" content="Willitboard">
 <meta property="og:locale" content="en_GB">
 <meta property="og:title" content="Cookies | Willitboard">
-<meta property="og:description" content="Willitboard sets no cookies and writes nothing to your browser's storage. How to check that yourself in fifteen seconds.">
+<meta property="og:description" content="Willitboard sets no cookies; the only thing it keeps in your browser is night mode, and only until you close the tab. How to check that yourself in fifteen seconds.">
 <meta property="og:url" content="https://willitboard.com/cookies/">
 <meta property="og:image" content="https://willitboard.com/og-en.png">
 <meta property="og:image:width" content="1200">
@@ -1433,9 +1447,13 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     <p>Not "only essential cookies". Not "cookies you can opt out of". None. That is why
     there is no consent banner on this site: there is nothing to ask you about.</p>
 
-    <p>The site also writes nothing to your browser's local storage, session storage or
-    databases. Your bag measurements, your chosen language and your unit preference live
-    in the page's memory while the tab is open and are gone the moment you close it.</p>
+    <p>The site writes exactly one thing to your browser, and only if you ask for it. If
+    you switch to night mode, that choice is kept in the browser's <em>session
+    storage</em> under the name <code>wib-theme</code>, so the next page — or the other
+    language — opens in night mode too. It is never sent anywhere, switching back to
+    light deletes it, and closing the tab deletes it as well. Nothing else is stored:
+    your bag measurements, your chosen language and your unit preference live in the
+    page's memory while the tab is open and are gone the moment you close it.</p>
 
     <h2>Don't take our word for it — check</h2>
 
@@ -1451,8 +1469,10 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
       <strong>Session storage</strong> for <code>willitboard.com</code>.</li>
     </ol>
 
-    <p>All three should be empty. If they are not, something has changed that we have not
-    documented, and we would like to know:
+    <p>Cookies and local storage should be empty. Session storage should be empty too,
+    unless you turned on night mode: then it holds that single entry,
+    <code>wib-theme</code>, set to <code>dark</code>. If you find anything else,
+    something has changed that we have not documented, and we would like to know:
     <a href="mailto:hello@willitboard.com">hello@willitboard.com</a>.</p>
 
     <h2>No third parties either</h2>
@@ -1474,7 +1494,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   </section>
 
   <footer>
-    <p>Last changed on 2026-10-01. Nothing here has been quietly widened since.</p>
+    <p>Last changed on 2026-10-10. Nothing here has been quietly widened since.</p>
     <ul class="footlinks footlinks--guides" aria-label="Guides">
       <li><a href="/how-to-measure-luggage/">How to measure your bag</a></li>
       <li><a href="/cabin-bag-sizes/">Cabin bag sizes compared</a></li>
@@ -1504,9 +1524,9 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 })();
 </script>
 <script>
-/* Modo claro por defecto, modo noche con el botón. A propósito NO se guarda
-   la elección: /cookies/ promete que el sitio no escribe nada en el navegador.
-   Por eso cada página arranca en claro. */
+/* Modo claro por defecto, modo noche con el botón. La elección se recuerda en
+   sessionStorage ("wib-theme"), así se mantiene al cambiar de página o de idioma.
+   El script del <head> la aplica antes de pintar; acá solo se guarda. */
 (function () {
   var root = document.documentElement, b = document.getElementById("theme-toggle");
   if (!b) return;
@@ -1518,7 +1538,12 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     b.setAttribute("title", label);
   }
   b.addEventListener("click", function () {
-    root.setAttribute("data-theme", root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+    var dark = root.getAttribute("data-theme") !== "dark";
+    root.setAttribute("data-theme", dark ? "dark" : "light");
+    try {
+      if (dark) sessionStorage.setItem("wib-theme", "dark");
+      else sessionStorage.removeItem("wib-theme");
+    } catch (e) { /* sin almacenamiento: el cambio vale solo para esta página */ }
     paint();
   });
   paint();
