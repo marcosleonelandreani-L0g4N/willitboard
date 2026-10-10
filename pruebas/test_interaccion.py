@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
-test_interaccion.py — panel flotante y botón de compartir, en Chromium real.
+test_interaccion.py — espejos de la maleta y botón de compartir, en Chromium real.
 
 Lo importante que verifica
 --------------------------
-1. El panel flotante es un ESPEJO: cambiar una medida ahí da exactamente la
-   misma clasificación que cambiarla en el panel principal. Nunca puede haber
-   dos medidas distintas en juego.
-2. Solo aparece cuando el panel principal quedó arriba de la pantalla, y
-   mientras está oculto es inerte (no se puede tabular a él).
+1. La franja de medidas de la pestaña Comparar es un ESPEJO: cambiar una
+   medida ahí da exactamente la misma clasificación que cambiarla en el panel
+   principal. Nunca puede haber dos medidas distintas en juego.
+2. El panel flotante se quitó el 10/10/2026 (pedido de Marcos): no existe, y
+   al bajar por la página no aparece nada fijo encima del contenido (salvo
+   el botón chico de "volver arriba").
 3. Un enlace compartido reproduce las mismas medidas, los mismos operadores
    comparados y, por lo tanto, los mismos veredictos. El enlace lleva medidas,
    nunca veredictos.
@@ -68,11 +69,15 @@ def ready(page, url):
     page.wait_for_selector(".rcard", state="attached")
 
 
-def dock_on(page) -> bool:
-    return page.evaluate("""() => {
-        const d = document.getElementById('dock');
-        return d.classList.contains('is-on') && !d.hasAttribute('inert');
-    }""")
+def fixed_on_screen(page) -> list:
+    """Elementos visibles con position: fixed, salvo el botón de volver arriba."""
+    return page.evaluate("""() => [...document.querySelectorAll('body *')].filter(e => {
+        if (e.closest('#totop')) return false;
+        const cs = getComputedStyle(e);
+        if (cs.position !== 'fixed' || cs.visibility === 'hidden' || cs.display === 'none' || +cs.opacity === 0) return false;
+        const r = e.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < innerHeight;
+    }).map(e => e.id || e.className)""")
 
 
 def scroll_to_compare(page):
@@ -99,64 +104,59 @@ def main() -> int:
         ctx.grant_permissions(["clipboard-read", "clipboard-write"], origin=BASE)
 
         for path, lang in (("/", "en"), ("/es/", "es")):
-            print(f"\n[{lang}] panel flotante")
+            print(f"\n[{lang}] sin panel flotante")
             page = ctx.new_page()
             page.on("pageerror", lambda e: errors.append(str(e)))
             ready(page, BASE + path)
-
-            check(not dock_on(page), f"{lang}: arriba de todo, el panel flotante no se ve")
-            check(page.get_attribute("#dock", "inert") is not None, f"{lang}: oculto = inerte")
-
+            check(page.locator("#dock, #dock-pill").count() == 0, f"{lang}: el panel flotante ya no existe")
             scroll_to_compare(page)
-            check(dock_on(page), f"{lang}: al bajar hasta el comparador aparece")
-            check(page.input_value("#dock-a") == page.input_value("#dim-a"),
+            fixed = fixed_on_screen(page)
+            check(not fixed, f"{lang}: al bajar no aparece nada fijo encima de la página ({fixed})")
+            page.evaluate("window.scrollTo({top: document.body.scrollHeight, behavior: 'instant'})")
+            page.wait_for_timeout(200)
+            check(not fixed_on_screen(page), f"{lang}: tampoco al saltar al final")
+            page.close()
+
+            print(f"\n[{lang}] espejo en la pestaña Comparar")
+            page = ctx.new_page()
+            page.on("pageerror", lambda e: errors.append(str(e)))
+            ready(page, BASE + path)
+            page.click("#tab-compare")
+            check(page.input_value("#cmp-a") == page.input_value("#dim-a"),
                   f"{lang}: arranca con la misma medida que el panel principal")
 
-            # + en el panel flotante
-            page.click('#dock button[data-nudge="dim-a"][data-dir="1"]')
-            after_dock = classes(page)
+            page.click('.bagstrip button[data-nudge="dim-a"][data-dir="1"]')
             main_val = page.input_value("#dim-a")
-            check(main_val == "51", f"{lang}: + del panel flotante mueve el campo principal (50 -> {main_val})")
-            check(page.input_value("#dock-a") == "51", f"{lang}: y el panel flotante lo refleja")
+            check(main_val == "51", f"{lang}: + de la franja mueve el campo principal (50 -> {main_val})")
+            check(page.input_value("#cmp-a") == "51", f"{lang}: y la franja lo refleja")
+            page.click("#tab-check")
+            after_mirror = classes(page)
 
-            # misma medida escrita en el panel principal, en una página nueva
             ref = ctx.new_page()
             ready(ref, BASE + path)
             ref.fill("#dim-a", "51")
-            check(classes(ref) == after_dock,
+            check(classes(ref) == after_mirror,
                   f"{lang}: misma clasificación que escribiendo 51 en el panel principal")
             ref.close()
 
-            # escribir a mano en el panel flotante
-            page.fill("#dock-c", "19")
-            check(page.input_value("#dim-c") == "19", f"{lang}: escribir en el panel flotante actualiza el principal")
-            page.fill("#dock-w", "7")
+            page.click("#tab-compare")
+            page.fill("#cmp-c", "19")
+            check(page.input_value("#dim-c") == "19", f"{lang}: escribir en la franja actualiza el principal")
+            page.fill("#cmp-w", "7")
             check(page.input_value("#weight") == "7", f"{lang}: también el peso")
 
-            # flechas del teclado en el panel flotante
-            page.focus("#dock-b")
+            page.focus("#cmp-b")
             page.keyboard.press("ArrowDown")
-            check(page.input_value("#dim-b") == "37" and page.input_value("#dock-b") == "37",
-                  f"{lang}: flecha abajo en el panel flotante baja 1 cm en los dos")
+            check(page.input_value("#dim-b") == "37" and page.input_value("#cmp-b") == "37",
+                  f"{lang}: flecha abajo en la franja baja 1 cm en los dos")
 
-            # ocultar y volver a abrir
-            page.click("#dock-hide")
-            check(not dock_on(page), f"{lang}: se puede ocultar")
-            check(page.evaluate("document.getElementById('dock-pill').classList.contains('is-on')"),
-                  f"{lang}: y queda el botón para reabrirlo")
-            page.click("#dock-pill")
-            check(dock_on(page), f"{lang}: el botón lo vuelve a abrir")
-
-            # unidades
-            page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
-            page.wait_for_timeout(350)
-            check(not dock_on(page), f"{lang}: al volver arriba desaparece")
+            page.click("#tab-check")
             page.click("#unit-in")
-            scroll_to_compare(page)
-            units = page.eval_on_selector_all('#dock [data-unit="length"]', "els => els.map(e => e.textContent)")
-            check(units == ["in", "in", "in"], f"{lang}: al pasar a pulgadas el panel flotante dice 'in'")
-            check(page.input_value("#dock-a") == page.input_value("#dim-a"),
-                  f"{lang}: y muestra el valor convertido ({page.input_value('#dock-a')} in)")
+            page.click("#tab-compare")
+            units = page.eval_on_selector_all('.bagstrip [data-unit="length"]', "els => els.map(e => e.textContent)")
+            check(units == ["in", "in", "in"], f"{lang}: al pasar a pulgadas la franja dice 'in'")
+            check(page.input_value("#cmp-a") == page.input_value("#dim-a"),
+                  f"{lang}: y muestra el valor convertido ({page.input_value('#cmp-a')} in)")
             page.close()
 
             print(f"\n[{lang}] unidades")
@@ -245,17 +245,21 @@ def main() -> int:
             check(store == ["", 0, 0], f"{lang}: no se escribió ninguna cookie ni almacenamiento ({store})")
             page.close()
 
-        # teléfono: el panel flotante no se sale de la pantalla
+        # teléfono: nada fijo encima, y la franja de Comparar entra y se puede tocar
         print("\n[móvil 375 px]")
         m = browser.new_context(viewport={"width": 375, "height": 740}, is_mobile=True, has_touch=True)
         page = m.new_page()
         page.on("pageerror", lambda e: errors.append(str(e)))
         ready(page, BASE + "/es/")
         scroll_to_compare(page)
-        box = page.locator("#dock").bounding_box()
-        check(dock_on(page) and box["x"] >= 0 and box["x"] + box["width"] <= 375,
-              f"móvil: el panel flotante entra en el ancho ({box['x']:.0f}–{box['x'] + box['width']:.0f} px)")
-        tap = page.locator('#dock button[data-nudge="weight"][data-dir="1"]').bounding_box()
+        fixed = fixed_on_screen(page)
+        check(not fixed, f"móvil: al bajar no aparece nada fijo encima ({fixed})")
+        page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
+        page.click("#tab-compare")
+        box = page.locator(".bagstrip").bounding_box()
+        check(box["x"] >= 0 and box["x"] + box["width"] <= 375,
+              f"móvil: la franja de Comparar entra en el ancho ({box['x']:.0f}–{box['x'] + box['width']:.0f} px)")
+        tap = page.locator('.bagstrip button[data-nudge="weight"][data-dir="1"]').bounding_box()
         check(tap["width"] >= 30 and tap["height"] >= 30,
               f"móvil: los botones se pueden tocar ({tap['width']:.0f}×{tap['height']:.0f} px)")
         width = page.evaluate("document.documentElement.scrollWidth")

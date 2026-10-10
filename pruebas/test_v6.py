@@ -254,24 +254,18 @@ def main() -> int:
             empty = bs.block_banned(lang, S, verified_on="")
             check('nogo__tile' not in empty and 'banned__links' in empty, f"{lang}: sin fecha, solo los enlaces oficiales")
 
-        # ------------------------------------------------ 7. panel flotante con salto de scroll (10/10/2026)
-        # Si la página salta de "panel todavía abajo" a "panel ya arriba" sin
-        # pasar por el medio (tecla Fin, enlace al pie), el flotante igual aparece.
-        print("\n[panel flotante tras un salto]")
+        # ------------------------------------------------ 7. sin panel flotante (10/10/2026)
+        # El panel flotante se quitó a pedido de Marcos. Ni al cargar ni tras
+        # un salto al final debe existir.
+        print("\n[sin panel flotante]")
         ctx = browser.new_context(viewport={"width": 1100, "height": 560})
         page = ctx.new_page()
         page.goto(BASE + "/")
         page.wait_for_selector(".rcard", state="attached")
-        below = page.evaluate("document.querySelector('.panel').getBoundingClientRect().top > innerHeight")
-        check(below, "al cargar, el panel principal todavía está debajo de la pantalla")
+        check(page.locator("#dock, #dock-pill").count() == 0, "el panel flotante y su botón no existen")
         page.evaluate("window.scrollTo({top: document.documentElement.scrollHeight, behavior: 'instant'})")
         page.wait_for_timeout(300)
-        on = page.evaluate("(() => { const d = document.getElementById('dock'); return d.classList.contains('is-on') && !d.hasAttribute('inert'); })()")
-        check(on, "después del salto al final, el panel flotante aparece")
-        page.evaluate("window.scrollTo({top: 0, behavior: 'instant'})")
-        page.wait_for_timeout(300)
-        off = page.evaluate("document.getElementById('dock').hasAttribute('inert')")
-        check(off, "al volver arriba de golpe, se oculta otra vez")
+        check(page.locator("#dock, #dock-pill").count() == 0, "después del salto al final, sigue sin aparecer")
         ctx.close()
         browser.close()
     srv.shutdown()

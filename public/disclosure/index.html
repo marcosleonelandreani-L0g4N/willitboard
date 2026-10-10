@@ -737,29 +737,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 .legaldoc code { font-size: 0.9em; background: var(--surface-sunk); padding: 0.15em 0.4em; border-radius: 6px; }
 .legaldoc kbd { font-size: 0.85em; background: var(--surface); border: 1px solid var(--rule); border-bottom-width: 3px; border-radius: 6px; padding: 0.15em 0.45em; color: var(--ink); }
 
-/* ------------------------------------------------------------ panel flotante */
-.dock {
-  position: fixed; z-index: 40; left: 50%; bottom: 14px;
-  width: min(58rem, calc(100% - 24px));
-  display: flex; align-items: center; gap: 0.75rem;
-  padding: 0.55rem 0.7rem;
-  background: var(--surface);
-  border: 1px solid var(--rule-soft); border-radius: 24px;
-  box-shadow: 0 24px 48px -20px rgba(23,32,51,.45), var(--shadow-sm);
-  opacity: 0; visibility: hidden; transform: translate(-50%, 18px);
-  transition: opacity .2s, transform .28s var(--lift), visibility 0s linear .28s;
-}
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .dock { background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
-}
-.dock.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .2s, transform .28s var(--lift), visibility 0s; }
-.dock__head { display: flex; align-items: center; gap: 0.3rem; flex: none; }
-.dock__title { font: 600 0.95rem/1.1 var(--font-head); color: var(--ink); margin-right: 0.2rem; }
-.dock__icon {
-  display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border: 0;
-  border-radius: 999px; background: var(--surface-sunk); color: var(--ink-soft); cursor: pointer;
-}
-.dock__icon svg { width: 1rem; height: 1rem; }
+/* ------------------------------------------------------------ campos compactos de la maleta
+   Los usa la franja de la pestaña Comparar (.bagstrip). Las clases conservan
+   el nombre "dock" del panel flotante, que se quitó el 10/10/2026. */
 .dock__fields { flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.45rem; min-width: 0; }
 .dock__f { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
 .dock__f label { font: 800 0.66rem/1 var(--font-body); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); text-align: center; }
@@ -770,56 +750,23 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   transition: box-shadow .18s, background-color .18s;
 }
 .dock__row:focus-within { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent); }
-.dock .nudge { width: 1.85rem; height: 1.85rem; font-size: 1rem; }
-.dock input {
-  width: 100%; min-width: 0; padding: 0; border: 0; background: transparent;
-  font: 800 1.05rem/1 var(--font-body); font-variant-numeric: tabular-nums; text-align: center; color: var(--ink);
-}
-.dock input:focus-visible { outline: none; }
-.dock-pill {
-  position: fixed; z-index: 40; right: 16px; bottom: 16px;
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  padding: 0.75rem 1.1rem; border: 0; border-radius: 999px; cursor: pointer;
-  background: var(--accent); color: var(--accent-ink); font: 800 var(--step--1)/1 var(--font-body);
-  box-shadow: 0 14px 30px -12px rgba(0,0,0,.5);
-  opacity: 0; visibility: hidden; transform: translateY(14px);
-  transition: opacity .2s, transform .28s var(--lift), visibility 0s linear .28s;
-}
-.dock-pill svg { width: 1.05rem; height: 1.05rem; }
-.dock-pill.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity .2s, transform .28s var(--lift), visibility 0s; }
 
 @media (min-width: 84rem) {
   .shell--home { padding-bottom: 4rem; }
-  .dock {
-    left: auto; right: 18px; bottom: auto; top: 50%;
-    width: 11rem; flex-direction: column; align-items: stretch; gap: 0.6rem;
-    padding: 0.8rem 0.7rem; transform: translate(18px, -50%);
-  }
-  .dock.is-on { transform: translate(0, -50%); }
-  .dock__head { justify-content: flex-end; }
-  .dock__title { margin-right: auto; }
-  .dock__fields { grid-template-columns: 1fr; gap: 0.55rem; }
-  .dock__f label { text-align: left; padding-left: 0.4rem; }
 }
 @media (max-width: 34rem) {
-  .dock { bottom: 8px; width: calc(100% - 16px); gap: 0.4rem; padding: 0.45rem 0.45rem 0.45rem 0.6rem; border-radius: 20px; }
-  .dock__title { display: none; }
-  .dock__head { order: 2; flex-direction: column; gap: 0.3rem; }
-  .dock__icon { width: 1.9rem; height: 1.9rem; }
   .dock__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
   .dock__f { flex-direction: row; align-items: center; gap: 0.3rem; }
   .dock__f label { flex: none; width: 2.2rem; text-align: left; font-size: 0.6rem; line-height: 1.15; }
   .dock__f label span { display: block; }
   .dock__f .dock__row { flex: 1; }
-  .dock .nudge { width: 2rem; height: 2rem; }
-  .dock-pill { right: 12px; bottom: 12px; }
 }
 
 /* ------------------------------------------------------------ reacción al mouse / al tocar
    Solo reacciona lo que se puede usar. El levantamiento va dentro de
    (hover: hover) para que en el teléfono no quede nada "pegado". */
 .units button, .nudge, .preset, .tile, .rcard__cmp, .picker > summary, .cmpwrap__clear,
-.index__links a, .cta, .langnav a, .share, .dock__icon, .dock-pill, .themetoggle,
+.index__links a, .cta, .langnav a, .share, .themetoggle,
 .picker__opt, .howto > summary, .cmpwrap__summary, .rrow__sum, .wordmark__mark, .cmp td {
   transition: transform .18s var(--lift), box-shadow .18s var(--lift),
               background-color .18s, border-color .18s, color .18s, filter .18s;
@@ -836,7 +783,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   .rrow__sum:hover .rrow__chev { background: var(--accent-soft); color: var(--accent); }
   .rcard__cmp:not([aria-pressed="true"]):hover { background: var(--accent-soft); }
   .rcard__cmp[aria-pressed="true"]:hover { filter: brightness(1.08); }
-  .picker > summary:hover, .share:hover, .cta:hover, .dock-pill.is-on:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 12px 24px -10px var(--glow); }
+  .picker > summary:hover, .share:hover, .cta:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 12px 24px -10px var(--glow); }
   .picker__opt:hover { background: var(--accent-soft); }
   .cmpwrap__clear:hover { border-color: var(--accent); color: var(--accent); }
   .cmpwrap__summary:hover .cmpwrap__chev { background: var(--accent-soft); color: var(--accent); }
@@ -846,13 +793,12 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   .index__links a:hover { transform: translateY(-2px); background: var(--accent); color: var(--accent-ink); }
   .langnav a:not([aria-current]):hover { color: var(--accent); }
   .themetoggle:hover { transform: rotate(-15deg) scale(1.08); }
-  .dock__icon:hover { background: var(--accent-soft); color: var(--accent); }
   .wordmark:hover .wordmark__mark { transform: rotate(-6deg) scale(1.06); }
   .howto > summary:hover { color: var(--accent); }
 }
 .units button:active, .nudge:active, .preset:active, button.tile:not(:disabled):active,
 .rcard__cmp:active, .picker > summary:active, .cmpwrap__clear:active, .index__links a:active,
-.cta:active, .share:active, .dock__icon:active, .dock-pill:active, .themetoggle:active {
+.cta:active, .share:active, .themetoggle:active {
   transform: scale(.94); transition-duration: .06s;
 }
 
@@ -1204,10 +1150,6 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   *:hover, *:active { transform: none !important; }
-  .dock, .dock.is-on { transform: translate(-50%, 0); }
-}
-@media (prefers-reduced-motion: reduce) and (min-width: 84rem) {
-  .dock, .dock.is-on { transform: translate(0, -50%); }
 }
 
 /* ================================================================= v6 (01/10/2026)
@@ -1479,6 +1421,145 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   .nogo__d { font-size: 0.7rem; }
   .nogo__state { font-size: 0.6rem; }
 }
+
+/* ================================================================= v7 (10/10/2026)
+   Calculadora estilo app, primera tanda del rediseño "bento":
+   - cada medida: número grande a la izquierda, unidad, y flechas ▲▼ apiladas
+     a la derecha (se sigue pudiendo escribir el número);
+   - en el teléfono, las cuatro medidas en 2 × 2 a todo el ancho y la región y
+     el resumen debajo (antes iban en dos columnas angostas);
+   - el botón de día/noche pasa a ser un interruptor con el sol y la luna
+     siempre a la vista, en todas las páginas.
+   El panel flotante se quitó el mismo día. */
+
+/* ---------- medidas ---------- */
+.panel .field { padding: 0.65rem 0.75rem 0.75rem; gap: 0.45rem; border-radius: 20px; }
+.panel .field label {
+  justify-content: flex-start; text-align: left;
+  font: 700 0.86rem/1.2 var(--font-body); letter-spacing: 0; text-transform: none; color: var(--ink-soft);
+}
+.panel .field__row {
+  display: flex; align-items: stretch; gap: 0.35rem;
+  height: 4.5rem;
+}
+.panel .field input {
+  flex: 1 1 auto; width: auto; min-width: 0; align-self: center;
+  padding: 0 0 0 0.15rem; text-align: left;
+  font: 700 2.3rem/1 var(--font-head); letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.panel .field__unit { align-self: center; flex: none; font: 700 0.9rem/1 var(--font-body); color: var(--ink-faint); }
+
+.stepper {
+  flex: none; display: flex; flex-direction: column; width: 3rem;
+  border-radius: 14px; overflow: hidden;
+  background: var(--surface); box-shadow: var(--shadow-sm);
+}
+.stepper .nudge {
+  flex: 1 1 0; width: 100%; height: auto; min-height: 0;
+  border-radius: 0; box-shadow: none; background: transparent; color: var(--accent);
+}
+.stepper .nudge + .nudge { border-top: 1px solid var(--rule-soft); }
+.stepper .nudge svg { width: 1.35rem; height: 1.35rem; }
+.stepper .nudge:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+@media (hover: hover) {
+  .stepper .nudge:hover { transform: none; box-shadow: none; background: var(--accent-soft); color: var(--accent); }
+  .stepper .nudge:hover svg { transform: translateY(var(--nudge-y, 0)); }
+  .stepper .nudge[data-dir="1"] { --nudge-y: -2px; }
+  .stepper .nudge[data-dir="-1"] { --nudge-y: 2px; }
+}
+.stepper .nudge svg { transition: transform .18s var(--lift); }
+.stepper .nudge:active { transform: none; background: var(--accent); color: var(--accent-ink); transition-duration: .06s; }
+
+/* en pantallas táctiles, cada flecha de al menos 44 px de alto */
+@media (pointer: coarse) {
+  .panel .field__row { height: 5.5rem; }
+  .stepper { width: 3.1rem; }
+}
+
+/* el número "salta" un poquito al cambiar con las flechas */
+@keyframes wib-bump { 0% { transform: scale(1); } 40% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.panel .field input.is-bump { animation: wib-bump .22s var(--lift); transform-origin: left center; }
+
+/* ---------- teléfono: medidas 2 × 2, región y resumen debajo ---------- */
+@media (max-width: 34rem) {
+  .panel__grid { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; padding-inline: 1rem; }
+  .panel__grid .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .panel__grid .field { padding: 0.55rem 0.55rem 0.6rem 0.7rem; gap: 0.35rem; }
+  .panel__grid .field label { font-size: 0.8rem; }
+  .panel__grid .field input { font-size: 2rem; }
+  .panel__grid .field__unit { font-size: 0.8rem; }
+  .panel__grid .stepper { width: 2.75rem; }
+  .panel__grid .nudge { width: 100%; height: auto; }
+  .region { flex-direction: row; border-radius: 999px; }
+  .region button { width: auto; }
+  .modes { padding: 0.75rem 0.85rem; gap: 0.45rem; }
+  /* a todo el ancho, cada medio en un solo renglón: nombre y total a la
+     izquierda, los números de colores a la derecha */
+  .mode { display: flex; align-items: center; gap: 0.5rem; }
+  .mode .mode__h { flex: 1 1 auto; margin: 0; min-width: 0; }
+  .mode .mode__h small { margin-left: 0.35rem; }
+  .mode .mode__counts { flex: none; justify-content: flex-end; }
+}
+
+/* ---------- interruptor de día / noche ---------- */
+.themetoggle {
+  --tt-w: 4.4rem; --tt-h: 2.5rem;
+  position: relative; display: inline-flex; align-items: center; justify-content: space-between;
+  width: var(--tt-w); height: var(--tt-h); padding: 0 calc((var(--tt-h) - 1.2rem) / 2);
+  background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--rule-soft);
+}
+.themetoggle::before {
+  content: ""; position: absolute; top: 4px; left: 4px;
+  width: calc(var(--tt-h) - 8px); height: calc(var(--tt-h) - 8px); border-radius: 999px;
+  background: var(--surface); box-shadow: var(--shadow-sm);
+  transition: transform .32s var(--lift);
+}
+:root[data-theme="dark"] .themetoggle::before { transform: translateX(calc(var(--tt-w) - var(--tt-h))); }
+.themetoggle svg, :root[data-theme="dark"] .themetoggle svg {
+  position: relative; z-index: 1; grid-area: auto;
+  width: 1.2rem; height: 1.2rem; opacity: .5; transform: none;
+}
+.themetoggle__sun { color: #E7A600; }
+.themetoggle__moon { color: #7C64F2; }
+:root[data-theme="dark"] .themetoggle__moon { color: #B3A4FF; }
+:root:not([data-theme="dark"]) .themetoggle__sun,
+:root[data-theme="dark"] .themetoggle__moon { opacity: 1; }
+@media (hover: hover) {
+  .themetoggle:hover { transform: scale(1.05); box-shadow: inset 0 0 0 1px var(--accent), 0 8px 18px -10px var(--glow); }
+}
+.themetoggle:active { transform: scale(.95); }
+@media (max-width: 34rem) {
+  .themetoggle { --tt-w: 3.9rem; --tt-h: 2.2rem; width: var(--tt-w); height: var(--tt-h); }
+  .themetoggle svg, :root[data-theme="dark"] .themetoggle svg { width: 1.05rem; height: 1.05rem; }
+}
+/* de noche, las flechas un tono más claro que la tarjeta: botón, no hueco */
+:root[data-theme="dark"] .stepper { background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--rule-soft); }
+
+/* ---------- barra de arriba en el teléfono (10/10/2026) ----------
+   Ya se salía de la pantalla a 320 px. En el teléfono, el idioma se muestra
+   como EN / ES; el nombre completo sigue ahí para lectores de pantalla. */
+.langnav__short { display: none; }
+@media (max-width: 34rem) {
+  .langnav__short { display: inline; }
+  .langnav__full {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .langnav a { min-width: 2.4rem; text-align: center; }
+  .themetoggle { --tt-w: 3.6rem; --tt-h: 2.1rem; }
+}
+@media (max-width: 22.5rem) {
+  .wordmark { font-size: 1.18rem; gap: 0.3rem; }
+  .wordmark__mark { width: 2rem; height: 2rem; }
+  .themetoggle { --tt-w: 3.3rem; --tt-h: 2rem; }
+  .themetoggle svg, :root[data-theme="dark"] .themetoggle svg { width: 0.95rem; height: 0.95rem; }
+}
+/* interruptor: el ícono que no está activo igual se ve bien; de noche la
+   perilla es más clara que el riel, para que se note de qué lado está */
+.themetoggle svg, :root[data-theme="dark"] .themetoggle svg { opacity: .75; }
+:root:not([data-theme="dark"]) svg.themetoggle__sun, :root[data-theme="dark"] svg.themetoggle__moon { opacity: 1; }
+:root[data-theme="dark"] .themetoggle::before { background: var(--rule); box-shadow: 0 2px 8px -2px rgba(0,0,0,.6); }
+:root[data-theme="dark"] .themetoggle__moon { color: #D9D0FF; }
 </style>
 </head>
 <body>
@@ -1507,8 +1588,8 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
           <svg class="themetoggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
         </button>
         <nav class="langnav" aria-label="Language">
-        <a href="/disclosure/" lang="en" hreflang="en" aria-current="page">English</a>
-        <a href="/es/divulgacion/" lang="es" hreflang="es">Español</a>
+        <a href="/disclosure/" lang="en" hreflang="en" aria-current="page"><span class="langnav__full">English</span><span class="langnav__short" aria-hidden="true">EN</span></a>
+        <a href="/es/divulgacion/" lang="es" hreflang="es"><span class="langnav__full">Español</span><span class="langnav__short" aria-hidden="true">ES</span></a>
       </nav>
       </div>
     </div>

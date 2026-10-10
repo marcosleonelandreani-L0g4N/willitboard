@@ -43,8 +43,8 @@
           <svg class="themetoggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
         </button>
         <nav class="langnav" aria-label="{{nav_label}}">
-          <a href="/" lang="en" hreflang="en"{{NAV_EN_CUR}}>English</a>
-          <a href="/es/" lang="es" hreflang="es"{{NAV_ES_CUR}}>Español</a>
+          <a href="/" lang="en" hreflang="en"{{NAV_EN_CUR}}><span class="langnav__full">English</span><span class="langnav__short" aria-hidden="true">EN</span></a>
+          <a href="/es/" lang="es" hreflang="es"{{NAV_ES_CUR}}><span class="langnav__full">Español</span><span class="langnav__short" aria-hidden="true">ES</span></a>
         </nav>
       </div>
     </div>
@@ -172,40 +172,51 @@
         <div class="field">
           <label for="dim-a"><span class="m-key m-key--a" aria-hidden="true">1</span>{{f_length}}</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="{{a11y_less}} {{f_length}}">−</button>
             <input type="number" id="dim-a" inputmode="decimal" min="0" step="0.1" value="50">
-            <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="{{a11y_more}} {{f_length}}">+</button>
+            <span class="field__unit" data-unit="length">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="{{a11y_more}} {{f_length}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="{{a11y_less}} {{f_length}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="length">cm</span>
         </div>
         <div class="field">
           <label for="dim-b"><span class="m-key m-key--b" aria-hidden="true">2</span>{{f_width}}</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="{{a11y_less}} {{f_width}}">−</button>
             <input type="number" id="dim-b" inputmode="decimal" min="0" step="0.1" value="38">
-            <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="{{a11y_more}} {{f_width}}">+</button>
+            <span class="field__unit" data-unit="length">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="{{a11y_more}} {{f_width}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="{{a11y_less}} {{f_width}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="length">cm</span>
         </div>
         <div class="field">
           <label for="dim-c"><span class="m-key m-key--c" aria-hidden="true">3</span>{{f_height}}</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="{{a11y_less}} {{f_height}}">−</button>
             <input type="number" id="dim-c" inputmode="decimal" min="0" step="0.1" value="22">
-            <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="{{a11y_more}} {{f_height}}">+</button>
+            <span class="field__unit" data-unit="length">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="{{a11y_more}} {{f_height}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="{{a11y_less}} {{f_height}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="length">cm</span>
         </div>
         <div class="field">
           <label for="weight">{{f_weight}}</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="{{a11y_less}} {{f_weight}}">−</button>
             <input type="number" id="weight" inputmode="decimal" min="0" step="0.1" value="9">
-            <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="{{a11y_more}} {{f_weight}}">+</button>
+            <span class="field__unit" data-unit="weight">kg</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="{{a11y_more}} {{f_weight}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="{{a11y_less}} {{f_weight}}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="weight">kg</span>
         </div>
       </div>
+      <!-- (10/10/2026) Cada medida: número grande, unidad y flechas ▲▼ a la
+           derecha. Las flechas usan el mismo nudge() que el teclado y la
+           franja de Comparar: una sola forma de cambiar una medida. -->
       <!-- Resultado compacto: cuántos operadores de cada medio caen en cada
            color. Tocar un número filtra la lista de abajo y abre ese grupo. -->
       <div class="modes-col">
@@ -345,7 +356,7 @@
   <div class="tabpanel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
 
     <!-- La maleta, también acá. Son ESPEJOS de los campos principales: no hay
-         una segunda medida en juego, igual que en el panel flotante. -->
+         una segunda medida en juego, como siempre. -->
     <section class="bagstrip" aria-label="{{dock_label}}">
       <div class="bagstrip__head">
         <span class="bagstrip__title">{{dock_title}}</span>
@@ -438,61 +449,6 @@
 {{FOOTER_LINKS}}
   </footer>
 </main>
-
-<!-- Panel flotante. Aparece cuando el panel principal queda fuera de la
-     pantalla, solo en la pestaña de comprobar. NO es un segundo formulario:
-     cada campo es un espejo del principal y todo pasa por los mismos inputs,
-     así que no puede haber dos medidas distintas en juego. Mientras está
-     oculto va con inert. -->
-<aside class="dock" id="dock" aria-label="{{dock_label}}" inert>
-  <div class="dock__head">
-    <span class="dock__title">{{dock_title}}</span>
-    <button type="button" class="dock__icon" id="dock-top" aria-label="{{dock_top}}" title="{{dock_top}}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <button type="button" class="dock__icon" id="dock-hide" aria-label="{{dock_hide}}" title="{{dock_hide}}">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div class="dock__fields">
-    <div class="dock__f">
-      <label for="dock-a">{{dock_short_a}} <span data-unit="length">cm</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="{{a11y_less}} {{f_length}}">−</button>
-        <input type="number" id="dock-a" data-mirror="dim-a" inputmode="decimal" min="0" step="0.1" aria-label="{{f_length}}">
-        <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="{{a11y_more}} {{f_length}}">+</button>
-      </div>
-    </div>
-    <div class="dock__f">
-      <label for="dock-b">{{dock_short_b}} <span data-unit="length">cm</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="{{a11y_less}} {{f_width}}">−</button>
-        <input type="number" id="dock-b" data-mirror="dim-b" inputmode="decimal" min="0" step="0.1" aria-label="{{f_width}}">
-        <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="{{a11y_more}} {{f_width}}">+</button>
-      </div>
-    </div>
-    <div class="dock__f">
-      <label for="dock-c">{{dock_short_c}} <span data-unit="length">cm</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="{{a11y_less}} {{f_height}}">−</button>
-        <input type="number" id="dock-c" data-mirror="dim-c" inputmode="decimal" min="0" step="0.1" aria-label="{{f_height}}">
-        <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="{{a11y_more}} {{f_height}}">+</button>
-      </div>
-    </div>
-    <div class="dock__f">
-      <label for="dock-w">{{dock_short_w}} <span data-unit="weight">kg</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="{{a11y_less}} {{f_weight}}">−</button>
-        <input type="number" id="dock-w" data-mirror="weight" inputmode="decimal" min="0" step="0.1" aria-label="{{f_weight}}">
-        <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="{{a11y_more}} {{f_weight}}">+</button>
-      </div>
-    </div>
-  </div>
-</aside>
-<button type="button" class="dock-pill" id="dock-pill" inert>
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 7l2 2M10 10l1.5 1.5M7 13l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-  <span>{{dock_show}}</span>
-</button>
 
 <script>
 (function () {
@@ -1631,7 +1587,7 @@
       document.getElementById("oplist").innerHTML = "";
       document.getElementById("compare-body").innerHTML = "";
       renderModes(null);
-      syncDock();
+      syncMirrors();
       return;
     }
     lastVerdicts = regionOps().map(function (op) { return verdictFor(op, b); });
@@ -1640,7 +1596,7 @@
     renderOpList(lastVerdicts);
     renderCompare(lastVerdicts);
     renderModes(lastVerdicts);
-    syncDock();
+    syncMirrors();
     firstRender = false;
   }
 
@@ -1665,7 +1621,6 @@
     try {
       history.replaceState(null, "", location.pathname + location.search + (name === "compare" ? "#compare" : ""));
     } catch (e) { /* file:// o navegadores viejos: no pasa nada */ }
-    paintDock();
   }
 
   function scrollToTabs() {
@@ -1690,32 +1645,20 @@
     measure.scrollIntoView({ block: "start" });
   }
 
-  /* ---------- panel flotante ----------
-     Espejo del panel principal. La fuente de verdad son SIEMPRE los inputs
-     principales: el panel flotante escribe ahí y vuelve a leer de ahí. */
-  var dock = document.getElementById("dock");
-  var pill = document.getElementById("dock-pill");
+  /* ---------- espejos de las medidas ----------
+     La franja de la pestaña Comparar repite los campos de la maleta. La
+     fuente de verdad son SIEMPRE los inputs principales: el espejo escribe
+     ahí y vuelve a leer de ahí. (El panel flotante que aparecía al hacer
+     scroll se quitó el 10/10/2026, a pedido de Marcos.) */
   var mirrors = Array.prototype.slice.call(document.querySelectorAll("[data-mirror]"));
-  var dockWanted = false, dockClosed = false;
 
   function mainFor(mirror) { return document.getElementById(mirror.getAttribute("data-mirror")); }
 
-  function syncDock() {
+  function syncMirrors() {
     mirrors.forEach(function (m) {
       /* no pisar lo que la persona está escribiendo en ese mismo campo */
       if (document.activeElement !== m) m.value = mainFor(m).value;
     });
-  }
-
-  function setShown(elm, on) {
-    elm.classList.toggle("is-on", on);
-    if (on) elm.removeAttribute("inert"); else elm.setAttribute("inert", "");
-  }
-
-  function paintDock() {
-    var want = dockWanted && activeTab === "check";
-    setShown(dock, want && !dockClosed);
-    setShown(pill, want && dockClosed);
   }
 
   mirrors.forEach(function (m) {
@@ -1733,42 +1676,8 @@
       nudge(main, e.deltaY < 0 ? 1 : -1, e.shiftKey);
       m.value = main.value;
     }, { passive: false });
-    m.addEventListener("blur", syncDock);
+    m.addEventListener("blur", syncMirrors);
   });
-
-  document.getElementById("dock-hide").addEventListener("click", function () {
-    dockClosed = true; paintDock(); pill.focus();
-  });
-  pill.addEventListener("click", function () {
-    dockClosed = false; paintDock(); document.getElementById("dock-a").focus();
-  });
-  document.getElementById("dock-top").addEventListener("click", function () {
-    document.querySelector(".panel").scrollIntoView({ block: "start" });
-    els.a.focus({ preventScroll: true });
-  });
-
-  /* Se muestra solo cuando el panel principal ya quedó ARRIBA de la pantalla,
-     no cuando todavía no se llegó a él. */
-  /* (10/10/2026) Antes solo lo decidía un IntersectionObserver, que avisa
-     cuando el panel CRUZA el borde de la pantalla. Si la página salta de
-     golpe (tecla Fin, un enlace al pie) de "todavía abajo" a "ya arriba",
-     el panel nunca cruza y el flotante no aparecía. Ahora también se mide
-     al hacer scroll, una vez por cuadro. */
-  var mainPanel = document.querySelector(".panel");
-  function checkDock() {
-    var want = mainPanel.getBoundingClientRect().bottom <= 0;
-    if (want !== dockWanted) { dockWanted = want; paintDock(); }
-  }
-  var dockRaf = 0;
-  window.addEventListener("scroll", function () {
-    if (dockRaf) return;
-    dockRaf = requestAnimationFrame(function () { dockRaf = 0; checkDock(); });
-  }, { passive: true });
-  window.addEventListener("resize", checkDock, { passive: true });
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(checkDock, { threshold: 0 }).observe(mainPanel);
-  }
-  checkDock();
 
   /* ---------- compartir ----------
      El enlace lleva las medidas en cm/kg y los operadores comparados. Nada se
@@ -2028,6 +1937,9 @@
     if (!isFinite(cur)) cur = 0;
     var next = round1(cur + dir * step);
     el.value = String(next < 0 ? 0 : next);
+    /* pequeño salto del número, para que se note el cambio (sin efecto con
+       prefers-reduced-motion: la hoja apaga todas las animaciones) */
+    el.classList.remove("is-bump"); void el.offsetWidth; el.classList.add("is-bump");
     render();
   }
 

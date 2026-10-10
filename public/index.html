@@ -737,29 +737,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 .legaldoc code { font-size: 0.9em; background: var(--surface-sunk); padding: 0.15em 0.4em; border-radius: 6px; }
 .legaldoc kbd { font-size: 0.85em; background: var(--surface); border: 1px solid var(--rule); border-bottom-width: 3px; border-radius: 6px; padding: 0.15em 0.45em; color: var(--ink); }
 
-/* ------------------------------------------------------------ panel flotante */
-.dock {
-  position: fixed; z-index: 40; left: 50%; bottom: 14px;
-  width: min(58rem, calc(100% - 24px));
-  display: flex; align-items: center; gap: 0.75rem;
-  padding: 0.55rem 0.7rem;
-  background: var(--surface);
-  border: 1px solid var(--rule-soft); border-radius: 24px;
-  box-shadow: 0 24px 48px -20px rgba(23,32,51,.45), var(--shadow-sm);
-  opacity: 0; visibility: hidden; transform: translate(-50%, 18px);
-  transition: opacity .2s, transform .28s var(--lift), visibility 0s linear .28s;
-}
-@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .dock { background: color-mix(in srgb, var(--surface) 88%, transparent); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
-}
-.dock.is-on { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition: opacity .2s, transform .28s var(--lift), visibility 0s; }
-.dock__head { display: flex; align-items: center; gap: 0.3rem; flex: none; }
-.dock__title { font: 600 0.95rem/1.1 var(--font-head); color: var(--ink); margin-right: 0.2rem; }
-.dock__icon {
-  display: grid; place-items: center; width: 2rem; height: 2rem; padding: 0; border: 0;
-  border-radius: 999px; background: var(--surface-sunk); color: var(--ink-soft); cursor: pointer;
-}
-.dock__icon svg { width: 1rem; height: 1rem; }
+/* ------------------------------------------------------------ campos compactos de la maleta
+   Los usa la franja de la pestaña Comparar (.bagstrip). Las clases conservan
+   el nombre "dock" del panel flotante, que se quitó el 10/10/2026. */
 .dock__fields { flex: 1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.45rem; min-width: 0; }
 .dock__f { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
 .dock__f label { font: 800 0.66rem/1 var(--font-body); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); text-align: center; }
@@ -770,56 +750,23 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   transition: box-shadow .18s, background-color .18s;
 }
 .dock__row:focus-within { background: var(--accent-soft); box-shadow: 0 0 0 2px var(--accent); }
-.dock .nudge { width: 1.85rem; height: 1.85rem; font-size: 1rem; }
-.dock input {
-  width: 100%; min-width: 0; padding: 0; border: 0; background: transparent;
-  font: 800 1.05rem/1 var(--font-body); font-variant-numeric: tabular-nums; text-align: center; color: var(--ink);
-}
-.dock input:focus-visible { outline: none; }
-.dock-pill {
-  position: fixed; z-index: 40; right: 16px; bottom: 16px;
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  padding: 0.75rem 1.1rem; border: 0; border-radius: 999px; cursor: pointer;
-  background: var(--accent); color: var(--accent-ink); font: 800 var(--step--1)/1 var(--font-body);
-  box-shadow: 0 14px 30px -12px rgba(0,0,0,.5);
-  opacity: 0; visibility: hidden; transform: translateY(14px);
-  transition: opacity .2s, transform .28s var(--lift), visibility 0s linear .28s;
-}
-.dock-pill svg { width: 1.05rem; height: 1.05rem; }
-.dock-pill.is-on { opacity: 1; visibility: visible; transform: none; transition: opacity .2s, transform .28s var(--lift), visibility 0s; }
 
 @media (min-width: 84rem) {
   .shell--home { padding-bottom: 4rem; }
-  .dock {
-    left: auto; right: 18px; bottom: auto; top: 50%;
-    width: 11rem; flex-direction: column; align-items: stretch; gap: 0.6rem;
-    padding: 0.8rem 0.7rem; transform: translate(18px, -50%);
-  }
-  .dock.is-on { transform: translate(0, -50%); }
-  .dock__head { justify-content: flex-end; }
-  .dock__title { margin-right: auto; }
-  .dock__fields { grid-template-columns: 1fr; gap: 0.55rem; }
-  .dock__f label { text-align: left; padding-left: 0.4rem; }
 }
 @media (max-width: 34rem) {
-  .dock { bottom: 8px; width: calc(100% - 16px); gap: 0.4rem; padding: 0.45rem 0.45rem 0.45rem 0.6rem; border-radius: 20px; }
-  .dock__title { display: none; }
-  .dock__head { order: 2; flex-direction: column; gap: 0.3rem; }
-  .dock__icon { width: 1.9rem; height: 1.9rem; }
   .dock__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
   .dock__f { flex-direction: row; align-items: center; gap: 0.3rem; }
   .dock__f label { flex: none; width: 2.2rem; text-align: left; font-size: 0.6rem; line-height: 1.15; }
   .dock__f label span { display: block; }
   .dock__f .dock__row { flex: 1; }
-  .dock .nudge { width: 2rem; height: 2rem; }
-  .dock-pill { right: 12px; bottom: 12px; }
 }
 
 /* ------------------------------------------------------------ reacción al mouse / al tocar
    Solo reacciona lo que se puede usar. El levantamiento va dentro de
    (hover: hover) para que en el teléfono no quede nada "pegado". */
 .units button, .nudge, .preset, .tile, .rcard__cmp, .picker > summary, .cmpwrap__clear,
-.index__links a, .cta, .langnav a, .share, .dock__icon, .dock-pill, .themetoggle,
+.index__links a, .cta, .langnav a, .share, .themetoggle,
 .picker__opt, .howto > summary, .cmpwrap__summary, .rrow__sum, .wordmark__mark, .cmp td {
   transition: transform .18s var(--lift), box-shadow .18s var(--lift),
               background-color .18s, border-color .18s, color .18s, filter .18s;
@@ -836,7 +783,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   .rrow__sum:hover .rrow__chev { background: var(--accent-soft); color: var(--accent); }
   .rcard__cmp:not([aria-pressed="true"]):hover { background: var(--accent-soft); }
   .rcard__cmp[aria-pressed="true"]:hover { filter: brightness(1.08); }
-  .picker > summary:hover, .share:hover, .cta:hover, .dock-pill.is-on:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 12px 24px -10px var(--glow); }
+  .picker > summary:hover, .share:hover, .cta:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 12px 24px -10px var(--glow); }
   .picker__opt:hover { background: var(--accent-soft); }
   .cmpwrap__clear:hover { border-color: var(--accent); color: var(--accent); }
   .cmpwrap__summary:hover .cmpwrap__chev { background: var(--accent-soft); color: var(--accent); }
@@ -846,13 +793,12 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   .index__links a:hover { transform: translateY(-2px); background: var(--accent); color: var(--accent-ink); }
   .langnav a:not([aria-current]):hover { color: var(--accent); }
   .themetoggle:hover { transform: rotate(-15deg) scale(1.08); }
-  .dock__icon:hover { background: var(--accent-soft); color: var(--accent); }
   .wordmark:hover .wordmark__mark { transform: rotate(-6deg) scale(1.06); }
   .howto > summary:hover { color: var(--accent); }
 }
 .units button:active, .nudge:active, .preset:active, button.tile:not(:disabled):active,
 .rcard__cmp:active, .picker > summary:active, .cmpwrap__clear:active, .index__links a:active,
-.cta:active, .share:active, .dock__icon:active, .dock-pill:active, .themetoggle:active {
+.cta:active, .share:active, .themetoggle:active {
   transform: scale(.94); transition-duration: .06s;
 }
 
@@ -1204,10 +1150,6 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   *:hover, *:active { transform: none !important; }
-  .dock, .dock.is-on { transform: translate(-50%, 0); }
-}
-@media (prefers-reduced-motion: reduce) and (min-width: 84rem) {
-  .dock, .dock.is-on { transform: translate(0, -50%); }
 }
 
 /* ================================================================= v6 (01/10/2026)
@@ -1479,6 +1421,145 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   .nogo__d { font-size: 0.7rem; }
   .nogo__state { font-size: 0.6rem; }
 }
+
+/* ================================================================= v7 (10/10/2026)
+   Calculadora estilo app, primera tanda del rediseño "bento":
+   - cada medida: número grande a la izquierda, unidad, y flechas ▲▼ apiladas
+     a la derecha (se sigue pudiendo escribir el número);
+   - en el teléfono, las cuatro medidas en 2 × 2 a todo el ancho y la región y
+     el resumen debajo (antes iban en dos columnas angostas);
+   - el botón de día/noche pasa a ser un interruptor con el sol y la luna
+     siempre a la vista, en todas las páginas.
+   El panel flotante se quitó el mismo día. */
+
+/* ---------- medidas ---------- */
+.panel .field { padding: 0.65rem 0.75rem 0.75rem; gap: 0.45rem; border-radius: 20px; }
+.panel .field label {
+  justify-content: flex-start; text-align: left;
+  font: 700 0.86rem/1.2 var(--font-body); letter-spacing: 0; text-transform: none; color: var(--ink-soft);
+}
+.panel .field__row {
+  display: flex; align-items: stretch; gap: 0.35rem;
+  height: 4.5rem;
+}
+.panel .field input {
+  flex: 1 1 auto; width: auto; min-width: 0; align-self: center;
+  padding: 0 0 0 0.15rem; text-align: left;
+  font: 700 2.3rem/1 var(--font-head); letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.panel .field__unit { align-self: center; flex: none; font: 700 0.9rem/1 var(--font-body); color: var(--ink-faint); }
+
+.stepper {
+  flex: none; display: flex; flex-direction: column; width: 3rem;
+  border-radius: 14px; overflow: hidden;
+  background: var(--surface); box-shadow: var(--shadow-sm);
+}
+.stepper .nudge {
+  flex: 1 1 0; width: 100%; height: auto; min-height: 0;
+  border-radius: 0; box-shadow: none; background: transparent; color: var(--accent);
+}
+.stepper .nudge + .nudge { border-top: 1px solid var(--rule-soft); }
+.stepper .nudge svg { width: 1.35rem; height: 1.35rem; }
+.stepper .nudge:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+@media (hover: hover) {
+  .stepper .nudge:hover { transform: none; box-shadow: none; background: var(--accent-soft); color: var(--accent); }
+  .stepper .nudge:hover svg { transform: translateY(var(--nudge-y, 0)); }
+  .stepper .nudge[data-dir="1"] { --nudge-y: -2px; }
+  .stepper .nudge[data-dir="-1"] { --nudge-y: 2px; }
+}
+.stepper .nudge svg { transition: transform .18s var(--lift); }
+.stepper .nudge:active { transform: none; background: var(--accent); color: var(--accent-ink); transition-duration: .06s; }
+
+/* en pantallas táctiles, cada flecha de al menos 44 px de alto */
+@media (pointer: coarse) {
+  .panel .field__row { height: 5.5rem; }
+  .stepper { width: 3.1rem; }
+}
+
+/* el número "salta" un poquito al cambiar con las flechas */
+@keyframes wib-bump { 0% { transform: scale(1); } 40% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.panel .field input.is-bump { animation: wib-bump .22s var(--lift); transform-origin: left center; }
+
+/* ---------- teléfono: medidas 2 × 2, región y resumen debajo ---------- */
+@media (max-width: 34rem) {
+  .panel__grid { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; padding-inline: 1rem; }
+  .panel__grid .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .panel__grid .field { padding: 0.55rem 0.55rem 0.6rem 0.7rem; gap: 0.35rem; }
+  .panel__grid .field label { font-size: 0.8rem; }
+  .panel__grid .field input { font-size: 2rem; }
+  .panel__grid .field__unit { font-size: 0.8rem; }
+  .panel__grid .stepper { width: 2.75rem; }
+  .panel__grid .nudge { width: 100%; height: auto; }
+  .region { flex-direction: row; border-radius: 999px; }
+  .region button { width: auto; }
+  .modes { padding: 0.75rem 0.85rem; gap: 0.45rem; }
+  /* a todo el ancho, cada medio en un solo renglón: nombre y total a la
+     izquierda, los números de colores a la derecha */
+  .mode { display: flex; align-items: center; gap: 0.5rem; }
+  .mode .mode__h { flex: 1 1 auto; margin: 0; min-width: 0; }
+  .mode .mode__h small { margin-left: 0.35rem; }
+  .mode .mode__counts { flex: none; justify-content: flex-end; }
+}
+
+/* ---------- interruptor de día / noche ---------- */
+.themetoggle {
+  --tt-w: 4.4rem; --tt-h: 2.5rem;
+  position: relative; display: inline-flex; align-items: center; justify-content: space-between;
+  width: var(--tt-w); height: var(--tt-h); padding: 0 calc((var(--tt-h) - 1.2rem) / 2);
+  background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--rule-soft);
+}
+.themetoggle::before {
+  content: ""; position: absolute; top: 4px; left: 4px;
+  width: calc(var(--tt-h) - 8px); height: calc(var(--tt-h) - 8px); border-radius: 999px;
+  background: var(--surface); box-shadow: var(--shadow-sm);
+  transition: transform .32s var(--lift);
+}
+:root[data-theme="dark"] .themetoggle::before { transform: translateX(calc(var(--tt-w) - var(--tt-h))); }
+.themetoggle svg, :root[data-theme="dark"] .themetoggle svg {
+  position: relative; z-index: 1; grid-area: auto;
+  width: 1.2rem; height: 1.2rem; opacity: .5; transform: none;
+}
+.themetoggle__sun { color: #E7A600; }
+.themetoggle__moon { color: #7C64F2; }
+:root[data-theme="dark"] .themetoggle__moon { color: #B3A4FF; }
+:root:not([data-theme="dark"]) .themetoggle__sun,
+:root[data-theme="dark"] .themetoggle__moon { opacity: 1; }
+@media (hover: hover) {
+  .themetoggle:hover { transform: scale(1.05); box-shadow: inset 0 0 0 1px var(--accent), 0 8px 18px -10px var(--glow); }
+}
+.themetoggle:active { transform: scale(.95); }
+@media (max-width: 34rem) {
+  .themetoggle { --tt-w: 3.9rem; --tt-h: 2.2rem; width: var(--tt-w); height: var(--tt-h); }
+  .themetoggle svg, :root[data-theme="dark"] .themetoggle svg { width: 1.05rem; height: 1.05rem; }
+}
+/* de noche, las flechas un tono más claro que la tarjeta: botón, no hueco */
+:root[data-theme="dark"] .stepper { background: var(--surface-sunk); box-shadow: inset 0 0 0 1px var(--rule-soft); }
+
+/* ---------- barra de arriba en el teléfono (10/10/2026) ----------
+   Ya se salía de la pantalla a 320 px. En el teléfono, el idioma se muestra
+   como EN / ES; el nombre completo sigue ahí para lectores de pantalla. */
+.langnav__short { display: none; }
+@media (max-width: 34rem) {
+  .langnav__short { display: inline; }
+  .langnav__full {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  .langnav a { min-width: 2.4rem; text-align: center; }
+  .themetoggle { --tt-w: 3.6rem; --tt-h: 2.1rem; }
+}
+@media (max-width: 22.5rem) {
+  .wordmark { font-size: 1.18rem; gap: 0.3rem; }
+  .wordmark__mark { width: 2rem; height: 2rem; }
+  .themetoggle { --tt-w: 3.3rem; --tt-h: 2rem; }
+  .themetoggle svg, :root[data-theme="dark"] .themetoggle svg { width: 0.95rem; height: 0.95rem; }
+}
+/* interruptor: el ícono que no está activo igual se ve bien; de noche la
+   perilla es más clara que el riel, para que se note de qué lado está */
+.themetoggle svg, :root[data-theme="dark"] .themetoggle svg { opacity: .75; }
+:root:not([data-theme="dark"]) svg.themetoggle__sun, :root[data-theme="dark"] svg.themetoggle__moon { opacity: 1; }
+:root[data-theme="dark"] .themetoggle::before { background: var(--rule); box-shadow: 0 2px 8px -2px rgba(0,0,0,.6); }
+:root[data-theme="dark"] .themetoggle__moon { color: #D9D0FF; }
 </style>
 </head>
 <body class="home">
@@ -1505,8 +1586,8 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
           <svg class="themetoggle__moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="currentColor"/></svg>
         </button>
         <nav class="langnav" aria-label="Language">
-          <a href="/" lang="en" hreflang="en" aria-current="page">English</a>
-          <a href="/es/" lang="es" hreflang="es">Español</a>
+          <a href="/" lang="en" hreflang="en" aria-current="page"><span class="langnav__full">English</span><span class="langnav__short" aria-hidden="true">EN</span></a>
+          <a href="/es/" lang="es" hreflang="es"><span class="langnav__full">Español</span><span class="langnav__short" aria-hidden="true">ES</span></a>
         </nav>
       </div>
     </div>
@@ -1696,40 +1777,51 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
         <div class="field">
           <label for="dim-a"><span class="m-key m-key--a" aria-hidden="true">1</span>Length</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="Decrease Length">−</button>
             <input type="number" id="dim-a" inputmode="decimal" min="0" step="0.1" value="50">
-            <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="Increase Length">+</button>
+            <span class="field__unit" data-unit="length">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="Increase Length"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="Decrease Length"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="length">cm</span>
         </div>
         <div class="field">
           <label for="dim-b"><span class="m-key m-key--b" aria-hidden="true">2</span>Width</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="Decrease Width">−</button>
             <input type="number" id="dim-b" inputmode="decimal" min="0" step="0.1" value="38">
-            <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="Increase Width">+</button>
+            <span class="field__unit" data-unit="length">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="Increase Width"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="Decrease Width"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="length">cm</span>
         </div>
         <div class="field">
           <label for="dim-c"><span class="m-key m-key--c" aria-hidden="true">3</span>Height</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="Decrease Height">−</button>
             <input type="number" id="dim-c" inputmode="decimal" min="0" step="0.1" value="22">
-            <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="Increase Height">+</button>
+            <span class="field__unit" data-unit="length">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="Increase Height"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="Decrease Height"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="length">cm</span>
         </div>
         <div class="field">
           <label for="weight">Weight</label>
           <div class="field__row">
-            <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="Decrease Weight">−</button>
             <input type="number" id="weight" inputmode="decimal" min="0" step="0.1" value="9">
-            <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="Increase Weight">+</button>
+            <span class="field__unit" data-unit="weight">kg</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="Increase Weight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="Decrease Weight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
           </div>
-          <span class="field__unit" data-unit="weight">kg</span>
         </div>
       </div>
+      <!-- (10/10/2026) Cada medida: número grande, unidad y flechas ▲▼ a la
+           derecha. Las flechas usan el mismo nudge() que el teclado y la
+           franja de Comparar: una sola forma de cambiar una medida. -->
       <!-- Resultado compacto: cuántos operadores de cada medio caen en cada
            color. Tocar un número filtra la lista de abajo y abre ese grupo. -->
       <div class="modes-col">
@@ -1929,7 +2021,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   <div class="tabpanel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
 
     <!-- La maleta, también acá. Son ESPEJOS de los campos principales: no hay
-         una segunda medida en juego, igual que en el panel flotante. -->
+         una segunda medida en juego, como siempre. -->
     <section class="bagstrip" aria-label="Your bag, always at hand">
       <div class="bagstrip__head">
         <span class="bagstrip__title">Your bag</span>
@@ -2081,61 +2173,6 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     </ul>
   </footer>
 </main>
-
-<!-- Panel flotante. Aparece cuando el panel principal queda fuera de la
-     pantalla, solo en la pestaña de comprobar. NO es un segundo formulario:
-     cada campo es un espejo del principal y todo pasa por los mismos inputs,
-     así que no puede haber dos medidas distintas en juego. Mientras está
-     oculto va con inert. -->
-<aside class="dock" id="dock" aria-label="Your bag, always at hand" inert>
-  <div class="dock__head">
-    <span class="dock__title">Your bag</span>
-    <button type="button" class="dock__icon" id="dock-top" aria-label="Go to the full panel" title="Go to the full panel">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </button>
-    <button type="button" class="dock__icon" id="dock-hide" aria-label="Hide the floating panel" title="Hide the floating panel">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-    </button>
-  </div>
-  <div class="dock__fields">
-    <div class="dock__f">
-      <label for="dock-a">L <span data-unit="length">cm</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="dim-a" data-dir="-1" aria-label="Decrease Length">−</button>
-        <input type="number" id="dock-a" data-mirror="dim-a" inputmode="decimal" min="0" step="0.1" aria-label="Length">
-        <button type="button" class="nudge" data-nudge="dim-a" data-dir="1" aria-label="Increase Length">+</button>
-      </div>
-    </div>
-    <div class="dock__f">
-      <label for="dock-b">W <span data-unit="length">cm</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="dim-b" data-dir="-1" aria-label="Decrease Width">−</button>
-        <input type="number" id="dock-b" data-mirror="dim-b" inputmode="decimal" min="0" step="0.1" aria-label="Width">
-        <button type="button" class="nudge" data-nudge="dim-b" data-dir="1" aria-label="Increase Width">+</button>
-      </div>
-    </div>
-    <div class="dock__f">
-      <label for="dock-c">H <span data-unit="length">cm</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="dim-c" data-dir="-1" aria-label="Decrease Height">−</button>
-        <input type="number" id="dock-c" data-mirror="dim-c" inputmode="decimal" min="0" step="0.1" aria-label="Height">
-        <button type="button" class="nudge" data-nudge="dim-c" data-dir="1" aria-label="Increase Height">+</button>
-      </div>
-    </div>
-    <div class="dock__f">
-      <label for="dock-w">Wt <span data-unit="weight">kg</span></label>
-      <div class="dock__row">
-        <button type="button" class="nudge" data-nudge="weight" data-dir="-1" aria-label="Decrease Weight">−</button>
-        <input type="number" id="dock-w" data-mirror="weight" inputmode="decimal" min="0" step="0.1" aria-label="Weight">
-        <button type="button" class="nudge" data-nudge="weight" data-dir="1" aria-label="Increase Weight">+</button>
-      </div>
-    </div>
-  </div>
-</aside>
-<button type="button" class="dock-pill" id="dock-pill" inert>
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17L17 3l4 4L7 21H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M13 7l2 2M10 10l1.5 1.5M7 13l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-  <span>Edit bag</span>
-</button>
 
 <script>
 (function () {
@@ -2336,9 +2373,6 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   "dock_short_b": "W",
   "dock_short_c": "H",
   "dock_short_w": "Wt",
-  "dock_hide": "Hide the floating panel",
-  "dock_show": "Edit bag",
-  "dock_top": "Go to the full panel",
   "share_btn": "Share this check",
   "share_hint": "Travelling with someone? Send them this check so they can try their own bag.",
   "share_text": "Will it board? My bag: {bag}. Check yours against the official limits:",
@@ -3625,7 +3659,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
       document.getElementById("oplist").innerHTML = "";
       document.getElementById("compare-body").innerHTML = "";
       renderModes(null);
-      syncDock();
+      syncMirrors();
       return;
     }
     lastVerdicts = regionOps().map(function (op) { return verdictFor(op, b); });
@@ -3634,7 +3668,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     renderOpList(lastVerdicts);
     renderCompare(lastVerdicts);
     renderModes(lastVerdicts);
-    syncDock();
+    syncMirrors();
     firstRender = false;
   }
 
@@ -3659,7 +3693,6 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     try {
       history.replaceState(null, "", location.pathname + location.search + (name === "compare" ? "#compare" : ""));
     } catch (e) { /* file:// o navegadores viejos: no pasa nada */ }
-    paintDock();
   }
 
   function scrollToTabs() {
@@ -3684,32 +3717,20 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     measure.scrollIntoView({ block: "start" });
   }
 
-  /* ---------- panel flotante ----------
-     Espejo del panel principal. La fuente de verdad son SIEMPRE los inputs
-     principales: el panel flotante escribe ahí y vuelve a leer de ahí. */
-  var dock = document.getElementById("dock");
-  var pill = document.getElementById("dock-pill");
+  /* ---------- espejos de las medidas ----------
+     La franja de la pestaña Comparar repite los campos de la maleta. La
+     fuente de verdad son SIEMPRE los inputs principales: el espejo escribe
+     ahí y vuelve a leer de ahí. (El panel flotante que aparecía al hacer
+     scroll se quitó el 10/10/2026, a pedido de Marcos.) */
   var mirrors = Array.prototype.slice.call(document.querySelectorAll("[data-mirror]"));
-  var dockWanted = false, dockClosed = false;
 
   function mainFor(mirror) { return document.getElementById(mirror.getAttribute("data-mirror")); }
 
-  function syncDock() {
+  function syncMirrors() {
     mirrors.forEach(function (m) {
       /* no pisar lo que la persona está escribiendo en ese mismo campo */
       if (document.activeElement !== m) m.value = mainFor(m).value;
     });
-  }
-
-  function setShown(elm, on) {
-    elm.classList.toggle("is-on", on);
-    if (on) elm.removeAttribute("inert"); else elm.setAttribute("inert", "");
-  }
-
-  function paintDock() {
-    var want = dockWanted && activeTab === "check";
-    setShown(dock, want && !dockClosed);
-    setShown(pill, want && dockClosed);
   }
 
   mirrors.forEach(function (m) {
@@ -3727,42 +3748,8 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
       nudge(main, e.deltaY < 0 ? 1 : -1, e.shiftKey);
       m.value = main.value;
     }, { passive: false });
-    m.addEventListener("blur", syncDock);
+    m.addEventListener("blur", syncMirrors);
   });
-
-  document.getElementById("dock-hide").addEventListener("click", function () {
-    dockClosed = true; paintDock(); pill.focus();
-  });
-  pill.addEventListener("click", function () {
-    dockClosed = false; paintDock(); document.getElementById("dock-a").focus();
-  });
-  document.getElementById("dock-top").addEventListener("click", function () {
-    document.querySelector(".panel").scrollIntoView({ block: "start" });
-    els.a.focus({ preventScroll: true });
-  });
-
-  /* Se muestra solo cuando el panel principal ya quedó ARRIBA de la pantalla,
-     no cuando todavía no se llegó a él. */
-  /* (10/10/2026) Antes solo lo decidía un IntersectionObserver, que avisa
-     cuando el panel CRUZA el borde de la pantalla. Si la página salta de
-     golpe (tecla Fin, un enlace al pie) de "todavía abajo" a "ya arriba",
-     el panel nunca cruza y el flotante no aparecía. Ahora también se mide
-     al hacer scroll, una vez por cuadro. */
-  var mainPanel = document.querySelector(".panel");
-  function checkDock() {
-    var want = mainPanel.getBoundingClientRect().bottom <= 0;
-    if (want !== dockWanted) { dockWanted = want; paintDock(); }
-  }
-  var dockRaf = 0;
-  window.addEventListener("scroll", function () {
-    if (dockRaf) return;
-    dockRaf = requestAnimationFrame(function () { dockRaf = 0; checkDock(); });
-  }, { passive: true });
-  window.addEventListener("resize", checkDock, { passive: true });
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver(checkDock, { threshold: 0 }).observe(mainPanel);
-  }
-  checkDock();
 
   /* ---------- compartir ----------
      El enlace lleva las medidas en cm/kg y los operadores comparados. Nada se
@@ -4022,6 +4009,9 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     if (!isFinite(cur)) cur = 0;
     var next = round1(cur + dir * step);
     el.value = String(next < 0 ? 0 : next);
+    /* pequeño salto del número, para que se note el cambio (sin efecto con
+       prefers-reduced-motion: la hoja apaga todas las animaciones) */
+    el.classList.remove("is-bump"); void el.offsetWidth; el.classList.add("is-bump");
     render();
   }
 
