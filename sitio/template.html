@@ -133,24 +133,9 @@
   </div>
 
   <!-- ============================================================ objetos prohibidos
-       (10/10/2026) Solo enlaces a páginas oficiales: las reglas de seguridad
-       las pone la autoridad y el aeropuerto, no el operador, y cambian por
-       aeropuerto. Willitboard no copia ni resume ninguna lista. -->
-  <details class="banned" id="banned">
-    <summary class="banned__sum">
-      <span class="banned__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
-      <span class="banned__txt"><b>{{banned_h}}</b><span class="banned__sub">{{banned_sub}}</span></span>
-      <span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    </summary>
-    <div class="banned__body">
-      <p>{{banned_p}}</p>
-      <ul class="banned__links">
-        <li><a href="{{banned_eu_url}}" target="_blank" rel="noopener nofollow">{{banned_eu}}</a><span>{{banned_eu_note}}</span></li>
-        <li><a href="https://www.gov.uk/hand-luggage-restrictions" target="_blank" rel="noopener nofollow" hreflang="en">{{banned_uk}}</a><span>{{banned_uk_note}}</span></li>
-      </ul>
-      <p class="banned__foot">{{banned_foot}}</p>
-    </div>
-  </details>
+       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
+       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
+{{BANNED_BLOCK}}
 
   <!-- ============================================================ pestañas
        Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo

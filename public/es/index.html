@@ -1446,6 +1446,53 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 .banned__links span { font-size: 0.86rem; }
 .banned__foot { font-size: 0.86rem; }
 @media (hover: hover) { .banned__sum:hover .banned__chev { background: var(--accent-soft); color: var(--accent); } }
+
+/* ---------- objetos prohibidos, fichas con íconos (10/10/2026) ----------
+   Solo se publican con BANNED_VERIFIED_ON (build_site.py). Cada ficha dice
+   su estado en texto además del color y el ícono. */
+.nogo { padding: 1rem 1rem 0.4rem; }
+.nogo__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.2rem 1rem; margin-bottom: 0.8rem; }
+.nogo__h { margin: 0; font: 700 1.2rem/1.2 var(--font-head); color: var(--ink); }
+.nogo__src { margin: 0; font-size: 0.8rem; color: var(--ink-faint); }
+.nogo__src a { color: var(--accent); }
+.nogo__draft { color: var(--fail); letter-spacing: 0.02em; }
+.nogo__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+@media (min-width: 52rem) { .nogo__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.nogo__tile {
+  --tone: var(--fail); --tone-fill: var(--fail-fill); --wash: var(--fail-soft);
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.25rem;
+  padding: 0.75rem 0.45rem 0.7rem; border-radius: var(--radius);
+  background: var(--wash); border: 1.5px solid color-mix(in srgb, var(--tone) 22%, transparent);
+}
+.nogo__tile--limit { --tone: var(--paid); --tone-fill: var(--paid-fill); --wash: var(--paid-soft); }
+.nogo__tile--ok    { --tone: var(--pass); --tone-fill: var(--pass-fill); --wash: var(--pass-soft); }
+.nogo__art { position: relative; display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 999px; background: var(--surface); color: var(--ink); box-shadow: 0 6px 14px -10px var(--glow); }
+.nogo__ico { width: 1.85rem; height: 1.85rem; }
+/* la señal de prohibido de toda la vida: aro rojo con la barra cruzada */
+.nogo__tile--no .nogo__art::after, .nogo__tile--never .nogo__art::after {
+  content: ""; position: absolute; inset: 0.15rem; border-radius: 999px;
+  border: 0.22rem solid var(--tone-fill);
+  background: linear-gradient(45deg, transparent calc(50% - 0.11rem), var(--tone-fill) calc(50% - 0.11rem), var(--tone-fill) calc(50% + 0.11rem), transparent calc(50% + 0.11rem));
+}
+.nogo__badge { position: absolute; right: -0.3rem; bottom: -0.2rem; width: 1.35rem; height: 1.35rem; color: var(--tone-fill); filter: drop-shadow(0 1px 1px rgba(0,0,0,.18)); }
+.nogo__tile--no .nogo__badge, .nogo__tile--never .nogo__badge { display: none; }
+.nogo__state { margin-top: 0.15rem; font: 800 0.68rem/1.1 var(--font-body); letter-spacing: 0.04em; text-transform: uppercase; color: var(--tone); }
+.nogo__t { font: 800 0.9rem/1.2 var(--font-body); color: var(--ink); }
+.nogo__d { font-size: 0.78rem; line-height: 1.3; color: var(--ink-soft); }
+.nogo__note { margin: 0.75rem 0 0.2rem; font-size: 0.86rem; color: var(--ink-soft); }
+.nogo__more { margin: 0 -1rem; border-top: 1px solid var(--rule-soft); }
+.nogo__sum { min-height: 2.8rem; }
+.nogo__sum .banned__txt b { font-size: 0.9rem; }
+.nogo__more[open] .banned__chev { transform: rotate(180deg); }
+@media (max-width: 30rem) {
+  .nogo__grid { gap: 0.45rem; }
+  .nogo__tile { padding: 0.65rem 0.3rem 0.6rem; }
+  .nogo__art { width: 3rem; height: 3rem; }
+  .nogo__ico { width: 1.6rem; height: 1.6rem; }
+  .nogo__t { font-size: 0.8rem; }
+  .nogo__d { font-size: 0.7rem; }
+  .nogo__state { font-size: 0.6rem; }
+}
 </style>
 </head>
 <body class="home">
@@ -1566,24 +1613,64 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   </div>
 
   <!-- ============================================================ objetos prohibidos
-       (10/10/2026) Solo enlaces a páginas oficiales: las reglas de seguridad
-       las pone la autoridad y el aeropuerto, no el operador, y cambian por
-       aeropuerto. Willitboard no copia ni resume ninguna lista. -->
-  <details class="banned" id="banned">
-    <summary class="banned__sum">
-      <span class="banned__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
-      <span class="banned__txt"><b>¿Qué no se puede llevar en el equipaje de mano?</b><span class="banned__sub">Líquidos, objetos cortantes y más: listas oficiales</span></span>
-      <span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    </summary>
-    <div class="banned__body">
-      <p>Los artículos prohibidos los fija la seguridad aérea, aparte de las medidas que compara Willitboard. No copiamos esas reglas: enlazamos las páginas oficiales.</p>
+       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
+       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
+  <section class="banned nogo" id="banned" aria-labelledby="nogo-h">
+    <div class="nogo__head">
+      <h2 class="nogo__h" id="nogo-h">¿Qué no se puede llevar en el equipaje de mano?</h2>
+      <p class="nogo__src">Vuelos desde aeropuertos de la UE, equipaje de mano. <a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Fuente: Your Europe (UE)</a> · comprobado el 2026-10-10</p>
+    </div>
+    <ul class="nogo__grid">
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M10 3h4v3.2c0 .6.3 1.1.8 1.5 1.4 1 2.2 2.6 2.2 4.3V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7c0-1.7.8-3.3 2.2-4.3.5-.4.8-.9.8-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M7.2 13.5h9.6" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__state">No en cabina</span>
+        <b class="nogo__t">Líquidos de más de 100 ml</b>
+        <span class="nogo__d">Los chicos: en una bolsa transparente de 1 litro</span>
+      </li>
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 15.5L18 3.5M15.5 15.5L6 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__state">No en cabina</span>
+        <b class="nogo__t">Objetos cortantes</b>
+        <span class="nogo__d">Cuchillos, sacacorchos y tijeras de cierto tamaño: a la bodega</span>
+      </li>
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M3 8h16.5a1.5 1.5 0 0 1 1.5 1.5V11h-7.5l-1 2.2a1 1 0 0 1-.9.6H10l-1.2 5.4a1 1 0 0 1-1 .8H5.2a1 1 0 0 1-1-1.2L5.4 13H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__state">No en cabina</span>
+        <b class="nogo__t">Armas</b>
+        <span class="nogo__d">Ninguna a bordo</span>
+      </li>
+      <li class="nogo__tile nogo__tile--never">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.3 2.3-5.2 3.6-7.5.6 1.6 1.4 2.5 2.4 3 0-3.1 1.2-5.6 3.5-7.4.2 2.8 1.4 4.6 2.6 6.2 1 1.4 1.9 2.8 1.9 5.1 0 4.3-3.3 6.7-7.5 6.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"></svg></span>
+        <span class="nogo__state">Prohibido</span>
+        <b class="nogo__t">Explosivos e inflamables</b>
+        <span class="nogo__d">Ni en cabina ni en bodega</span>
+      </li>
+      <li class="nogo__tile nogo__tile--limit">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8h-9a1 1 0 0 1-1-.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10V6.8a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><path d="M12 2.5l10 17.5H2z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#fff"/></svg></span>
+        <span class="nogo__state">Con límites</span>
+        <b class="nogo__t">Duty free</b>
+        <span class="nogo__d">En la bolsa sellada, con el ticket</span>
+      </li>
+      <li class="nogo__tile nogo__tile--ok">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><rect x="3.2" y="8.6" width="17.6" height="6.8" rx="3.4" transform="rotate(-35 12 12)" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.6 8.6l4.8 6.8" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="nogo__state">Permitido</span>
+        <b class="nogo__t">Medicamentos y comida de bebé</b>
+        <span class="nogo__d">Sin el límite de 100 ml</span>
+      </li>
+    </ul>
+    <p class="nogo__note">La lista detallada está en la web del aeropuerto de salida, y la aerolínea puede confirmarla antes del viaje.</p>
+    <details class="nogo__more">
+      <summary class="banned__sum nogo__sum"><span class="banned__txt"><b>Fuentes oficiales y lista completa</b></span><span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
+      <div class="banned__body">
       <ul class="banned__links">
         <li><a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Unión Europea — Your Europe</a><span>Vuelos desde aeropuertos de la UE. Recomienda consultar la web del aeropuerto para ver la lista detallada.</span></li>
         <li><a href="https://www.gov.uk/hand-luggage-restrictions" target="_blank" rel="noopener nofollow" hreflang="en">Reino Unido — GOV.UK (en inglés)</a><span>Vuelos desde aeropuertos del Reino Unido. Las reglas de líquidos cambiaron en algunos aeropuertos británicos.</span></li>
       </ul>
       <p class="banned__foot">¿Se sale desde otro país o hay dudas? La web del aeropuerto de salida tiene la lista definitiva, y la aerolínea puede confirmarlo antes del viaje.</p>
-    </div>
-  </details>
+      </div>
+    </details>
+  </section>
+
 
   <!-- ============================================================ pestañas
        Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo
@@ -2371,6 +2458,27 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
   "banned_uk": "Reino Unido — GOV.UK (en inglés)",
   "banned_uk_note": "Vuelos desde aeropuertos del Reino Unido. Las reglas de líquidos cambiaron en algunos aeropuertos británicos.",
   "banned_foot": "¿Se sale desde otro país o hay dudas? La web del aeropuerto de salida tiene la lista definitiva, y la aerolínea puede confirmarlo antes del viaje.",
+  "nogo_scope": "Vuelos desde aeropuertos de la UE, equipaje de mano.",
+  "nogo_source": "Fuente: Your Europe (UE)",
+  "nogo_stamp": "comprobado el {date}",
+  "nogo_state_no": "No en cabina",
+  "nogo_state_limit": "Con límites",
+  "nogo_state_ok": "Permitido",
+  "nogo_state_never": "Prohibido",
+  "nogo_liquids_t": "Líquidos de más de 100 ml",
+  "nogo_liquids_d": "Los chicos: en una bolsa transparente de 1 litro",
+  "nogo_meds_t": "Medicamentos y comida de bebé",
+  "nogo_meds_d": "Sin el límite de 100 ml",
+  "nogo_dutyfree_t": "Duty free",
+  "nogo_dutyfree_d": "En la bolsa sellada, con el ticket",
+  "nogo_sharp_t": "Objetos cortantes",
+  "nogo_sharp_d": "Cuchillos, sacacorchos y tijeras de cierto tamaño: a la bodega",
+  "nogo_weapons_t": "Armas",
+  "nogo_weapons_d": "Ninguna a bordo",
+  "nogo_flammable_t": "Explosivos e inflamables",
+  "nogo_flammable_d": "Ni en cabina ni en bodega",
+  "nogo_note": "La lista detallada está en la web del aeropuerto de salida, y la aerolínea puede confirmarla antes del viaje.",
+  "nogo_more": "Fuentes oficiales y lista completa",
   "gsearch_ops": "Aerolíneas, trenes y ferris",
   "gsearch_guides": "Guías",
   "gsearch_products": "Bolsos",

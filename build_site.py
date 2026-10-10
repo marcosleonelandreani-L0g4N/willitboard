@@ -178,7 +178,7 @@ COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON"
                  "SLIDE_1_GO", "SLIDE_2_GO", "SLIDE_3_GO", "SLIDE_4_GO",
                  "MEASURE_ART", "GUIDE_MEASURE_HREF", "CMP_INTRO",
                  "SCENE_MEASURE", "SCENE_COMPARE", "SCENE_TRUST", "SCENE_SHARE",
-                 "TOTOP", "GUIDE_LINKS"}
+                 "TOTOP", "GUIDE_LINKS", "BANNED_BLOCK"}
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
@@ -632,6 +632,123 @@ def block_hero_stats(ops: list, S: dict) -> str:
     ]
     lis = "\n".join(f"          <li><b>{n}</b><span>{label}</span></li>" for n, label in items)
     return f'        <ul class="stats">\n{lis}\n        </ul>'
+
+
+# ------------------------------------------------- objetos prohibidos (home)
+
+# Fichas visuales de "qué no se puede llevar en cabina" (10/10/2026).
+# Cada ficha resume UNA frase de la página oficial de la UE (Your Europe),
+# vuelos desde aeropuertos de la UE:
+#   https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_en.htm
+# Son condiciones de equipaje, así que siguen la regla del dataset: se
+# publican SOLO cuando Marcos abrió la fuente, comparó cada ficha y puso la
+# fecha acá (AAAA-MM-DD). Vacío = el sitio muestra solo los enlaces oficiales.
+# Nunca la completa un asistente.
+# 2026-10-10: Marcos pegó el texto de la versión en español (index_es.htm) y
+# confirmó las 6 fichas. Se enlaza la versión del idioma de cada página.
+BANNED_VERIFIED_ON = "2026-10-10"
+BANNED_SOURCE_EN = "https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_en.htm"
+BANNED_SOURCE_UK = "https://www.gov.uk/hand-luggage-restrictions"
+
+# (clave de texto, estado, ícono). Estados: no = no va en cabina,
+# never = ni en cabina ni en bodega, limit = va con límites,
+# ok = excepción permitida.
+BANNED_ITEMS = [
+    ("liquids", "no", "bottle"),       # envases de más de 100 ml: a la bodega
+    ("sharp", "no", "scissors"),
+    ("weapons", "no", "gun"),
+    ("flammable", "never", "flame"),   # ni en cabina ni en bodega
+    ("dutyfree", "limit", "bag"),
+    ("meds", "ok", "pill"),
+]
+
+_BANNED_ICONS = {
+    "bottle": '<path d="M10 3h4v3.2c0 .6.3 1.1.8 1.5 1.4 1 2.2 2.6 2.2 4.3V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7c0-1.7.8-3.3 2.2-4.3.5-.4.8-.9.8-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M7.2 13.5h9.6" stroke="currentColor" stroke-width="1.9"/>',
+    "pill": '<rect x="3.2" y="8.6" width="17.6" height="6.8" rx="3.4" transform="rotate(-35 12 12)" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.6 8.6l4.8 6.8" stroke="currentColor" stroke-width="1.9"/>',
+    "bag": '<path d="M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8h-9a1 1 0 0 1-1-.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10V6.8a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
+    "scissors": '<circle cx="6.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 15.5L18 3.5M15.5 15.5L6 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
+    "gun": '<path d="M3 8h16.5a1.5 1.5 0 0 1 1.5 1.5V11h-7.5l-1 2.2a1 1 0 0 1-.9.6H10l-1.2 5.4a1 1 0 0 1-1 .8H5.2a1 1 0 0 1-1-1.2L5.4 13H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>',
+    "flame": '<path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.3 2.3-5.2 3.6-7.5.6 1.6 1.4 2.5 2.4 3 0-3.1 1.2-5.6 3.5-7.4.2 2.8 1.4 4.6 2.6 6.2 1 1.4 1.9 2.8 1.9 5.1 0 4.3-3.3 6.7-7.5 6.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>',
+}
+_BANNED_BADGES = {
+    "never": "",
+    "no": '<circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>',
+    "limit": '<path d="M12 2.5l10 17.5H2z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#fff"/>',
+    "ok": '<circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>',
+}
+
+
+def block_banned(lang: str, S: dict, verified_on: str = None, draft: bool = False) -> str:
+    """
+    Bloque "qué no se puede llevar". Siempre lleva los enlaces oficiales.
+    Las fichas con íconos aparecen solo con fecha humana (BANNED_VERIFIED_ON),
+    o en una vista previa local marcada BORRADOR que nunca se publica.
+    """
+    if verified_on is None:
+        verified_on = BANNED_VERIFIED_ON.strip()
+    if verified_on and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", verified_on):
+        sys.exit("ERROR: BANNED_VERIFIED_ON tiene que ser AAAA-MM-DD o quedar vacío.")
+    e = html.escape
+    eu_url = t(S, "banned_eu_url")
+    links = (
+        '      <ul class="banned__links">\n'
+        f'        <li><a href="{e(eu_url)}" target="_blank" rel="noopener nofollow">{e(t(S, "banned_eu"))}</a><span>{e(t(S, "banned_eu_note"))}</span></li>\n'
+        f'        <li><a href="{BANNED_SOURCE_UK}" target="_blank" rel="noopener nofollow" hreflang="en">{e(t(S, "banned_uk"))}</a><span>{e(t(S, "banned_uk_note"))}</span></li>\n'
+        '      </ul>\n'
+        f'      <p class="banned__foot">{e(t(S, "banned_foot"))}</p>\n'
+    )
+    chev = ('<span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" '
+            'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>')
+
+    if not verified_on and not draft:
+        # Solo enlaces: lo que se publica mientras Marcos no haya verificado las fichas.
+        return (
+            '  <details class="banned" id="banned">\n'
+            '    <summary class="banned__sum">\n'
+            '      <span class="banned__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>\n'
+            f'      <span class="banned__txt"><b>{e(t(S, "banned_h"))}</b><span class="banned__sub">{e(t(S, "banned_sub"))}</span></span>\n'
+            f'      {chev}\n'
+            '    </summary>\n'
+            '    <div class="banned__body">\n'
+            f'      <p>{e(t(S, "banned_p"))}</p>\n'
+            f'{links}'
+            '    </div>\n'
+            '  </details>\n'
+        )
+
+    tiles = []
+    for key, state, icon in BANNED_ITEMS:
+        tiles.append(
+            f'      <li class="nogo__tile nogo__tile--{state}">\n'
+            f'        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24">{_BANNED_ICONS[icon]}</svg>'
+            f'<svg class="nogo__badge" viewBox="0 0 24 24">{_BANNED_BADGES[state]}</svg></span>\n'
+            f'        <span class="nogo__state">{e(t(S, "nogo_state_" + state))}</span>\n'
+            f'        <b class="nogo__t">{e(t(S, "nogo_" + key + "_t"))}</b>\n'
+            f'        <span class="nogo__d">{e(t(S, "nogo_" + key + "_d"))}</span>\n'
+            '      </li>'
+        )
+    if verified_on:
+        stamp = t(S, "nogo_stamp", date=verified_on)
+        stamp_html = (f'<a href="{e(eu_url)}" target="_blank" rel="noopener nofollow">{e(t(S, "nogo_source"))}</a> · '
+                      f'{e(stamp)}')
+    else:
+        stamp_html = '<b class="nogo__draft">BORRADOR — sin verificar, no publicar</b>'
+    return (
+        '  <section class="banned nogo" id="banned" aria-labelledby="nogo-h">\n'
+        '    <div class="nogo__head">\n'
+        f'      <h2 class="nogo__h" id="nogo-h">{e(t(S, "banned_h"))}</h2>\n'
+        f'      <p class="nogo__src">{e(t(S, "nogo_scope"))} {stamp_html}</p>\n'
+        '    </div>\n'
+        '    <ul class="nogo__grid">\n' + "\n".join(tiles) + '\n    </ul>\n'
+        f'    <p class="nogo__note">{e(t(S, "nogo_note"))}</p>\n'
+        '    <details class="nogo__more">\n'
+        f'      <summary class="banned__sum nogo__sum"><span class="banned__txt"><b>{e(t(S, "nogo_more"))}</b></span>{chev}</summary>\n'
+        '      <div class="banned__body">\n'
+        f'{links}'
+        '      </div>\n'
+        '    </details>\n'
+        '  </section>\n'
+    )
 
 
 # ------------------------------------------------------------------- sitemap
@@ -1111,6 +1228,7 @@ def main() -> None:
         for key in ("MEASURE", "COMPARE", "TRUST", "SHARE"):
             values["SCENE_" + key] = scene_art(key.lower())
         values["TOTOP"] = totop_block(S)
+        values["BANNED_BLOCK"] = block_banned(lang, S, draft=bool(__import__("os").environ.get("WIB_BANNED_PREVIEW")))
         # guías que también encuentra el buscador de arriba
         values["GUIDE_LINKS"] = json.dumps(
             [{"name": t(S, GUIDE_PAGES[k]["nav"]), "href": guide_path(k, lang)} for k in GUIDE_PAGES],

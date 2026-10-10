@@ -220,12 +220,37 @@ def main() -> int:
             check(page.locator("#banned .banned__links").is_visible(), f"{path}: al tocarla se abre")
             hrefs = page.eval_on_selector_all("#banned a", "els => els.map(e => e.href)")
             ok_domains = all(h.startswith("https://europa.eu/") or h.startswith("https://www.gov.uk/") for h in hrefs)
-            check(len(hrefs) == 2 and ok_domains, f"{path}: solo enlaza páginas oficiales ({hrefs})")
+            check(len(hrefs) >= 2 and ok_domains, f"{path}: solo enlaza páginas oficiales ({hrefs})")
             check(any(h.endswith(eu) for h in hrefs), f"{path}: la página de la UE va en el idioma de la página")
             rels = page.eval_on_selector_all("#banned a", "els => els.map(e => e.rel)")
             check(all("noopener" in r for r in rels), f"{path}: los enlaces externos llevan noopener")
             check(page.evaluate("document.documentElement.scrollWidth") <= 390, f"{path}: abierta, no desborda en el teléfono")
             ctx.close()
+
+        # ------------------------------------------------ 6b. fichas con íconos: candado de verificación
+        # Las fichas son condiciones de equipaje: sin la fecha de Marcos
+        # (BANNED_VERIFIED_ON) NO se publican, y "BORRADOR" nunca llega a public/.
+        print("\n[objetos prohibidos: fichas y candado]")
+        sys.path.insert(0, str(ROOT.parent))
+        import importlib
+        bs = importlib.import_module("build_site")
+        for lang in ("en", "es"):
+            html_pub = (ROOT / ("index.html" if lang == "en" else "es/index.html")).read_text(encoding="utf-8")
+            date = bs.BANNED_VERIFIED_ON.strip()
+            n_pub = html_pub.count('<li class="nogo__tile')
+            check(n_pub == (len(bs.BANNED_ITEMS) if date else 0),
+                  f"{lang}: fichas publicadas solo con fecha humana (fecha={date or 'vacía'}, fichas={n_pub})")
+            check("BORRADOR" not in html_pub, f"{lang}: la marca BORRADOR nunca se publica")
+            S = bs.load_strings(lang)
+            sample = bs.block_banned(lang, S, verified_on="2000-01-01")
+            check(sample.count('<li class="nogo__tile') == 6, f"{lang}: con fecha salen las 6 fichas")
+            check("2000-01-01" in sample and "europa.eu/youreurope" in sample,
+                  f"{lang}: con fecha, muestra la fecha y enlaza la fuente de la UE")
+            states = [st for _, st, _ in bs.BANNED_ITEMS]
+            check(all(f'nogo__tile--{st}' in sample for st in set(states)), f"{lang}: cada estado tiene su estilo")
+            check(sample.count('class="nogo__state"') == 6, f"{lang}: cada ficha dice su estado en texto, no solo con color")
+            empty = bs.block_banned(lang, S, verified_on="")
+            check('nogo__tile' not in empty and 'banned__links' in empty, f"{lang}: sin fecha, solo los enlaces oficiales")
 
         # ------------------------------------------------ 7. panel flotante con salto de scroll (10/10/2026)
         # Si la página salta de "panel todavía abajo" a "panel ya arriba" sin

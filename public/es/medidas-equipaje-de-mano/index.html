@@ -1446,6 +1446,53 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 .banned__links span { font-size: 0.86rem; }
 .banned__foot { font-size: 0.86rem; }
 @media (hover: hover) { .banned__sum:hover .banned__chev { background: var(--accent-soft); color: var(--accent); } }
+
+/* ---------- objetos prohibidos, fichas con íconos (10/10/2026) ----------
+   Solo se publican con BANNED_VERIFIED_ON (build_site.py). Cada ficha dice
+   su estado en texto además del color y el ícono. */
+.nogo { padding: 1rem 1rem 0.4rem; }
+.nogo__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.2rem 1rem; margin-bottom: 0.8rem; }
+.nogo__h { margin: 0; font: 700 1.2rem/1.2 var(--font-head); color: var(--ink); }
+.nogo__src { margin: 0; font-size: 0.8rem; color: var(--ink-faint); }
+.nogo__src a { color: var(--accent); }
+.nogo__draft { color: var(--fail); letter-spacing: 0.02em; }
+.nogo__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.6rem; }
+@media (min-width: 52rem) { .nogo__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.nogo__tile {
+  --tone: var(--fail); --tone-fill: var(--fail-fill); --wash: var(--fail-soft);
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.25rem;
+  padding: 0.75rem 0.45rem 0.7rem; border-radius: var(--radius);
+  background: var(--wash); border: 1.5px solid color-mix(in srgb, var(--tone) 22%, transparent);
+}
+.nogo__tile--limit { --tone: var(--paid); --tone-fill: var(--paid-fill); --wash: var(--paid-soft); }
+.nogo__tile--ok    { --tone: var(--pass); --tone-fill: var(--pass-fill); --wash: var(--pass-soft); }
+.nogo__art { position: relative; display: grid; place-items: center; width: 3.4rem; height: 3.4rem; border-radius: 999px; background: var(--surface); color: var(--ink); box-shadow: 0 6px 14px -10px var(--glow); }
+.nogo__ico { width: 1.85rem; height: 1.85rem; }
+/* la señal de prohibido de toda la vida: aro rojo con la barra cruzada */
+.nogo__tile--no .nogo__art::after, .nogo__tile--never .nogo__art::after {
+  content: ""; position: absolute; inset: 0.15rem; border-radius: 999px;
+  border: 0.22rem solid var(--tone-fill);
+  background: linear-gradient(45deg, transparent calc(50% - 0.11rem), var(--tone-fill) calc(50% - 0.11rem), var(--tone-fill) calc(50% + 0.11rem), transparent calc(50% + 0.11rem));
+}
+.nogo__badge { position: absolute; right: -0.3rem; bottom: -0.2rem; width: 1.35rem; height: 1.35rem; color: var(--tone-fill); filter: drop-shadow(0 1px 1px rgba(0,0,0,.18)); }
+.nogo__tile--no .nogo__badge, .nogo__tile--never .nogo__badge { display: none; }
+.nogo__state { margin-top: 0.15rem; font: 800 0.68rem/1.1 var(--font-body); letter-spacing: 0.04em; text-transform: uppercase; color: var(--tone); }
+.nogo__t { font: 800 0.9rem/1.2 var(--font-body); color: var(--ink); }
+.nogo__d { font-size: 0.78rem; line-height: 1.3; color: var(--ink-soft); }
+.nogo__note { margin: 0.75rem 0 0.2rem; font-size: 0.86rem; color: var(--ink-soft); }
+.nogo__more { margin: 0 -1rem; border-top: 1px solid var(--rule-soft); }
+.nogo__sum { min-height: 2.8rem; }
+.nogo__sum .banned__txt b { font-size: 0.9rem; }
+.nogo__more[open] .banned__chev { transform: rotate(180deg); }
+@media (max-width: 30rem) {
+  .nogo__grid { gap: 0.45rem; }
+  .nogo__tile { padding: 0.65rem 0.3rem 0.6rem; }
+  .nogo__art { width: 3rem; height: 3rem; }
+  .nogo__ico { width: 1.6rem; height: 1.6rem; }
+  .nogo__t { font-size: 0.8rem; }
+  .nogo__d { font-size: 0.7rem; }
+  .nogo__state { font-size: 0.6rem; }
+}
 </style>
 </head>
 <body>
