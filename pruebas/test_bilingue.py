@@ -250,15 +250,13 @@ def main() -> None:
                 sorted(sorted(v) for v in bands_of(page).values() if v) == es_groups,
             )
 
-            # ---------- rediseño 23/09: cifras del hero ----------
-            print("\nCifras del encabezado (salen del dataset, no se escriben a mano)")
+            # ---------- cifras del hero: quitadas el 11/10/2026 ----------
+            # Marcos las sacó en la revisión del rediseño ("no sirven ahí").
+            print("\nCifras del encabezado (quitadas el 11/10/2026)")
             with (PUBLIC / "operators.json").open(encoding="utf-8") as fh:
                 ops = json.load(fh)["operators"]
-            nums = page.eval_on_selector_all(".stats b", "els => els.map(e => e.textContent.trim())")
-            check("operadores = los del dataset",
-                  nums and nums[0] == str(len(ops)), str(nums))
-            check("tipos de transporte = los presentes en el dataset",
-                  len(nums) > 1 and nums[1] == str(len({o["type"] for o in ops})), str(nums))
+            check("ya no está la tira de cifras (operadores / medios / 0 copiados)",
+                  page.locator(".stats").count() == 0)
 
             # ---------- comparador lado a lado ----------
             print("\nComparador lado a lado")

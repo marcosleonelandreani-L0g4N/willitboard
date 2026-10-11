@@ -73,6 +73,7 @@ BASE_URL = "https://willitboard.com"
 STATIC_DIR = SITE_DIR / "static"
 BRAND_DIR = SITE_DIR / "brand"
 PARTIALS_DIR = SITE_DIR / "partials"
+VERDICT_JS = PARTIALS_DIR / "verdict.js"  # cuenta de "¿entra?" compartida home/ficha
 GUIDES_DIR = SITE_DIR / "guides"
 
 # Logo en uso: sitio/brand/mark-<letra>.svg. Hay cuatro propuestas (a, b, c, d);
@@ -179,12 +180,15 @@ COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON"
                  "SLIDE_1_GO", "SLIDE_2_GO", "SLIDE_3_GO", "SLIDE_4_GO",
                  "MEASURE_ART", "GUIDE_MEASURE_HREF", "CMP_INTRO",
                  "SCENE_MEASURE", "SCENE_COMPARE", "SCENE_TRUST", "SCENE_SHARE",
-                 "TOTOP", "GUIDE_LINKS", "BANNED_BLOCK"}
+                 "TOTOP", "GUIDE_LINKS", "BANNED_BLOCK", "VERDICT_JS",
+                 "MEASURE_THUMB", "NOGO_JS"}
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
                "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS",
-               "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS", "TOTOP"}
+               "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS", "TOTOP",
+               "KG_TILE", "BANNED_TILE", "TRY", "COMPARE_HREF", "HEAD_MOD",
+               "FICHE_JS", "OP_JSON", "FICHE_STRINGS", "VERDICT_JS", "NOGO_JS"}
 COMPUTED_PAGE = {"TOTOP", "LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                  "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                  "NAV_EN_CUR", "NAV_ES_CUR", "CRUMB_SELF", "H1", "STANDFIRST",
@@ -376,13 +380,43 @@ def block_crumbs(op, lang: str, S: dict) -> str:
 
 
 def block_provenance(op, S: dict) -> str:
+    """
+    Fuente oficial y fecha humana, arriba de todo y a la vista (11/10/2026:
+    van dentro de la tarjeta de cabecera). El primer <a> de .provenance es
+    SIEMPRE la fuente: test_fichas lo lee así.
+    """
     when = esc(op["verified_on"])
+    check = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" '
+             'stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>')
     return (
-        f'    <span><a href="{esc(op["source_url"])}" target="_blank" '
-        f'rel="noopener nofollow">{t(S, "prov_source")} ↗</a></span>\n'
-        f'    <span>{t(S, "prov_checked")} <time datetime="{when}">{when}</time></span>\n'
-        f'    <span>{t(S, "prov_why")}</span>'
+        f'        <a class="prov__src" href="{esc(op["source_url"])}" target="_blank" '
+        f'rel="noopener nofollow">{t(S, "prov_source")} ↗</a>\n'
+        f'        <span class="prov__ok">{check}{t(S, "prov_checked")} <time datetime="{when}">{when}</time></span>\n'
+        f'        <span class="prov__why">{t(S, "prov_why")}</span>'
     )
+
+
+# Dibujos de las tarjetas de franquicia (11/10/2026). Trazos propios, sin
+# marcas: un bolso blando para el artículo personal, una maleta con ruedas
+# para la de cabina. Decorativos: aria-hidden.
+_ALLOW_ART = {
+    "personal_item": (
+        '<svg viewBox="0 0 64 64" aria-hidden="true">'
+        '<path d="M22 22v-4a10 10 0 0 1 20 0v4" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>'
+        '<rect x="11" y="22" width="42" height="32" rx="9" fill="var(--art-fill)" stroke="currentColor" stroke-width="3.2"/>'
+        '<path d="M11 33h42" stroke="currentColor" stroke-width="3.2"/>'
+        '<rect x="27" y="30" width="10" height="7" rx="2.5" fill="var(--surface)" stroke="currentColor" stroke-width="2.6"/>'
+        '</svg>'
+    ),
+    "cabin_bag": (
+        '<svg viewBox="0 0 64 64" aria-hidden="true">'
+        '<path d="M25 14V6h14v8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>'
+        '<rect x="15" y="14" width="34" height="38" rx="8" fill="var(--art-fill)" stroke="currentColor" stroke-width="3.2"/>'
+        '<path d="M26 22v22M38 22v22" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/>'
+        '<circle cx="23" cy="57" r="3.6" fill="currentColor"/><circle cx="41" cy="57" r="3.6" fill="currentColor"/>'
+        '</svg>'
+    ),
+}
 
 
 def one_allowance(op, key: str, label_key: str, S: dict) -> str:
@@ -391,11 +425,11 @@ def one_allowance(op, key: str, label_key: str, S: dict) -> str:
         return ""
     included = allow.get("included")
     if included is True:
-        status_cls, status_txt = "status--free", t(S, "status_free")
+        status_cls, status_txt, tone = "status--free", t(S, "status_free"), "free"
     elif included is False:
-        status_cls, status_txt = "status--paid", t(S, "status_paid")
+        status_cls, status_txt, tone = "status--paid", t(S, "status_paid"), "paid"
     else:
-        status_cls, status_txt = "status--none", t(S, "status_unknown")
+        status_cls, status_txt, tone = "status--none", t(S, "status_unknown"), "none"
 
     dims = triple(allow.get("max_cm"))
     if dims:
@@ -410,24 +444,27 @@ def one_allowance(op, key: str, label_key: str, S: dict) -> str:
         else:
             sub = t(S, "allow_no_kg")
         figure = (
-            f'      <p class="allow__dims">{esc(" × ".join(str(d) for d in dims))} cm'
+            f'          <p class="allow__dims">{esc(" × ".join(str(d) for d in dims))} cm'
             f"<small>{sub}</small></p>"
         )
     else:
-        figure = f'      <p class="allow__none">{t(S, "allow_not_published", name=esc(op["name"]))}</p>'
+        figure = f'          <p class="allow__none">{t(S, "allow_not_published", name=esc(op["name"]))}</p>'
 
     addon = allow.get("requires_addon")
     addon_html = (
-        f'\n      <p class="allow__addon">{t(S, "allow_addon", addon=esc(addon))}</p>'
+        f'\n          <p class="allow__addon">{t(S, "allow_addon", addon=esc(addon))}</p>'
         if included is False and addon else ""
     )
 
     return (
-        f'    <div class="allow">\n'
-        f'      <p class="allow__label">{t(S, label_key)}</p>\n'
-        f'      <span class="status {status_cls}">{status_txt}</span>\n'
-        f"{figure}{addon_html}\n"
-        f"    </div>"
+        f'      <div class="allow glass allow--{tone}">\n'
+        f'        <span class="allow__art">{_ALLOW_ART[key]}</span>\n'
+        f'        <div class="allow__body">\n'
+        f'          <p class="allow__label">{t(S, label_key)}</p>\n'
+        f"{figure}\n"
+        f'          <span class="status {status_cls}">{status_txt}</span>{addon_html}\n'
+        f"        </div>\n"
+        f"      </div>"
     )
 
 
@@ -445,12 +482,59 @@ def block_allowances(op, S: dict) -> str:
     fare = op.get("reference_fare")
     fare_html = f'    <p class="allows__fare">{t(S, "fiche_fare", fare=esc(fare))}</p>\n' if fare else ""
     return (
-        '  <section aria-labelledby="allowances-h">\n'
-        f'    <h2 id="allowances-h">{t(S, "fiche_allowances_h")}</h2>\n'
+        '  <section class="allows2" aria-labelledby="allowances-h">\n'
+        f'    <h2 id="allowances-h" class="eyebrow">{t(S, "fiche_allowances_h")}</h2>\n'
         f"{fare_html}"
         f'    <div class="allows">\n{inner}\n    </div>\n'
         "  </section>"
     )
+
+
+def fiche_kg(op):
+    """
+    (valor, compartido) para la tarjeta grande de peso, o None.
+    Solo cifras publicadas: el peso propio de la maleta de cabina, o si el
+    operador solo publica un total para los dos bultos, ese total rotulado
+    como total. Nunca se calcula ni se reparte nada.
+    """
+    if op.get("limit_type") != "dimensional":
+        return None
+    cabin = op.get("cabin_bag") or {}
+    if not triple(cabin.get("max_cm")):
+        return None
+    if cabin.get("max_kg") is not None:
+        return cabin["max_kg"], False
+    if op.get("combined_max_kg") is not None:
+        return op["combined_max_kg"], True
+    return None
+
+
+def fmt_num(v) -> str:
+    return str(int(v)) if float(v).is_integer() else str(v)
+
+
+def block_kg_tile(op, S: dict, cls: str) -> str:
+    k = fiche_kg(op)
+    if not k:
+        return ""
+    kg, shared = k
+    label = t(S, "fiche_kg_shared" if shared else "fiche_kg_cabin")
+    return (
+        f'  <section class="glass tile--kg {cls}" aria-label="{esc(fmt_num(kg))} kg, {esc(label)}">\n'
+        f'    <p class="kg__n" aria-hidden="true">{esc(fmt_num(kg))}<small> kg</small></p>\n'
+        f'    <p class="kg__l" aria-hidden="true">{label}</p>\n'
+        "  </section>"
+    )
+
+
+def fiche_has_banned(op) -> bool:
+    """
+    Las fichas de prohibidos (UE) van en la ficha de una aerolínea solo si:
+    hay fecha humana (BANNED_VERIFIED_ON), es un avión y su región es Europa.
+    En Latinoamérica las reglas son otras (Chile, Colombia y México no usan
+    los 100 ml de la UE), así que ahí no se muestran.
+    """
+    return bool(BANNED_VERIFIED_ON.strip()) and op.get("type") == "air" and op.get("region") == "EU"
 
 
 def block_rule(op, lang: str, S: dict) -> str:
@@ -479,7 +563,7 @@ def block_rule(op, lang: str, S: dict) -> str:
     )
 
 
-def block_wheels(op, S: dict) -> str:
+def block_wheels(op, S: dict, cls: str = "") -> str:
     if op.get("limit_type") != "dimensional":
         return ""
     w = op.get("wheels_handles") or {}
@@ -492,9 +576,16 @@ def block_wheels(op, S: dict) -> str:
                 else t(S, "flag_wheels_excluded"))
     else:
         text = t(S, "flag_wheels_unknown")
+    # maleta con el asa extendida y las ruedas marcadas: lo que dice la tarjeta
+    art = ('<svg viewBox="0 0 48 48" aria-hidden="true">'
+           '<path d="M19 13V4h10v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+           '<rect x="12" y="13" width="24" height="25" rx="6" fill="none" stroke="currentColor" stroke-width="2.6" opacity=".45"/>'
+           '<circle cx="18" cy="42.5" r="3.6" fill="currentColor"/><circle cx="30" cy="42.5" r="3.6" fill="currentColor"/>'
+           '</svg>')
     return (
-        '  <section class="prose">\n'
-        f'    <h2>{t(S, "fiche_wheels_h")}</h2>\n'
+        f'  <section class="glass tile--wheels {cls}" aria-labelledby="wheels-h">\n'
+        f'    <span class="wheels__art">{art}</span>\n'
+        f'    <h2 id="wheels-h">{t(S, "fiche_wheels_h")}</h2>\n'
         f'    <p class="caveat">{text}</p>\n'
         "  </section>"
     )
@@ -688,6 +779,146 @@ _BANNED_BADGES = {
 }
 
 
+def banned_tiles(S: dict) -> list:
+    """Las seis fichas con ícono. Las usan la home y la ficha de aerolínea."""
+    e = html.escape
+    tiles = []
+    for key, state, icon in BANNED_ITEMS:
+        tiles.append(
+            f'      <li class="nogo__tile nogo__tile--{state}">\n'
+            f'        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24">{_BANNED_ICONS[icon]}</svg>'
+            f'<svg class="nogo__badge" viewBox="0 0 24 24">{_BANNED_BADGES[state]}</svg></span>\n'
+            f'        <span class="nogo__txt"><span class="nogo__state">{e(t(S, "nogo_state_" + state))}</span>\n'
+            f'        <b class="nogo__t">{e(t(S, "nogo_" + key + "_t"))}</b>\n'
+            f'        <span class="nogo__d">{e(t(S, "nogo_" + key + "_d"))}</span></span>\n'
+            '      </li>'
+        )
+    return tiles
+
+
+_CHEV_L = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" '
+           'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+_CHEV_R = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" '
+           'stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+
+
+def nogo_carousel(S: dict, lang: str, idp: str, more_href, heading: str = "h2", stamp_html: str = None) -> str:
+    """
+    Banner chico de prohibidos con flechas (11/10/2026). Se desliza con el
+    dedo (scroll-snap); las flechas avanzan una "página" (2 fichas en
+    computadora, 1 en el teléfono). Sin JavaScript sigue siendo una lista
+    que se desliza. Solo se arma con fecha humana: lo decide quien lo llama.
+    """
+    e = html.escape
+    eu_url = t(S, "banned_eu_url")
+    stamp = stamp_html or (f'<a href="{e(eu_url)}" target="_blank" rel="noopener nofollow">{e(t(S, "nogo_source"))}</a> · '
+                           f'{e(t(S, "nogo_stamp", date=BANNED_VERIFIED_ON.strip()))}')
+    more = f' <a href="{e(more_href)}">{e(t(S, "nogo_more"))}</a>' if more_href else ""
+    return (
+        f'    <div class="nogo-c__head">\n'
+        f'      <{heading} class="nogo-c__h" id="{idp}-h">{e(t(S, "banned_h"))}</{heading}>\n'
+        f'      <p class="nogo__src">{e(t(S, "nogo_scope"))} {stamp}</p>\n'
+        '    </div>\n'
+        f'    <ul class="nogo-c__track" id="{idp}-track" tabindex="0" aria-label="{e(t(S, "banned_h"))}">\n'
+        + "\n".join(banned_tiles(S)) + '\n    </ul>\n'
+        '    <div class="nogo-c__nav">\n'
+        f'      <button type="button" class="nogo-c__btn" data-nogo="{idp}" data-dir="-1" aria-label="{e(t(S, "nogo_prev"))}">{_CHEV_L}</button>\n'
+        f'      <span class="nogo-c__dots" id="{idp}-dots" data-label="{e(t(S, "nogo_page"))}"></span>\n'
+        f'      <button type="button" class="nogo-c__btn" data-nogo="{idp}" data-dir="1" aria-label="{e(t(S, "nogo_next"))}">{_CHEV_R}</button>\n'
+        '    </div>\n'
+        f'    <p class="nogo__note">{e(t(S, "nogo_note"))}{more}</p>\n'
+    )
+
+
+def block_banned_tile(op, lang: str, S: dict) -> str:
+    if not fiche_has_banned(op):
+        return ""
+    more = PAGES[lang][1] + "#banned"
+    return (
+        '  <section class="glass tile--banned nogo-c" aria-labelledby="nogo-h">\n'
+        + nogo_carousel(S, lang, "nogo", more) +
+        '  </section>'
+    )
+
+
+def block_try(op, lang: str, S: dict) -> str:
+    """
+    "¿Entra tu maleta en X?" dentro de la ficha. La cuenta es la MISMA que la
+    de la home: partials/verdict.js se inyecta tal cual en las dos páginas.
+    Valores iniciales = los de la home.
+    """
+    if op.get("limit_type") != "dimensional":
+        return ""
+    up = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" '
+          'stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+    down = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" '
+            'stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>')
+    fields = []
+    for fid, lab, val, unit in (("try-a", "f_length", "50", "cm"), ("try-b", "f_width", "38", "cm"),
+                                ("try-c", "f_height", "22", "cm"), ("try-w", "f_weight", "9", "kg")):
+        name = t(S, lab)
+        fields.append(
+            '        <div class="field">\n'
+            f'          <label for="{fid}">{name}</label>\n'
+            '          <div class="field__row">\n'
+            f'            <input type="number" id="{fid}" inputmode="decimal" min="0" step="0.1" value="{val}">\n'
+            f'            <span class="field__unit">{unit}</span>\n'
+            '            <div class="stepper">\n'
+            f'              <button type="button" class="nudge" data-nudge="{fid}" data-dir="1" aria-label="{t(S, "a11y_more")} {name}">{up}</button>\n'
+            f'              <button type="button" class="nudge" data-nudge="{fid}" data-dir="-1" aria-label="{t(S, "a11y_less")} {name}">{down}</button>\n'
+            '            </div>\n'
+            '          </div>\n'
+            '        </div>'
+        )
+    home = PAGES[lang][1]
+    return (
+        '  <section class="glass tile--try tryit" aria-labelledby="try-h">\n'
+        f'    <h2 id="try-h">{t(S, "fiche_try_h", name=esc(op["name"]))}</h2>\n'
+        '    <div class="fields">\n' + "\n".join(fields) + '\n    </div>\n'
+        '    <div class="tryit__out" id="try-out" aria-live="polite">\n'
+        f'      <p class="tryit__v" id="try-v">{t(S, "fiche_try_empty")}</p>\n'
+        '      <p class="tryit__d" id="try-d"></p>\n'
+        '    </div>\n'
+        f'    <p class="tryit__foot"><span>{t(S, "fiche_try_same", name=esc(op["name"]))}</span> '
+        f'<a id="try-all" href="{home}?l=50&amp;w=38&amp;h=22&amp;kg=9">{t(S, "fiche_try_all")} →</a></p>\n'
+        '  </section>'
+    )
+
+
+# Textos que necesita la cuenta compartida (partials/verdict.js) en la ficha.
+# Se manda solo este subconjunto del diccionario, no las 347 claves.
+VERDICT_KEYS = sorted(set(re.findall(r't\("([a-z_]+)"', (SITE_DIR / "partials" / "verdict.js").read_text(encoding="utf-8")))
+                      | {"fiche_try_empty"})
+
+
+def fiche_script_json(value) -> str:
+    """JSON seguro dentro de <script>: sin </ ni comentarios HTML."""
+    return json.dumps(value, ensure_ascii=False).replace("</", "<\\/").replace("<!--", "<\\!--")
+
+
+def fiche_spans(op) -> dict:
+    """
+    Ancho de las tarjetas de peso y de ruedas en la grilla de la ficha.
+    Computadora: 4 columnas; teléfono y tablet: 2. El banner de prohibidos
+    ocupa 2 columnas cuando está; peso y ruedas reparten lo que queda.
+    """
+    has_kg = fiche_kg(op) is not None
+    has_banned = fiche_has_banned(op)
+    if has_banned:
+        d_kg, d_wh = ("d1", "d1") if has_kg else (None, "d2")
+    else:
+        d_kg, d_wh = ("d2", "d2") if has_kg else (None, "d4")
+    p = "p1" if has_kg else "p2"
+    return {"kg": f"span-{d_kg} span-{p}" if has_kg else "",
+            "wheels": f"span-{d_wh} span-{p}"}
+
+
+FICHE_JS = (SITE_DIR / "partials" / "fiche.js").read_text(encoding="utf-8")
+# banner de prohibidos con flechas + mantener apretada una flecha ▲▼
+NOGO_JS = ((SITE_DIR / "partials" / "nogo.js").read_text(encoding="utf-8")
+           + (SITE_DIR / "partials" / "hold.js").read_text(encoding="utf-8"))
+
+
 def block_banned(lang: str, S: dict, verified_on: str = None, draft: bool = False) -> str:
     """
     Bloque "qué no se puede llevar". Siempre lleva los enlaces oficiales.
@@ -729,31 +960,18 @@ def block_banned(lang: str, S: dict, verified_on: str = None, draft: bool = Fals
             '  </details>\n'
         )
 
-    tiles = []
-    for key, state, icon in BANNED_ITEMS:
-        tiles.append(
-            f'      <li class="nogo__tile nogo__tile--{state}">\n'
-            f'        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24">{_BANNED_ICONS[icon]}</svg>'
-            f'<svg class="nogo__badge" viewBox="0 0 24 24">{_BANNED_BADGES[state]}</svg></span>\n'
-            f'        <span class="nogo__state">{e(t(S, "nogo_state_" + state))}</span>\n'
-            f'        <b class="nogo__t">{e(t(S, "nogo_" + key + "_t"))}</b>\n'
-            f'        <span class="nogo__d">{e(t(S, "nogo_" + key + "_d"))}</span>\n'
-            '      </li>'
-        )
+    tiles = banned_tiles(S)
     if verified_on:
         stamp = t(S, "nogo_stamp", date=verified_on)
         stamp_html = (f'<a href="{e(eu_url)}" target="_blank" rel="noopener nofollow">{e(t(S, "nogo_source"))}</a> · '
                       f'{e(stamp)}')
     else:
         stamp_html = '<b class="nogo__draft">BORRADOR — sin verificar, no publicar</b>'
+    # 11/10/2026: banner chico con flechas (antes, grilla de 6). Las fichas y
+    # el sello son los mismos; abajo siguen las fuentes oficiales.
     return (
-        '  <section class="banned nogo" id="banned" aria-labelledby="nogo-h">\n'
-        '    <div class="nogo__head">\n'
-        f'      <h2 class="nogo__h" id="nogo-h">{e(t(S, "banned_h"))}</h2>\n'
-        f'      <p class="nogo__src">{e(t(S, "nogo_scope"))} {stamp_html}</p>\n'
-        '    </div>\n'
-        '    <ul class="nogo__grid">\n' + "\n".join(tiles) + '\n    </ul>\n'
-        f'    <p class="nogo__note">{e(t(S, "nogo_note"))}</p>\n'
+        '  <section class="banned nogo nogo-c glass" id="banned" aria-labelledby="nogo-h">\n'
+        + nogo_carousel(S, lang, "nogo", None, stamp_html=stamp_html) +
         '    <details class="nogo__more">\n'
         f'      <summary class="banned__sum nogo__sum"><span class="banned__txt"><b>{e(t(S, "nogo_more"))}</b></span>{chev}</summary>\n'
         '      <div class="banned__body">\n'
@@ -954,6 +1172,21 @@ def measure_art(S: dict) -> str:
     svg = path.read_text(encoding="utf-8").rstrip("\n")
     return render(svg, {"m_art_alt": t(S, "m_art_alt"), "m_front": t(S, "m_front"),
                         "m_side": t(S, "m_side")})
+
+
+def measure_thumb(svg: str) -> str:
+    """
+    Copia chica del dibujo de cómo medir, para el renglón "Cómo medir la
+    maleta" (11/10/2026: el dibujo a la vista en lugar de un ícono). Es
+    decorativa: sin título, aria-hidden, y con los id renombrados para no
+    chocar con el dibujo grande que está en la misma página.
+    """
+    ids = re.findall(r'id="([^"]+)"', svg)
+    for i in ids:
+        svg = svg.replace(f'id="{i}"', f'id="{i}-mini"').replace(f"url(#{i})", f"url(#{i}-mini)")
+    svg = re.sub(r"\s*<title[^>]*>.*?</title>", "", svg, flags=re.S)
+    svg = re.sub(r'\s(role|aria-labelledby)="[^"]*"', "", svg)
+    return svg.replace('class="measure__art"', 'class="measure__mini" aria-hidden="true" focusable="false"', 1)
 
 
 def copy_static() -> list[Path]:
@@ -1169,6 +1402,7 @@ def main() -> None:
 
     # ---------- fichas ----------
     for op in published:
+        spans = fiche_spans(op)
         for lang in PAGES:
             S = dicts[lang]
             kind = op["type"]
@@ -1199,7 +1433,17 @@ def main() -> None:
                 "PROVENANCE": block_provenance(op, S),
                 "ALLOWANCES": block_allowances(op, S),
                 "RULE": block_rule(op, lang, S),
-                "WHEELS": block_wheels(op, S),
+                "WHEELS": block_wheels(op, S, spans["wheels"]),
+                "KG_TILE": block_kg_tile(op, S, spans["kg"]),
+                "BANNED_TILE": block_banned_tile(op, lang, S),
+                "TRY": block_try(op, lang, S),
+                "COMPARE_HREF": f'{PAGES[lang][1]}?c={op["id"]}#compare',
+                "HEAD_MOD": "" if op["limit_type"] == "dimensional" else " tile--head-full",
+                "FICHE_JS": FICHE_JS if op["limit_type"] == "dimensional" else "",
+                "OP_JSON": fiche_script_json(op) if op["limit_type"] == "dimensional" else "null",
+                "FICHE_STRINGS": fiche_script_json({k: S[k] for k in VERDICT_KEYS}),
+                "VERDICT_JS": VERDICT_JS.read_text(encoding="utf-8") if op["limit_type"] == "dimensional" else "",
+                "NOGO_JS": NOGO_JS if op["limit_type"] == "dimensional" else "",
                 "CAVEATS": block_caveats(op, S),
                 "CHECKER_HREF": PAGES[lang][1],
                 "FICHE_STAMP": t(
@@ -1237,10 +1481,13 @@ def main() -> None:
             values[f"SLIDE_{n}_LABEL"] = t(S, "slide_n", n=n, total=4)
             values[f"SLIDE_{n}_GO"] = t(S, "slide_go", n=n)
         values["MEASURE_ART"] = measure_art(S)
+        values["MEASURE_THUMB"] = measure_thumb(values["MEASURE_ART"])
+        values["NOGO_JS"] = NOGO_JS
         values["GUIDE_MEASURE_HREF"] = guide_path("measure", lang)
         for key in ("MEASURE", "COMPARE", "TRUST", "SHARE"):
             values["SCENE_" + key] = scene_art(key.lower())
         values["TOTOP"] = totop_block(S)
+        values["VERDICT_JS"] = VERDICT_JS.read_text(encoding="utf-8")
         values["BANNED_BLOCK"] = block_banned(lang, S, draft=bool(__import__("os").environ.get("WIB_BANNED_PREVIEW")))
         # guías que también encuentra el buscador de arriba
         values["GUIDE_LINKS"] = json.dumps(

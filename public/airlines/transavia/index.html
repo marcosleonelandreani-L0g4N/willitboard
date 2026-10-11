@@ -1560,6 +1560,343 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 :root:not([data-theme="dark"]) svg.themetoggle__sun, :root[data-theme="dark"] svg.themetoggle__moon { opacity: 1; }
 :root[data-theme="dark"] .themetoggle::before { background: var(--rule); box-shadow: 0 2px 8px -2px rgba(0,0,0,.6); }
 :root[data-theme="dark"] .themetoggle__moon { color: #D9D0FF; }
+
+/* ================================================================= v8 (11/10/2026)
+   Rediseño "bento", tandas 2 a 4:
+   - tarjetas de vidrio esmerilado (.glass), con fondo liso de respaldo;
+   - ficha de operador en grilla: 4 columnas en computadora, 2 en teléfono;
+   - "¿Entra tu maleta en X?" dentro de la ficha (misma cuenta que la home);
+   - banner chico de prohibidos con flechas (.nogo-c), en la home y en las
+     fichas de aerolíneas europeas. */
+
+/* ---------- tarjetas de vidrio ----------
+   Fondo liso primero; el vidrio solo si el navegador sabe hacerlo. Quien
+   pide "menos transparencia" en el sistema recibe siempre el liso. */
+:root {
+  --tile-solid: #FFFFFF;
+  --tile-glass: rgba(255,255,255,.68);
+  --tile-line:  rgba(23,32,51,.07);
+  --tile-blur:  blur(22px) saturate(1.7);
+}
+:root[data-theme="dark"] {
+  --tile-solid: #18213A;
+  --tile-glass: rgba(26,34,62,.62);
+  --tile-line:  rgba(255,255,255,.09);
+  --tile-blur:  blur(22px) saturate(1.5);
+}
+.glass {
+  position: relative; min-width: 0;
+  padding: 1.25rem 1.35rem;
+  border-radius: var(--radius-lg);
+  background: var(--tile-solid);
+  border: 1px solid var(--tile-line);
+  box-shadow: var(--shadow-sm);
+}
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass { background: var(--tile-glass); -webkit-backdrop-filter: var(--tile-blur); backdrop-filter: var(--tile-blur); }
+}
+/* teléfonos: menos desenfoque, que es lo que más cuesta en un Android viejo */
+@media (max-width: 34rem) { :root, :root[data-theme="dark"] { --tile-blur: blur(12px) saturate(1.4); } }
+@media (prefers-reduced-transparency: reduce) {
+  .glass { background: var(--tile-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+/* reacción al mouse y al dedo, solo en tarjetas que "son una cosa" */
+.allow.glass, .tile--kg, .tile--wheels { transition: transform .3s var(--lift), box-shadow .3s var(--lift); }
+@media (hover: hover) {
+  .allow.glass:hover, .tile--kg:hover, .tile--wheels:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .allow.glass:hover .allow__art svg { transform: translateY(-4px) rotate(-5deg); }
+  .tile--wheels:hover .wheels__art svg { transform: rotate(60deg); }
+}
+.allow.glass:active, .tile--kg:active, .tile--wheels:active { transform: scale(.98); transition-duration: .08s; }
+.allow__art svg, .wheels__art svg { transition: transform .45s var(--lift); }
+
+/* ---------- ficha: grilla ---------- */
+.shell--fiche { max-width: 72rem; gap: 1.1rem; }
+.bento { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; }
+.bento > * { grid-column: 1 / -1; }
+.bento > .span-p1 { grid-column: span 1; }
+@media (min-width: 60rem) {
+  .bento { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+  .bento > .tile--head, .bento > .allows2, .bento > .tile--banned { grid-column: span 2; }
+  .bento > .tile--head-full { grid-column: 1 / -1; }
+  .bento > .span-d1 { grid-column: span 1; }
+  .bento > .span-d2 { grid-column: span 2; }
+  .bento > .span-d4 { grid-column: 1 / -1; }
+}
+
+/* cabecera */
+.tile--head { display: flex; flex-direction: column; gap: 0.7rem; padding: 1.4rem 1.5rem 1.3rem; }
+.tile--head .crumbs { margin: 0; }
+.tile--head h1 { margin: 0; font-size: clamp(1.8rem, 3.6vw, 2.5rem); line-height: 1.08; letter-spacing: -0.02em; }
+.tile--head-full h1 { font-size: clamp(1.9rem, 4.6vw, 3rem); }
+.tile--head .standfirst { margin: 0; font-size: 1rem; line-height: 1.5; }
+.head__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin-top: auto; padding-top: 0.2rem; }
+.tile--head .provenance {
+  flex: 1 1 18rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem 0.8rem;
+  padding: 0; background: none; border-radius: 0; font-size: 0.86rem;
+}
+.prov__ok {
+  order: -1; display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.45rem 0.8rem 0.45rem 0.6rem; border-radius: 999px;
+  background: var(--pass-soft); color: var(--pass); font-weight: 800;
+}
+.prov__ok svg { width: 1.05rem; height: 1.05rem; flex: none; }
+.provenance .prov__ok time { color: inherit; }
+.prov__src { font-weight: 800; }
+.prov__why { flex-basis: 100%; color: var(--ink-faint); font-size: 0.8rem; }
+.pillbtn {
+  display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.1rem;
+  border-radius: 999px; background: var(--surface-sunk); color: var(--ink);
+  font: 700 0.9rem/1 var(--font-body); text-decoration: none;
+  transition: transform .15s var(--lift), background-color .2s;
+}
+@media (hover: hover) { .pillbtn:hover { transform: scale(1.04); background: var(--accent-soft); color: var(--accent); } }
+.pillbtn:active { transform: scale(.94); }
+
+/* franquicias */
+.allows2 { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.eyebrow { margin: 0.2rem 0 0 0.3rem; font: 800 0.78rem/1.2 var(--font-body); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); }
+.allows2 .allows__fare { margin: 0 0 0 0.3rem; }
+.allows2 .allows { flex: 1; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin: 0; }
+@media (min-width: 60rem) { .allows2 .allows { gap: 1rem; } }
+.allow.glass { gap: 0.8rem; padding: 1.15rem 1.15rem 1.2rem; border: 1px solid var(--tile-line); }
+.allow { --art: var(--unknown); --art-fill: var(--unknown-soft); }
+.allow--free { --art: var(--pass); --art-fill: var(--pass-soft); }
+.allow--paid { --art: var(--paid); --art-fill: var(--paid-soft); }
+.allow__art { display: block; width: 3.4rem; height: 3.4rem; color: var(--art); }
+.allow__art svg { width: 100%; height: 100%; overflow: visible; }
+.allow__body { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+.allow.glass .allow__label { letter-spacing: 0.02em; text-transform: none; font-size: 0.86rem; font-weight: 700; color: var(--ink-faint); }
+.allow.glass .allow__dims { font: 700 clamp(1.35rem, 2.4vw, 1.75rem)/1.1 var(--font-head); letter-spacing: -0.02em; }
+.allow.glass .status { text-transform: none; letter-spacing: 0; font-size: 0.82rem; padding: 0.4rem 0.75rem; }
+@media (max-width: 34rem) {
+  .allow.glass { align-items: center; text-align: center; padding: 1rem 0.7rem 1.05rem; }
+  .allow.glass .allow__body { align-items: center; }
+  .allow.glass .status { align-self: center; }
+  .allow__art { width: 3rem; height: 3rem; }
+}
+
+/* peso grande */
+.tile--kg { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.4rem; }
+.kg__n { margin: 0; font: 700 clamp(3rem, 7vw, 4.2rem)/1 var(--font-head); letter-spacing: -0.04em; color: var(--accent); font-variant-numeric: tabular-nums; }
+.kg__n small { font-size: 0.42em; letter-spacing: 0; }
+.kg__l { margin: 0; font-size: 0.9rem; font-weight: 600; line-height: 1.3; color: var(--ink-soft); }
+
+/* ruedas */
+.tile--wheels { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.45rem; }
+.wheels__art { display: block; width: 2.6rem; height: 2.6rem; color: var(--accent); }
+.wheels__art svg { width: 100%; height: 100%; }
+.tile--wheels h2 { font-size: 1.1rem; }
+.tile--wheels .caveat { margin: 0; padding: 0; background: none; font-size: 0.86rem; line-height: 1.4; }
+
+/* texto y botón final */
+.tile--prose h2 { margin-bottom: 0.8rem; }
+.tile--prose .caveat { background: var(--surface-sunk); }
+.tile--prose .caveat:last-child { margin-bottom: 0; }
+.bento .op__rule { margin: 0; }
+.tile--cta { padding: 0.4rem 0 0; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+/* ---------- "¿Entra tu maleta en X?" ---------- */
+.tryit { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; padding: 1.3rem 1.4rem 1.2rem; }
+.tryit h2 { font-size: clamp(1.25rem, 2.6vw, 1.6rem); letter-spacing: -0.02em; }
+.tryit .fields { padding: 0; gap: 0.6rem; }
+.tryit .field { padding: 0.6rem 0.7rem 0.7rem; gap: 0.4rem; border-radius: 20px; background: var(--surface-sunk); }
+.tryit .field label {
+  justify-content: flex-start; text-align: left;
+  font: 700 0.84rem/1.2 var(--font-body); letter-spacing: 0; text-transform: none; color: var(--ink-soft);
+}
+.tryit .field__row { display: flex; align-items: stretch; gap: 0.35rem; height: 4.2rem; }
+.tryit .field input {
+  flex: 1 1 auto; width: auto; min-width: 0; align-self: center; padding: 0 0 0 0.15rem; text-align: left;
+  font: 700 2.1rem/1 var(--font-head); letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+}
+.tryit .field__unit { align-self: center; flex: none; font: 700 0.85rem/1 var(--font-body); color: var(--ink-faint); }
+.tryit .field input.is-bump { animation: wib-bump .22s var(--lift); transform-origin: left center; }
+@media (pointer: coarse) { .tryit .field__row { height: 5.5rem; } }
+@media (max-width: 34rem) {
+  .tryit { padding: 1.1rem 1rem 1rem; }
+  .tryit .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+  .tryit .field { padding: 0.55rem 0.55rem 0.6rem 0.7rem; }
+  .tryit .field input { font-size: 1.9rem; }
+  .tryit .stepper { width: 2.75rem; }
+}
+.tryit__out {
+  --tone: var(--ink-soft); --wash: var(--surface-sunk);
+  padding: 0.95rem 1.15rem; border-radius: 20px; background: var(--wash); color: var(--tone);
+  transition: background-color .35s ease, color .35s ease;
+}
+.tryit__out--fits    { --tone: var(--pass);    --wash: var(--pass-soft); }
+.tryit__out--paid    { --tone: var(--paid);    --wash: var(--paid-soft); }
+.tryit__out--over    { --tone: var(--fail);    --wash: var(--fail-soft); }
+.tryit__out--unknown { --tone: var(--unknown); --wash: var(--unknown-soft); }
+.tryit__v { margin: 0; font: 800 1.2rem/1.25 var(--font-body); }
+.tryit__d { margin: 0.3rem 0 0; color: var(--ink-soft); font-size: 0.92rem; line-height: 1.45; }
+.tryit__d:empty { display: none; }
+.tryit__foot { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.3rem 1rem; font-size: 0.86rem; color: var(--ink-faint); }
+.tryit__foot a { font-weight: 800; }
+@media (min-width: 60rem) {
+  .tryit { grid-template-columns: 13rem minmax(0, 1fr); column-gap: 1.4rem; align-items: center; }
+  .tryit h2 { grid-row: span 2; }
+  .tryit__foot { grid-column: 2; }
+}
+
+/* ---------- banner chico de prohibidos con flechas ---------- */
+.nogo__txt { display: flex; flex-direction: column; gap: 0.25rem; align-items: inherit; min-width: 0; }
+.nogo-c { display: flex; flex-direction: column; gap: 0.8rem; padding: 1.15rem 1.2rem 0.9rem; }
+.nogo-c__head { display: flex; flex-direction: column; gap: 0.25rem; }
+.nogo-c__h { margin: 0; font: 700 1.15rem/1.2 var(--font-head); }
+.nogo-c__track {
+  list-style: none; margin: 0; padding: 0.2rem 0.1rem;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 100%; gap: 0.7rem;
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.nogo-c__track::-webkit-scrollbar { display: none; }
+.nogo-c__track:focus-visible { outline-offset: 3px; border-radius: var(--radius); }
+@media (min-width: 40rem) { .nogo-c__track { grid-auto-columns: calc((100% - 0.7rem) / 2); } }
+.nogo-c .nogo__tile {
+  scroll-snap-align: start; flex-direction: row; align-items: center; text-align: left;
+  gap: 0.85rem; padding: 0.8rem 0.9rem;
+}
+.nogo-c .nogo__art { flex: none; }
+.nogo-c .nogo__t { font-size: 0.95rem; }
+.nogo-c .nogo__d { font-size: 0.82rem; }
+.nogo-c .nogo__state { font-size: 0.66rem; }
+.nogo-c__nav { display: flex; align-items: center; justify-content: center; gap: 0.6rem; }
+.nogo-c__btn {
+  display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--surface); color: var(--ink); box-shadow: var(--shadow-sm);
+  transition: transform .15s var(--lift), background-color .2s, color .2s;
+}
+.nogo-c__btn svg { width: 1.3rem; height: 1.3rem; }
+@media (hover: hover) { .nogo-c__btn:hover { transform: scale(1.08); background: var(--accent-soft); color: var(--accent); } }
+.nogo-c__btn:active { transform: scale(.9); }
+.nogo-c__dots { display: flex; gap: 0.15rem; }
+.nogo-c__dot { width: 1.5rem; height: 1.5rem; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.nogo-c__dot::before { content: ""; width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--rule); transition: width .3s var(--lift), background-color .3s; }
+.nogo-c__dot[aria-current="true"]::before { width: 1.4rem; background: var(--accent); }
+.nogo-c .nogo__note { margin: 0; font-size: 0.82rem; text-align: center; }
+/* ajustes tras mirarlo */
+.prov__ok { white-space: nowrap; }
+.nogo-c { overflow: hidden; }
+.nogo-c__track { min-width: 0; max-width: 100%; }
+.allow.glass { justify-content: center; }
+@media (max-width: 34rem) {
+  .prov__ok { white-space: normal; }
+  .allow.glass .allow__dims { font-size: 1.22rem; }
+  .allow.glass .allow__dims small { font-size: 0.8rem; }
+}
+
+/* ---------- home: el dibujo de cómo medir a la vista ---------- */
+.measure__thumb {
+  flex: none; display: grid; place-items: center;
+  width: 5.4rem; height: 4.1rem; padding: 0.15rem; border-radius: 14px;
+  background: var(--surface); box-shadow: var(--shadow-sm);
+}
+.measure__mini { width: 100%; height: 100%; display: block; }
+@media (max-width: 34rem) { .measure__thumb { width: 4.6rem; height: 3.5rem; } }
+.measure[open] .measure__thumb { opacity: 0; width: 0; padding: 0; margin-right: -0.75rem; transition: width .25s var(--lift), opacity .2s; }
+
+/* ---------- home: vidrio esmerilado en las tarjetas grandes ----------
+   Mismo criterio que .glass: liso por defecto, vidrio si el navegador puede,
+   liso para quien pide menos transparencia. No se aplica a tarjetas
+   anidadas (los resultados dentro de cada grupo), que es lo que más pesa. */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .panel, .tabs, .tgroup, .step, .cmpwrap, .bagstrip, .gsearch__box, .banned.nogo {
+    background: var(--tile-glass); -webkit-backdrop-filter: var(--tile-blur); backdrop-filter: var(--tile-blur);
+    border-color: var(--tile-line);
+  }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .panel, .tabs, .tgroup, .step, .cmpwrap, .bagstrip, .gsearch__box, .banned.nogo {
+    background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none;
+  }
+}
+.banned.nogo-c { padding: 1.1rem 1.2rem 0.4rem; border-radius: var(--radius-lg); }
+.banned.nogo-c .nogo__more { margin: 0 -1.2rem; }
+.nogo-c .nogo__txt { align-items: flex-start; }
+@media (min-width: 52rem) { .banned.nogo-c .nogo-c__track { grid-auto-columns: calc((100% - 1.4rem) / 3); } }
+
+/* ================================================================= fondos de día y de noche (11/10/2026)
+   Una capa fija detrás de todo el sitio (todas las páginas):
+   - día: cielo celeste que se aclara hacia abajo, resplandor de sol arriba a
+     la derecha y dos nubes suaves que se corren muy despacio;
+   - noche: azul profundo con brillos de color y dos capas de estrellas que
+     titilan a destiempo.
+   Solo se animan opacidad y desplazamiento (lo que el teléfono hace sin
+   esfuerzo). Con "menos movimiento" en el sistema, todo queda quieto.
+   El html no lleva fondo a propósito: así el fondo del body pasa al lienzo y
+   estas capas (z-index: -1) quedan entre el lienzo y el contenido. */
+:root {
+  --bg-sky:
+    radial-gradient(42rem 26rem at 102% -6%, rgba(255,200,61,.42), transparent 64%),
+    radial-gradient(36rem 26rem at -10% 28%, rgba(20,196,154,.13), transparent 64%),
+    radial-gradient(40rem 28rem at 60% 105%, rgba(31,94,255,.08), transparent 64%),
+    linear-gradient(180deg, #CFE1FF 0%, #E3EDFF 28%, #F2F6FD 62%, #F6F8FC 100%);
+  --bg-sky-color: #F6F8FC;
+}
+:root[data-theme="dark"] {
+  --bg-sky:
+    radial-gradient(40rem 26rem at 108% -6%, rgba(255,79,118,.20), transparent 60%),
+    radial-gradient(34rem 26rem at -10% 30%, rgba(0,200,190,.13), transparent 60%),
+    radial-gradient(42rem 30rem at 50% 112%, rgba(111,160,255,.20), transparent 60%),
+    linear-gradient(180deg, #141C3E 0%, #10172E 45%, #0E1422 100%);
+  --bg-sky-color: #0E1422;
+}
+body { background: var(--bg-sky-color); }
+body::before, body::after, html::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+}
+body::before { background: var(--bg-sky); }
+/* la home tenía su propio cielo; ahora lo pone el fondo general */
+.hero { background: none; }
+
+/* día: nubes (dos óvalos difusos, sin filtros) */
+body::after {
+  inset: -2rem -6rem auto -6rem; height: 26rem;
+  background:
+    radial-gradient(9rem 2.2rem at 32% 14%, rgba(255,255,255,.85), transparent 70%),
+    radial-gradient(5rem 2.6rem at 36% 10%, rgba(255,255,255,.75), transparent 70%),
+    radial-gradient(12rem 2.6rem at 74% 46%, rgba(255,255,255,.55), transparent 70%),
+    radial-gradient(6rem 2.8rem at 78% 42%, rgba(255,255,255,.5), transparent 70%);
+  animation: wib-drift 70s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes wib-drift { from { transform: translateX(-2.5rem); } to { transform: translateX(4rem); } }
+
+/* noche: estrellas en dos capas que titilan a destiempo */
+:root[data-theme="dark"] body::after {
+  inset: 0; height: auto;
+  background-image:
+    radial-gradient(1.6px 1.6px at 23px 41px, #fff, transparent),
+    radial-gradient(1.2px 1.2px at 140px 18px, rgba(255,255,255,.9), transparent),
+    radial-gradient(2.2px 2.2px at 201px 133px, #E6E0FF, transparent),
+    radial-gradient(1.2px 1.2px at 77px 171px, rgba(255,255,255,.8), transparent),
+    radial-gradient(1.6px 1.6px at 252px 233px, #fff, transparent);
+  background-size: 290px 270px;
+  animation: wib-twinkle 5.5s ease-in-out infinite;
+  will-change: opacity;
+}
+:root[data-theme="dark"]::after {
+  background-image:
+    radial-gradient(1.2px 1.2px at 61px 95px, rgba(255,255,255,.85), transparent),
+    radial-gradient(2px 2px at 178px 62px, #D9F4FF, transparent),
+    radial-gradient(1.3px 1.3px at 311px 201px, rgba(255,255,255,.8), transparent),
+    radial-gradient(1.6px 1.6px at 128px 289px, #fff, transparent);
+  background-size: 380px 340px;
+  animation: wib-twinkle 7.5s ease-in-out -3s infinite;
+  will-change: opacity;
+}
+@keyframes wib-twinkle { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  body::after, :root[data-theme="dark"] body::after, :root[data-theme="dark"]::after { animation: none; }
+  :root[data-theme="dark"] body::after, :root[data-theme="dark"]::after { opacity: .75; }
+}
+@media print { body::before, body::after, html::after { display: none; } }
+/* la fecha del sello nunca se corta a la mitad */
+.prov__ok time { white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -1569,7 +1906,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
      build_site.py leyendo /operators.json; esta plantilla no contiene ni una
      medida. -->
 
-<div class="shell">
+<div class="shell shell--fiche">
 
   <header>
     <div class="topbar">
@@ -1594,60 +1931,188 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
       </nav>
       </div>
     </div>
-    <nav class="crumbs" aria-label="Breadcrumb">
+  </header>
+
+  <!-- (11/10/2026) Ficha "estilo app": tarjetas en grilla. Computadora: 4
+       columnas; teléfono: 2. Todo el contenido sigue escrito en el HTML; el
+       JavaScript solo hace andar la calculadora y las flechas del banner. -->
+  <main class="bento">
+    <section class="glass tile--head">
+      <nav class="crumbs" aria-label="Breadcrumb">
       <a href="/">Bag checker</a>
       <span aria-hidden="true">/</span>
       <span>Airlines</span>
       <span aria-hidden="true">/</span>
       <span>Transavia</span>
-    </nav>
-    <h1>Transavia cabin bag size and allowance</h1>
-    <p class="standfirst">What Transavia publishes for the personal item and the cabin bag, what the fare already includes, and what has to be bought separately. Every figure on this page comes from the operator's own page.</p>
-  </header>
+      </nav>
+      <h1>Transavia cabin bag size and allowance</h1>
+      <p class="standfirst">What Transavia publishes for the personal item and the cabin bag, what the fare already includes, and what has to be bought separately. Every figure on this page comes from the operator's own page.</p>
+      <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
+           fecha humana son el diferenciador del sitio, no una nota al pie. -->
+      <div class="head__foot">
+        <div class="provenance">
+        <a class="prov__src" href="https://www.transavia.com/help/en-eu/baggage/cabin-baggage/how-much-to-bring" target="_blank" rel="noopener nofollow">Official source ↗</a>
+        <span class="prov__ok"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Checked by a human on <time datetime="2026-09-26">2026-09-26</time></span>
+        <span class="prov__why">Not copied from a blog or a luggage brand.</span>
+        </div>
+        <a class="pillbtn" href="/?c=transavia#compare">Compare with another</a>
+      </div>
+    </section>
 
-  <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
-       fecha humana son el diferenciador del sitio, no una nota al pie. -->
-  <section class="provenance">
-    <span><a href="https://www.transavia.com/help/en-eu/baggage/cabin-baggage/how-much-to-bring" target="_blank" rel="noopener nofollow">Official source ↗</a></span>
-    <span>Checked by a human on <time datetime="2026-09-26">2026-09-26</time></span>
-    <span>Not copied from a blog or a luggage brand.</span>
-  </section>
-
-  <section aria-labelledby="allowances-h">
-    <h2 id="allowances-h">What you can take</h2>
+  <section class="allows2" aria-labelledby="allowances-h">
+    <h2 id="allowances-h" class="eyebrow">What you can take</h2>
     <p class="allows__fare">Figures for the <b>Basic</b> fare, as the operator names it.</p>
     <div class="allows">
-    <div class="allow">
-      <p class="allow__label">Personal item</p>
-      <span class="status status--free">Included in the fare</span>
-      <p class="allow__dims">40 × 30 × 20 cm<small>Up to 10 kg</small></p>
-    </div>
-    <div class="allow">
-      <p class="allow__label">Cabin bag</p>
-      <span class="status status--paid">Costs extra</span>
-      <p class="allow__dims">55 × 40 × 25 cm<small>Up to 10 kg in total, together with the other bag</small></p>
-      <p class="allow__addon">Requires buying: <b>Smart or Max fare, or a cabin bag added for a fee</b>.</p>
-    </div>
+      <div class="allow glass allow--free">
+        <span class="allow__art"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 22v-4a10 10 0 0 1 20 0v4" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><rect x="11" y="22" width="42" height="32" rx="9" fill="var(--art-fill)" stroke="currentColor" stroke-width="3.2"/><path d="M11 33h42" stroke="currentColor" stroke-width="3.2"/><rect x="27" y="30" width="10" height="7" rx="2.5" fill="var(--surface)" stroke="currentColor" stroke-width="2.6"/></svg></span>
+        <div class="allow__body">
+          <p class="allow__label">Personal item</p>
+          <p class="allow__dims">40 × 30 × 20 cm<small>Up to 10 kg</small></p>
+          <span class="status status--free">Included in the fare</span>
+        </div>
+      </div>
+      <div class="allow glass allow--paid">
+        <span class="allow__art"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M25 14V6h14v8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="15" y="14" width="34" height="38" rx="8" fill="var(--art-fill)" stroke="currentColor" stroke-width="3.2"/><path d="M26 22v22M38 22v22" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><circle cx="23" cy="57" r="3.6" fill="currentColor"/><circle cx="41" cy="57" r="3.6" fill="currentColor"/></svg></span>
+        <div class="allow__body">
+          <p class="allow__label">Cabin bag</p>
+          <p class="allow__dims">55 × 40 × 25 cm<small>Up to 10 kg in total, together with the other bag</small></p>
+          <span class="status status--paid">Costs extra</span>
+          <p class="allow__addon">Requires buying: <b>Smart or Max fare, or a cabin bag added for a fee</b>.</p>
+        </div>
+      </div>
     </div>
   </section>
 
+  <section class="glass tile--kg span-d1 span-p1" aria-label="10 kg, in total, adding up both bags">
+    <p class="kg__n" aria-hidden="true">10<small> kg</small></p>
+    <p class="kg__l" aria-hidden="true">in total, adding up both bags</p>
+  </section>
 
-
-  <section class="prose">
-    <h2>Handles and wheels</h2>
+  <section class="glass tile--wheels span-d1 span-p1" aria-labelledby="wheels-h">
+    <span class="wheels__art"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M19 13V4h10v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="13" width="24" height="25" rx="6" fill="none" stroke="currentColor" stroke-width="2.6" opacity=".45"/><circle cx="18" cy="42.5" r="3.6" fill="currentColor"/><circle cx="30" cy="42.5" r="3.6" fill="currentColor"/></svg></span>
+    <h2 id="wheels-h">Handles and wheels</h2>
     <p class="caveat">Published limits already include handles and wheels, so measure your bag as it stands.</p>
   </section>
 
-  <section class="prose">
-    <h2>Before you rely on this</h2>
+  <section class="glass tile--banned nogo-c" aria-labelledby="nogo-h">
+    <div class="nogo-c__head">
+      <h2 class="nogo-c__h" id="nogo-h">What can&#x27;t go in your hand luggage?</h2>
+      <p class="nogo__src">Flights from EU airports, cabin bags. <a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_en.htm" target="_blank" rel="noopener nofollow">Source: Your Europe (EU)</a> · checked 2026-10-10</p>
+    </div>
+    <ul class="nogo-c__track" id="nogo-track" tabindex="0" aria-label="What can&#x27;t go in your hand luggage?">
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M10 3h4v3.2c0 .6.3 1.1.8 1.5 1.4 1 2.2 2.6 2.2 4.3V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7c0-1.7.8-3.3 2.2-4.3.5-.4.8-.9.8-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M7.2 13.5h9.6" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Not in the cabin</span>
+        <b class="nogo__t">Liquids over 100 ml</b>
+        <span class="nogo__d">Smaller ones: in a 1‑litre clear bag</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 15.5L18 3.5M15.5 15.5L6 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Not in the cabin</span>
+        <b class="nogo__t">Sharp objects</b>
+        <span class="nogo__d">Knives, corkscrews, scissors of a certain size: hold bag</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M3 8h16.5a1.5 1.5 0 0 1 1.5 1.5V11h-7.5l-1 2.2a1 1 0 0 1-.9.6H10l-1.2 5.4a1 1 0 0 1-1 .8H5.2a1 1 0 0 1-1-1.2L5.4 13H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Not in the cabin</span>
+        <b class="nogo__t">Weapons</b>
+        <span class="nogo__d">None on board</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--never">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.3 2.3-5.2 3.6-7.5.6 1.6 1.4 2.5 2.4 3 0-3.1 1.2-5.6 3.5-7.4.2 2.8 1.4 4.6 2.6 6.2 1 1.4 1.9 2.8 1.9 5.1 0 4.3-3.3 6.7-7.5 6.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Banned</span>
+        <b class="nogo__t">Explosives &amp; flammables</b>
+        <span class="nogo__d">Not in the cabin or the hold</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--limit">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8h-9a1 1 0 0 1-1-.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10V6.8a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><path d="M12 2.5l10 17.5H2z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#fff"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">With limits</span>
+        <b class="nogo__t">Duty free</b>
+        <span class="nogo__d">In the sealed bag, with the receipt</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--ok">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><rect x="3.2" y="8.6" width="17.6" height="6.8" rx="3.4" transform="rotate(-35 12 12)" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.6 8.6l4.8 6.8" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Allowed</span>
+        <b class="nogo__t">Medicines &amp; baby food</b>
+        <span class="nogo__d">Not limited to 100 ml</span></span>
+      </li>
+    </ul>
+    <div class="nogo-c__nav">
+      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="-1" aria-label="Previous items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="nogo-c__dots" id="nogo-dots" data-label="Page {n} of {total}"></span>
+      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="1" aria-label="Next items"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <p class="nogo__note">The detailed list is on your departure airport&#x27;s website; your airline can confirm before you travel. <a href="/#banned">Official sources and full list</a></p>
+  </section>
+
+  <section class="glass tile--try tryit" aria-labelledby="try-h">
+    <h2 id="try-h">Does your bag fit on Transavia?</h2>
+    <div class="fields">
+        <div class="field">
+          <label for="try-a">Length</label>
+          <div class="field__row">
+            <input type="number" id="try-a" inputmode="decimal" min="0" step="0.1" value="50">
+            <span class="field__unit">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="try-a" data-dir="1" aria-label="Increase Length"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="try-a" data-dir="-1" aria-label="Decrease Length"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="try-b">Width</label>
+          <div class="field__row">
+            <input type="number" id="try-b" inputmode="decimal" min="0" step="0.1" value="38">
+            <span class="field__unit">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="try-b" data-dir="1" aria-label="Increase Width"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="try-b" data-dir="-1" aria-label="Decrease Width"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="try-c">Height</label>
+          <div class="field__row">
+            <input type="number" id="try-c" inputmode="decimal" min="0" step="0.1" value="22">
+            <span class="field__unit">cm</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="try-c" data-dir="1" aria-label="Increase Height"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="try-c" data-dir="-1" aria-label="Decrease Height"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="try-w">Weight</label>
+          <div class="field__row">
+            <input type="number" id="try-w" inputmode="decimal" min="0" step="0.1" value="9">
+            <span class="field__unit">kg</span>
+            <div class="stepper">
+              <button type="button" class="nudge" data-nudge="try-w" data-dir="1" aria-label="Increase Weight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 14.5l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="nudge" data-nudge="try-w" data-dir="-1" aria-label="Decrease Weight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="tryit__out" id="try-out" aria-live="polite">
+      <p class="tryit__v" id="try-v">Enter the three measurements.</p>
+      <p class="tryit__d" id="try-d"></p>
+    </div>
+    <p class="tryit__foot"><span>Same check as the home page, against Transavia's published limits.</span> <a id="try-all" href="/?l=50&amp;w=38&amp;h=22&amp;kg=9">Check it against every operator →</a></p>
+  </section>
+
+
+
+    <section class="glass tile--prose prose">
+      <h2>Before you rely on this</h2>
     <p class="caveat">An empty field on this page means the operator doesn't publish that figure. It never means there is no limit.</p>
     <p class="caveat">These figures are for the Basic fare. The operator sells other fares, and what is included can differ between them. The source link above goes to the page these figures were read from.</p>
     <p class="caveat">Meeting a published limit is not a promise that staff will accept your bag at the gate. At least one operator states that paying at the gate does not guarantee a bag over the limit will be carried.</p>
-  </section>
+    </section>
 
-  <section>
-    <a class="cta" href="/">Check your own bag against every operator</a>
-  </section>
+    <section class="glass tile--cta">
+      <a class="cta" href="/">Check your own bag against every operator</a>
+    </section>
+  </main>
 
   <footer>
     <p><strong>Willitboard</strong> covers cabin baggage: the personal item and the cabin bag. Checked baggage rules differ by operator and by what you buy, so we show them as reference rather than as a verdict.</p>
@@ -1678,6 +2143,465 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
     window.scrollTo({ top: 0, behavior: calm ? "auto" : "smooth" });
   });
   sync();
+})();
+</script>
+<script>
+/* Calculadora de la ficha. OP es el registro de este operador, el mismo que
+   está en /operators.json; T son solo los textos que usa la cuenta. */
+(function () {
+  var OP = {"id": "transavia", "name": "Transavia", "type": "air", "country": "NL", "region": "EU", "limit_type": "dimensional", "source_url": "https://www.transavia.com/help/en-eu/baggage/cabin-baggage/how-much-to-bring", "verified_on": "2026-09-26", "personal_item": {"included": true, "max_cm": {"length": 40, "width": 30, "height": 20}, "max_kg": 10}, "cabin_bag": {"included": false, "requires_addon": "Smart or Max fare, or a cabin bag added for a fee", "max_cm": {"length": 55, "width": 40, "height": 25}, "max_kg": null}, "wheels_handles": {"included_in_measurement": true, "tolerance_cm": null}, "reference_fare": "Basic", "combined_max_kg": 10, "excess_fee": {"currency": null, "online_from": null, "at_gate_from": null}, "days_since_verified": 7};
+  if (!OP) return;
+  var T = {"band_fail_title": "Doesn't fit", "band_paid_title": "Fits, but costs extra", "band_pass_title": "No extra cost", "band_rule_title": "Check the baggage rule", "band_unknown_title": "Size not confirmed", "d_fits": "Fits the {label} included in the fare: <span class=\"dims\">{dims}<\/span>{kg}.", "d_maybe": "Your bag is {by} over the {label} limit of <span class=\"dims\">{dims}<\/span>.", "d_over_both": "Over the largest allowance (<span class=\"dims\">{dims}<\/span>) by {by}, and over its {kg} kg weight limit.", "d_over_dims": "Over the largest cabin allowance (<span class=\"dims\">{dims}<\/span>) by {by}.", "d_over_generic": "Over the published cabin limits.", "d_over_weight": "Within the size of the {label} (<span class=\"dims\">{dims}<\/span>), but over its weight limit of {kg} kg.", "d_paid": "Fits the {label} dimensions (<span class=\"dims\">{dims}<\/span>{kg}), but that bag is <strong>not included in the base fare<\/strong>.", "d_rule": "This operator describes what you can bring instead of publishing measurements, so a size check can't produce a yes or no.", "d_unknown": "This operator doesn't publish the measurements needed to answer. A missing measurement is not the same as no limit.", "fiche_try_empty": "Enter the three measurements.", "flag_addon": "You need to buy: {addon}.", "flag_combined": "{name} publishes one weight for both bags together: {kg} kg in total. If you also carry the other bag, both count toward it.", "flag_fare": "These limits are for the {fare} fare. Other fares from the same operator can include more.", "flag_maybe": "That limit excludes handles and wheels, and allows the wheels to add up to {tol} cm. Whether your bag complies depends on how much of that excess is wheels. Measure the body of the bag without them to find out.", "flag_maybe_addon": " Either way, this allowance requires buying {addon}.", "flag_no_weight": "No weight limit is published for this allowance. That isn't the same as no limit.", "flag_wheels_excluded": "Published limits exclude handles and wheels.", "flag_wheels_excluded_tol": "Published limits exclude handles and wheels, and wheels may add at most {tol} cm on top.", "flag_wheels_included": "Published limits already include handles and wheels, so measure your bag as it stands.", "flag_wheels_unknown": "This operator doesn't publish whether handles and wheels count toward the limit. If your bag is within a couple of centimetres of it, assume they do.", "kg_suffix": ", up to {kg} kg", "kg_suffix_shared": ", up to {kg} kg in total with the other bag", "label_cabin": "cabin bag", "label_personal": "personal item", "v_wheels": "Depends on your wheels"};
+  function t(key, vars) {
+    var s = T[key];
+    if (s === undefined) return key;
+    if (!vars) return s;
+    return s.replace(/\{(\w+)\}/g, function (m, k) {
+      return (vars[k] === undefined || vars[k] === null) ? "" : String(vars[k]);
+    });
+  }
+  var IN_PER_CM = 0.393700787;
+  var units = { length: "cm", weight: "kg" };
+  function round1(n) { return Math.round(n * 10) / 10; }
+  /* ======================================================================
+     partials/verdict.js — LA cuenta de "¿entra?", compartida (11/10/2026).
+     build_site.py la inyecta tal cual en la home (template.html) y en cada
+     ficha (template_operator.html). Así una misma maleta da el mismo
+     resultado en las dos páginas: no hay una segunda copia que se desfase.
+     Usa del entorno: t(), round1(), units, IN_PER_CM.
+     ====================================================================== */
+  /* ---------- the comparison ----------
+     El idioma NO toca esta parte. Un mismo equipaje tiene que dar el mismo
+     estado en las dos versiones: lo único que cambia es el texto. */
+
+  var FITS = "fits", MAYBE = "maybe", OVER = "over", UNKNOWN = "unknown", RULE = "rule";
+
+  function limitTriple(maxCm) {
+    if (!maxCm) return null;
+    var v = [maxCm.length, maxCm.width, maxCm.height];
+    if (v.some(function (n) { return n === null || n === undefined; })) return null;
+    return v.sort(function (x, y) { return y - x; });
+  }
+
+  /* Compares sorted bag dims against sorted limit dims. Sorting both means a bag
+     that only fits rotated still counts as fitting, which is how a sizer works.
+     Tolerance is never treated as a pass: if the bag only clears the limit by
+     borrowing the wheel allowance, the honest answer is "maybe, go and re-measure". */
+  function compareDims(bagCm, limit, wheels) {
+    if (!limit) return { state: UNKNOWN };
+    var over = [];
+    for (var i = 0; i < 3; i++) {
+      var excess = round1(bagCm[i] - limit[i]);
+      if (excess > 0) over.push({ axis: i, excess: excess });
+    }
+    if (!over.length) return { state: FITS };
+
+    var tolerance = wheels && wheels.included_in_measurement === false
+      ? wheels.tolerance_cm : null;
+    if (tolerance !== null && tolerance !== undefined) {
+      var rescued = over.every(function (o) { return o.excess <= tolerance; });
+      if (rescued) {
+        return {
+          state: MAYBE,
+          by: Math.max.apply(null, over.map(function (o) { return o.excess; })),
+          tolerance: tolerance
+        };
+      }
+    }
+    return { state: OVER, by: Math.max.apply(null, over.map(function (o) { return o.excess; })) };
+  }
+
+  function compareWeight(bagKg, maxKg) {
+    if (maxKg === null || maxKg === undefined) return UNKNOWN;
+    if (bagKg === null) return UNKNOWN;
+    return bagKg <= maxKg ? FITS : OVER;
+  }
+
+  function isNum(v) { return v !== null && v !== undefined; }
+
+  /* Peso combinado (esquema 1.4, 26/09/2026). Si el operador publica peso
+     para ESTE bulto, vale ese. Si solo publica un peso para los dos bultos
+     juntos, se compara contra ese total: una maleta sola que pesa más que el
+     total no entra, pase lo que pase con el otro bulto. Nunca se reparte el
+     total entre los bultos: esa cifra el operador no la publicó. */
+  function assess(allowance, b, wheels, combinedKg) {
+    if (!allowance) return null;
+    var dims = compareDims(b.cm, limitTriple(allowance.max_cm), wheels);
+    var shared = !isNum(allowance.max_kg) && isNum(combinedKg);
+    var maxKg = shared ? combinedKg : (isNum(allowance.max_kg) ? allowance.max_kg : null);
+    var weight = compareWeight(b.kg, maxKg);
+    return { dims: dims, weight: weight, allowance: allowance, maxKg: maxKg, shared: shared };
+  }
+
+  function fmtCm(maxCm) {
+    return [maxCm.length, maxCm.width, maxCm.height].join(" × ") + " cm";
+  }
+
+  function fmtLen(cm) {
+    return units.length === "in" ? round1(cm * IN_PER_CM) + " in" : round1(cm) + " cm";
+  }
+
+  function kgSuffix(res) {
+    if (!isNum(res.maxKg)) return "";
+    return res.shared ? t("kg_suffix_shared", { kg: res.maxKg }) : t("kg_suffix", { kg: res.maxKg });
+  }
+
+  /* Datos para el gráfico: la maleta del usuario contra la franquicia que se evaluó. */
+  function mkCompare(bagCm, res, label) {
+    var limit = limitTriple(res.allowance.max_cm);
+    if (!limit) return null;
+    /* allowance viaja solo para mostrar la ficha; no interviene en el veredicto */
+    return { bag: bagCm, limit: limit, label: label, allowance: res.allowance,
+             maxKg: res.maxKg, shared: res.shared };
+  }
+
+  function pushShared(out, op, res) {
+    if (res && res.shared) {
+      out.flags.push({ tone: "band", text: t("flag_combined", { name: op.name, kg: res.maxKg }) });
+    }
+  }
+
+  /* Decides the band and builds the human sentences for one operator. */
+  function verdictFor(op, b) {
+    var out = { op: op, flags: [] };
+
+    /* Reglas descriptivas: el operador describe qué podés llevar sin dar medidas.
+       Es un estado propio, distinto de "no tenemos el dato": acá sí hay información
+       oficial, solo que no es un número. Nunca se convierte en un veredicto.
+       La cita se muestra SIEMPRE en su idioma original, sin traducir. */
+    if (op.limit_type !== "dimensional") {
+      var dr = op.descriptive_rule || {};
+      var ruleText = dr.en || dr.es || null;
+      var ruleLang = dr.en ? "en" : (dr.es ? "es" : null);
+      if (ruleText) {
+        out.band = RULE;
+        out.verdict = t("band_rule_title");
+        out.detail = t("d_rule");
+        out.rule = ruleText;
+        out.ruleLang = ruleLang;
+      } else {
+        out.band = UNKNOWN;
+        out.verdict = t("band_unknown_title");
+        out.detail = t("d_unknown");
+      }
+      return out;
+    }
+
+    var wheels = op.wheels_handles || {};
+    var combined = isNum(op.combined_max_kg) ? op.combined_max_kg : null;
+    var personal = assess(op.personal_item, b, wheels, combined);
+    var cabin = assess(op.cabin_bag, b, wheels, combined);
+
+    /* wheels caveat applies to every dimensional result */
+    if (wheels.included_in_measurement === true) {
+      out.flags.push({ tone: "neutral", text: t("flag_wheels_included") });
+    } else if (wheels.included_in_measurement === false) {
+      out.flags.push({
+        tone: "neutral",
+        text: (wheels.tolerance_cm !== null && wheels.tolerance_cm !== undefined)
+          ? t("flag_wheels_excluded_tol", { tol: wheels.tolerance_cm })
+          : t("flag_wheels_excluded")
+      });
+    } else {
+      out.flags.push({ tone: "neutral", text: t("flag_wheels_unknown") });
+    }
+
+    /* La tarifa a la que corresponden las cifras (esquema 1.4). Nombre
+       comercial del operador, sin traducir. Si no está confirmada, no se
+       muestra nada: el aviso genérico de tarifas vive en la ficha. */
+    if (op.reference_fare) {
+      out.flags.push({ tone: "info", text: t("flag_fare", { fare: op.reference_fare }) });
+    }
+
+    var candidates = [];
+    if (personal) candidates.push({ kind: "personal", label: t("label_personal"), res: personal });
+    if (cabin) candidates.push({ kind: "cabin", label: t("label_cabin"), res: cabin });
+
+    /* prefer an included allowance that fits outright */
+    var best = null;
+    candidates.forEach(function (c) {
+      var included = c.res.allowance.included === true;
+      var fits = c.res.dims.state === FITS && c.res.weight !== OVER;
+      if (fits && included && !best) best = c;
+    });
+    if (best) {
+      out.band = FITS;
+      out.verdict = t("band_pass_title");
+      out.detail = t("d_fits", {
+        label: best.label,
+        dims: fmtCm(best.res.allowance.max_cm),
+        kg: kgSuffix(best.res)
+      });
+      if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
+        out.flags.push({ tone: "band", text: t("flag_no_weight") });
+      }
+      pushShared(out, op, best.res);
+      out.compare = mkCompare(b.cm, best.res, best.label);
+      return out;
+    }
+
+    /* then an allowance that fits but has to be bought */
+    var paid = null;
+    candidates.forEach(function (c) {
+      var fits = c.res.dims.state === FITS && c.res.weight !== OVER;
+      if (fits && c.res.allowance.included === false && !paid) paid = c;
+    });
+    if (paid) {
+      out.band = "paid";
+      out.verdict = t("band_paid_title");
+      out.detail = t("d_paid", {
+        label: paid.label,
+        dims: fmtCm(paid.res.allowance.max_cm),
+        kg: kgSuffix(paid.res)
+      });
+      if (paid.res.allowance.requires_addon) {
+        out.flags.push({ tone: "band", text: t("flag_addon", { addon: paid.res.allowance.requires_addon }) });
+      }
+      pushShared(out, op, paid.res);
+      out.compare = mkCompare(b.cm, paid.res, paid.label);
+      return out;
+    }
+
+    /* then a maybe, rescued only by the wheel tolerance */
+    var maybe = null;
+    candidates.forEach(function (c) {
+      if (c.res.dims.state === MAYBE && c.res.weight !== OVER && !maybe) maybe = c;
+    });
+    if (maybe) {
+      out.band = UNKNOWN;
+      out.verdict = t("v_wheels");
+      out.detail = t("d_maybe", {
+        by: fmtLen(maybe.res.dims.by),
+        label: maybe.label,
+        dims: fmtCm(maybe.res.allowance.max_cm)
+      });
+      out.flags.push({
+        tone: "band",
+        text: t("flag_maybe", { tol: maybe.res.dims.tolerance }) +
+          (maybe.res.allowance.included === false && maybe.res.allowance.requires_addon
+            ? t("flag_maybe_addon", { addon: maybe.res.allowance.requires_addon })
+            : "")
+      });
+      pushShared(out, op, maybe.res);
+      out.compare = mkCompare(b.cm, maybe.res, maybe.label);
+      return out;
+    }
+
+    /* anything unresolvable for lack of published data */
+    var missing = candidates.filter(function (c) { return c.res.dims.state === UNKNOWN; });
+    if (missing.length === candidates.length && candidates.length) {
+      out.band = UNKNOWN;
+      out.verdict = t("band_unknown_title");
+      out.detail = t("d_unknown");
+      return out;
+    }
+
+    /* otherwise it's over */
+    out.band = OVER;
+    out.verdict = t("band_fail_title");
+    var biggest = candidates.filter(function (c) { return c.res.allowance.max_cm; })
+      .sort(function (x, y) {
+        var lx = limitTriple(x.res.allowance.max_cm), ly = limitTriple(y.res.allowance.max_cm);
+        return (ly ? ly[0] : 0) - (lx ? lx[0] : 0);
+      })[0];
+
+    if (biggest) {
+      var overWeight = biggest.res.weight === OVER;
+      var overDims = biggest.res.dims.state === OVER;
+      var dims = fmtCm(biggest.res.allowance.max_cm);
+      if (overDims && overWeight) {
+        out.detail = t("d_over_both", {
+          dims: dims, by: fmtLen(biggest.res.dims.by), kg: biggest.res.maxKg
+        });
+      } else if (overWeight) {
+        out.detail = t("d_over_weight", {
+          label: biggest.label, dims: dims, kg: biggest.res.maxKg
+        });
+      } else {
+        out.detail = t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
+      }
+      if (overWeight) pushShared(out, op, biggest.res);
+      out.compare = mkCompare(b.cm, biggest.res, biggest.label);
+    } else {
+      out.detail = t("d_over_generic");
+    }
+    return out;
+  }
+
+
+
+  /* ======================================================================
+     partials/fiche.js — "¿Entra tu maleta en X?" dentro de la ficha
+     (11/10/2026). La decisión la toma verdictFor(), de partials/verdict.js,
+     la MISMA función que usa la home: acá solo se leen los campos, se pinta
+     el resultado y se arma el enlace a la home con las mismas medidas.
+     Lectura de campos idéntica a la home: un número > 0 o nada.
+     ====================================================================== */
+  var tryEls = ["try-a", "try-b", "try-c", "try-w"].map(function (id) { return document.getElementById(id); });
+  var tryOut = document.getElementById("try-out");
+  var tryV = document.getElementById("try-v");
+  var tryD = document.getElementById("try-d");
+  var tryAll = document.getElementById("try-all");
+
+  if (tryOut && tryEls.every(Boolean)) {
+    var tryHome = tryAll.getAttribute("href").split("?")[0];
+
+    var readNum = function (el) {
+      var raw = parseFloat(el.value);
+      return isFinite(raw) && raw > 0 ? raw : null;
+    };
+
+    var tryRender = function () {
+      var dims = [0, 1, 2].map(function (i) { return readNum(tryEls[i]); });
+      var kg = readNum(tryEls[3]);
+      var q = [];
+      if (dims.some(function (d) { return d === null; })) {
+        tryOut.className = "tryit__out";
+        tryV.textContent = t("fiche_try_empty");
+        tryD.innerHTML = "";
+      } else {
+        var v = verdictFor(OP, { cm: dims.slice().sort(function (x, y) { return y - x; }), kg: kg });
+        tryOut.className = "tryit__out tryit__out--" + v.band;
+        tryV.textContent = v.verdict;
+        tryD.innerHTML = v.detail || "";
+        q.push("l=" + round1(dims[0]), "w=" + round1(dims[1]), "h=" + round1(dims[2]));
+      }
+      if (kg !== null) q.push("kg=" + round1(kg));
+      tryAll.setAttribute("href", tryHome + (q.length ? "?" + q.join("&") : ""));
+    };
+
+    /* mismo paso que la home: 1 cm y 0,5 kg; con Shift, 0,1 */
+    var tryNudge = function (el, dir, fine) {
+      var step = fine ? 0.1 : (el === tryEls[3] ? 0.5 : 1);
+      var cur = parseFloat(el.value);
+      if (!isFinite(cur)) cur = 0;
+      var next = round1(cur + dir * step);
+      el.value = String(next < 0 ? 0 : next);
+      el.classList.remove("is-bump"); void el.offsetWidth; el.classList.add("is-bump");
+      tryRender();
+    };
+
+    Array.prototype.forEach.call(document.querySelectorAll(".tryit .nudge"), function (btn) {
+      btn.addEventListener("click", function () {
+        tryNudge(document.getElementById(btn.getAttribute("data-nudge")), Number(btn.getAttribute("data-dir")), false);
+      });
+    });
+    tryEls.forEach(function (el) {
+      el.addEventListener("input", tryRender);
+      el.addEventListener("keydown", function (e) {
+        if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+        e.preventDefault();
+        tryNudge(el, e.key === "ArrowUp" ? 1 : -1, e.shiftKey);
+      });
+      el.addEventListener("wheel", function (e) {
+        if (document.activeElement !== el) return;
+        e.preventDefault();
+        tryNudge(el, e.deltaY < 0 ? 1 : -1, e.shiftKey);
+      }, { passive: false });
+    });
+    tryRender();
+  }
+
+})();
+</script>
+<script>
+/* ======================================================================
+   partials/nogo.js — banner chico de "qué no se puede llevar" con flechas
+   (11/10/2026). Lo usan la home y las fichas de aerolíneas europeas.
+   La lista se desliza sola con el dedo (scroll-snap); este script agrega
+   las flechas, los puntos y la vuelta al principio. Sin script, la lista
+   sigue siendo deslizable y se lee entera.
+   ====================================================================== */
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  Array.prototype.forEach.call(document.querySelectorAll(".nogo-c__track"), function (track) {
+    var idp = track.id.replace(/-track$/, "");
+    var items = Array.prototype.slice.call(track.children);
+    var dots = document.getElementById(idp + "-dots");
+    var label = dots ? dots.getAttribute("data-label") : "";
+    if (!items.length) return;
+
+    function perView() {
+      var w = items[0].getBoundingClientRect().width;
+      return w > 0 ? Math.max(1, Math.round(track.clientWidth / w)) : 1;
+    }
+    function pages() { return Math.ceil(items.length / perView()); }
+    function pageLeft(n) { return items[n * perView()].offsetLeft - items[0].offsetLeft; }
+    function current() {
+      var P = pages(), best = 0, dist = Infinity;
+      for (var n = 0; n < P; n++) {
+        var d = Math.abs(track.scrollLeft - pageLeft(n));
+        if (d < dist) { dist = d; best = n; }
+      }
+      return best;
+    }
+    function go(n) {
+      var P = pages();
+      n = (n + P) % P;
+      track.scrollTo({ left: pageLeft(n), behavior: reduce ? "auto" : "smooth" });
+      paint(n);
+    }
+    function paint(active) {
+      if (!dots) return;
+      var P = pages(), c = active === undefined ? current() : active;
+      if (dots.children.length !== P) {
+        dots.innerHTML = "";
+        for (var n = 0; n < P; n++) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.className = "nogo-c__dot";
+          b.setAttribute("aria-label", label.replace("{n}", n + 1).replace("{total}", P));
+          b.addEventListener("click", (function (k) { return function () { go(k); }; })(n));
+          dots.appendChild(b);
+        }
+      }
+      Array.prototype.forEach.call(dots.children, function (b, i) {
+        if (i === c) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current");
+      });
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-nogo="' + idp + '"]'), function (btn) {
+      btn.addEventListener("click", function () { go(current() + Number(btn.getAttribute("data-dir"))); });
+    });
+    var pending = false;
+    track.addEventListener("scroll", function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { pending = false; paint(); });
+    });
+    window.addEventListener("resize", function () { paint(); });
+    paint();
+  });
+})();
+/* ======================================================================
+   partials/hold.js — mantener apretada una flecha ▲▼ repite (11/10/2026).
+   Tras medio segundo apretada, la flecha "se toca sola" cada 90 ms hasta
+   que se suelta. Usa el mismo clic que un toque normal, así que la cuenta
+   es exactamente la misma. El clic que el navegador manda al soltar se
+   descarta, para no sumar un paso de más.
+   ====================================================================== */
+(function () {
+  if (!window.PointerEvent) return;
+  Array.prototype.forEach.call(document.querySelectorAll(".stepper .nudge"), function (btn) {
+    var wait = null, rep = null, repeated = false, swallow = false;
+    function stop() {
+      clearTimeout(wait); clearInterval(rep); wait = rep = null;
+      if (repeated) swallow = true;
+      repeated = false;
+    }
+    btn.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0) return;
+      swallow = false; repeated = false;
+      wait = setTimeout(function () {
+        rep = setInterval(function () { repeated = true; btn.click(); }, 90);
+      }, 500);
+    });
+    ["pointerup", "pointerleave", "pointercancel"].forEach(function (ev) { btn.addEventListener(ev, stop); });
+    btn.addEventListener("click", function (e) {
+      if (e.isTrusted && swallow) { e.stopImmediatePropagation(); e.preventDefault(); swallow = false; }
+    }, true);
+    /* en el teléfono, apretar fijo no abre el menú de "copiar" */
+    btn.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+  });
 })();
 </script>
 <script>

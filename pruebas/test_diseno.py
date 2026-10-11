@@ -48,6 +48,13 @@ def bg(page) -> str:
     return page.evaluate("getComputedStyle(document.body).backgroundColor")
 
 
+def is_light(color: str) -> bool:
+    """Fondo claro: desde el 11/10/2026 el día es un cielo celeste que termina
+    en #F6F8FC, no blanco puro. Lo que importa es que arranque CLARO."""
+    r, g, b = [int(x) for x in color[color.index("(") + 1:color.index(")")].split(",")[:3]]
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.9
+
+
 def main() -> int:
     handler = partial(http.server.SimpleHTTPRequestHandler, directory=str(ROOT))
     handler.log_message = lambda *a, **k: None
@@ -71,12 +78,12 @@ def main() -> int:
             page = ctx.new_page()
             page.on("pageerror", lambda e: errors.append(str(e)))
             page.goto(BASE + path)
-            check(bg(page) == "rgb(255, 255, 255)",
-                  f"{path}: arranca en blanco aunque el sistema pida oscuro ({bg(page)})")
+            check(page.get_attribute("html", "data-theme") == "light" and is_light(bg(page)),
+                  f"{path}: arranca en claro aunque el sistema pida oscuro ({bg(page)})")
             page.click("#theme-toggle")
             page.wait_for_timeout(350)
             dark = page.get_attribute("html", "data-theme") == "dark"
-            check(dark and bg(page) != "rgb(255, 255, 255)" and
+            check(dark and not is_light(bg(page)) and
                   page.get_attribute("#theme-toggle", "aria-pressed") == "true",
                   f"{path}: el botón pasa a modo noche")
             store = page.evaluate("[document.cookie, localStorage.length, sessionStorage.length, sessionStorage.getItem('wib-theme')]")
@@ -90,7 +97,7 @@ def main() -> int:
             other = page.eval_on_selector(".langnav a:not([aria-current])", "a => a.getAttribute('href')")
             page.click(".langnav a:not([aria-current])")
             page.wait_for_load_state()
-            check(page.get_attribute("html", "data-theme") == "dark" and bg(page) != "rgb(255, 255, 255)",
+            check(page.get_attribute("html", "data-theme") == "dark" and not is_light(bg(page)),
                   f"{path} -> {other}: el otro idioma abre en modo noche")
             page.click("#theme-toggle")
             page.wait_for_timeout(350)

@@ -35,7 +35,7 @@
      build_site.py leyendo /operators.json; esta plantilla no contiene ni una
      medida. -->
 
-<div class="shell">
+<div class="shell shell--fiche">
 
   <header>
     <div class="topbar">
@@ -51,33 +51,49 @@
       </nav>
       </div>
     </div>
-    <nav class="crumbs" aria-label="{{crumbs_label}}">
-{{CRUMBS}}
-    </nav>
-    <h1>{{H1}}</h1>
-    <p class="standfirst">{{STANDFIRST}}</p>
   </header>
 
-  <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
-       fecha humana son el diferenciador del sitio, no una nota al pie. -->
-  <section class="provenance">
+  <!-- (11/10/2026) Ficha "estilo app": tarjetas en grilla. Computadora: 4
+       columnas; teléfono: 2. Todo el contenido sigue escrito en el HTML; el
+       JavaScript solo hace andar la calculadora y las flechas del banner. -->
+  <main class="bento">
+    <section class="glass tile--head{{HEAD_MOD}}">
+      <nav class="crumbs" aria-label="{{crumbs_label}}">
+{{CRUMBS}}
+      </nav>
+      <h1>{{H1}}</h1>
+      <p class="standfirst">{{STANDFIRST}}</p>
+      <!-- La procedencia va arriba de todo a propósito: la fuente oficial y la
+           fecha humana son el diferenciador del sitio, no una nota al pie. -->
+      <div class="head__foot">
+        <div class="provenance">
 {{PROVENANCE}}
-  </section>
+        </div>
+        <a class="pillbtn" href="{{COMPARE_HREF}}">{{fiche_compare}}</a>
+      </div>
+    </section>
 
 {{ALLOWANCES}}
 
-{{RULE}}
+{{KG_TILE}}
 
 {{WHEELS}}
 
-  <section class="prose">
-    <h2>{{fiche_caveats_h}}</h2>
-{{CAVEATS}}
-  </section>
+{{BANNED_TILE}}
 
-  <section>
-    <a class="cta" href="{{CHECKER_HREF}}">{{fiche_cta}}</a>
-  </section>
+{{TRY}}
+
+{{RULE}}
+
+    <section class="glass tile--prose prose">
+      <h2>{{fiche_caveats_h}}</h2>
+{{CAVEATS}}
+    </section>
+
+    <section class="glass tile--cta">
+      <a class="cta" href="{{CHECKER_HREF}}">{{fiche_cta}}</a>
+    </section>
+  </main>
 
   <footer>
     <p>{{footer_scope}}</p>
@@ -87,6 +103,30 @@
 </div>
 
 {{TOTOP}}
+<script>
+/* Calculadora de la ficha. OP es el registro de este operador, el mismo que
+   está en /operators.json; T son solo los textos que usa la cuenta. */
+(function () {
+  var OP = {{OP_JSON}};
+  if (!OP) return;
+  var T = {{FICHE_STRINGS}};
+  function t(key, vars) {
+    var s = T[key];
+    if (s === undefined) return key;
+    if (!vars) return s;
+    return s.replace(/\{(\w+)\}/g, function (m, k) {
+      return (vars[k] === undefined || vars[k] === null) ? "" : String(vars[k]);
+    });
+  }
+  var IN_PER_CM = 0.393700787;
+  var units = { length: "cm", weight: "kg" };
+  function round1(n) { return Math.round(n * 10) / 10; }
+{{VERDICT_JS}}
+{{FICHE_JS}}
+})();
+</script>
+<script>
+{{NOGO_JS}}</script>
 <script>
 /* Modo claro por defecto, modo noche con el botón. La elección se recuerda en
    sessionStorage ("wib-theme"), así se mantiene al cambiar de página o de idioma.
