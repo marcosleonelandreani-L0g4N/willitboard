@@ -1897,6 +1897,32 @@ body::after {
 @media print { body::before, body::after, html::after { display: none; } }
 /* la fecha del sello nunca se corta a la mitad */
 .prov__ok time { white-space: nowrap; }
+
+/* ------------------------------------------------ ficha: comparación (18/10/2026) */
+.status--over { --status-tone: var(--fail); --status-wash: var(--fail-soft); }
+.cmpx { display: flex; flex-direction: column; gap: 0.9rem; }
+.cmpx h2 { margin: 0; }
+.cmpx__lead, .cmpx__note { margin: 0; color: var(--ink-soft); font-size: var(--step--1); max-width: 62ch; }
+.cmpx__facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
+@media (min-width: 48rem) { .cmpx__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cmpx__fact { min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; padding: 0.85rem 0.95rem; border-radius: var(--radius-sm); background: var(--surface-soft); }
+.cmpx__t { font: 800 1rem/1.3 var(--font-body); color: var(--ink); text-wrap: balance; }
+.cmpx__fact p { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
+.cmpx__chips { list-style: none; margin: 0.15rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.cmpx__chips a { display: inline-block; padding: 0.22rem 0.6rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--surface); color: var(--ink-soft); font: 700 0.78rem/1.3 var(--font-body); text-decoration: none; }
+.cmpx__chips a:hover, .cmpx__chips a:focus-visible { border-color: var(--accent); color: var(--accent); }
+.cmpx__h3 { margin: 0.3rem 0 0; font-size: 1.05rem; }
+.cmpx__scroll { overflow-x: auto; }
+.cmpx__tbl { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+.cmpx__tbl th, .cmpx__tbl td { padding: 0.6rem 0.5rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule-soft); }
+.cmpx__tbl thead th { font: 800 0.7rem/1.2 var(--font-body); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); }
+.cmpx__tbl tbody th { font-weight: 700; }
+.cmpx__tbl tbody th a { color: var(--ink); }
+.cmpx__dims { display: block; white-space: nowrap; color: var(--ink-faint); font-weight: 600; font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+.cmpx__tbl .status { display: inline-block; text-transform: none; letter-spacing: 0; font-size: 0.76rem; }
+.cmpx__n { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-soft); }
+.tile--banline { padding-block: 0.85rem; }
+.tile--banline p { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
 </style>
 </head>
 <body>
@@ -1983,61 +2009,10 @@ body::after {
 
 
 
-  <section class="glass tile--wheels span-d2 span-p2" aria-labelledby="wheels-h">
+  <section class="glass tile--wheels span-d4 span-p2" aria-labelledby="wheels-h">
     <span class="wheels__art"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M19 13V4h10v9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="12" y="13" width="24" height="25" rx="6" fill="none" stroke="currentColor" stroke-width="2.6" opacity=".45"/><circle cx="18" cy="42.5" r="3.6" fill="currentColor"/><circle cx="30" cy="42.5" r="3.6" fill="currentColor"/></svg></span>
     <h2 id="wheels-h">Asas y ruedas</h2>
     <p class="caveat">Los límites publicados ya incluyen asas y ruedas, así que hay que medir la maleta tal como está.</p>
-  </section>
-
-  <section class="glass tile--banned nogo-c" aria-labelledby="nogo-h">
-    <div class="nogo-c__head">
-      <h2 class="nogo-c__h" id="nogo-h">¿Qué no se puede llevar en el equipaje de mano?</h2>
-      <p class="nogo__src">Vuelos desde aeropuertos de la UE, equipaje de mano. <a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Fuente: Your Europe (UE)</a> · comprobado el 2026-10-10</p>
-    </div>
-    <ul class="nogo-c__track" id="nogo-track" tabindex="0" aria-label="¿Qué no se puede llevar en el equipaje de mano?">
-      <li class="nogo__tile nogo__tile--no">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M10 3h4v3.2c0 .6.3 1.1.8 1.5 1.4 1 2.2 2.6 2.2 4.3V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7c0-1.7.8-3.3 2.2-4.3.5-.4.8-.9.8-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M7.2 13.5h9.6" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
-        <b class="nogo__t">Líquidos de más de 100 ml</b>
-        <span class="nogo__d">Los chicos: en una bolsa transparente de 1 litro</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--no">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 15.5L18 3.5M15.5 15.5L6 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
-        <b class="nogo__t">Objetos cortantes</b>
-        <span class="nogo__d">Cuchillos, sacacorchos y tijeras de cierto tamaño: a la bodega</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--no">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M3 8h16.5a1.5 1.5 0 0 1 1.5 1.5V11h-7.5l-1 2.2a1 1 0 0 1-.9.6H10l-1.2 5.4a1 1 0 0 1-1 .8H5.2a1 1 0 0 1-1-1.2L5.4 13H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
-        <b class="nogo__t">Armas</b>
-        <span class="nogo__d">Ninguna a bordo</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--never">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.3 2.3-5.2 3.6-7.5.6 1.6 1.4 2.5 2.4 3 0-3.1 1.2-5.6 3.5-7.4.2 2.8 1.4 4.6 2.6 6.2 1 1.4 1.9 2.8 1.9 5.1 0 4.3-3.3 6.7-7.5 6.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">Prohibido</span>
-        <b class="nogo__t">Explosivos e inflamables</b>
-        <span class="nogo__d">Ni en cabina ni en bodega</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--limit">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8h-9a1 1 0 0 1-1-.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10V6.8a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><path d="M12 2.5l10 17.5H2z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#fff"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">Con límites</span>
-        <b class="nogo__t">Duty free</b>
-        <span class="nogo__d">En la bolsa sellada, con el ticket</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--ok">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><rect x="3.2" y="8.6" width="17.6" height="6.8" rx="3.4" transform="rotate(-35 12 12)" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.6 8.6l4.8 6.8" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">Permitido</span>
-        <b class="nogo__t">Medicamentos y comida de bebé</b>
-        <span class="nogo__d">Sin el límite de 100 ml</span></span>
-      </li>
-    </ul>
-    <div class="nogo-c__nav">
-      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="-1" aria-label="Anteriores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <span class="nogo-c__dots" id="nogo-dots" data-label="Página {n} de {total}"></span>
-      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="1" aria-label="Siguientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-    <p class="nogo__note">La lista detallada está en la web del aeropuerto de salida, y la aerolínea puede confirmarla antes del viaje. <a href="/es/#banned">Fuentes oficiales y lista completa</a></p>
   </section>
 
   <section class="glass tile--try tryit" aria-labelledby="try-h">
@@ -2093,6 +2068,32 @@ body::after {
       <p class="tryit__d" id="try-d"></p>
     </div>
     <p class="tryit__foot"><span>La misma cuenta que en la home, con los límites que publica British Airways.</span> <a id="try-all" href="/es/?l=50&amp;w=38&amp;h=22&amp;kg=9">Probarla contra todos los operadores →</a></p>
+  </section>
+
+  <section class="glass tile--cmpx cmpx" aria-labelledby="cmpx-h">
+    <h2 id="cmpx-h">British Airways frente a las demás</h2>
+    <p class="cmpx__lead">Comparada con las 20 aerolíneas de Willitboard, usando solo las medidas que publica cada una. Aquí no entran el peso ni la tolerancia de las ruedas.</p>
+    <ul class="cmpx__facts">
+      <li class="cmpx__fact"><b class="cmpx__t">Una maleta en este límite de cabina entra en 2 de las otras 19 aerolíneas</b><p>Límite: 56 × 45 × 25 cm. Demasiado grande para:</p><ul class="cmpx__chips"><li><a href="/es/aerolineas/ryanair/">Ryanair</a></li><li><a href="/es/aerolineas/wizz-air/">Wizz Air</a></li><li><a href="/es/aerolineas/vueling/">Vueling</a></li><li><a href="/es/aerolineas/lufthansa/">Lufthansa</a></li><li><a href="/es/aerolineas/sas/">SAS</a></li><li><a href="/es/aerolineas/norwegian/">Norwegian</a></li><li><a href="/es/aerolineas/air-france/">Air France</a></li><li><a href="/es/aerolineas/klm/">KLM</a></li><li><a href="/es/aerolineas/transavia/">Transavia</a></li><li><a href="/es/aerolineas/iberia/">Iberia</a></li><li><a href="/es/aerolineas/aer-lingus/">Aer Lingus</a></li><li><a href="/es/aerolineas/eurowings/">Eurowings</a></li><li><a href="/es/aerolineas/tap-air-portugal/">TAP Air Portugal</a></li><li><a href="/es/aerolineas/jetsmart/">JetSMART</a></li><li><a href="/es/aerolineas/volaris/">Volaris</a></li><li><a href="/es/aerolineas/latam/">LATAM Airlines</a></li><li><a href="/es/aerolineas/avianca/">Avianca</a></li></ul></li>
+      <li class="cmpx__fact"><b class="cmpx__t">Un artículo personal en este límite entra en las otras 19 aerolíneas</b><p>Límite: 40 × 30 × 15 cm.</p></li>
+      <li class="cmpx__fact"><b class="cmpx__t">4 de 20 aerolíneas incluyen la maleta de cabina en la tarifa</b><p>British Airways es una de ellas. Las otras:</p><ul class="cmpx__chips"><li><a href="/es/aerolineas/iberia/">Iberia</a></li><li><a href="/es/aerolineas/tap-air-portugal/">TAP Air Portugal</a></li><li><a href="/es/aerolineas/jet2/">Jet2</a></li></ul></li>
+    </ul>
+    <h3 class="cmpx__h3">Maletas habituales en British Airways</h3>
+    <div class="cmpx__scroll">
+      <table class="cmpx__tbl">
+        <thead><tr><th scope="col">Maleta</th><th scope="col">En British Airways</th><th scope="col">Medida de cabina, 20 aerolíneas</th></tr></thead>
+        <tbody>
+        <tr><th scope="row"><a href="/es/?l=40&amp;w=25&amp;h=20&amp;kg=6">Mochila pequeña</a><span class="cmpx__dims">40 × 25 × 20 cm</span></th><td><span class="status status--free">Entra como maleta de cabina</span></td><td class="cmpx__n">Entra en las 20</td></tr>
+        <tr><th scope="row"><a href="/es/?l=55&amp;w=40&amp;h=23&amp;kg=9">Trolley de cabina</a><span class="cmpx__dims">55 × 40 × 23 cm</span></th><td><span class="status status--free">Entra como maleta de cabina</span></td><td class="cmpx__n">Entra en 13</td></tr>
+        <tr><th scope="row"><a href="/es/?l=60&amp;w=42&amp;h=26&amp;kg=12">Maleta de cabina grande</a><span class="cmpx__dims">60 × 42 × 26 cm</span></th><td><span class="status status--over">Se pasa 4 cm</span></td><td class="cmpx__n">No entra en ninguna</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="cmpx__note">Solo por medidas. El peso y la tarifa que compres pueden cambiar la respuesta: toca una maleta para comprobarla entera.</p>
+  </section>
+
+  <section class="glass tile--banline" aria-label="¿Qué no se puede llevar en el equipaje de mano?">
+    <p>Los líquidos, objetos cortantes y demás prohibidos dependen del aeropuerto de salida, no de la aerolínea. <a href="/es/#banned">Ver la lista para aeropuertos de la UE y las fuentes oficiales →</a></p>
   </section>
 
 

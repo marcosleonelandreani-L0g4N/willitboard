@@ -1897,6 +1897,32 @@ body::after {
 @media print { body::before, body::after, html::after { display: none; } }
 /* la fecha del sello nunca se corta a la mitad */
 .prov__ok time { white-space: nowrap; }
+
+/* ------------------------------------------------ ficha: comparación (18/10/2026) */
+.status--over { --status-tone: var(--fail); --status-wash: var(--fail-soft); }
+.cmpx { display: flex; flex-direction: column; gap: 0.9rem; }
+.cmpx h2 { margin: 0; }
+.cmpx__lead, .cmpx__note { margin: 0; color: var(--ink-soft); font-size: var(--step--1); max-width: 62ch; }
+.cmpx__facts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
+@media (min-width: 48rem) { .cmpx__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cmpx__fact { min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; padding: 0.85rem 0.95rem; border-radius: var(--radius-sm); background: var(--surface-soft); }
+.cmpx__t { font: 800 1rem/1.3 var(--font-body); color: var(--ink); text-wrap: balance; }
+.cmpx__fact p { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
+.cmpx__chips { list-style: none; margin: 0.15rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.cmpx__chips a { display: inline-block; padding: 0.22rem 0.6rem; border: 1px solid var(--rule); border-radius: 999px; background: var(--surface); color: var(--ink-soft); font: 700 0.78rem/1.3 var(--font-body); text-decoration: none; }
+.cmpx__chips a:hover, .cmpx__chips a:focus-visible { border-color: var(--accent); color: var(--accent); }
+.cmpx__h3 { margin: 0.3rem 0 0; font-size: 1.05rem; }
+.cmpx__scroll { overflow-x: auto; }
+.cmpx__tbl { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+.cmpx__tbl th, .cmpx__tbl td { padding: 0.6rem 0.5rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule-soft); }
+.cmpx__tbl thead th { font: 800 0.7rem/1.2 var(--font-body); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); }
+.cmpx__tbl tbody th { font-weight: 700; }
+.cmpx__tbl tbody th a { color: var(--ink); }
+.cmpx__dims { display: block; white-space: nowrap; color: var(--ink-faint); font-weight: 600; font-size: 0.78rem; font-variant-numeric: tabular-nums; }
+.cmpx__tbl .status { display: inline-block; text-transform: none; letter-spacing: 0; font-size: 0.76rem; }
+.cmpx__n { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-soft); }
+.tile--banline { padding-block: 0.85rem; }
+.tile--banline p { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
 </style>
 </head>
 <body class="home">
@@ -2931,7 +2957,40 @@ body::after {
   "region_label": "Región",
   "region_eu": "Europa",
   "region_latam": "Latinoamérica",
-  "region_all": "Todas"
+  "region_all": "Todas",
+  "cmp_h": "{name} frente a las demás",
+  "cmp_lead": "Comparada con las {n} aerolíneas de Willitboard, usando solo las medidas que publica cada una. Aquí no entran el peso ni la tolerancia de las ruedas.",
+  "cmp_cabin_some": "Una maleta en este límite de cabina entra en {k} de las otras {m} aerolíneas",
+  "cmp_cabin_all": "Una maleta en este límite de cabina entra en las otras {m} aerolíneas",
+  "cmp_cabin_none": "Una maleta en este límite de cabina no entra en ninguna de las otras {m} aerolíneas",
+  "cmp_personal_some": "Un artículo personal en este límite entra en {k} de las otras {m} aerolíneas",
+  "cmp_personal_all": "Un artículo personal en este límite entra en las otras {m} aerolíneas",
+  "cmp_personal_none": "Un artículo personal en este límite no entra en ninguna de las otras {m} aerolíneas",
+  "cmp_dims": "Límite: {dims}.",
+  "cmp_toobig": "Demasiado grande para:",
+  "cmp_shallow": "La maleta de cabina menos profunda que cubrimos",
+  "cmp_deep": "La maleta de cabina más profunda que cubrimos",
+  "cmp_depth_d": "{name} permite {d} cm de fondo. Todas las demás aerolíneas de aquí permiten {range}.",
+  "cmp_range": "de {lo} a {hi} cm",
+  "cmp_same": "Misma profundidad:",
+  "cmp_incl_t": "{k} de {n} aerolíneas incluyen la maleta de cabina en la tarifa",
+  "cmp_incl_yes": "{name} es una de ellas. Las otras:",
+  "cmp_incl_no": "{name} no es una de ellas. Las que sí:",
+  "cmp_bags_h": "Maletas habituales en {name}",
+  "cmp_col_bag": "Maleta",
+  "cmp_col_here": "En {name}",
+  "cmp_col_all": "Medida de cabina, {n} aerolíneas",
+  "cmp_v_personal": "Entra como artículo personal",
+  "cmp_v_cabin_incl": "Entra como maleta de cabina",
+  "cmp_v_cabin_paid": "Entra, la cabina se paga aparte",
+  "cmp_v_maybe": "Solo con la tolerancia de ruedas",
+  "cmp_v_over": "Se pasa {by} cm",
+  "cmp_all_some": "Entra en {k}",
+  "cmp_all_all": "Entra en las {n}",
+  "cmp_all_none": "No entra en ninguna",
+  "cmp_bags_note": "Solo por medidas. El peso y la tarifa que compres pueden cambiar la respuesta: toca una maleta para comprobarla entera.",
+  "fiche_banned_line": "Los líquidos, objetos cortantes y demás prohibidos dependen del aeropuerto de salida, no de la aerolínea.",
+  "fiche_banned_link": "Ver la lista para aeropuertos de la UE y las fuentes oficiales"
 };
   var PAGE_LANG = "es";
   /* ruta de la ficha de cada tipo en este idioma; la calcula build_site.py */

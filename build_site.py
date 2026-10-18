@@ -187,7 +187,7 @@ COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "H
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
                "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS",
                "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS", "TOTOP",
-               "KG_TILE", "BANNED_TILE", "TRY", "COMPARE_HREF", "HEAD_MOD",
+               "KG_TILE", "BANNED_TILE", "TRY", "COMPARE", "COMPARE_HREF", "HEAD_MOD",
                "FICHE_JS", "OP_JSON", "FICHE_STRINGS", "VERDICT_JS", "NOGO_JS"}
 COMPUTED_PAGE = {"TOTOP", "LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                  "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
@@ -831,12 +831,18 @@ def nogo_carousel(S: dict, lang: str, idp: str, more_href, heading: str = "h2", 
 
 
 def block_banned_tile(op, lang: str, S: dict) -> str:
+    """
+    18/10/2026: en la ficha va UNA línea con enlace a la lista de la home, no
+    el carrusel completo. El carrusel era idéntico en las 16 fichas europeas
+    (contenido repetido entre páginas, uno de los motivos posibles del rechazo
+    de AdSense por "low value content"). La lista completa sigue en la home.
+    """
     if not fiche_has_banned(op):
         return ""
     more = PAGES[lang][1] + "#banned"
     return (
-        '  <section class="glass tile--banned nogo-c" aria-labelledby="nogo-h">\n'
-        + nogo_carousel(S, lang, "nogo", more) +
+        '  <section class="glass tile--banline" aria-label="' + esc(t(S, "banned_h")) + '">\n'
+        f'    <p>{t(S, "fiche_banned_line")} <a href="{more}">{t(S, "fiche_banned_link")} →</a></p>\n'
         '  </section>'
     )
 
@@ -885,6 +891,162 @@ def block_try(op, lang: str, S: dict) -> str:
     )
 
 
+# ------------------------------------- comparación con las otras aerolíneas
+#
+# Contenido propio de cada ficha (pedido de AdSense, 18/10/2026: "low value
+# content"). Todo sale de operators.json en el momento del build: ninguna
+# cifra se escribe a mano. Se comparan SOLO medidas publicadas, ordenadas de
+# mayor a menor como en verdict.js (la maleta puede girar en el medidor). El
+# peso y la tolerancia de ruedas quedan afuera de los hechos y se dice.
+
+CMP_PRESETS = (  # las mismas tres maletas de ejemplo que la home (template.html)
+    ("preset_backpack", (40, 25, 20), 6),
+    ("preset_trolley", (55, 40, 23), 9),
+    ("preset_big", (60, 42, 26), 12),
+)
+CMP_DEPTH_MAX_GROUP = 3  # "la menos/más profunda" solo si la comparten 3 o menos
+
+
+def _sorted3(max_cm):
+    v = triple(max_cm)
+    return sorted(v, reverse=True) if v else None
+
+
+def _fits(bag, limit) -> bool:
+    return all(b <= l for b, l in zip(sorted(bag, reverse=True), limit))
+
+
+def cmp_airlines(ops: list) -> list:
+    """Aerolíneas con las dos ternas completas: las únicas comparables."""
+    return [o for o in ops
+            if o.get("type") == "air" and o.get("limit_type") == "dimensional"
+            and _sorted3((o.get("personal_item") or {}).get("max_cm"))
+            and _sorted3((o.get("cabin_bag") or {}).get("max_cm"))]
+
+
+def _dims_txt(max_cm) -> str:
+    return " × ".join(fmt_num(x) for x in triple(max_cm)) + " cm"
+
+
+def _chips(others: list, lang: str) -> str:
+    return ('<ul class="cmpx__chips">'
+            + "".join(f'<li><a href="{op_path(o, lang)}">{esc(o["name"])}</a></li>' for o in others)
+            + "</ul>")
+
+
+def _fit_fact(op, peers, key: str, prefix: str, lang: str, S: dict) -> str:
+    mine = (op[key] or {}).get("max_cm")
+    bag = _sorted3(mine)
+    no = [o for o in peers if not _fits(bag, _sorted3(o[key]["max_cm"]))]
+    m, k = len(peers), len(peers) - len(no)
+    variant = "all" if not no else ("none" if k == 0 else "some")
+    title = t(S, f"{prefix}_{variant}", name=esc(op["name"]), k=k, m=m)
+    body = f'<p>{t(S, "cmp_dims", dims=esc(_dims_txt(mine)))}'
+    if no:
+        body += f' {t(S, "cmp_toobig")}</p>{_chips(no, lang)}'
+    else:
+        body += "</p>"
+    return f'      <li class="cmpx__fact"><b class="cmpx__t">{title}</b>{body}</li>\n'
+
+
+def _depth_fact(op, airlines, lang: str, S: dict) -> str:
+    depth = lambda o: _sorted3(o["cabin_bag"]["max_cm"])[2]
+    d = depth(op)
+    others = [o for o in airlines if o is not op]
+    if not others:
+        return ""
+    lows, highs = min(depth(o) for o in airlines), max(depth(o) for o in airlines)
+    if lows == highs:
+        return ""
+    if d == lows:
+        title_key = "cmp_shallow"
+    elif d == highs:
+        title_key = "cmp_deep"
+    else:
+        return ""
+    same = [o for o in others if depth(o) == d]
+    if len(same) + 1 > CMP_DEPTH_MAX_GROUP:
+        return ""
+    rest = [depth(o) for o in others if depth(o) != d]
+    lo, hi = min(rest), max(rest)
+    rng = f"{fmt_num(lo)} cm" if lo == hi else t(S, "cmp_range", lo=fmt_num(lo), hi=fmt_num(hi))
+    txt = t(S, "cmp_depth_d", name=esc(op["name"]), d=fmt_num(d), range=rng)
+    extra = f' {t(S, "cmp_same")}</p>{_chips(same, lang)}' if same else "</p>"
+    return f'      <li class="cmpx__fact"><b class="cmpx__t">{t(S, title_key)}</b><p>{txt}{extra}</li>\n'
+
+
+def _incl_fact(op, airlines, lang: str, S: dict) -> str:
+    incl = [o for o in airlines if (o["cabin_bag"] or {}).get("included") is True]
+    if not incl:
+        return ""
+    mine = op in incl
+    others = [o for o in incl if o is not op]
+    title = t(S, "cmp_incl_t", k=len(incl), n=len(airlines))
+    lead = t(S, "cmp_incl_yes" if mine else "cmp_incl_no", name=esc(op["name"]))
+    chips = _chips(others, lang) if others else ""
+    return f'      <li class="cmpx__fact"><b class="cmpx__t">{title}</b><p>{lead}</p>{chips}</li>\n'
+
+
+def _bag_verdict(op, bag, S: dict):
+    """(clase, texto) para una maleta de ejemplo en ESTA aerolínea, solo por medidas."""
+    pers, cab = op["personal_item"], op["cabin_bag"]
+    if _fits(bag, _sorted3(pers["max_cm"])) and pers.get("included") is True:
+        return "status--free", t(S, "cmp_v_personal")
+    lim = _sorted3(cab["max_cm"])
+    if _fits(bag, lim):
+        return (("status--free", t(S, "cmp_v_cabin_incl")) if cab.get("included") is True
+                else ("status--paid", t(S, "cmp_v_cabin_paid")))
+    b = sorted(bag, reverse=True)
+    by = max(round(x - l, 1) for x, l in zip(b, lim))
+    w = op.get("wheels_handles") or {}
+    tol = w.get("tolerance_cm") if w.get("included_in_measurement") is False else None
+    if tol is not None and by <= tol:
+        return "status--paid", t(S, "cmp_v_maybe")
+    return "status--over", t(S, "cmp_v_over", by=fmt_num(by))
+
+
+def block_compare(op, ops: list, lang: str, S: dict) -> str:
+    airlines = cmp_airlines(ops)
+    if op not in airlines or len(airlines) < 2:
+        return ""
+    peers = [o for o in airlines if o is not op]
+    n = len(airlines)
+    facts = (_depth_fact(op, airlines, lang, S)
+             + _fit_fact(op, peers, "cabin_bag", "cmp_cabin", lang, S)
+             + _fit_fact(op, peers, "personal_item", "cmp_personal", lang, S)
+             + _incl_fact(op, airlines, lang, S))
+    home = PAGES[lang][1]
+    rows = []
+    for key, bag, kg in CMP_PRESETS:
+        cls, verdict = _bag_verdict(op, bag, S)
+        k = sum(1 for o in airlines if _fits(bag, _sorted3(o["cabin_bag"]["max_cm"])))
+        allv = (t(S, "cmp_all_all", n=n) if k == n
+                else t(S, "cmp_all_none") if k == 0 else t(S, "cmp_all_some", k=k))
+        href = f'{home}?l={bag[0]}&amp;w={bag[1]}&amp;h={bag[2]}&amp;kg={kg}'
+        rows.append(
+            f'        <tr><th scope="row"><a href="{href}">{t(S, key)}</a>'
+            f'<span class="cmpx__dims">{bag[0]} × {bag[1]} × {bag[2]} cm</span></th>'
+            f'<td><span class="status {cls}">{verdict}</span></td><td class="cmpx__n">{allv}</td></tr>'
+        )
+    name = esc(op["name"])
+    return (
+        '  <section class="glass tile--cmpx cmpx" aria-labelledby="cmpx-h">\n'
+        f'    <h2 id="cmpx-h">{t(S, "cmp_h", name=name)}</h2>\n'
+        f'    <p class="cmpx__lead">{t(S, "cmp_lead", n=n)}</p>\n'
+        f'    <ul class="cmpx__facts">\n{facts}    </ul>\n'
+        f'    <h3 class="cmpx__h3">{t(S, "cmp_bags_h", name=name)}</h3>\n'
+        '    <div class="cmpx__scroll">\n'
+        '      <table class="cmpx__tbl">\n'
+        f'        <thead><tr><th scope="col">{t(S, "cmp_col_bag")}</th><th scope="col">{t(S, "cmp_col_here", name=name)}</th>'
+        f'<th scope="col">{t(S, "cmp_col_all", n=n)}</th></tr></thead>\n'
+        '        <tbody>\n' + "\n".join(rows) + '\n        </tbody>\n'
+        '      </table>\n'
+        '    </div>\n'
+        f'    <p class="cmpx__note">{t(S, "cmp_bags_note")}</p>\n'
+        '  </section>'
+    )
+
+
 # Textos que necesita la cuenta compartida (partials/verdict.js) en la ficha.
 # Se manda solo este subconjunto del diccionario, no las 347 claves.
 VERDICT_KEYS = sorted(set(re.findall(r't\("([a-z_]+)"', (SITE_DIR / "partials" / "verdict.js").read_text(encoding="utf-8")))
@@ -903,7 +1065,7 @@ def fiche_spans(op) -> dict:
     ocupa 2 columnas cuando está; peso y ruedas reparten lo que queda.
     """
     has_kg = fiche_kg(op) is not None
-    has_banned = fiche_has_banned(op)
+    has_banned = False  # 18/10/2026: los prohibidos son una línea a lo ancho
     if has_banned:
         d_kg, d_wh = ("d1", "d1") if has_kg else (None, "d2")
     else:
@@ -1437,6 +1599,7 @@ def main() -> None:
                 "KG_TILE": block_kg_tile(op, S, spans["kg"]),
                 "BANNED_TILE": block_banned_tile(op, lang, S),
                 "TRY": block_try(op, lang, S),
+                "COMPARE": block_compare(op, data["operators"], lang, S),
                 "COMPARE_HREF": f'{PAGES[lang][1]}?c={op["id"]}#compare',
                 "HEAD_MOD": "" if op["limit_type"] == "dimensional" else " tile--head-full",
                 "FICHE_JS": FICHE_JS if op["limit_type"] == "dimensional" else "",

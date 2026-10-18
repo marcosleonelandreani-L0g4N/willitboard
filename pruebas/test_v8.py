@@ -153,35 +153,21 @@ def main() -> int:
         check(not bad, f"peso = dataset en las {len(ops)} fichas ({bad[:3]})")
 
         # ------------------------------------------------ 3. prohibidos en la ficha
-        print("\n[prohibidos en la ficha]")
+        # 18/10/2026: en la ficha va UNA línea con enlace a la lista de la home
+        # (el carrusel era el mismo bloque repetido en 16 fichas).
+        print("\n[prohibidos en la ficha: una línea]")
         wrong = []
         for op in ops:
-            html = (ROOT / bs.op_outfile(op, "es").relative_to(bs.OUT_DIR)).read_text(encoding="utf-8")
-            has = 'class="glass tile--banned' in html
-            want = op["type"] == "air" and op["region"] == "EU" and bool(bs.BANNED_VERIFIED_ON.strip())
-            if has != want: wrong.append(op["id"])
-            if has and html.count('<li class="nogo__tile') != 6: wrong.append(op["id"] + " (fichas)")
-        check(not wrong, f"solo en aviones de Europa, con las 6 fichas ({wrong})")
-        for size, per in ((1200, 2), (390, 1)):
-            m = browser.new_context(viewport={"width": size, "height": 900}, is_mobile=size < 500, has_touch=size < 500)
-            page = m.new_page()
-            page.on("pageerror", lambda e: errors.append(str(e)))
-            page.goto(BASE + "/es/aerolineas/ryanair/")
-            page.wait_for_timeout(300)
-            dots = page.locator("#nogo-dots button").count()
-            check(dots == 6 // per, f"{size} px: {per} ficha(s) por vez → {6 // per} puntos ({dots})")
-            page.locator('[data-nogo="nogo"][data-dir="1"]').scroll_into_view_if_needed()
-            page.click('[data-nogo="nogo"][data-dir="1"]')
-            page.wait_for_timeout(900)
-            cur = page.evaluate("[...document.querySelectorAll('#nogo-dots button')].findIndex(b => b.getAttribute('aria-current'))")
-            check(cur == 1, f"{size} px: ▶ pasa a la página 2 ({cur + 1})")
-            page.click('[data-nogo="nogo"][data-dir="-1"]')
-            page.wait_for_timeout(900)
-            page.click('[data-nogo="nogo"][data-dir="-1"]')
-            page.wait_for_timeout(900)
-            cur = page.evaluate("[...document.querySelectorAll('#nogo-dots button')].findIndex(b => b.getAttribute('aria-current'))")
-            check(cur == dots - 1, f"{size} px: ◀ desde la primera vuelve a la última ({cur + 1} de {dots})")
-            m.close()
+            for lang, home in (("es", "/es/#banned"), ("en", "/#banned")):
+                html = (ROOT / bs.op_outfile(op, lang).relative_to(bs.OUT_DIR)).read_text(encoding="utf-8")
+                has = 'class="glass tile--banline' in html
+                want = op["type"] == "air" and op["region"] == "EU" and bool(bs.BANNED_VERIFIED_ON.strip())
+                if has != want: wrong.append(f"{lang}/{op['id']}")
+                if 'class="glass tile--banned' in html or '<li class="nogo__tile' in html:
+                    wrong.append(f"{lang}/{op['id']} (quedó el carrusel)")
+                if has and f'href="{home}"' not in html.split('tile--banline')[-1][:900]:
+                    wrong.append(f"{lang}/{op['id']} (enlace)")
+        check(not wrong, f"solo en aviones de Europa, una línea con enlace a la lista ({wrong})")
 
         # ------------------------------------------------ 4. home
         print("\n[home]")
