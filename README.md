@@ -62,8 +62,10 @@ medias no llega a producción disfrazada de texto en inglés.
     python3 pruebas/test_fichas.py               # 290 comprobaciones de fichas, legales y guías
     python3 pruebas/test_diseno.py               # 56 comprobaciones de diseño (móvil, modo noche)
     python3 pruebas/test_interaccion.py          # 70 comprobaciones de interacción
-    python3 pruebas/test_v5.py                   # 62 comprobaciones de la home v5 (pestañas,
-                                                 # carrusel, grupos, buscador, peso combinado)
+    python3 pruebas/test_v5.py                   # 62 comprobaciones de la home v5 (pasos,
+                                                 # grupos, buscador, peso combinado)
+    python3 pruebas/test_v9.py                   # 54 comprobaciones de la home v9 (pasos 1·2·3,
+                                                 # «Ver resultados», tus compañías, comparador)
 
 Las pruebas con navegador usan Playwright y levantan un servidor local con `public/`:
 correr `convert.py` y `build_site.py` antes.

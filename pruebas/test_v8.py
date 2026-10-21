@@ -18,9 +18,9 @@ Lo importante que verifica
 4. Home: sin la tira de cifras, el dibujo de cómo medir a la vista (y
    decorativo), el banner de prohibidos con las 6 fichas y flechas.
 5. Mantener apretada una flecha ▲▼ repite, y al soltar no suma un paso de más.
-6. El banner grande frena suave: a mitad de camino no llegó, al final está
-   justo en la diapositiva y el scroll-snap vuelve a estar encendido.
-7. Fondos: capa de día y de noche, quieta con "menos movimiento".
+6. (Retirada el 20/10/2026: el banner grande ya no existe.)
+7. Fondos: de día liso y sin nubes desde v9; de noche, estrellas que se
+   quedan quietas con "menos movimiento". Tarjetas lisas, sin vidrio.
 8. Ninguna página nueva tiene scroll de costado en 320, 375 y 390 px.
 
 Uso:  python3 pruebas/test_v8.py
@@ -203,19 +203,7 @@ def main() -> int:
             check(float(pg.input_value(inp)) == held + 1, f"{path}: al soltar no suma de más; un toque = +1")
             pg.close()
 
-        # ------------------------------------------------ 6. banner que frena suave
-        print("\n[banner grande]")
-        page.evaluate("window.scrollTo(0, 0)")
-        page.click("#slides-pause")
-        w = page.evaluate("document.getElementById('slides-track').clientWidth")
-        page.click("#slides-next")
-        page.wait_for_timeout(120)
-        mid = page.evaluate("document.getElementById('slides-track').scrollLeft")
-        check(0 < mid < w, f"a los 120 ms va en camino ({mid:.0f} de {w} px)")
-        page.wait_for_timeout(1300)
-        end = page.evaluate("[document.getElementById('slides-track').scrollLeft, document.getElementById('slides-track').style.scrollSnapType]")
-        check(abs(end[0] - w) < 1.5, f"termina justo en la diapositiva 2 ({end[0]:.0f})")
-        check(end[1] == "", "el scroll-snap vuelve a estar encendido")
+        # ------------------------------------------------ 6. (v9) el banner grande ya no existe
         page.close()
 
         # ------------------------------------------------ 7. fondos
@@ -227,10 +215,13 @@ def main() -> int:
             pg = c.new_page()
             pg.goto(BASE + "/es/aerolineas/ryanair/")
             bg = pg.evaluate("getComputedStyle(document.body, '::before').backgroundImage")
-            anim = pg.evaluate("getComputedStyle(document.body, '::after').animationName")
-            check("gradient" in bg, f"{'noche' if dark else 'día'}: hay cielo de fondo")
-            check(anim == ("wib-twinkle" if dark else "wib-drift"),
-                  f"{'noche' if dark else 'día'}: {'estrellas que titilan' if dark else 'nubes que se corren'} ({anim})")
+            after = pg.evaluate("[getComputedStyle(document.body, '::after').content, getComputedStyle(document.body, '::after').animationName]")
+            check("gradient" in bg, f"{'noche' if dark else 'día'}: hay fondo")
+            if dark:
+                check(after[1] == "wib-twinkle", f"noche: estrellas que titilan ({after[1]})")
+            else:
+                # v9 (20/10/2026): fondo de día liso, sin nubes, para que se lea más fácil
+                check(after[0] == "none", f"día: sin nubes ({after[0]})")
             c.close()
         c = browser.new_context(viewport={"width": 1200, "height": 800}, reduced_motion="reduce")
         c.add_init_script("try{sessionStorage.setItem('wib-theme','dark')}catch(e){}")
@@ -240,9 +231,13 @@ def main() -> int:
         check(anim == "none", f"con 'menos movimiento', las estrellas quedan quietas ({anim})")
         c.close()
         css = (REPO / "sitio" / "style.css").read_text(encoding="utf-8")
-        check("@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px)))" in css
-              and "prefers-reduced-transparency" in css,
-              "el vidrio tiene fondo liso de respaldo y respeta 'menos transparencia'")
+        # v9: las tarjetas pasan a ser lisas; se comprueba en la página, no en el CSS
+        c = browser.new_context(viewport={"width": 1200, "height": 800})
+        pg = c.new_page()
+        pg.goto(BASE + "/es/aerolineas/ryanair/")
+        blur = pg.evaluate("[...document.querySelectorAll('.glass')].map(e => getComputedStyle(e).backdropFilter).filter(v => v && v !== 'none').length")
+        check(blur == 0, f"las tarjetas son lisas, sin vidrio esmerilado ({blur} con desenfoque)")
+        c.close()
 
         # ------------------------------------------------ 8. sin scroll de costado
         print("\n[sin scroll de costado en el teléfono]")

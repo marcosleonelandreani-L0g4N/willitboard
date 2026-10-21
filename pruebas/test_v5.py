@@ -214,27 +214,27 @@ def main() -> int:
         check(order == want, f"ordenar por maleta de cabina sigue el tamaño publicado ({order[:3]}…)")
         page.close()
 
-        # ------------------------------------------------ 5. teclado
-        print("\n[pestañas con el teclado]")
+        # ------------------------------------------------ 5. pasos (v9: antes pestañas)
+        print("\n[pasos con el teclado]")
         page = ctx.new_page()
         page.goto(BASE + "/")
+        page.wait_for_selector("#results .tgroup")
+        check(page.get_attribute("#tab-check", "aria-current") == "step", "arranca en el paso 1")
+        page.focus("#tab-compare")
+        page.keyboard.press("Enter")
+        check(page.is_visible("#panel-compare") and page.get_attribute("#tab-compare", "aria-current") == "step",
+              "Enter sobre el paso 3 abre el comparador y lo marca como actual")
         page.focus("#tab-check")
-        page.keyboard.press("ArrowRight")
-        check(page.get_attribute("#tab-compare", "aria-selected") == "true" and
-              page.evaluate("document.activeElement.id") == "tab-compare",
-              "flecha derecha pasa a Comparar y le da el foco")
-        page.keyboard.press("ArrowLeft")
-        check(page.get_attribute("#tab-check", "aria-selected") == "true", "flecha izquierda vuelve")
+        page.keyboard.press("Enter")
+        check(page.is_visible("#panel-check") and page.get_attribute("#tab-check", "aria-current") == "step",
+              "y Enter sobre el paso 1 vuelve a las medidas")
 
-        # ------------------------------------------------ 6. carrusel
-        print("\n[botones del carrusel]")
-        page.click('#slides-dots button[aria-controls="slide-2"]')
-        page.click('#slide-2 [data-go="compare"]')
-        check(page.is_visible("#panel-compare"), "'Abrir la comparación' abre la pestaña Comparar")
-        page.click('#slides-dots button[aria-controls="slide-1"]')
-        page.click('#slide-1 [data-go="measure"]')
+        # ------------------------------------------------ 6. botones data-go (antes, del carrusel)
+        print("\n[botón 'Cómo medir' del comparador]")
+        page.click("#tab-compare")
+        page.click('.bagstrip [data-go="measure"]')
         check(page.is_visible("#panel-check") and page.get_attribute("#measure", "open") is not None,
-              "'Ver cómo medir' abre la guía en la pestaña de comprobar")
+              "'Cómo medir la maleta' abre la guía en la vista de medidas")
         page.close()
         ctx.close()
 

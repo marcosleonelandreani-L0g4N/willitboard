@@ -177,28 +177,18 @@ def main() -> int:
             page.close()
 
         print("\n[movimiento reducido]")
-        rm = browser.new_context(reduced_motion="reduce")
+        # v9 (20/10/2026): ya no hay carrusel. Lo que se mueve es el salto
+        # hasta el resultado: con "menos movimiento" tiene que ser directo.
+        rm = browser.new_context(reduced_motion="reduce", viewport={"width": 390, "height": 844})
         page = rm.new_page()
         page.goto(BASE + "/")
-        paused = page.get_attribute("#slides-pause", "aria-pressed")
-        check(paused == "true", f"con prefers-reduced-motion el carrusel arranca pausado ({paused})")
-        page.wait_for_timeout(300)
-        cur = page.eval_on_selector_all("#slides-dots button", "els => els.findIndex(b => b.getAttribute('aria-current') === 'true')")
-        check(cur == 0, f"y se queda en la primera diapositiva ({cur})")
+        page.wait_for_selector("#results .tgroup")
+        check(page.locator("#slides, .slides").count() == 0, "la home ya no tiene carrusel")
+        page.click("#cta-results")
+        page.wait_for_timeout(60)
+        top = page.evaluate("Math.round(document.getElementById('results-sec').getBoundingClientRect().top)")
+        check(abs(top) <= 2, f"con prefers-reduced-motion, «Ver resultados» salta directo, sin animar ({top} px)")
         rm.close()
-        mo = browser.new_context(reduced_motion="no-preference")
-        page = mo.new_page()
-        page.goto(BASE + "/")
-        check(page.get_attribute("#slides-pause", "aria-pressed") == "false",
-              "sin esa preferencia, el carrusel avanza solo")
-        page.click("#slides-pause")
-        check(page.get_attribute("#slides-pause", "aria-pressed") == "true",
-              "y el botón de pausa lo detiene")
-        page.click('#slides-dots button[aria-controls="slide-3"]')
-        page.wait_for_timeout(700)
-        cur = page.eval_on_selector_all("#slides-dots button", "els => els.findIndex(b => b.getAttribute('aria-current') === 'true')")
-        check(cur == 2, f"los puntitos llevan a cada diapositiva ({cur})")
-        mo.close()
 
         print("\n[teléfono 390 px]")
         m = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)

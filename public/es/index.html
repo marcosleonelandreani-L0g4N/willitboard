@@ -1923,13 +1923,262 @@ body::after {
 .cmpx__n { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--ink-soft); }
 .tile--banline { padding-block: 0.85rem; }
 .tile--banline p { margin: 0; color: var(--ink-soft); font-size: var(--step--1); }
+
+/* ================================================================= v9 (20/10/2026)
+   La home guía en tres pasos y se lee más fácil (pedido de Marcos, a partir
+   de lo que le pasó a un amigo en un teléfono viejo):
+   - sin carrusel: lo primero son el título y las medidas;
+   - "Ver resultados" justo debajo de los campos (el "enter" que se buscaba);
+   - pasos 1 · 2 · 3 en lugar de pestañas;
+   - "¿Con qué compañía viajas?": las elegidas quedan arriba y marcadas;
+   - tarjetas lisas con borde fino y sombra mínima (sin vidrio esmerilado),
+     fondo de día liso y sin nubes; la noche no cambia;
+   - comparador con líneas entre columnas y entre filas;
+   - en computadora, medidas a la izquierda y resultados a la derecha. */
+:root {
+  --go: #12823F; --go-ink: #FFFFFF; --go-hover: #0F7037; --go-glow: rgba(18,130,63,.55);
+  --line: #DCE3EE; --line-soft: #E8EDF5;
+  --flat-shadow: 0 1px 2px rgba(23,32,51,.06), 0 8px 20px -16px rgba(23,32,51,.28);
+}
+:root[data-theme="dark"] {
+  --go: #34C873; --go-ink: #0E1422; --go-hover: #4ADE80; --go-glow: rgba(52,200,115,.35);
+  --line: #2C3852; --line-soft: #243049;
+  --flat-shadow: 0 1px 2px rgba(0,0,0,.35);
+}
+
+/* ---------- fondo de día liso (la noche queda como estaba) ---------- */
+:root:not([data-theme="dark"]) {
+  --bg-sky: linear-gradient(180deg, #E8EFFA 0, #F3F6FA 24rem);
+  --bg-sky-color: #F3F6FA;
+}
+:root:not([data-theme="dark"]) body::after { content: none; }
+
+/* ---------- tarjetas lisas: borde fino, sombra mínima, sin vidrio ---------- */
+.glass, .panel, .tgroup, .step, .cmpwrap, .bagstrip, .banned.nogo, .flow, .mine {
+  background: var(--surface);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  border: 1px solid var(--line);
+  box-shadow: var(--flat-shadow);
+}
+.gsearch__box { box-shadow: none; border: 2px solid var(--line); }
+.gsearch__box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+
+/* ---------- cabecera de la home: sin carrusel, con dos atajos ---------- */
+.home .hero__grid { grid-template-columns: minmax(0, 1fr); margin-top: 1.2rem; }
+.home .hero { padding-bottom: 4.2rem; }
+.home .hero__copy { max-width: 46rem; }
+.quick { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.quick__a {
+  display: inline-flex; align-items: center; gap: 0.45rem; min-height: 2.6rem;
+  padding: 0.35rem 0.95rem 0.35rem 0.8rem; border-radius: 999px;
+  background: var(--surface); border: 1px solid var(--line); color: var(--ink);
+  font: 700 0.9rem/1.15 var(--font-body); text-decoration: none;
+}
+.quick__a svg { width: 1.05rem; height: 1.05rem; flex: none; color: var(--accent); }
+.quick__a[data-quick="banned"] svg { color: var(--fail); }
+.quick__a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) { .quick__a:hover { border-color: var(--accent); color: var(--accent); } }
+@media (max-width: 34rem) {
+  .home .hero { padding-bottom: 3.8rem; }
+  .home .hero__grid { margin-top: 0.8rem; }
+  .quick { margin-top: 0.8rem; gap: 0.4rem; }
+  .quick__a { font-size: 0.84rem; min-height: 2.5rem; padding-inline: 0.7rem 0.8rem; }
+}
+
+/* ---------- pasos 1 · 2 · 3 ---------- */
+.flow { border-radius: 999px; padding: 0.35rem; }
+.flow__list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.3rem; }
+.flow__b {
+  position: relative; width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 2.9rem; padding: 0.35rem 0.6rem;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  color: var(--ink-soft); font: 700 0.98rem/1.1 var(--font-body);
+}
+.flow__n {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 1.7rem; height: 1.7rem; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--surface); color: var(--ink-soft);
+  font: 800 0.86rem/1 var(--font-body);
+}
+.flow__n i { font-style: normal; }
+.flow__b[aria-current="step"] { background: var(--accent-soft); color: var(--ink); }
+.flow__b[aria-current="step"] .flow__n { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.flow__b.is-done { color: var(--pass); }
+.flow__b.is-done .flow__n { background: var(--pass-soft); border-color: transparent; color: var(--pass); }
+.flow__b.is-done .flow__n i { display: none; }
+.flow__b.is-done .flow__n::before { content: "✓"; font-size: 0.92rem; }
+.flow__b:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.flow .tabs__badge { margin-left: 0.1rem; }
+@media (hover: hover) { .flow__b:not([aria-current="step"]):hover { background: var(--surface-soft); color: var(--accent); } }
+@media (max-width: 34rem) {
+  .flow__b { gap: 0.35rem; padding-inline: 0.25rem; font-size: 0.86rem; }
+  .flow__n { width: 1.5rem; height: 1.5rem; font-size: 0.8rem; }
+}
+
+/* ---------- medidas: bordes marcados y el botón justo debajo ---------- */
+.fieldcol { display: flex; flex-direction: column; gap: 0.8rem; min-width: 0; }
+.panel .field { background: var(--surface); border: 1.5px solid var(--line); }
+.panel .field:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.panel .stepper { box-shadow: inset 0 0 0 1px var(--line); }  /* inset: el borde no le quita alto a las flechas (≥ 44 px) */
+.panel .modes { background: var(--surface-soft); border: 1px solid var(--line-soft); }
+.cta {
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+  width: 100%; min-height: 3.5rem; padding: 0.6rem 1rem;
+  border: 0; border-radius: 16px; cursor: pointer;
+  background: var(--go); color: var(--go-ink);
+  font: 800 1.1rem/1.1 var(--font-body);
+  box-shadow: 0 10px 20px -14px var(--go-glow);
+  transition: background-color .15s, transform .12s var(--lift);
+}
+.cta svg { width: 1.3rem; height: 1.3rem; flex: none; transition: transform .2s var(--lift); }
+.cta:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.cta:active { transform: scale(.98); }
+@media (hover: hover) { .cta:hover { background: var(--go-hover); } .cta:hover svg { transform: translateY(2px); } }
+
+/* ejemplos: una ayuda chica debajo del botón, no un bloque más */
+.presets { margin: 0 1.4rem 1.1rem; padding: 0.9rem 0 0; border-top: 1px solid var(--line-soft); gap: 0.45rem; }
+.presets__label { flex-basis: 100%; font-weight: 600; color: var(--ink-soft); }
+.preset { border: 1px solid var(--line); }
+@media (max-width: 34rem) { .presets { margin-inline: 1rem; padding-inline: 0; } }
+
+/* ---------- ¿con qué compañía viajas? ---------- */
+.mine { position: relative; display: flex; flex-direction: column; gap: 0.6rem; margin: 0 0 1.3rem; padding: 1.15rem 1.25rem 1.25rem; border-radius: var(--radius-lg); }
+.mine__h { font: 600 1.2rem/1.2 var(--font-head); color: var(--ink); }
+.mine__p { margin: 0; font-size: 0.92rem; line-height: 1.45; color: var(--ink-soft); }
+.mine__search {
+  display: flex; align-items: center; gap: 0.6rem; min-height: 3.2rem; padding: 0 0.95rem;
+  border-radius: 14px; border: 2px solid var(--accent); background: var(--surface); cursor: text;
+}
+.mine__search:focus-within { box-shadow: 0 0 0 4px var(--accent-soft); }
+.mine__search svg { width: 1.2rem; height: 1.2rem; flex: none; color: var(--accent); }
+.mine__search input {
+  flex: 1 1 auto; min-width: 0; padding: 0.65rem 0; border: 0; outline: none; background: transparent;
+  font: 600 1.02rem/1.2 var(--font-body); color: var(--ink);
+}
+.mine__sug { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--surface); }
+.mine__sug[hidden] { display: none; }
+.msug {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; min-height: 3.3rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.95rem; border: 0; border-top: 1px solid var(--line-soft);
+  background: transparent; color: var(--ink); text-align: left; cursor: pointer; font: inherit;
+}
+.msug:first-child { border-top: 0; }
+.msug__name { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; font: 700 1rem/1.2 var(--font-body); }
+.msug__name small { font: 600 0.78rem/1.2 var(--font-body); color: var(--ink-faint); }
+.msug .vbadge { flex: none; }
+.msug__add {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 2.1rem; height: 2.1rem; border-radius: 999px; background: var(--accent); color: var(--accent-ink);
+  font: 800 1.25rem/1 var(--font-body);
+}
+.msug:hover, .msug:focus-visible { background: var(--accent-soft); outline: none; }
+.mine__none { margin: 0; padding: 0.85rem 0.95rem; font-size: 0.9rem; color: var(--ink-soft); }
+.mine__note { margin: 0; font-size: 0.86rem; color: var(--paid); }
+.mine__note:empty { display: none; }
+.mine__list { list-style: none; margin: 0.2rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 0.7rem; }
+.mine__list:empty { display: none; }
+.mcard { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; padding: 0.85rem 0.95rem 0.95rem; border-radius: 18px; border: 2px solid var(--accent); background: var(--surface); }
+.mcard__head { display: flex; align-items: center; gap: 0.55rem; }
+.mcard__head .rcard__icon { grid-row: auto; width: 2.2rem; height: 2.2rem; border-radius: 12px; }
+.mcard__head .rcard__icon svg { width: 1.15rem; height: 1.15rem; }
+.mcard__name { flex: 1 1 auto; min-width: 0; font: 600 1.1rem/1.2 var(--font-head); color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
+.mcard__x {
+  flex: none; width: 2.5rem; height: 2.5rem; border: 0; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--ink-faint); font: 700 1.35rem/1 var(--font-body);
+}
+.mcard__x:hover { background: var(--fail-soft); color: var(--fail); }
+.mcard__x:focus-visible { outline: 3px solid var(--accent); outline-offset: 1px; }
+.mcard__verdict .vbadge { font-size: 0.9rem; padding: 0.4rem 0.85rem 0.4rem 0.55rem; }
+.mcard__verdict .vbadge svg { width: 1.1rem; height: 1.1rem; }
+.mcard__detail, .mcard__flag { margin: 0; font-size: 0.9rem; line-height: 1.45; color: var(--ink-soft); }
+.mcard__detail .dims { white-space: normal; color: var(--ink); font-weight: 700; }
+.mcard__flag { font-weight: 700; color: var(--paid); }
+.mine__cmp {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 0.55rem;
+  min-height: 3rem; padding: 0.4rem 1.05rem 0.4rem 0.55rem; margin-top: 0.15rem;
+  border: 2px solid var(--accent); border-radius: 14px; background: var(--surface); cursor: pointer;
+  color: var(--accent); font: 800 1rem/1.1 var(--font-body);
+}
+.mine__cmp[hidden] { display: none; }
+.mine__cmp .flow__n { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.mine__cmp:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+@media (hover: hover) { .mine__cmp:hover { background: var(--accent-soft); } }
+@media (max-width: 34rem) {
+  .mine { padding: 1rem 0.95rem 1.05rem; }
+  .mine__cmp { align-self: stretch; justify-content: center; }
+}
+/* en los grupos de abajo, tus compañías también se distinguen */
+.rcard.is-mine { box-shadow: 0 0 0 2px var(--accent); }
+
+/* ---------- comparador: columnas y filas que se distinguen ---------- */
+.cmp__scroll { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+.cmp th, .cmp td { padding: 0.75rem 0.8rem; }
+.cmp thead th { background: var(--surface-sunk); border-bottom: 3px solid var(--band-fill); }
+.cmp thead th + th { border-left: 1px solid var(--line); }
+.cmp__label th { padding: 0.6rem 0.8rem; background: var(--surface-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line-soft); }
+.cmp tbody tr:not(.cmp__label) td { border-bottom: 0; }
+.cmp tbody tr:not(.cmp__label) td + td { border-left: 1px solid var(--line); }
+.cmp tbody tr:nth-child(2) td { background: var(--accent-soft); }
+@media (max-width: 34rem) {
+  .cmp th, .cmp td { padding: 0.55rem 0.45rem; }
+  .cmp__label th { padding: 0.5rem 0.45rem; }
+}
+
+/* ---------- buscar las reglas de una compañía (más abajo en la home) ---------- */
+.lookup .sec-h { margin-bottom: 0.7rem; }
+
+/* ---------- computadora: medidas a la izquierda, resultados a la derecha ---------- */
+@media (min-width: 60rem) {
+  .shell--home, .home .hero__inner { max-width: 74rem; }
+  #panel-check:not([hidden]) {
+    display: grid; grid-template-columns: minmax(0, 25rem) minmax(0, 1fr);
+    gap: 1.6rem; align-items: start;
+  }
+  #panel-check > * { grid-column: 1 / -1; min-width: 0; }
+  #panel-check > .panel { grid-column: 1; grid-row: 1; }
+  #panel-check > .results { grid-column: 2; grid-row: 1; }
+  #panel-check .panel__grid { grid-template-columns: minmax(0, 1fr); }
+  #panel-check .panel__head { padding-inline: 1.3rem; }
+  #panel-check .panel__grid, #panel-check .presets { padding-inline: 1.3rem; }
+  #panel-check .presets { margin-inline: 1.3rem; padding-inline: 0; }
+  .results__head { min-height: 3.5rem; }
+}
+
+/* compartir, al final del resultado */
+.results__share {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.7rem 1rem;
+  margin-top: 1.1rem; padding: 1rem 1.15rem; border-radius: var(--radius);
+  background: var(--accent-soft); border: 1px solid var(--line-soft);
+}
+.results__share-t { flex: 1 1 16rem; margin: 0; font-size: 0.92rem; line-height: 1.45; color: var(--ink-soft); }
+.results__share-t b { display: block; color: var(--ink); font-size: 1rem; }
+.results__share + .share__status { margin-top: 0.6rem; }
+
+/* atajos en el teléfono: dos botones parejos en un renglón */
+@media (max-width: 34rem) {
+  .quick { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .quick__a { justify-content: center; text-align: center; border-radius: 14px; padding: 0.4rem 0.55rem; font-size: 0.8rem; line-height: 1.2; }
+}
+
+/* teléfono: que "Ver resultados" entre en la primera pantalla (390 × 844):
+   título del panel y unidades en un solo renglón, y menos aire arriba */
+@media (max-width: 34rem) {
+  .shell--home { gap: 1.25rem; }
+  .panel .panel__head { flex-wrap: nowrap; gap: 0.5rem; padding-top: 1rem; }
+  .panel .panel__title { font-size: 1.12rem; white-space: nowrap; }
+  .panel .units { flex: none; gap: 0.15rem; }
+  .panel .units button { padding: 0.45rem 0.55rem; }
+}
 </style>
 </head>
 <body class="home">
 
 <!-- ============================================================ cabecera
-     v5 (26/09/2026): la marca más grande, y el carrusel reemplaza a la
-     ilustración de la maleta saltando. Nada de acá es un dato de equipaje. -->
+     v9 (20/10/2026): sin carrusel. Lo primero que se ve es para qué sirve el
+     sitio y, enseguida, las medidas. Dos atajos chicos para quien vino a otra
+     cosa (las reglas de una compañía, lo que no se puede llevar). -->
 <header class="hero">
   <div class="hero__inner">
     <div class="topbar">
@@ -1960,172 +2209,38 @@ body::after {
         <p class="hero__kicker">Comprobador de equipaje de mano · Europa y Latinoamérica</p>
         <h1>¿Entra tu maleta?</h1>
         <p class="standfirst">Escribe las medidas de tu maleta y mira en segundos con qué aerolíneas, trenes y ferris puede viajar.</p>
+        <nav class="quick" aria-label="Atajos">
+          <a class="quick__a" href="#lookup" data-quick="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Reglas de una compañía</a>
+          <a class="quick__a" href="#banned" data-quick="banned"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Qué no puedo llevar</a>
+        </nav>
       </div>
 
-      <!-- Carrusel. Se mueve solo cada 7 s, se frena al pasar el mouse, al
-           tocarlo o al enfocarlo, tiene botón de pausa, y con
-           prefers-reduced-motion no se mueve nunca. Cada diapositiva lleva a
-           algo concreto de la página: no es decoración. -->
-      <section class="slides" id="slides" aria-roledescription="carrusel" aria-label="Destacados">
-        <div class="slides__viewport" id="slides-track">
-          <article class="slide slide--measure" id="slide-1" role="group" aria-roledescription="diapositiva" aria-label="1 de 4">
-            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSscheckh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClscheckh" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shscheckh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shsscheckh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowscheckh" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowscheckh)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClscheckh)" filter="url(#shsscheckh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-70 -40) scale(1.12)"><rect x="490" y="106" width="262" height="290" rx="22" fill="var(--sizer-fill)" stroke="var(--sizer)" stroke-width="5" stroke-dasharray="14 11" stroke-linecap="round"/><g transform="translate(556.8 86)"><rect width="128.39999999999998" height="36" rx="18" fill="url(#gAscheckh)"/><text x="64.19999999999999" y="24.5" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif" font-weight="800" font-size="17" fill="#fff">55 × 40 × 20</text></g><g filter="url(#shscheckh)"><g transform="translate(520 134) scale(.98)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gCscheckh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><circle cx="744" cy="136" r="26" fill="var(--pass-fill)"/><path d="M733.08 136.52l7.8 7.8 14.3-15.6" fill="none" stroke="#fff" stroke-width="6.76" stroke-linecap="round" stroke-linejoin="round"/></g></g></svg></div>
-            <div class="slide__text">
-              <p class="slide__h">Las ruedas y las asas cuentan</p>
-              <p class="slide__p">A la mayoría de las maletas las frenan por unos pocos centímetros. Mide por fuera, con el asa bajada.</p>
-              <button type="button" class="slide__cta" data-go="measure">Ver cómo medir</button>
-            </div>
-          </article>
-          <article class="slide slide--compare" id="slide-2" role="group" aria-roledescription="diapositiva" aria-label="2 de 4">
-            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSscompareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClscompareh" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shscompareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shsscompareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowscompareh" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowscompareh)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClscompareh)" filter="url(#shsscompareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-130 0) scale(1.0)"><g transform="translate(480 180) scale(.62)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gMscompareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><g transform="translate(592 140) scale(.8)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gSscompareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><g filter="url(#shscompareh)"><g transform="translate(718 110) scale(.95)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gCscompareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><circle cx="542" cy="170" r="17" fill="var(--pass-fill)"/><text x="542" y="176" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif" font-weight="900" font-size="17" fill="#fff">✓</text><circle cx="672" cy="130" r="17" fill="var(--paid-fill)"/><text x="672" y="136" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif" font-weight="900" font-size="17" fill="#fff">$</text><circle cx="813" cy="100" r="17" fill="var(--fail-fill)"/><text x="813" y="106" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif" font-weight="900" font-size="17" fill="#fff">✕</text></g></g></svg></div>
-            <div class="slide__text">
-              <p class="slide__h">Compara lado a lado</p>
-              <p class="slide__p">Elige hasta tres aerolíneas, trenes o ferris y mira sus límites uno al lado del otro.</p>
-              <button type="button" class="slide__cta" data-go="compare">Abrir la comparación</button>
-            </div>
-          </article>
-          <article class="slide slide--trust" id="slide-3" role="group" aria-roledescription="diapositiva" aria-label="3 de 4">
-            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSstrusth" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClstrusth" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shstrusth" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shsstrusth" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowstrusth" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowstrusth)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClstrusth)" filter="url(#shsstrusth)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-20 -20) scale(1.05)"><g filter="url(#shstrusth)"><g transform="translate(520 100)"><rect x="0" y="0" width="210" height="270" rx="22" fill="#fff"/><rect x="0" y="0" width="210" height="56" rx="22" fill="url(#gAstrusth)"/><rect x="0" y="34" width="210" height="22" fill="url(#gAstrusth)"/><rect x="26" y="20" width="100" height="14" rx="7" fill="#fff" fill-opacity=".85"/><rect x="26" y="86" width="150" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="116" width="110" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="146" width="150" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="176" width="110" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="206" width="150" height="12" rx="6" fill="#DCE3EE"/><rect x="26" y="236" width="88" height="20" rx="10" fill="var(--accent-soft)"/><circle cx="186" cy="246" r="40" fill="var(--pass-fill)"/><path d="M168 247l13 13 24-26" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g></g></g></svg></div>
-            <div class="slide__text">
-              <p class="slide__h">Directo del operador</p>
-              <p class="slide__p">Cada límite enlaza la página del propio operador, con la fecha en que una persona lo comprobó.</p>
-            </div>
-          </article>
-          <article class="slide slide--share" id="slide-4" role="group" aria-roledescription="diapositiva" aria-label="4 de 4">
-            <div class="slide__art" aria-hidden="true"><svg viewBox="0 0 800 450" preserveAspectRatio="xMaxYMid meet" aria-hidden="true"><defs><linearGradient id="gAsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9DBDFF"/><stop offset=".5" stop-color="#2F63F2"/><stop offset="1" stop-color="#15339E"/></linearGradient><linearGradient id="gCsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC7C1"/><stop offset=".5" stop-color="#FF6B63"/><stop offset="1" stop-color="#C23630"/></linearGradient><linearGradient id="gMsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A5F8DF"/><stop offset=".5" stop-color="#19C79B"/><stop offset="1" stop-color="#0A7F63"/></linearGradient><linearGradient id="gSsshareh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF1C4"/><stop offset=".5" stop-color="#FFC83D"/><stop offset="1" stop-color="#D08A0C"/></linearGradient><radialGradient id="gClsshareh" cx=".4" cy=".3" r=".8"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#E4ECFF"/></radialGradient><filter id="shsshareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#1B3A8F" flood-opacity=".38"/></filter><filter id="shssshareh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#1B3A8F" flood-opacity=".16"/></filter><radialGradient id="glowsshareh" cx=".72" cy=".45" r=".5"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".85"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient></defs><rect width="800" height="450" fill="url(#glowsshareh)"/><g transform="translate(470 90) scale(1.1)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(730 60) scale(0.8)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(620 400) scale(1.4)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(320 420) scale(0.9)" fill="url(#gClsshareh)" filter="url(#shssshareh)"><ellipse cx="0" cy="0" rx="46" ry="20"/><ellipse cx="-24" cy="-10" rx="24" ry="20"/><ellipse cx="14" cy="-18" rx="30" ry="26"/><ellipse cx="40" cy="-4" rx="22" ry="16"/></g><g transform="translate(-10 10) scale(1.0)"><g transform="translate(540 90)"><rect x="0" y="0" width="170" height="300" rx="30" fill="#2B3A5C"/><rect x="12" y="16" width="146" height="268" rx="20" fill="#fff"/><rect x="26" y="40" width="104" height="42" rx="18" fill="#DCE3EE"/><rect x="48" y="96" width="98" height="96" rx="20" fill="url(#gAsshareh)"/><g transform="translate(70 104) scale(.3)"><g><rect x="66" y="0" width="68" height="26" rx="12" fill="none" stroke="var(--handle)" stroke-width="11"/><rect x="30" y="22" width="140" height="210" rx="30" fill="url(#gCsshareh)"/><rect x="62" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><rect x="124" y="48" width="14" height="158" rx="7" fill="#fff" fill-opacity=".35"/><circle cx="62" cy="246" r="13" fill="var(--handle)"/><circle cx="138" cy="246" r="13" fill="var(--handle)"/></g></g><rect x="26" y="208" width="90" height="38" rx="18" fill="#DCE3EE"/></g><circle cx="716" cy="196" r="30" fill="var(--pass-fill)"/><path d="M703.4 196.6l9.0 9.0 16.5-18.0" fill="none" stroke="#fff" stroke-width="7.800000000000001" stroke-linecap="round" stroke-linejoin="round"/><g filter="url(#shsshareh)"><g transform="translate(500 120) scale(0.8)"><path d="M-150 60c40-40 80-50 130-30" fill="none" stroke="var(--sizer)" stroke-width="4" stroke-dasharray="3 12" stroke-linecap="round"/><path d="M0 0l62 22-62 22 12-22z" fill="var(--plane)"/><path d="M12 22h50" stroke="var(--sky-a)" stroke-width="3"/></g></g></g></svg></div>
-            <div class="slide__text">
-              <p class="slide__h">¿Viajas con alguien?</p>
-              <p class="slide__p">Mándale esta comprobación. Verá la misma maleta, calculada con los límites de hoy.</p>
-              <button type="button" class="slide__cta" data-go="share">Compartir</button>
-            </div>
-          </article>
-        </div>
-        <div class="slides__nav">
-          <button type="button" class="slides__arrow" id="slides-prev" aria-controls="slides-track" aria-label="Diapositiva anterior" title="Diapositiva anterior">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button type="button" class="slides__pause" id="slides-pause" aria-pressed="false" data-pause="Pausar las diapositivas" data-play="Reanudar las diapositivas" aria-label="Pausar las diapositivas" title="Pausar las diapositivas">
-            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="6" width="3.5" height="12" rx="1.2" fill="currentColor"/><rect x="13.5" y="6" width="3.5" height="12" rx="1.2" fill="currentColor"/></svg>
-            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5v11l9-5.5z" fill="currentColor"/></svg>
-          </button>
-          <div class="slides__dots" id="slides-dots">
-            <button type="button" aria-controls="slide-1" aria-label="Ir a la diapositiva 1" aria-current="true"></button>
-            <button type="button" aria-controls="slide-2" aria-label="Ir a la diapositiva 2"></button>
-            <button type="button" aria-controls="slide-3" aria-label="Ir a la diapositiva 3"></button>
-            <button type="button" aria-controls="slide-4" aria-label="Ir a la diapositiva 4"></button>
-          </div>
-          <button type="button" class="slides__arrow" id="slides-next" aria-controls="slides-track" aria-label="Diapositiva siguiente" title="Diapositiva siguiente">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </section>
     </div>
   </div>
 </header>
 
 <main class="shell shell--home">
 
-  <!-- ============================================================ buscador
-       Busca empresas de transporte y guías (y productos, cuando haya alguno
-       verificado). Solo navega: no cambia ningún veredicto. -->
-  <div class="gsearch" role="search">
-    <label class="gsearch__box">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span class="sr-only">Buscar aerolíneas, trenes, ferris y guías</span>
-      <input type="search" id="gq" placeholder="Buscar Ryanair, un tren, un ferri…" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
-    </label>
-    <div class="gsug" id="gsug" hidden></div>
-  </div>
-
-  <!-- ============================================================ objetos prohibidos
-       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
-       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
-  <section class="banned nogo nogo-c glass" id="banned" aria-labelledby="nogo-h">
-    <div class="nogo-c__head">
-      <h2 class="nogo-c__h" id="nogo-h">¿Qué no se puede llevar en el equipaje de mano?</h2>
-      <p class="nogo__src">Vuelos desde aeropuertos de la UE, equipaje de mano. <a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Fuente: Your Europe (UE)</a> · comprobado el 2026-10-10</p>
-    </div>
-    <ul class="nogo-c__track" id="nogo-track" tabindex="0" aria-label="¿Qué no se puede llevar en el equipaje de mano?">
-      <li class="nogo__tile nogo__tile--no">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M10 3h4v3.2c0 .6.3 1.1.8 1.5 1.4 1 2.2 2.6 2.2 4.3V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7c0-1.7.8-3.3 2.2-4.3.5-.4.8-.9.8-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M7.2 13.5h9.6" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
-        <b class="nogo__t">Líquidos de más de 100 ml</b>
-        <span class="nogo__d">Los chicos: en una bolsa transparente de 1 litro</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--no">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 15.5L18 3.5M15.5 15.5L6 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
-        <b class="nogo__t">Objetos cortantes</b>
-        <span class="nogo__d">Cuchillos, sacacorchos y tijeras de cierto tamaño: a la bodega</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--no">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M3 8h16.5a1.5 1.5 0 0 1 1.5 1.5V11h-7.5l-1 2.2a1 1 0 0 1-.9.6H10l-1.2 5.4a1 1 0 0 1-1 .8H5.2a1 1 0 0 1-1-1.2L5.4 13H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
-        <b class="nogo__t">Armas</b>
-        <span class="nogo__d">Ninguna a bordo</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--never">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.3 2.3-5.2 3.6-7.5.6 1.6 1.4 2.5 2.4 3 0-3.1 1.2-5.6 3.5-7.4.2 2.8 1.4 4.6 2.6 6.2 1 1.4 1.9 2.8 1.9 5.1 0 4.3-3.3 6.7-7.5 6.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">Prohibido</span>
-        <b class="nogo__t">Explosivos e inflamables</b>
-        <span class="nogo__d">Ni en cabina ni en bodega</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--limit">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8h-9a1 1 0 0 1-1-.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10V6.8a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><path d="M12 2.5l10 17.5H2z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#fff"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">Con límites</span>
-        <b class="nogo__t">Duty free</b>
-        <span class="nogo__d">En la bolsa sellada, con el ticket</span></span>
-      </li>
-      <li class="nogo__tile nogo__tile--ok">
-        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><rect x="3.2" y="8.6" width="17.6" height="6.8" rx="3.4" transform="rotate(-35 12 12)" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.6 8.6l4.8 6.8" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="nogo__txt"><span class="nogo__state">Permitido</span>
-        <b class="nogo__t">Medicamentos y comida de bebé</b>
-        <span class="nogo__d">Sin el límite de 100 ml</span></span>
-      </li>
-    </ul>
-    <div class="nogo-c__nav">
-      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="-1" aria-label="Anteriores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <span class="nogo-c__dots" id="nogo-dots" data-label="Página {n} de {total}"></span>
-      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="1" aria-label="Siguientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-    <p class="nogo__note">La lista detallada está en la web del aeropuerto de salida, y la aerolínea puede confirmarla antes del viaje.</p>
-    <details class="nogo__more">
-      <summary class="banned__sum nogo__sum"><span class="banned__txt"><b>Fuentes oficiales y lista completa</b></span><span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
-      <div class="banned__body">
-      <ul class="banned__links">
-        <li><a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Unión Europea — Your Europe</a><span>Vuelos desde aeropuertos de la UE. Recomienda consultar la web del aeropuerto para ver la lista detallada.</span></li>
-        <li><a href="https://www.gov.uk/hand-luggage-restrictions" target="_blank" rel="noopener nofollow" hreflang="en">Reino Unido — GOV.UK (en inglés)</a><span>Vuelos desde aeropuertos del Reino Unido. Las reglas de líquidos cambiaron en algunos aeropuertos británicos.</span></li>
-        <li><a href="https://www.dgac.gob.cl/pasajeros/articulos-prohibidos" target="_blank" rel="noopener nofollow" hreflang="es">Chile — DGAC</a><span>Vuelos desde Chile. Distinto de la UE: los líquidos no tienen límite de 100 ml, salvo en vuelos a Estados Unidos.</span></li>
-        <li><a href="https://www.aerocivil.gov.co/autoridad_aeronautica/publicaciones/3673/articulos-prohibidos-en-equipajes/" target="_blank" rel="noopener nofollow" hreflang="es">Colombia — Aerocivil</a><span>Vuelos desde Colombia. Distingue vuelos nacionales e internacionales: el límite de 100 ml para líquidos figura solo para los internacionales.</span></li>
-        <li><a href="https://www.aeropuertosgap.com.mx/es/informacion-util-para-viajar/equipaje.html" target="_blank" rel="noopener nofollow" hreflang="es">México — Grupo Aeroportuario del Pacífico</a><span>Sus 12 aeropuertos de la región del Pacífico. Para otros aeropuertos de México, consultar la web de ese aeropuerto.</span></li>
-      </ul>
-      <p class="banned__foot">¿Se sale desde otro país o hay dudas? La web del aeropuerto de salida tiene la lista definitiva, y la aerolínea puede confirmarlo antes del viaje.</p>
-      </div>
-    </details>
-  </section>
-
-
-  <!-- ============================================================ pestañas
-       Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo
-       dataset. Cambiar de pestaña nunca cambia un veredicto. -->
-  <div class="tabs" role="tablist" aria-label="Elige una vista">
-    <button type="button" class="tabs__tab" role="tab" id="tab-check" aria-controls="panel-check" aria-selected="true" tabindex="0">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="7" width="15" height="12.5" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9.5 13l2 2 3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>Comprobar</span>
-    </button>
-    <button type="button" class="tabs__tab" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="14" y="4" width="7" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
-      <span>Comparar</span>
-      <span class="tabs__badge" id="cmp-badge"></span>
-    </button>
-  </div>
+  <!-- ============================================================ pasos
+       v9 (20/10/2026): las pestañas pasan a ser tres pasos. 1 y 2 viven en la
+       misma vista (medidas y resultados); 3 es el comparador. Siguen siendo
+       dos vistas del MISMO cálculo: cambiar de paso nunca cambia un veredicto.
+       Los id tab-check y tab-compare se conservan (los usan las pruebas y los
+       enlaces #compare). -->
+  <nav class="flow" id="flow" aria-label="Pasos">
+    <ol class="flow__list">
+      <li><button type="button" class="flow__b" id="tab-check" data-step="1" aria-controls="panel-check"><span class="flow__n" aria-hidden="true"><i>1</i></span><span class="flow__t">Medidas</span></button></li>
+      <li><button type="button" class="flow__b" id="step-results" data-step="2" aria-controls="results-sec"><span class="flow__n" aria-hidden="true"><i>2</i></span><span class="flow__t">Resultados</span></button></li>
+      <li><button type="button" class="flow__b" id="tab-compare" data-step="3" aria-controls="panel-compare"><span class="flow__n" aria-hidden="true"><i>3</i></span><span class="flow__t">Comparar</span><span class="tabs__badge" id="cmp-badge"></span></button></li>
+    </ol>
+  </nav>
 
   <!-- ============================================================ pestaña 1 -->
-  <div class="tabpanel" id="panel-check" role="tabpanel" aria-labelledby="tab-check">
+  <div class="tabpanel" id="panel-check">
 
     <section class="panel" aria-labelledby="panel-title">
       <div class="panel__head">
-        <h2 class="panel__title" id="panel-title">Tu maleta</h2>
+        <h2 class="panel__title" id="panel-title">Mide tu maleta</h2>
         <div class="units" role="group" aria-label="Unidades">
           <button type="button" id="unit-cm" aria-pressed="true">cm</button>
           <button type="button" id="unit-in" aria-pressed="false">in</button>
@@ -2136,6 +2251,7 @@ body::after {
 
       <div class="chosen" id="chosen" hidden></div>
       <div class="panel__grid">
+      <div class="fieldcol">
       <div class="fields">
         <div class="field">
           <label for="dim-a"><span class="m-key m-key--a" aria-hidden="true">1</span>Largo</label>
@@ -2182,6 +2298,11 @@ body::after {
           </div>
         </div>
       </div>
+      <!-- v9 (20/10/2026): el resultado se calcula solo, pero mucha gente
+           busca un "enter". Este botón no calcula nada nuevo: lleva hasta el
+           resultado y marca el paso 2. -->
+      <button type="button" class="cta" id="cta-results"><span>Ver resultados</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6 12.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
       <!-- (10/10/2026) Cada medida: número grande, unidad y flechas ▲▼ a la
            derecha. Las flechas usan el mismo nudge() que el teclado y la
            franja de Comparar: una sola forma de cambiar una medida. -->
@@ -2198,6 +2319,16 @@ body::after {
         </div>
         <div class="modes" id="modes" aria-live="polite"></div>
       </div>
+      </div>
+
+      <!-- Ejemplos rápidos. Son medidas de EJEMPLO de la maleta del usuario, no
+           límites de ningún operador: por eso tienen nombres genéricos. Desde
+           v9 también llevan hasta el resultado, igual que el botón. -->
+      <div class="presets">
+        <span class="presets__label">¿Aún no la mediste? Prueba con una típica:</span>
+        <button type="button" class="preset" data-cm="40,25,20" data-kg="6">Mochila <small>40×25×20</small></button>
+        <button type="button" class="preset" data-cm="55,40,23" data-kg="9">Maleta de cabina <small>55×40×23</small></button>
+        <button type="button" class="preset" data-cm="60,42,26" data-kg="12">Maleta grande <small>60×42×26</small></button>
       </div>
 
       <!-- Guía de medición: dibujo de frente y de costado. Enseña lo que de
@@ -2347,15 +2478,6 @@ body::after {
         </div>
       </details>
 
-      <!-- Ejemplos rápidos. Son medidas de EJEMPLO de la maleta del usuario, no
-           límites de ningún operador: por eso tienen nombres genéricos. -->
-      <div class="presets">
-        <span class="presets__label">Probar un ejemplo:</span>
-        <button type="button" class="preset" data-cm="40,25,20" data-kg="6">Mochila pequeña <small>40×25×20</small></button>
-        <button type="button" class="preset" data-cm="55,40,23" data-kg="9">Trolley de cabina <small>55×40×23</small></button>
-        <button type="button" class="preset" data-cm="60,42,26" data-kg="12">Maleta de cabina grande <small>60×42×26</small></button>
-      </div>
-
       <p class="panel__foot">
         <span class="tag-example">Maleta de ejemplo</span>
         Medir la maleta entera, con asas y ruedas incluidas. Cualquier cifra se puede cambiar para comprobar la tuya.
@@ -2363,17 +2485,26 @@ body::after {
       <p class="shared-note" id="shared-note" hidden>Estas medidas vienen de un enlace compartido. Cámbialas para probar con tu maleta.</p>
     </section>
 
-    <section class="results" aria-labelledby="results-h">
+    <section class="results" id="results-sec" aria-labelledby="results-h">
       <div class="results__head">
-        <h2 class="sec-h" id="results-h">Tus resultados</h2>
-        <!-- Compartir: el enlace lleva las MEDIDAS, no el veredicto. Quien lo
-             abre ve el chequeo recalculado con los datos vigentes ese día. -->
-        <button type="button" class="share" id="share-btn" title="¿Viajas con alguien? Envíale esta comprobación para que pruebe con su maleta.">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="2"/></svg>
-          <span>Compartir esta comprobación</span>
-        </button>
+        <h2 class="sec-h" id="results-h" tabindex="-1">Tus resultados</h2>
       </div>
-      <div class="share__status" id="share-status" role="status"></div>
+
+      <!-- v9 (20/10/2026): tus compañías, primero y marcadas. Es la MISMA
+           selección del comparador (hasta 3), así que viaja en el enlace
+           compartido (?c=) y el paso 3 las compara sin volver a elegirlas. -->
+      <div class="mine" id="mine">
+        <label class="mine__h" for="mine-q">¿Con qué compañía viajas?</label>
+        <p class="mine__p">Elige hasta 3. Las ponemos primero y marcadas, para que no tengas que buscarlas.</p>
+        <div class="mine__search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <input type="search" id="mine-q" placeholder="Iberia, Ryanair, un tren…" autocomplete="off" spellcheck="false" aria-controls="mine-sug" aria-expanded="false">
+        </div>
+        <div class="mine__sug" id="mine-sug" hidden></div>
+        <p class="mine__note" id="mine-note" role="status"></p>
+        <ul class="mine__list" id="mine-list" aria-label="¿Con qué compañía viajas?"></ul>
+        <button type="button" class="mine__cmp" id="mine-cmp" hidden><span class="flow__n" aria-hidden="true"><i>3</i></span>Compararlas lado a lado</button>
+      </div>
       <div id="summary" class="summary"></div>
       <p id="summary-note" class="summary-note"></p>
       <label class="search">
@@ -2387,6 +2518,18 @@ body::after {
       <div id="results" class="groups" aria-live="polite" aria-busy="true">
         <p class="empty">Cargando los límites de los operadores…</p>
       </div>
+      <!-- v9: compartir va DESPUÉS del resultado. Antes estaba arriba de todo
+           (y en el carrusel), cuando la persona todavía no sabía qué compartir. -->
+      <div class="results__share">
+        <p class="results__share-t"><b>¿Viajas con alguien?</b> Mándale esta comprobación. Verá la misma maleta, calculada con los límites de hoy.</p>
+        <!-- Compartir: el enlace lleva las MEDIDAS, no el veredicto. Quien lo
+             abre ve el chequeo recalculado con los datos vigentes ese día. -->
+        <button type="button" class="share" id="share-btn" title="¿Viajas con alguien? Envíale esta comprobación para que pruebe con su maleta.">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Compartir esta comprobación</span>
+        </button>
+      </div>
+      <div class="share__status" id="share-status" role="status"></div>
     </section>
 
     <!-- Productos: este bloque queda oculto hasta que /products.json tenga
@@ -2438,7 +2581,7 @@ body::after {
   </div>
 
   <!-- ============================================================ pestaña 2 -->
-  <div class="tabpanel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+  <div class="tabpanel" id="panel-compare" aria-labelledby="tab-compare" hidden>
 
     <!-- La maleta, también acá. Son ESPEJOS de los campos principales: no hay
          una segunda medida en juego, como siempre. -->
@@ -2523,6 +2666,90 @@ body::after {
     </section>
   </div>
 
+  <!-- ============================================================ buscador
+       Busca empresas de transporte y guías (y productos, cuando haya alguno
+       verificado). Solo navega: no cambia ningún veredicto. v9: baja de arriba
+       de todo a acá, con título propio; el atajo de la cabecera trae hasta acá. -->
+  <section class="lookup" id="lookup" aria-labelledby="lookup-h">
+  <h2 class="sec-h" id="lookup-h">Buscar las reglas de una compañía</h2>
+  <div class="gsearch" role="search">
+    <label class="gsearch__box">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span class="sr-only">Buscar aerolíneas, trenes, ferris y guías</span>
+      <input type="search" id="gq" placeholder="Buscar Ryanair, un tren, un ferri…" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
+    </label>
+    <div class="gsug" id="gsug" hidden></div>
+  </div>
+  </section>
+
+  <!-- ============================================================ objetos prohibidos
+       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
+       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
+  <section class="banned nogo nogo-c glass" id="banned" aria-labelledby="nogo-h">
+    <div class="nogo-c__head">
+      <h2 class="nogo-c__h" id="nogo-h">¿Qué no se puede llevar en el equipaje de mano?</h2>
+      <p class="nogo__src">Vuelos desde aeropuertos de la UE, equipaje de mano. <a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Fuente: Your Europe (UE)</a> · comprobado el 2026-10-10</p>
+    </div>
+    <ul class="nogo-c__track" id="nogo-track" tabindex="0" aria-label="¿Qué no se puede llevar en el equipaje de mano?">
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M10 3h4v3.2c0 .6.3 1.1.8 1.5 1.4 1 2.2 2.6 2.2 4.3V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-7c0-1.7.8-3.3 2.2-4.3.5-.4.8-.9.8-1.5z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M7.2 13.5h9.6" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
+        <b class="nogo__t">Líquidos de más de 100 ml</b>
+        <span class="nogo__d">Los chicos: en una bolsa transparente de 1 litro</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><circle cx="6.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="17.5" cy="17.5" r="2.8" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M8.5 15.5L18 3.5M15.5 15.5L6 3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
+        <b class="nogo__t">Objetos cortantes</b>
+        <span class="nogo__d">Cuchillos, sacacorchos y tijeras de cierto tamaño: a la bodega</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--no">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M3 8h16.5a1.5 1.5 0 0 1 1.5 1.5V11h-7.5l-1 2.2a1 1 0 0 1-.9.6H10l-1.2 5.4a1 1 0 0 1-1 .8H5.2a1 1 0 0 1-1-1.2L5.4 13H4a1 1 0 0 1-1-1z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M8 8l8 8M16 8l-8 8" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">No en cabina</span>
+        <b class="nogo__t">Armas</b>
+        <span class="nogo__d">Ninguna a bordo</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--never">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M12 21c-3.9 0-6.5-2.6-6.5-6.1 0-3.3 2.3-5.2 3.6-7.5.6 1.6 1.4 2.5 2.4 3 0-3.1 1.2-5.6 3.5-7.4.2 2.8 1.4 4.6 2.6 6.2 1 1.4 1.9 2.8 1.9 5.1 0 4.3-3.3 6.7-7.5 6.7z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Prohibido</span>
+        <b class="nogo__t">Explosivos e inflamables</b>
+        <span class="nogo__d">Ni en cabina ni en bodega</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--limit">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><path d="M5.5 8h13l-1 12.2a1 1 0 0 1-1 .8h-9a1 1 0 0 1-1-.8z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M9 10V6.8a3 3 0 0 1 6 0V10" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><path d="M12 2.5l10 17.5H2z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 9v5" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="12" cy="17" r="1.5" fill="#fff"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Con límites</span>
+        <b class="nogo__t">Duty free</b>
+        <span class="nogo__d">En la bolsa sellada, con el ticket</span></span>
+      </li>
+      <li class="nogo__tile nogo__tile--ok">
+        <span class="nogo__art" aria-hidden="true"><svg class="nogo__ico" viewBox="0 0 24 24"><rect x="3.2" y="8.6" width="17.6" height="6.8" rx="3.4" transform="rotate(-35 12 12)" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M9.6 8.6l4.8 6.8" stroke="currentColor" stroke-width="1.9"/></svg><svg class="nogo__badge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.3l3 3 6-6.3" fill="none" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        <span class="nogo__txt"><span class="nogo__state">Permitido</span>
+        <b class="nogo__t">Medicamentos y comida de bebé</b>
+        <span class="nogo__d">Sin el límite de 100 ml</span></span>
+      </li>
+    </ul>
+    <div class="nogo-c__nav">
+      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="-1" aria-label="Anteriores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="nogo-c__dots" id="nogo-dots" data-label="Página {n} de {total}"></span>
+      <button type="button" class="nogo-c__btn" data-nogo="nogo" data-dir="1" aria-label="Siguientes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </div>
+    <p class="nogo__note">La lista detallada está en la web del aeropuerto de salida, y la aerolínea puede confirmarla antes del viaje.</p>
+    <details class="nogo__more">
+      <summary class="banned__sum nogo__sum"><span class="banned__txt"><b>Fuentes oficiales y lista completa</b></span><span class="banned__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
+      <div class="banned__body">
+      <ul class="banned__links">
+        <li><a href="https://europa.eu/youreurope/citizens/travel/carry/luggage-restrictions/index_es.htm" target="_blank" rel="noopener nofollow">Unión Europea — Your Europe</a><span>Vuelos desde aeropuertos de la UE. Recomienda consultar la web del aeropuerto para ver la lista detallada.</span></li>
+        <li><a href="https://www.gov.uk/hand-luggage-restrictions" target="_blank" rel="noopener nofollow" hreflang="en">Reino Unido — GOV.UK (en inglés)</a><span>Vuelos desde aeropuertos del Reino Unido. Las reglas de líquidos cambiaron en algunos aeropuertos británicos.</span></li>
+        <li><a href="https://www.dgac.gob.cl/pasajeros/articulos-prohibidos" target="_blank" rel="noopener nofollow" hreflang="es">Chile — DGAC</a><span>Vuelos desde Chile. Distinto de la UE: los líquidos no tienen límite de 100 ml, salvo en vuelos a Estados Unidos.</span></li>
+        <li><a href="https://www.aerocivil.gov.co/autoridad_aeronautica/publicaciones/3673/articulos-prohibidos-en-equipajes/" target="_blank" rel="noopener nofollow" hreflang="es">Colombia — Aerocivil</a><span>Vuelos desde Colombia. Distingue vuelos nacionales e internacionales: el límite de 100 ml para líquidos figura solo para los internacionales.</span></li>
+        <li><a href="https://www.aeropuertosgap.com.mx/es/informacion-util-para-viajar/equipaje.html" target="_blank" rel="noopener nofollow" hreflang="es">México — Grupo Aeroportuario del Pacífico</a><span>Sus 12 aeropuertos de la región del Pacífico. Para otros aeropuertos de México, consultar la web de ese aeropuerto.</span></li>
+      </ul>
+      <p class="banned__foot">¿Se sale desde otro país o hay dudas? La web del aeropuerto de salida tiene la lista definitiva, y la aerolínea puede confirmarlo antes del viaje.</p>
+      </div>
+    </details>
+  </section>
+
+
   <!-- Enlaces reales a cada ficha y a las guías. Van en el HTML servido, no
        los pone el JS: si dependieran del script, un rastreador podría no
        verlos nunca. Quedan fuera de las pestañas a propósito. -->
@@ -2606,7 +2833,7 @@ body::after {
   "nav_label": "Idioma",
   "h1": "¿Entra tu maleta?",
   "standfirst": "Escribe las medidas de tu maleta y mira en segundos con qué aerolíneas, trenes y ferris puede viajar.",
-  "panel_title": "Tu maleta",
+  "panel_title": "Mide tu maleta",
   "units_label": "Unidades",
   "f_length": "Largo",
   "f_width": "Ancho",
@@ -2763,10 +2990,10 @@ body::after {
   "stat_ops_label": "operadores, revisados por una persona",
   "stat_modes_label": "tipos de transporte",
   "stat_copied_label": "límites copiados de blogs",
-  "presets_label": "Probar un ejemplo:",
-  "preset_backpack": "Mochila pequeña",
-  "preset_trolley": "Trolley de cabina",
-  "preset_big": "Maleta de cabina grande",
+  "presets_label": "¿Aún no la mediste? Prueba con una típica:",
+  "preset_backpack": "Mochila",
+  "preset_trolley": "Maleta de cabina",
+  "preset_big": "Maleta grande",
   "summary_h2": "Tus resultados",
   "card_read_rule": "Leer su regla",
   "card_rule_short": "Publica una regla escrita, no medidas.",
@@ -2990,7 +3217,23 @@ body::after {
   "cmp_all_none": "No entra en ninguna",
   "cmp_bags_note": "Solo por medidas. El peso y la tarifa que compres pueden cambiar la respuesta: toca una maleta para comprobarla entera.",
   "fiche_banned_line": "Los líquidos, objetos cortantes y demás prohibidos dependen del aeropuerto de salida, no de la aerolínea.",
-  "fiche_banned_link": "Ver la lista para aeropuertos de la UE y las fuentes oficiales"
+  "fiche_banned_link": "Ver la lista para aeropuertos de la UE y las fuentes oficiales",
+  "steps_label": "Pasos",
+  "step_measure": "Medidas",
+  "step_results": "Resultados",
+  "step_compare": "Comparar",
+  "cta_results": "Ver resultados",
+  "quick_label": "Atajos",
+  "quick_rules": "Reglas de una compañía",
+  "quick_banned": "Qué no puedo llevar",
+  "lookup_h": "Buscar las reglas de una compañía",
+  "mine_h": "¿Con qué compañía viajas?",
+  "mine_p": "Elige hasta 3. Las ponemos primero y marcadas, para que no tengas que buscarlas.",
+  "mine_ph": "Iberia, Ryanair, un tren…",
+  "mine_none": "Ninguna compañía de esta lista coincide con «{q}».",
+  "mine_add": "Fijar {name} arriba",
+  "mine_remove": "Quitar {name}",
+  "mine_cmp": "Compararlas lado a lado"
 };
   var PAGE_LANG = "es";
   /* ruta de la ficha de cada tipo en este idioma; la calcula build_site.py */
@@ -3415,6 +3658,11 @@ body::after {
      en el navegador es el modo noche; guardar esta selección rompería esa promesa. */
   var MAX_CMP = 3;
   var cmpSel = [];
+  /* v9: el comparador arranca con las primeras aerolíneas para no verse vacío,
+     pero esas NO son "tus compañías". mineChosen pasa a true recién cuando la
+     persona elige o quita una (o llega con ?c= en el enlace). La primera
+     elección reemplaza a las de arranque en lugar de sumarse a ellas. */
+  var mineChosen = false;
   var firstRender = true;
   var lastVerdicts = [];
 
@@ -3561,7 +3809,7 @@ body::after {
   function cardNode(v, i) {
     var band = BAND_BY_KEY[v.band];
     var on = cmpSel.indexOf(v.op.id) >= 0;
-    var li = node("li", "rcard " + band.cls + (on ? " is-cmp" : ""));
+    var li = node("li", "rcard " + band.cls + (on ? " is-cmp" : "") + (on && mineChosen ? " is-mine" : ""));
     li.setAttribute("data-band", band.id);
     li.setAttribute("data-id", v.op.id);
     li.style.setProperty("--i", i);
@@ -3678,6 +3926,10 @@ body::after {
   }
 
   function toggleCmp(id) {
+    if (!mineChosen) {
+      if (cmpSel.indexOf(id) < 0) cmpSel = [];
+      mineChosen = true;
+    }
     var at = cmpSel.indexOf(id);
     if (at >= 0) {
       cmpSel.splice(at, 1);
@@ -3765,7 +4017,7 @@ body::after {
     });
     if (!rows.length) list.appendChild(node("li", "empty oplist__none", esc(t("cmp_none_match"))));
     document.getElementById("cmp-count").textContent = t("cmp_count", { n: cmpSel.length, max: MAX_CMP });
-    document.getElementById("cmp-badge").textContent = cmpSel.length ? String(cmpSel.length) : "";
+    document.getElementById("cmp-badge").textContent = (cmpSel.length && mineChosen) ? String(cmpSel.length) : "";
   }
 
   function statusBadge(allow) {
@@ -4118,6 +4370,115 @@ body::after {
     document.addEventListener("click", function (e) { if (!e.target.closest(".gsearch")) close(); });
   })();
 
+  /* ---------- tus compañías (v9, 20/10/2026) ----------
+     Arriba de los resultados: la persona escribe su compañía, ve enseguida
+     cómo le va a SU maleta (el mismo verdictFor de todo el sitio) y la fija.
+     Las fijadas quedan primero, con el veredicto grande. No hay cuenta nueva:
+     cada tarjeta muestra el mismo veredicto y el mismo detalle que la fila
+     de ese operador en los grupos de abajo. */
+  var mineQ = document.getElementById("mine-q"),
+      mineSug = document.getElementById("mine-sug"),
+      mineNote = document.getElementById("mine-note");
+
+  function vbadge(v) {
+    var band = BAND_BY_KEY[v.band];
+    return '<span class="vbadge ' + band.cls + '">' + ICON[band.id] + esc(v.verdict) + "</span>";
+  }
+
+  function mineNoteSet(msg) {
+    mineNote.textContent = msg || "";
+    mineNote.classList.toggle("is-on", !!msg);
+  }
+
+  function renderMine(verdicts) {
+    var list = document.getElementById("mine-list");
+    var go = document.getElementById("mine-cmp");
+    list.innerHTML = "";
+    var mine = (verdicts && mineChosen) ? cmpSel.map(function (id) {
+      for (var i = 0; i < verdicts.length; i++) if (verdicts[i].op.id === id) return verdicts[i];
+      return null;
+    }).filter(Boolean) : [];
+    go.hidden = !mine.length;
+    mine.forEach(function (v) {
+      var band = BAND_BY_KEY[v.band];
+      var li = node("li", "mcard " + band.cls);
+      var head = node("div", "mcard__head");
+      var name = FICHE_PATHS[v.op.type]
+        ? '<a class="mcard__name" href="' + FICHE_PATHS[v.op.type] + encodeURIComponent(v.op.id) + '/">' + esc(v.op.name) + "</a>"
+        : '<span class="mcard__name">' + esc(v.op.name) + "</span>";
+      head.innerHTML = '<span class="rcard__icon">' + (ICON[v.op.type] || ICON.air) + "</span>" + name;
+      var x = node("button", "mcard__x", "×");
+      x.type = "button";
+      x.setAttribute("aria-label", t("mine_remove", { name: v.op.name }));
+      x.addEventListener("click", function () { mineNoteSet(""); toggleCmp(v.op.id); mineQ.focus(); });
+      head.appendChild(x);
+      li.appendChild(head);
+      li.appendChild(node("div", "mcard__verdict", vbadge(v)));
+      if (v.detail) li.appendChild(node("p", "mcard__detail", v.detail));
+      v.flags.forEach(function (f) {
+        if (f.tone === "band") li.appendChild(node("p", "mcard__flag", esc(f.text)));
+      });
+      list.appendChild(li);
+    });
+  }
+
+  function closeMine() { mineSug.hidden = true; mineQ.setAttribute("aria-expanded", "false"); }
+
+  function pinMine(id) {
+    closeMine();
+    mineQ.value = "";
+    if (mineChosen && cmpSel.indexOf(id) >= 0) { mineNoteSet(""); return; }
+    if (mineChosen && cmpSel.length >= MAX_CMP) { mineNoteSet(t("compare_limit", { max: MAX_CMP })); return; }
+    mineNoteSet("");
+    toggleCmp(id);
+  }
+
+  function suggestMine() {
+    var raw = mineQ.value.trim(), q = fold(raw);
+    if (!q || !lastVerdicts.length) { closeMine(); return; }
+    var hits = lastVerdicts.filter(function (v) {
+      return fold(v.op.name).indexOf(q) >= 0 && !(mineChosen && cmpSel.indexOf(v.op.id) >= 0);
+    }).sort(function (x, y) {
+      return (fold(x.op.name).indexOf(q) - fold(y.op.name).indexOf(q)) || x.op.name.localeCompare(y.op.name);
+    }).slice(0, 6);
+    mineSug.innerHTML = "";
+    if (!hits.length) {
+      mineSug.appendChild(node("p", "mine__none", esc(t("mine_none", { q: raw }))));
+    }
+    hits.forEach(function (v) {
+      var b = node("button", "msug");
+      b.type = "button";
+      b.setAttribute("data-id", v.op.id);
+      b.innerHTML = '<span class="msug__name">' + esc(v.op.name) + "<small>" + esc(MODE_LABEL[v.op.type]) + "</small></span>" +
+        vbadge(v) + '<span class="msug__add" aria-hidden="true">+</span>';
+      b.setAttribute("aria-label", t("mine_add", { name: v.op.name }) + " · " + v.verdict);
+      b.addEventListener("click", function () { pinMine(v.op.id); mineQ.focus(); });
+      mineSug.appendChild(b);
+    });
+    mineSug.hidden = false;
+    mineQ.setAttribute("aria-expanded", "true");
+  }
+
+  mineQ.addEventListener("input", suggestMine);
+  mineQ.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { mineQ.value = ""; closeMine(); }
+    else if (e.key === "Enter") {
+      var first = mineSug.querySelector(".msug");
+      if (!mineSug.hidden && first) { e.preventDefault(); pinMine(first.getAttribute("data-id")); }
+    } else if (e.key === "ArrowDown") {
+      var f = mineSug.querySelector(".msug");
+      if (!mineSug.hidden && f) { e.preventDefault(); f.focus(); }
+    }
+  });
+  mineSug.addEventListener("keydown", function (e) {
+    var items = Array.prototype.slice.call(mineSug.querySelectorAll(".msug"));
+    var i = items.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" && i >= 0) { e.preventDefault(); (items[i + 1] || items[i]).focus(); }
+    else if (e.key === "ArrowUp" && i >= 0) { e.preventDefault(); (i ? items[i - 1] : mineQ).focus(); }
+    else if (e.key === "Escape") { closeMine(); mineQ.focus(); }
+  });
+  document.addEventListener("click", function (e) { if (!e.target.closest(".mine")) closeMine(); });
+
   function render() {
     if (!dataset) return;
     var b = bag();
@@ -4128,6 +4489,7 @@ body::after {
       document.getElementById("summary").innerHTML = "";
       document.getElementById("oplist").innerHTML = "";
       document.getElementById("compare-body").innerHTML = "";
+      renderMine(null);
       renderModes(null);
       syncMirrors();
       return;
@@ -4137,28 +4499,38 @@ body::after {
     renderGroups(lastVerdicts);
     renderOpList(lastVerdicts);
     renderCompare(lastVerdicts);
+    renderMine(lastVerdicts);
     renderModes(lastVerdicts);
     syncMirrors();
     firstRender = false;
   }
 
-  /* ---------- pestañas ----------
+  /* ---------- pasos (antes pestañas) ----------
      Hash #compare para poder enlazar directo al comparador. history.
-     replaceState para que cambiar de pestaña no llene el historial ni haga
-     saltar la página. */
+     replaceState para que cambiar de paso no llene el historial ni haga
+     saltar la página. v9: tres pasos; 1 (medidas) y 2 (resultados) son la
+     misma vista, 3 es el comparador. aria-current="step" marca el actual. */
   var tabs = { check: document.getElementById("tab-check"), compare: document.getElementById("tab-compare") };
   var panels = { check: document.getElementById("panel-check"), compare: document.getElementById("panel-compare") };
+  var flowBtns = Array.prototype.slice.call(document.querySelectorAll(".flow__b"));
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var activeTab = "check";
+  var reached = 1;   /* hasta qué paso llegó la persona en la vista de medidas */
+
+  function paintFlow() {
+    var cur = activeTab === "compare" ? 3 : reached;
+    flowBtns.forEach(function (b) {
+      var k = Number(b.getAttribute("data-step"));
+      if (k === cur) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+      b.classList.toggle("is-done", k < cur);
+    });
+  }
 
   function showTab(name, focusTab) {
     if (!tabs[name]) return;
     activeTab = name;
-    Object.keys(tabs).forEach(function (k) {
-      var on = k === name;
-      tabs[k].setAttribute("aria-selected", String(on));
-      tabs[k].tabIndex = on ? 0 : -1;
-      panels[k].hidden = !on;
-    });
+    Object.keys(tabs).forEach(function (k) { panels[k].hidden = k !== name; });
+    paintFlow();
     if (focusTab) tabs[name].focus({ preventScroll: true });
     try {
       history.replaceState(null, "", location.pathname + location.search + (name === "compare" ? "#compare" : ""));
@@ -4166,16 +4538,33 @@ body::after {
   }
 
   function scrollToTabs() {
-    document.querySelector(".tabs").scrollIntoView({ block: "start" });
+    document.querySelector(".flow").scrollIntoView({ block: "start" });
   }
 
-  Object.keys(tabs).forEach(function (k) {
-    tabs[k].addEventListener("click", function () { showTab(k); });
-    tabs[k].addEventListener("keydown", function (e) {
-      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" && e.key !== "Home" && e.key !== "End") return;
-      e.preventDefault();
-      showTab(k === "check" ? "compare" : "check", true);
-    });
+  /* El "enter" que la gente busca: no calcula nada (ya está calculado), lleva
+     hasta el resultado y pasa al paso 2. El foco va al título de resultados
+     para que un lector de pantalla siga el mismo camino. */
+  function goToResults() {
+    showTab("check");
+    reached = 2;
+    paintFlow();
+    var sec = document.getElementById("results-sec");
+    sec.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    document.getElementById("results-h").focus({ preventScroll: true });
+  }
+
+  tabs.check.addEventListener("click", function () {
+    showTab("check");
+    reached = 1;
+    paintFlow();
+    document.querySelector(".panel").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  });
+  document.getElementById("step-results").addEventListener("click", goToResults);
+  tabs.compare.addEventListener("click", function () { showTab("compare"); });
+  document.getElementById("cta-results").addEventListener("click", goToResults);
+  document.getElementById("mine-cmp").addEventListener("click", function () {
+    showTab("compare");
+    document.querySelector(".cmpout").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   });
 
   /* ---------- guía de medición ---------- */
@@ -4300,119 +4689,11 @@ body::after {
     if (kg !== null) { els.w.value = String(kg); any = true; }
     var c = incoming.get("c");
     if (c) { sharedCmp = c.split(",").slice(0, MAX_CMP); any = true; }
-    if (any) document.getElementById("shared-note").hidden = false;
+    if (any) { document.getElementById("shared-note").hidden = false; reached = 2; }
   })();
 
-  /* ---------- carrusel ----------
-     Deslizable con el dedo (scroll-snap nativo). Avanza solo cada 7 s salvo
-     que la persona lo esté mirando de cerca (mouse encima, foco adentro, un
-     toque), lo haya pausado, o pida menos movimiento en el sistema. */
-  var track = document.getElementById("slides-track");
-  var slideEls = Array.prototype.slice.call(track.querySelectorAll(".slide"));
-  var dotEls = Array.prototype.slice.call(document.querySelectorAll("#slides-dots button"));
-  var pauseBtn = document.getElementById("slides-pause");
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var slideIdx = 0, paused = reduce, hovering = false, timer = null;
-
-  function markDots(i) {
-    slideIdx = i;
-    dotEls.forEach(function (d, k) {
-      if (k === i) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
-    });
-  }
-
-  /* (11/10/2026) Pasar de diapositiva con una curva que arranca rápido y
-     frena suave al final, en lugar del "smooth" del navegador, que frena de
-     golpe. Durante la animación se apaga el scroll-snap (si no, el navegador
-     tironea cada cuadro hacia la diapositiva más cercana) y al terminar se
-     vuelve a encender. Con "menos movimiento" en el sistema, salta directo. */
-  var glide = null;
-  function easeOut(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }
-  function glideTo(left) {
-    if (glide) cancelAnimationFrame(glide.raf);
-    var from = track.scrollLeft, dist = left - from;
-    if (reduce || Math.abs(dist) < 2 || !window.requestAnimationFrame) { track.scrollLeft = left; return; }
-    var dur = Math.min(1100, 650 + Math.abs(dist) * 0.25), t0 = null;
-    track.style.scrollSnapType = "none";
-    glide = { raf: 0 };
-    function frame(now) {
-      if (t0 === null) t0 = now;
-      var k = Math.min(1, (now - t0) / dur);
-      track.scrollLeft = from + dist * easeOut(k);
-      if (k < 1) { glide.raf = requestAnimationFrame(frame); }
-      else { track.scrollLeft = left; track.style.scrollSnapType = ""; glide = null; }
-    }
-    glide.raf = requestAnimationFrame(frame);
-  }
-  /* si la persona toma el carrusel con el dedo, la animación se corta ahí */
-  track.addEventListener("touchstart", function () {
-    if (glide) { cancelAnimationFrame(glide.raf); glide = null; track.style.scrollSnapType = ""; }
-  }, { passive: true });
-
-  function goSlide(i) {
-    var n = slideEls.length;
-    i = ((i % n) + n) % n;
-    glideTo(i * track.clientWidth);
-    markDots(i);
-  }
-
-  function paintPause() {
-    pauseBtn.setAttribute("aria-pressed", String(paused));
-    var label = paused ? pauseBtn.getAttribute("data-play") : pauseBtn.getAttribute("data-pause");
-    pauseBtn.setAttribute("aria-label", label);
-    pauseBtn.setAttribute("title", label);
-    pauseBtn.classList.toggle("is-paused", paused);
-  }
-
-  function tick() {
-    if (paused || hovering || document.hidden) return;
-    goSlide(slideIdx + 1);
-  }
-
-  /* Cuando la persona elige a mano (punto, flecha o teclado), el contador de
-     7 s vuelve a empezar: así no salta solo justo después de que eligió. */
-  function restartTimer() {
-    if (reduce) return;
-    clearInterval(timer);
-    timer = setInterval(tick, 7000);
-  }
-  function stepTo(i) { goSlide(i); restartTimer(); }
-
-  dotEls.forEach(function (d, i) {
-    d.addEventListener("click", function () { stepTo(i); });
-  });
-  document.getElementById("slides-prev").addEventListener("click", function () { stepTo(slideIdx - 1); });
-  document.getElementById("slides-next").addEventListener("click", function () { stepTo(slideIdx + 1); });
-  /* Flechas del teclado con el foco dentro del carrusel (no en un campo de texto). */
-  document.getElementById("slides").addEventListener("keydown", function (e) {
-    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-    if (e.key === "ArrowLeft") { e.preventDefault(); stepTo(slideIdx - 1); }
-    else if (e.key === "ArrowRight") { e.preventDefault(); stepTo(slideIdx + 1); }
-  });
-  pauseBtn.addEventListener("click", function () { paused = !paused; paintPause(); });
-
-  var slidesBox = document.getElementById("slides");
-  slidesBox.addEventListener("mouseenter", function () { hovering = true; });
-  slidesBox.addEventListener("mouseleave", function () { hovering = false; });
-  slidesBox.addEventListener("focusin", function () { hovering = true; });
-  slidesBox.addEventListener("focusout", function () { hovering = false; });
-  /* un toque con el dedo = la persona tomó el control: se detiene del todo */
-  track.addEventListener("touchstart", function () { paused = true; paintPause(); }, { passive: true });
-
-  var scrollT = null;
-  track.addEventListener("scroll", function () {
-    clearTimeout(scrollT);
-    scrollT = setTimeout(function () {
-      if (glide) return;  /* a mitad de la animación los puntos ya están bien */
-      var w = track.clientWidth || 1;
-      markDots(Math.round(track.scrollLeft / w));
-    }, 90);
-  }, { passive: true });
-
-  paintPause();
-  if (!reduce) timer = setInterval(tick, 7000);
-
-  /* Botones de las diapositivas: cada uno lleva a algo real de la página. */
+  /* Botones con data-go (hoy, el "Cómo medir" de la franja del comparador):
+     cada uno lleva a algo real de la página. */
   Array.prototype.forEach.call(document.querySelectorAll("[data-go]"), function (btn) {
     btn.addEventListener("click", function () {
       var go = btn.getAttribute("data-go");
@@ -4479,6 +4760,7 @@ body::after {
       els.w.value = String(round1(fromCanonical(kg, "weight")));
       exact.set(els.w, { shown: els.w.value, canonical: kg });
       render();
+      goToResults();
     });
   });
 
@@ -4540,7 +4822,15 @@ body::after {
     }, { passive: false });
   });
 
-  if (location.hash === "#compare") showTab("compare");
+  if (location.hash === "#compare") showTab("compare"); else paintFlow();
+
+  /* Atajo "Qué no puedo llevar": abre la franja de prohibidos al llegar. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-quick="banned"]'), function (a) {
+    a.addEventListener("click", function () {
+      var d = document.querySelector("#banned details, details#banned");
+      if (d) d.open = true;
+    });
+  });
 
   /* Ruta absoluta desde la raíz: /es/ y las fichas cargan el MISMO dataset.
      Con "./operators.json" cada carpeta buscaría su propia copia. */
@@ -4570,7 +4860,7 @@ body::after {
         var fromLink = sharedCmp.filter(function (id, i) {
           return known.indexOf(id) >= 0 && sharedCmp.indexOf(id) === i;
         });
-        if (fromLink.length) cmpSel = fromLink;
+        if (fromLink.length) { cmpSel = fromLink; mineChosen = true; }
       }
       render();
       return fetch("/products.json", { cache: "no-cache" })

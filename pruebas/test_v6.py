@@ -12,7 +12,8 @@ test_v6.py — lo que agregó el diseño v6 (01/10/2026), en Chromium real.
    cada bolso dice en cuántas aerolíneas entra gratis según verdictFor(), y
    "Probar" carga sus medidas y muestra qué producto se está probando.
 4. VOLVER ARRIBA: aparece al bajar y lleva arriba de todo, en la home y en una ficha.
-5. Las cuatro diapositivas tienen ilustración y ninguna rompe el ancho del teléfono.
+5. (v9, 20/10/2026) Sin carrusel: en el teléfono las medidas se ven sin bajar, y los
+   dos atajos de la cabecera llevan a donde dicen.
 
 Uso:  python3 pruebas/test_v6.py
 """
@@ -178,33 +179,27 @@ def main() -> int:
             check(page.evaluate("window.scrollY") == 0, f"{path}: lleva arriba de todo")
             ctx.close()
 
-        # ------------------------------------------------ 5. carrusel
-        print("\n[carrusel]")
-        ctx = browser.new_context(viewport={"width": 390, "height": 844})
+        # ------------------------------------------------ 5. cabecera sin carrusel (v9)
+        print("\n[cabecera: medidas a la vista y atajos]")
+        ctx = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
         page = ctx.new_page()
-        page.goto(BASE + "/")
-        arts = page.eval_on_selector_all(".slide__art svg", "els => els.length")
-        check(arts == 4, f"las cuatro diapositivas tienen ilustración ({arts})")
-
-        # Flechas (10/10/2026): avanzan, retroceden y dan la vuelta.
-        cur = "document.querySelector('#slides-dots [aria-current]').getAttribute('aria-controls')"
-        page.click("#slides-next"); page.wait_for_timeout(700)
-        check(page.evaluate(cur) == "slide-2", "la flecha derecha pasa a la diapositiva 2")
-        page.click("#slides-prev"); page.click("#slides-prev"); page.wait_for_timeout(900)
-        check(page.evaluate(cur) == "slide-4", "la flecha izquierda da la vuelta hasta la última")
-        page.focus("#slides-next"); page.keyboard.press("ArrowRight"); page.wait_for_timeout(900)
-        check(page.evaluate(cur) == "slide-1", "la tecla → avanza con el foco en el carrusel")
-        check(bool(page.get_attribute("#slides-prev", "aria-label")) and bool(page.get_attribute("#slides-next", "aria-label")),
-              "las dos flechas tienen nombre para lectores de pantalla")
-        # En el teléfono, la fila de botones no pisa el panel de texto.
-        clash = page.evaluate("""() => {
-          const n = document.querySelector('.slides__nav').getBoundingClientRect();
-          return [...document.querySelectorAll('.slide__text')].some(e => {
-            const t = e.getBoundingClientRect();
-            return t.left >= 0 && t.left < innerWidth && n.top < t.bottom;
-          });
-        }""")
-        check(not clash, "en el teléfono, las flechas no tapan el texto de la diapositiva")
+        for path in ("/", "/es/"):
+            page.goto(BASE + path)
+            check(page.locator("#slides, .slides").count() == 0, f"{path}: no hay carrusel")
+            box = page.evaluate("""() => { const r = document.getElementById('dim-a').getBoundingClientRect();
+                                         const c = document.getElementById('cta-results').getBoundingClientRect();
+                                         return [Math.round(r.top), Math.round(c.bottom)]; }""")
+            check(box[0] < 844, f"{path}: el primer campo de medidas se ve sin bajar (empieza en {box[0]} px)")
+            page.click('[data-quick="banned"]')
+            page.wait_for_timeout(1500)  # el sitio usa desplazamiento suave
+            t = page.evaluate("Math.round(document.getElementById('banned').getBoundingClientRect().top)")
+            check(-5 <= t < 200, f"{path}: el atajo «qué no puedo llevar» lleva a la franja ({t} px)")
+            page.goto(BASE + path)
+            page.click('[data-quick="rules"]')
+            page.wait_for_timeout(1500)
+            check(page.locator("#gq").is_visible() and
+                  page.evaluate("document.getElementById('lookup').getBoundingClientRect().top") < 300,
+                  f"{path}: el atajo de reglas lleva al buscador de compañías")
         ctx.close()
 
         # ------------------------------------------------ 6. objetos prohibidos (10/10/2026)

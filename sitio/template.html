@@ -31,8 +31,9 @@
 <body class="home">
 
 <!-- ============================================================ cabecera
-     v5 (26/09/2026): la marca más grande, y el carrusel reemplaza a la
-     ilustración de la maleta saltando. Nada de acá es un dato de equipaje. -->
+     v9 (20/10/2026): sin carrusel. Lo primero que se ve es para qué sirve el
+     sitio y, enseguida, las medidas. Dos atajos chicos para quien vino a otra
+     cosa (las reglas de una compañía, lo que no se puede llevar). -->
 <header class="hero">
   <div class="hero__inner">
     <div class="topbar">
@@ -54,105 +55,34 @@
         <p class="hero__kicker">{{hero_kicker}}</p>
         <h1>{{h1}}</h1>
         <p class="standfirst">{{standfirst}}</p>
+        <nav class="quick" aria-label="{{quick_label}}">
+          <a class="quick__a" href="#lookup" data-quick="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>{{quick_rules}}</a>
+          <a class="quick__a" href="#banned" data-quick="banned"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>{{quick_banned}}</a>
+        </nav>
       </div>
 
-      <!-- Carrusel. Se mueve solo cada 7 s, se frena al pasar el mouse, al
-           tocarlo o al enfocarlo, tiene botón de pausa, y con
-           prefers-reduced-motion no se mueve nunca. Cada diapositiva lleva a
-           algo concreto de la página: no es decoración. -->
-      <section class="slides" id="slides" aria-roledescription="{{slides_role}}" aria-label="{{slides_label}}">
-        <div class="slides__viewport" id="slides-track">
-          <article class="slide slide--measure" id="slide-1" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_1_LABEL}}">
-            <div class="slide__art" aria-hidden="true">{{SCENE_MEASURE}}</div>
-            <div class="slide__text">
-              <p class="slide__h">{{s1_h}}</p>
-              <p class="slide__p">{{s1_p}}</p>
-              <button type="button" class="slide__cta" data-go="measure">{{s1_cta}}</button>
-            </div>
-          </article>
-          <article class="slide slide--compare" id="slide-2" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_2_LABEL}}">
-            <div class="slide__art" aria-hidden="true">{{SCENE_COMPARE}}</div>
-            <div class="slide__text">
-              <p class="slide__h">{{s2_h}}</p>
-              <p class="slide__p">{{s2_p}}</p>
-              <button type="button" class="slide__cta" data-go="compare">{{s2_cta}}</button>
-            </div>
-          </article>
-          <article class="slide slide--trust" id="slide-3" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_3_LABEL}}">
-            <div class="slide__art" aria-hidden="true">{{SCENE_TRUST}}</div>
-            <div class="slide__text">
-              <p class="slide__h">{{s3_h}}</p>
-              <p class="slide__p">{{s3_p}}</p>
-            </div>
-          </article>
-          <article class="slide slide--share" id="slide-4" role="group" aria-roledescription="{{slide_role}}" aria-label="{{SLIDE_4_LABEL}}">
-            <div class="slide__art" aria-hidden="true">{{SCENE_SHARE}}</div>
-            <div class="slide__text">
-              <p class="slide__h">{{s4_h}}</p>
-              <p class="slide__p">{{s4_p}}</p>
-              <button type="button" class="slide__cta" data-go="share">{{s4_cta}}</button>
-            </div>
-          </article>
-        </div>
-        <div class="slides__nav">
-          <button type="button" class="slides__arrow" id="slides-prev" aria-controls="slides-track" aria-label="{{slides_prev}}" title="{{slides_prev}}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6 8.5 12l6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button type="button" class="slides__pause" id="slides-pause" aria-pressed="false" data-pause="{{slides_pause}}" data-play="{{slides_play}}" aria-label="{{slides_pause}}" title="{{slides_pause}}">
-            <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="6" width="3.5" height="12" rx="1.2" fill="currentColor"/><rect x="13.5" y="6" width="3.5" height="12" rx="1.2" fill="currentColor"/></svg>
-            <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5v11l9-5.5z" fill="currentColor"/></svg>
-          </button>
-          <div class="slides__dots" id="slides-dots">
-            <button type="button" aria-controls="slide-1" aria-label="{{SLIDE_1_GO}}" aria-current="true"></button>
-            <button type="button" aria-controls="slide-2" aria-label="{{SLIDE_2_GO}}"></button>
-            <button type="button" aria-controls="slide-3" aria-label="{{SLIDE_3_GO}}"></button>
-            <button type="button" aria-controls="slide-4" aria-label="{{SLIDE_4_GO}}"></button>
-          </div>
-          <button type="button" class="slides__arrow" id="slides-next" aria-controls="slides-track" aria-label="{{slides_next}}" title="{{slides_next}}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </section>
     </div>
   </div>
 </header>
 
 <main class="shell shell--home">
 
-  <!-- ============================================================ buscador
-       Busca empresas de transporte y guías (y productos, cuando haya alguno
-       verificado). Solo navega: no cambia ningún veredicto. -->
-  <div class="gsearch" role="search">
-    <label class="gsearch__box">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span class="sr-only">{{gsearch_label}}</span>
-      <input type="search" id="gq" placeholder="{{gsearch_ph}}" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
-    </label>
-    <div class="gsug" id="gsug" hidden></div>
-  </div>
-
-  <!-- ============================================================ objetos prohibidos
-       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
-       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
-{{BANNED_BLOCK}}
-
-  <!-- ============================================================ pestañas
-       Dos vistas del MISMO cálculo: la maleta de la persona contra el mismo
-       dataset. Cambiar de pestaña nunca cambia un veredicto. -->
-  <div class="tabs" role="tablist" aria-label="{{tabs_label}}">
-    <button type="button" class="tabs__tab" role="tab" id="tab-check" aria-controls="panel-check" aria-selected="true" tabindex="0">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4.5" y="7" width="15" height="12.5" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 7V5.2A1.2 1.2 0 0 1 10.2 4h3.6A1.2 1.2 0 0 1 15 5.2V7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9.5 13l2 2 3.5-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span>{{tab_check}}</span>
-    </button>
-    <button type="button" class="tabs__tab" role="tab" id="tab-compare" aria-controls="panel-compare" aria-selected="false" tabindex="-1">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="7" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/><rect x="14" y="4" width="7" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg>
-      <span>{{tab_compare}}</span>
-      <span class="tabs__badge" id="cmp-badge"></span>
-    </button>
-  </div>
+  <!-- ============================================================ pasos
+       v9 (20/10/2026): las pestañas pasan a ser tres pasos. 1 y 2 viven en la
+       misma vista (medidas y resultados); 3 es el comparador. Siguen siendo
+       dos vistas del MISMO cálculo: cambiar de paso nunca cambia un veredicto.
+       Los id tab-check y tab-compare se conservan (los usan las pruebas y los
+       enlaces #compare). -->
+  <nav class="flow" id="flow" aria-label="{{steps_label}}">
+    <ol class="flow__list">
+      <li><button type="button" class="flow__b" id="tab-check" data-step="1" aria-controls="panel-check"><span class="flow__n" aria-hidden="true"><i>1</i></span><span class="flow__t">{{step_measure}}</span></button></li>
+      <li><button type="button" class="flow__b" id="step-results" data-step="2" aria-controls="results-sec"><span class="flow__n" aria-hidden="true"><i>2</i></span><span class="flow__t">{{step_results}}</span></button></li>
+      <li><button type="button" class="flow__b" id="tab-compare" data-step="3" aria-controls="panel-compare"><span class="flow__n" aria-hidden="true"><i>3</i></span><span class="flow__t">{{step_compare}}</span><span class="tabs__badge" id="cmp-badge"></span></button></li>
+    </ol>
+  </nav>
 
   <!-- ============================================================ pestaña 1 -->
-  <div class="tabpanel" id="panel-check" role="tabpanel" aria-labelledby="tab-check">
+  <div class="tabpanel" id="panel-check">
 
     <section class="panel" aria-labelledby="panel-title">
       <div class="panel__head">
@@ -167,6 +97,7 @@
 
       <div class="chosen" id="chosen" hidden></div>
       <div class="panel__grid">
+      <div class="fieldcol">
       <div class="fields">
         <div class="field">
           <label for="dim-a"><span class="m-key m-key--a" aria-hidden="true">1</span>{{f_length}}</label>
@@ -213,6 +144,11 @@
           </div>
         </div>
       </div>
+      <!-- v9 (20/10/2026): el resultado se calcula solo, pero mucha gente
+           busca un "enter". Este botón no calcula nada nuevo: lleva hasta el
+           resultado y marca el paso 2. -->
+      <button type="button" class="cta" id="cta-results"><span>{{cta_results}}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v13M6 12.5l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
       <!-- (10/10/2026) Cada medida: número grande, unidad y flechas ▲▼ a la
            derecha. Las flechas usan el mismo nudge() que el teclado y la
            franja de Comparar: una sola forma de cambiar una medida. -->
@@ -229,6 +165,16 @@
         </div>
         <div class="modes" id="modes" aria-live="polite"></div>
       </div>
+      </div>
+
+      <!-- Ejemplos rápidos. Son medidas de EJEMPLO de la maleta del usuario, no
+           límites de ningún operador: por eso tienen nombres genéricos. Desde
+           v9 también llevan hasta el resultado, igual que el botón. -->
+      <div class="presets">
+        <span class="presets__label">{{presets_label}}</span>
+        <button type="button" class="preset" data-cm="40,25,20" data-kg="6">{{preset_backpack}} <small>40×25×20</small></button>
+        <button type="button" class="preset" data-cm="55,40,23" data-kg="9">{{preset_trolley}} <small>55×40×23</small></button>
+        <button type="button" class="preset" data-cm="60,42,26" data-kg="12">{{preset_big}} <small>60×42×26</small></button>
       </div>
 
       <!-- Guía de medición: dibujo de frente y de costado. Enseña lo que de
@@ -259,15 +205,6 @@
         </div>
       </details>
 
-      <!-- Ejemplos rápidos. Son medidas de EJEMPLO de la maleta del usuario, no
-           límites de ningún operador: por eso tienen nombres genéricos. -->
-      <div class="presets">
-        <span class="presets__label">{{presets_label}}</span>
-        <button type="button" class="preset" data-cm="40,25,20" data-kg="6">{{preset_backpack}} <small>40×25×20</small></button>
-        <button type="button" class="preset" data-cm="55,40,23" data-kg="9">{{preset_trolley}} <small>55×40×23</small></button>
-        <button type="button" class="preset" data-cm="60,42,26" data-kg="12">{{preset_big}} <small>60×42×26</small></button>
-      </div>
-
       <p class="panel__foot">
         <span class="tag-example">{{tag_example}}</span>
         {{measure_note}}
@@ -275,17 +212,26 @@
       <p class="shared-note" id="shared-note" hidden>{{shared_loaded}}</p>
     </section>
 
-    <section class="results" aria-labelledby="results-h">
+    <section class="results" id="results-sec" aria-labelledby="results-h">
       <div class="results__head">
-        <h2 class="sec-h" id="results-h">{{summary_h2}}</h2>
-        <!-- Compartir: el enlace lleva las MEDIDAS, no el veredicto. Quien lo
-             abre ve el chequeo recalculado con los datos vigentes ese día. -->
-        <button type="button" class="share" id="share-btn" title="{{share_hint}}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="2"/></svg>
-          <span>{{share_btn}}</span>
-        </button>
+        <h2 class="sec-h" id="results-h" tabindex="-1">{{summary_h2}}</h2>
       </div>
-      <div class="share__status" id="share-status" role="status"></div>
+
+      <!-- v9 (20/10/2026): tus compañías, primero y marcadas. Es la MISMA
+           selección del comparador (hasta 3), así que viaja en el enlace
+           compartido (?c=) y el paso 3 las compara sin volver a elegirlas. -->
+      <div class="mine" id="mine">
+        <label class="mine__h" for="mine-q">{{mine_h}}</label>
+        <p class="mine__p">{{mine_p}}</p>
+        <div class="mine__search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+          <input type="search" id="mine-q" placeholder="{{mine_ph}}" autocomplete="off" spellcheck="false" aria-controls="mine-sug" aria-expanded="false">
+        </div>
+        <div class="mine__sug" id="mine-sug" hidden></div>
+        <p class="mine__note" id="mine-note" role="status"></p>
+        <ul class="mine__list" id="mine-list" aria-label="{{mine_h}}"></ul>
+        <button type="button" class="mine__cmp" id="mine-cmp" hidden><span class="flow__n" aria-hidden="true"><i>3</i></span>{{mine_cmp}}</button>
+      </div>
       <div id="summary" class="summary"></div>
       <p id="summary-note" class="summary-note"></p>
       <label class="search">
@@ -299,6 +245,18 @@
       <div id="results" class="groups" aria-live="polite" aria-busy="true">
         <p class="empty">{{loading}}</p>
       </div>
+      <!-- v9: compartir va DESPUÉS del resultado. Antes estaba arriba de todo
+           (y en el carrusel), cuando la persona todavía no sabía qué compartir. -->
+      <div class="results__share">
+        <p class="results__share-t"><b>{{s4_h}}</b> {{s4_p}}</p>
+        <!-- Compartir: el enlace lleva las MEDIDAS, no el veredicto. Quien lo
+             abre ve el chequeo recalculado con los datos vigentes ese día. -->
+        <button type="button" class="share" id="share-btn" title="{{share_hint}}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="18.5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1" stroke="currentColor" stroke-width="2"/></svg>
+          <span>{{share_btn}}</span>
+        </button>
+      </div>
+      <div class="share__status" id="share-status" role="status"></div>
     </section>
 
     <!-- Productos: este bloque queda oculto hasta que /products.json tenga
@@ -350,7 +308,7 @@
   </div>
 
   <!-- ============================================================ pestaña 2 -->
-  <div class="tabpanel" id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
+  <div class="tabpanel" id="panel-compare" aria-labelledby="tab-compare" hidden>
 
     <!-- La maleta, también acá. Son ESPEJOS de los campos principales: no hay
          una segunda medida en juego, como siempre. -->
@@ -434,6 +392,27 @@
       <div id="compare-body"></div>
     </section>
   </div>
+
+  <!-- ============================================================ buscador
+       Busca empresas de transporte y guías (y productos, cuando haya alguno
+       verificado). Solo navega: no cambia ningún veredicto. v9: baja de arriba
+       de todo a acá, con título propio; el atajo de la cabecera trae hasta acá. -->
+  <section class="lookup" id="lookup" aria-labelledby="lookup-h">
+  <h2 class="sec-h" id="lookup-h">{{lookup_h}}</h2>
+  <div class="gsearch" role="search">
+    <label class="gsearch__box">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span class="sr-only">{{gsearch_label}}</span>
+      <input type="search" id="gq" placeholder="{{gsearch_ph}}" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
+    </label>
+    <div class="gsug" id="gsug" hidden></div>
+  </div>
+  </section>
+
+  <!-- ============================================================ objetos prohibidos
+       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
+       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
+{{BANNED_BLOCK}}
 
   <!-- Enlaces reales a cada ficha y a las guías. Van en el HTML servido, no
        los pone el JS: si dependieran del script, un rastreador podría no
@@ -611,6 +590,11 @@
      en el navegador es el modo noche; guardar esta selección rompería esa promesa. */
   var MAX_CMP = 3;
   var cmpSel = [];
+  /* v9: el comparador arranca con las primeras aerolíneas para no verse vacío,
+     pero esas NO son "tus compañías". mineChosen pasa a true recién cuando la
+     persona elige o quita una (o llega con ?c= en el enlace). La primera
+     elección reemplaza a las de arranque en lugar de sumarse a ellas. */
+  var mineChosen = false;
   var firstRender = true;
   var lastVerdicts = [];
 
@@ -757,7 +741,7 @@
   function cardNode(v, i) {
     var band = BAND_BY_KEY[v.band];
     var on = cmpSel.indexOf(v.op.id) >= 0;
-    var li = node("li", "rcard " + band.cls + (on ? " is-cmp" : ""));
+    var li = node("li", "rcard " + band.cls + (on ? " is-cmp" : "") + (on && mineChosen ? " is-mine" : ""));
     li.setAttribute("data-band", band.id);
     li.setAttribute("data-id", v.op.id);
     li.style.setProperty("--i", i);
@@ -874,6 +858,10 @@
   }
 
   function toggleCmp(id) {
+    if (!mineChosen) {
+      if (cmpSel.indexOf(id) < 0) cmpSel = [];
+      mineChosen = true;
+    }
     var at = cmpSel.indexOf(id);
     if (at >= 0) {
       cmpSel.splice(at, 1);
@@ -961,7 +949,7 @@
     });
     if (!rows.length) list.appendChild(node("li", "empty oplist__none", esc(t("cmp_none_match"))));
     document.getElementById("cmp-count").textContent = t("cmp_count", { n: cmpSel.length, max: MAX_CMP });
-    document.getElementById("cmp-badge").textContent = cmpSel.length ? String(cmpSel.length) : "";
+    document.getElementById("cmp-badge").textContent = (cmpSel.length && mineChosen) ? String(cmpSel.length) : "";
   }
 
   function statusBadge(allow) {
@@ -1314,6 +1302,115 @@
     document.addEventListener("click", function (e) { if (!e.target.closest(".gsearch")) close(); });
   })();
 
+  /* ---------- tus compañías (v9, 20/10/2026) ----------
+     Arriba de los resultados: la persona escribe su compañía, ve enseguida
+     cómo le va a SU maleta (el mismo verdictFor de todo el sitio) y la fija.
+     Las fijadas quedan primero, con el veredicto grande. No hay cuenta nueva:
+     cada tarjeta muestra el mismo veredicto y el mismo detalle que la fila
+     de ese operador en los grupos de abajo. */
+  var mineQ = document.getElementById("mine-q"),
+      mineSug = document.getElementById("mine-sug"),
+      mineNote = document.getElementById("mine-note");
+
+  function vbadge(v) {
+    var band = BAND_BY_KEY[v.band];
+    return '<span class="vbadge ' + band.cls + '">' + ICON[band.id] + esc(v.verdict) + "</span>";
+  }
+
+  function mineNoteSet(msg) {
+    mineNote.textContent = msg || "";
+    mineNote.classList.toggle("is-on", !!msg);
+  }
+
+  function renderMine(verdicts) {
+    var list = document.getElementById("mine-list");
+    var go = document.getElementById("mine-cmp");
+    list.innerHTML = "";
+    var mine = (verdicts && mineChosen) ? cmpSel.map(function (id) {
+      for (var i = 0; i < verdicts.length; i++) if (verdicts[i].op.id === id) return verdicts[i];
+      return null;
+    }).filter(Boolean) : [];
+    go.hidden = !mine.length;
+    mine.forEach(function (v) {
+      var band = BAND_BY_KEY[v.band];
+      var li = node("li", "mcard " + band.cls);
+      var head = node("div", "mcard__head");
+      var name = FICHE_PATHS[v.op.type]
+        ? '<a class="mcard__name" href="' + FICHE_PATHS[v.op.type] + encodeURIComponent(v.op.id) + '/">' + esc(v.op.name) + "</a>"
+        : '<span class="mcard__name">' + esc(v.op.name) + "</span>";
+      head.innerHTML = '<span class="rcard__icon">' + (ICON[v.op.type] || ICON.air) + "</span>" + name;
+      var x = node("button", "mcard__x", "×");
+      x.type = "button";
+      x.setAttribute("aria-label", t("mine_remove", { name: v.op.name }));
+      x.addEventListener("click", function () { mineNoteSet(""); toggleCmp(v.op.id); mineQ.focus(); });
+      head.appendChild(x);
+      li.appendChild(head);
+      li.appendChild(node("div", "mcard__verdict", vbadge(v)));
+      if (v.detail) li.appendChild(node("p", "mcard__detail", v.detail));
+      v.flags.forEach(function (f) {
+        if (f.tone === "band") li.appendChild(node("p", "mcard__flag", esc(f.text)));
+      });
+      list.appendChild(li);
+    });
+  }
+
+  function closeMine() { mineSug.hidden = true; mineQ.setAttribute("aria-expanded", "false"); }
+
+  function pinMine(id) {
+    closeMine();
+    mineQ.value = "";
+    if (mineChosen && cmpSel.indexOf(id) >= 0) { mineNoteSet(""); return; }
+    if (mineChosen && cmpSel.length >= MAX_CMP) { mineNoteSet(t("compare_limit", { max: MAX_CMP })); return; }
+    mineNoteSet("");
+    toggleCmp(id);
+  }
+
+  function suggestMine() {
+    var raw = mineQ.value.trim(), q = fold(raw);
+    if (!q || !lastVerdicts.length) { closeMine(); return; }
+    var hits = lastVerdicts.filter(function (v) {
+      return fold(v.op.name).indexOf(q) >= 0 && !(mineChosen && cmpSel.indexOf(v.op.id) >= 0);
+    }).sort(function (x, y) {
+      return (fold(x.op.name).indexOf(q) - fold(y.op.name).indexOf(q)) || x.op.name.localeCompare(y.op.name);
+    }).slice(0, 6);
+    mineSug.innerHTML = "";
+    if (!hits.length) {
+      mineSug.appendChild(node("p", "mine__none", esc(t("mine_none", { q: raw }))));
+    }
+    hits.forEach(function (v) {
+      var b = node("button", "msug");
+      b.type = "button";
+      b.setAttribute("data-id", v.op.id);
+      b.innerHTML = '<span class="msug__name">' + esc(v.op.name) + "<small>" + esc(MODE_LABEL[v.op.type]) + "</small></span>" +
+        vbadge(v) + '<span class="msug__add" aria-hidden="true">+</span>';
+      b.setAttribute("aria-label", t("mine_add", { name: v.op.name }) + " · " + v.verdict);
+      b.addEventListener("click", function () { pinMine(v.op.id); mineQ.focus(); });
+      mineSug.appendChild(b);
+    });
+    mineSug.hidden = false;
+    mineQ.setAttribute("aria-expanded", "true");
+  }
+
+  mineQ.addEventListener("input", suggestMine);
+  mineQ.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { mineQ.value = ""; closeMine(); }
+    else if (e.key === "Enter") {
+      var first = mineSug.querySelector(".msug");
+      if (!mineSug.hidden && first) { e.preventDefault(); pinMine(first.getAttribute("data-id")); }
+    } else if (e.key === "ArrowDown") {
+      var f = mineSug.querySelector(".msug");
+      if (!mineSug.hidden && f) { e.preventDefault(); f.focus(); }
+    }
+  });
+  mineSug.addEventListener("keydown", function (e) {
+    var items = Array.prototype.slice.call(mineSug.querySelectorAll(".msug"));
+    var i = items.indexOf(document.activeElement);
+    if (e.key === "ArrowDown" && i >= 0) { e.preventDefault(); (items[i + 1] || items[i]).focus(); }
+    else if (e.key === "ArrowUp" && i >= 0) { e.preventDefault(); (i ? items[i - 1] : mineQ).focus(); }
+    else if (e.key === "Escape") { closeMine(); mineQ.focus(); }
+  });
+  document.addEventListener("click", function (e) { if (!e.target.closest(".mine")) closeMine(); });
+
   function render() {
     if (!dataset) return;
     var b = bag();
@@ -1324,6 +1421,7 @@
       document.getElementById("summary").innerHTML = "";
       document.getElementById("oplist").innerHTML = "";
       document.getElementById("compare-body").innerHTML = "";
+      renderMine(null);
       renderModes(null);
       syncMirrors();
       return;
@@ -1333,28 +1431,38 @@
     renderGroups(lastVerdicts);
     renderOpList(lastVerdicts);
     renderCompare(lastVerdicts);
+    renderMine(lastVerdicts);
     renderModes(lastVerdicts);
     syncMirrors();
     firstRender = false;
   }
 
-  /* ---------- pestañas ----------
+  /* ---------- pasos (antes pestañas) ----------
      Hash #compare para poder enlazar directo al comparador. history.
-     replaceState para que cambiar de pestaña no llene el historial ni haga
-     saltar la página. */
+     replaceState para que cambiar de paso no llene el historial ni haga
+     saltar la página. v9: tres pasos; 1 (medidas) y 2 (resultados) son la
+     misma vista, 3 es el comparador. aria-current="step" marca el actual. */
   var tabs = { check: document.getElementById("tab-check"), compare: document.getElementById("tab-compare") };
   var panels = { check: document.getElementById("panel-check"), compare: document.getElementById("panel-compare") };
+  var flowBtns = Array.prototype.slice.call(document.querySelectorAll(".flow__b"));
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var activeTab = "check";
+  var reached = 1;   /* hasta qué paso llegó la persona en la vista de medidas */
+
+  function paintFlow() {
+    var cur = activeTab === "compare" ? 3 : reached;
+    flowBtns.forEach(function (b) {
+      var k = Number(b.getAttribute("data-step"));
+      if (k === cur) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+      b.classList.toggle("is-done", k < cur);
+    });
+  }
 
   function showTab(name, focusTab) {
     if (!tabs[name]) return;
     activeTab = name;
-    Object.keys(tabs).forEach(function (k) {
-      var on = k === name;
-      tabs[k].setAttribute("aria-selected", String(on));
-      tabs[k].tabIndex = on ? 0 : -1;
-      panels[k].hidden = !on;
-    });
+    Object.keys(tabs).forEach(function (k) { panels[k].hidden = k !== name; });
+    paintFlow();
     if (focusTab) tabs[name].focus({ preventScroll: true });
     try {
       history.replaceState(null, "", location.pathname + location.search + (name === "compare" ? "#compare" : ""));
@@ -1362,16 +1470,33 @@
   }
 
   function scrollToTabs() {
-    document.querySelector(".tabs").scrollIntoView({ block: "start" });
+    document.querySelector(".flow").scrollIntoView({ block: "start" });
   }
 
-  Object.keys(tabs).forEach(function (k) {
-    tabs[k].addEventListener("click", function () { showTab(k); });
-    tabs[k].addEventListener("keydown", function (e) {
-      if (e.key !== "ArrowRight" && e.key !== "ArrowLeft" && e.key !== "Home" && e.key !== "End") return;
-      e.preventDefault();
-      showTab(k === "check" ? "compare" : "check", true);
-    });
+  /* El "enter" que la gente busca: no calcula nada (ya está calculado), lleva
+     hasta el resultado y pasa al paso 2. El foco va al título de resultados
+     para que un lector de pantalla siga el mismo camino. */
+  function goToResults() {
+    showTab("check");
+    reached = 2;
+    paintFlow();
+    var sec = document.getElementById("results-sec");
+    sec.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    document.getElementById("results-h").focus({ preventScroll: true });
+  }
+
+  tabs.check.addEventListener("click", function () {
+    showTab("check");
+    reached = 1;
+    paintFlow();
+    document.querySelector(".panel").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  });
+  document.getElementById("step-results").addEventListener("click", goToResults);
+  tabs.compare.addEventListener("click", function () { showTab("compare"); });
+  document.getElementById("cta-results").addEventListener("click", goToResults);
+  document.getElementById("mine-cmp").addEventListener("click", function () {
+    showTab("compare");
+    document.querySelector(".cmpout").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   });
 
   /* ---------- guía de medición ---------- */
@@ -1496,119 +1621,11 @@
     if (kg !== null) { els.w.value = String(kg); any = true; }
     var c = incoming.get("c");
     if (c) { sharedCmp = c.split(",").slice(0, MAX_CMP); any = true; }
-    if (any) document.getElementById("shared-note").hidden = false;
+    if (any) { document.getElementById("shared-note").hidden = false; reached = 2; }
   })();
 
-  /* ---------- carrusel ----------
-     Deslizable con el dedo (scroll-snap nativo). Avanza solo cada 7 s salvo
-     que la persona lo esté mirando de cerca (mouse encima, foco adentro, un
-     toque), lo haya pausado, o pida menos movimiento en el sistema. */
-  var track = document.getElementById("slides-track");
-  var slideEls = Array.prototype.slice.call(track.querySelectorAll(".slide"));
-  var dotEls = Array.prototype.slice.call(document.querySelectorAll("#slides-dots button"));
-  var pauseBtn = document.getElementById("slides-pause");
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var slideIdx = 0, paused = reduce, hovering = false, timer = null;
-
-  function markDots(i) {
-    slideIdx = i;
-    dotEls.forEach(function (d, k) {
-      if (k === i) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current");
-    });
-  }
-
-  /* (11/10/2026) Pasar de diapositiva con una curva que arranca rápido y
-     frena suave al final, en lugar del "smooth" del navegador, que frena de
-     golpe. Durante la animación se apaga el scroll-snap (si no, el navegador
-     tironea cada cuadro hacia la diapositiva más cercana) y al terminar se
-     vuelve a encender. Con "menos movimiento" en el sistema, salta directo. */
-  var glide = null;
-  function easeOut(x) { return x >= 1 ? 1 : 1 - Math.pow(2, -10 * x); }
-  function glideTo(left) {
-    if (glide) cancelAnimationFrame(glide.raf);
-    var from = track.scrollLeft, dist = left - from;
-    if (reduce || Math.abs(dist) < 2 || !window.requestAnimationFrame) { track.scrollLeft = left; return; }
-    var dur = Math.min(1100, 650 + Math.abs(dist) * 0.25), t0 = null;
-    track.style.scrollSnapType = "none";
-    glide = { raf: 0 };
-    function frame(now) {
-      if (t0 === null) t0 = now;
-      var k = Math.min(1, (now - t0) / dur);
-      track.scrollLeft = from + dist * easeOut(k);
-      if (k < 1) { glide.raf = requestAnimationFrame(frame); }
-      else { track.scrollLeft = left; track.style.scrollSnapType = ""; glide = null; }
-    }
-    glide.raf = requestAnimationFrame(frame);
-  }
-  /* si la persona toma el carrusel con el dedo, la animación se corta ahí */
-  track.addEventListener("touchstart", function () {
-    if (glide) { cancelAnimationFrame(glide.raf); glide = null; track.style.scrollSnapType = ""; }
-  }, { passive: true });
-
-  function goSlide(i) {
-    var n = slideEls.length;
-    i = ((i % n) + n) % n;
-    glideTo(i * track.clientWidth);
-    markDots(i);
-  }
-
-  function paintPause() {
-    pauseBtn.setAttribute("aria-pressed", String(paused));
-    var label = paused ? pauseBtn.getAttribute("data-play") : pauseBtn.getAttribute("data-pause");
-    pauseBtn.setAttribute("aria-label", label);
-    pauseBtn.setAttribute("title", label);
-    pauseBtn.classList.toggle("is-paused", paused);
-  }
-
-  function tick() {
-    if (paused || hovering || document.hidden) return;
-    goSlide(slideIdx + 1);
-  }
-
-  /* Cuando la persona elige a mano (punto, flecha o teclado), el contador de
-     7 s vuelve a empezar: así no salta solo justo después de que eligió. */
-  function restartTimer() {
-    if (reduce) return;
-    clearInterval(timer);
-    timer = setInterval(tick, 7000);
-  }
-  function stepTo(i) { goSlide(i); restartTimer(); }
-
-  dotEls.forEach(function (d, i) {
-    d.addEventListener("click", function () { stepTo(i); });
-  });
-  document.getElementById("slides-prev").addEventListener("click", function () { stepTo(slideIdx - 1); });
-  document.getElementById("slides-next").addEventListener("click", function () { stepTo(slideIdx + 1); });
-  /* Flechas del teclado con el foco dentro del carrusel (no en un campo de texto). */
-  document.getElementById("slides").addEventListener("keydown", function (e) {
-    if (e.target && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
-    if (e.key === "ArrowLeft") { e.preventDefault(); stepTo(slideIdx - 1); }
-    else if (e.key === "ArrowRight") { e.preventDefault(); stepTo(slideIdx + 1); }
-  });
-  pauseBtn.addEventListener("click", function () { paused = !paused; paintPause(); });
-
-  var slidesBox = document.getElementById("slides");
-  slidesBox.addEventListener("mouseenter", function () { hovering = true; });
-  slidesBox.addEventListener("mouseleave", function () { hovering = false; });
-  slidesBox.addEventListener("focusin", function () { hovering = true; });
-  slidesBox.addEventListener("focusout", function () { hovering = false; });
-  /* un toque con el dedo = la persona tomó el control: se detiene del todo */
-  track.addEventListener("touchstart", function () { paused = true; paintPause(); }, { passive: true });
-
-  var scrollT = null;
-  track.addEventListener("scroll", function () {
-    clearTimeout(scrollT);
-    scrollT = setTimeout(function () {
-      if (glide) return;  /* a mitad de la animación los puntos ya están bien */
-      var w = track.clientWidth || 1;
-      markDots(Math.round(track.scrollLeft / w));
-    }, 90);
-  }, { passive: true });
-
-  paintPause();
-  if (!reduce) timer = setInterval(tick, 7000);
-
-  /* Botones de las diapositivas: cada uno lleva a algo real de la página. */
+  /* Botones con data-go (hoy, el "Cómo medir" de la franja del comparador):
+     cada uno lleva a algo real de la página. */
   Array.prototype.forEach.call(document.querySelectorAll("[data-go]"), function (btn) {
     btn.addEventListener("click", function () {
       var go = btn.getAttribute("data-go");
@@ -1675,6 +1692,7 @@
       els.w.value = String(round1(fromCanonical(kg, "weight")));
       exact.set(els.w, { shown: els.w.value, canonical: kg });
       render();
+      goToResults();
     });
   });
 
@@ -1736,7 +1754,15 @@
     }, { passive: false });
   });
 
-  if (location.hash === "#compare") showTab("compare");
+  if (location.hash === "#compare") showTab("compare"); else paintFlow();
+
+  /* Atajo "Qué no puedo llevar": abre la franja de prohibidos al llegar. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-quick="banned"]'), function (a) {
+    a.addEventListener("click", function () {
+      var d = document.querySelector("#banned details, details#banned");
+      if (d) d.open = true;
+    });
+  });
 
   /* Ruta absoluta desde la raíz: /es/ y las fichas cargan el MISMO dataset.
      Con "./operators.json" cada carpeta buscaría su propia copia. */
@@ -1766,7 +1792,7 @@
         var fromLink = sharedCmp.filter(function (id, i) {
           return known.indexOf(id) >= 0 && sharedCmp.indexOf(id) === i;
         });
-        if (fromLink.length) cmpSel = fromLink;
+        if (fromLink.length) { cmpSel = fromLink; mineChosen = true; }
       }
       render();
       return fetch("/products.json", { cache: "no-cache" })
