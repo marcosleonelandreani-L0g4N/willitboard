@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Willitboard: ¿entra tu maleta?</title>
+    <link>https://willitboard.com/es/</link>
+    <description>Límites de equipaje de mano de la página oficial de cada operador, comprobados por una persona.</description>
+    <language>es</language>
+    <item>
+      <title>Ryanair: medidas y franquicia de equipaje de mano</title>
+      <link>https://willitboard.com/es/aerolineas/ryanair/</link>
+      <description>¿Tu maleta entra en el equipaje de mano de Ryanair? Escribe sus medidas en Willitboard y mira al instante si va sin costo extra, se paga aparte o no entra. Sale de la página oficial de Ryanair y lo comprobó una persona, con la fecha a la vista.</description>
+      <guid isPermaLink="false">willitboard-pin-es-ryanair</guid>
+      <pubDate>Sat, 12 Sep 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/es/ryanair.jpg" length="138362" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>

@@ -90,6 +90,14 @@ BRAND_MARK = "b"
 # divulgación reescritas, porque hoy esas tres páginas prometen "sin cookies y
 # sin publicidad", y la de cookies promete cambiar ANTES de la primera cookie.
 ADSENSE_PUB_ID = "pub-5571641673142734"
+
+# Pinterest: verificación del dominio (paso previo para conectar los feeds RSS
+# de herramientas/generar_feed.py). Vacío = sin etiqueta. Con el código que da
+# Pinterest en Configuración > Reclamar > Sitios web > "Añadir etiqueta HTML"
+# (solo el valor de content="…"), el build agrega a todas las páginas
+# <meta name="p:domain_verify">. La etiqueta es inerte: no carga nada de
+# Pinterest ni instala cookies.
+PINTEREST_VERIFY = ""
 # Identificador fijo de Google en ads.txt, tal como lo da la guía oficial:
 # https://support.google.com/adsense/answer/12171612
 ADS_TXT_GOOGLE_ID = "f08c47fec0942fa0"
@@ -1243,6 +1251,15 @@ def cf_beacon() -> list[str]:
             f"data-cf-beacon='{{\"token\": \"{tok}\"}}'></script>"]
 
 
+def pinterest_verify() -> str:
+    """El código de verificación de Pinterest validado, o "" si todavía no hay."""
+    code = PINTEREST_VERIFY.strip()
+    if code and not re.fullmatch(r"[A-Za-z0-9]{16,64}", code):
+        sys.exit('ERROR: PINTEREST_VERIFY tiene que ser solo el valor de content="…" '
+                 "de la etiqueta que da Pinterest (letras y números), o quedar vacío.")
+    return code
+
+
 def adsense_pub_id() -> str:
     """
     El ID de editor de AdSense validado, o "" si todavía no hay cuenta.
@@ -1276,6 +1293,8 @@ def head_extra(lang: str, S: dict, canonical: str, title: str, description: str)
     pub = adsense_pub_id()
     # Verificación de AdSense (paso 1): una etiqueta inerte, no pide nada a Google.
     adsense = [f'<meta name="google-adsense-account" content="ca-{pub}">'] if pub else []
+    pin = pinterest_verify()
+    adsense += [f'<meta name="p:domain_verify" content="{pin}">'] if pin else []
     return "\n".join(adsense + cf_beacon() + [
         '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
         '<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">',
@@ -1538,6 +1557,7 @@ def main() -> None:
     if not DATASET.exists():
         sys.exit(f"ERROR: falta {DATASET}. Correr convert.py primero.")
     adsense_pub_id()  # un ID mal copiado frena el build antes de escribir nada
+    pinterest_verify()  # ídem con el código de Pinterest
 
     template = TEMPLATE.read_text(encoding="utf-8")
     template_op = TEMPLATE_OP.read_text(encoding="utf-8")

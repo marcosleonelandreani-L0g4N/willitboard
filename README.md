@@ -164,3 +164,25 @@ Un producto se publica solo con `estado` = listo/publicado, `verificado_el` pues
 por una persona, `fuente_url` del fabricante y al menos un enlace de tienda. Bolsos y
 maletas necesitan las tres medidas exteriores. Precios y notas no se publican nunca.
 `operators.json` no se toca: el dataset de operadores sigue siendo uno solo.
+
+## Pinterest (desde el 21/10/2026)
+
+Pinterest crea los Pines solo, leyendo dos feeds RSS: `public/pins.xml` (inglés)
+y `public/es/pins.xml` (español). Las imágenes (`public/pins/<idioma>/<id>.jpg`,
+1000 × 1500) **no llevan medidas, pesos ni precios**: un Pin queda fijo y el
+operador puede cambiar sus límites. Las cifras viven solo en la ficha.
+
+- `herramientas/generar_pines.py public/pins [id …]` — las imágenes. Requiere
+  Playwright; se corre una vez por operador nuevo y se commitean.
+- `herramientas/generar_feed.py` — los feeds. Lo corre todos los días
+  `.github/workflows/pinterest.yml` (06:17 UTC), que suelta **un operador por día**
+  (un Pin por idioma) y hace un commit; el commit dispara el deploy como cualquier otro.
+- `herramientas/pinterest_estado.json` — lo ya liberado. **Lo escribe solo la
+  tarea de GitHub.** No incluirlo en ningún ZIP ni editarlo a mano.
+- Para arrancar (una sola vez, el día que se conectan los feeds en Pinterest):
+  GitHub → Actions → Pinterest → Run workflow → marcar "Empezar hoy".
+- `PINTEREST_VERIFY` en `build_site.py`: el código para reclamar el dominio.
+- Pruebas: `python3 -m unittest pruebas/test_pinterest.py`.
+
+Cuidado al subir ZIPs: los dos `pins.xml` los actualiza la tarea diaria. Un ZIP
+viejo que los traiga los pisa hasta la corrida del día siguiente.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Willitboard: will your cabin bag fit?</title>
+    <link>https://willitboard.com/</link>
+    <description>Cabin bag limits from each operator's official page, checked by a person.</description>
+    <language>en</language>
+    <item>
+      <title>Ryanair cabin bag size and allowance</title>
+      <link>https://willitboard.com/airlines/ryanair/</link>
+      <description>Will your bag fit Ryanair's cabin limits? Type its size on Willitboard and see in seconds whether it goes at no extra cost, costs extra or doesn't fit. Taken from Ryanair's official page and checked by a person, with the date shown on the page.</description>
+      <guid isPermaLink="false">willitboard-pin-en-ryanair</guid>
+      <pubDate>Sat, 12 Sep 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/en/ryanair.jpg" length="126142" type="image/jpeg"/>
+    </item>
+  </channel>
+</rss>
