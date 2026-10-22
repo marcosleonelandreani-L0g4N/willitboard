@@ -1,0 +1,54 @@
+# Todos los días suma al feed RSS el siguiente operador de la cola (un Pin en
+# inglés y otro en español) y hace un commit. Ese commit dispara el deploy de
+# Cloudflare como cualquier otro, y Pinterest lee el feed en menos de 24 h.
+#
+# El día que se conecta Pinterest: Actions -> Pinterest -> Run workflow ->
+# marcar "Empezar hoy" -> Run workflow. Antes de eso el feed tiene un solo Pin
+# y esta tarea no cambia nada.
+#
+# Solo usa Python de la biblioteca estándar: no instala nada.
+name: Pinterest
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # 06:17 UTC, todos los días
+  workflow_dispatch:
+    inputs:
+      empezar:
+        description: "Empezar hoy (solo la primera vez, al conectar Pinterest)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pinterest
+  cancel-in-progress: false
+
+jobs:
+  feed:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generar los feeds
+        run: |
+          if [ "${{ inputs.empezar }}" = "true" ]; then
+            python3 herramientas/generar_feed.py --empezar
+          else
+            python3 herramientas/generar_feed.py
+          fi
+
+      - name: Guardar si cambió algo
+        run: |
+          git add public/pins.xml public/es/pins.xml
+          if [ -f herramientas/pinterest_estado.json ]; then git add herramientas/pinterest_estado.json; fi
+          if git diff --cached --quiet; then
+            echo "Sin cambios."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Pinterest: feed del $(date -u +%F)"
+          git push
