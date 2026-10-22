@@ -97,7 +97,7 @@ ADSENSE_PUB_ID = "pub-5571641673142734"
 # (solo el valor de content="…"), el build agrega a todas las páginas
 # <meta name="p:domain_verify">. La etiqueta es inerte: no carga nada de
 # Pinterest ni instala cookies.
-PINTEREST_VERIFY = ""
+PINTEREST_VERIFY = "f48e50412a3ba53b7b57ff3f8e10723c"
 # Identificador fijo de Google en ads.txt, tal como lo da la guía oficial:
 # https://support.google.com/adsense/answer/12171612
 ADS_TXT_GOOGLE_ID = "f08c47fec0942fa0"
