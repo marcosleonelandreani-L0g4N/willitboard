@@ -2074,6 +2074,17 @@ body::after {
   font: 800 1.25rem/1 var(--font-body);
 }
 .msug:hover, .msug:focus-visible { background: var(--accent-soft); outline: none; }
+/* En pantallas angostas un nombre largo ("Aerolíneas Argentinas") no entra al
+   lado del veredicto: el veredicto baja debajo del nombre y el + queda a la derecha. */
+@media (max-width: 480px) {
+  .msug {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name add" "badge add"; row-gap: 0.35rem;
+  }
+  .msug__name { grid-area: name; }
+  .msug .vbadge { grid-area: badge; justify-self: start; }
+  .msug__add { grid-area: add; }
+}
 .mine__none { margin: 0; padding: 0.85rem 0.95rem; font-size: 0.9rem; color: var(--ink-soft); }
 .mine__note { margin: 0; font-size: 0.86rem; color: var(--paid); }
 .mine__note:empty { display: none; }
@@ -3233,10 +3244,11 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "mine_h": "Which company are you travelling with?",
   "mine_p": "Pick up to 3. We put them first, highlighted, so you don’t have to hunt for them.",
   "mine_ph": "Iberia, Ryanair, a train…",
-  "mine_none": "No company in this list matches “{q}”.",
+  "mine_none": "No company matches “{q}”.",
   "mine_add": "Pin {name} to the top",
   "mine_remove": "Remove {name}",
-  "mine_cmp": "Compare them side by side"
+  "mine_cmp": "Compare them side by side",
+  "mine_region_all": "To add {name}, you’re now seeing all regions."
 };
   var PAGE_LANG = "en";
   /* ruta de la ficha de cada tipo en este idioma; la calcula build_site.py */
@@ -4236,19 +4248,20 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       b.setAttribute("aria-pressed", String(b.getAttribute("data-region") === region));
     });
   }
+  function setRegion(r) {
+    region = r;
+    bandFilter = null;
+    try {
+      var u = new URL(location.href);
+      u.searchParams.set("region", region === "all" ? "all" : region.toLowerCase());
+      history.replaceState(null, "", u.pathname + u.search + u.hash);
+    } catch (e) { /* sin URL API: el filtro igual funciona */ }
+    renderRegion();
+    render();
+    renderReco();
+  }
   Array.prototype.forEach.call(document.querySelectorAll("#region button"), function (b) {
-    b.addEventListener("click", function () {
-      region = b.getAttribute("data-region");
-      bandFilter = null;
-      try {
-        var u = new URL(location.href);
-        u.searchParams.set("region", region === "all" ? "all" : region.toLowerCase());
-        history.replaceState(null, "", u.pathname + u.search + u.hash);
-      } catch (e) { /* sin URL API: el filtro igual funciona */ }
-      renderRegion();
-      render();
-      renderReco();
-    });
+    b.addEventListener("click", function () { setRegion(b.getAttribute("data-region")); });
   });
 
   /* ---------- productos (ocultos hasta que haya alguno verificado) ----------
@@ -4436,14 +4449,38 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     toggleCmp(id);
   }
 
+  /* Si en la región elegida no hay ninguna que coincida, se busca en las demás
+     (23/10/2026): alguien en Europa que vuela con Aerolíneas Argentinas tiene
+     que poder encontrarla. La sugerencia dice de qué región es; al elegirla se
+     pasa a "Todas" y se fija igual que cualquier otra. El veredicto es el mismo
+     verdictFor de siempre. */
+  function regionName(r) {
+    var k = "region_" + String(r || "").toLowerCase(), s = t(k);
+    return s && s !== k ? s : String(r || "");
+  }
+
+  function byMatch(q) {
+    return function (x, y) {
+      return (fold(x.op.name).indexOf(q) - fold(y.op.name).indexOf(q)) || x.op.name.localeCompare(y.op.name);
+    };
+  }
+
   function suggestMine() {
     var raw = mineQ.value.trim(), q = fold(raw);
     if (!q || !lastVerdicts.length) { closeMine(); return; }
     var hits = lastVerdicts.filter(function (v) {
       return fold(v.op.name).indexOf(q) >= 0 && !(mineChosen && cmpSel.indexOf(v.op.id) >= 0);
-    }).sort(function (x, y) {
-      return (fold(x.op.name).indexOf(q) - fold(y.op.name).indexOf(q)) || x.op.name.localeCompare(y.op.name);
-    }).slice(0, 6);
+    }).sort(byMatch(q)).slice(0, 6);
+    var far = false;
+    if (!hits.length && region !== "all" && dataset) {
+      var b0 = bag();
+      if (b0) {
+        hits = dataset.operators.filter(function (o) {
+          return o.region !== region && fold(o.name).indexOf(q) >= 0;
+        }).map(function (o) { return verdictFor(o, b0); }).sort(byMatch(q)).slice(0, 6);
+        far = hits.length > 0;
+      }
+    }
     mineSug.innerHTML = "";
     if (!hits.length) {
       mineSug.appendChild(node("p", "mine__none", esc(t("mine_none", { q: raw }))));
@@ -4452,10 +4489,21 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       var b = node("button", "msug");
       b.type = "button";
       b.setAttribute("data-id", v.op.id);
-      b.innerHTML = '<span class="msug__name">' + esc(v.op.name) + "<small>" + esc(MODE_LABEL[v.op.type]) + "</small></span>" +
+      var sub = MODE_LABEL[v.op.type] + (far ? " · " + regionName(v.op.region) : "");
+      if (far) b.setAttribute("data-region", v.op.region);
+      b.innerHTML = '<span class="msug__name">' + esc(v.op.name) + "<small>" + esc(sub) + "</small></span>" +
         vbadge(v) + '<span class="msug__add" aria-hidden="true">+</span>';
-      b.setAttribute("aria-label", t("mine_add", { name: v.op.name }) + " · " + v.verdict);
-      b.addEventListener("click", function () { pinMine(v.op.id); mineQ.focus(); });
+      b.setAttribute("aria-label", t("mine_add", { name: v.op.name }) + " · " + sub + " · " + v.verdict);
+      b.addEventListener("click", function () {
+        if (far && !(mineChosen && cmpSel.length >= MAX_CMP)) {
+          setRegion("all");
+          pinMine(v.op.id);
+          mineNoteSet(t("mine_region_all", { name: v.op.name }));
+        } else {
+          pinMine(v.op.id);
+        }
+        mineQ.focus();
+      });
       mineSug.appendChild(b);
     });
     mineSug.hidden = false;
@@ -4467,7 +4515,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     if (e.key === "Escape") { mineQ.value = ""; closeMine(); }
     else if (e.key === "Enter") {
       var first = mineSug.querySelector(".msug");
-      if (!mineSug.hidden && first) { e.preventDefault(); pinMine(first.getAttribute("data-id")); }
+      if (!mineSug.hidden && first) { e.preventDefault(); first.click(); }
     } else if (e.key === "ArrowDown") {
       var f = mineSug.querySelector(".msug");
       if (!mineSug.hidden && f) { e.preventDefault(); f.focus(); }

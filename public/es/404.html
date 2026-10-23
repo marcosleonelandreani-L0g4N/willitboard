@@ -2070,6 +2070,17 @@ body::after {
   font: 800 1.25rem/1 var(--font-body);
 }
 .msug:hover, .msug:focus-visible { background: var(--accent-soft); outline: none; }
+/* En pantallas angostas un nombre largo ("Aerolíneas Argentinas") no entra al
+   lado del veredicto: el veredicto baja debajo del nombre y el + queda a la derecha. */
+@media (max-width: 480px) {
+  .msug {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: "name add" "badge add"; row-gap: 0.35rem;
+  }
+  .msug__name { grid-area: name; }
+  .msug .vbadge { grid-area: badge; justify-self: start; }
+  .msug__add { grid-area: add; }
+}
 .mine__none { margin: 0; padding: 0.85rem 0.95rem; font-size: 0.9rem; color: var(--ink-soft); }
 .mine__note { margin: 0; font-size: 0.86rem; color: var(--paid); }
 .mine__note:empty { display: none; }

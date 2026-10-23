@@ -408,8 +408,9 @@
   "mine_h": "¿Con qué compañía viajas?",
   "mine_p": "Elige hasta 3. Las ponemos primero y marcadas, para que no tengas que buscarlas.",
   "mine_ph": "Iberia, Ryanair, un tren…",
-  "mine_none": "Ninguna compañía de esta lista coincide con «{q}».",
+  "mine_none": "Ninguna compañía coincide con «{q}».",
   "mine_add": "Fijar {name} arriba",
   "mine_remove": "Quitar {name}",
-  "mine_cmp": "Compararlas lado a lado"
+  "mine_cmp": "Compararlas lado a lado",
+  "mine_region_all": "Para sumar {name}, ahora ves todas las regiones."
 }

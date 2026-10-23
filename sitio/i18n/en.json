@@ -407,8 +407,9 @@
   "mine_h": "Which company are you travelling with?",
   "mine_p": "Pick up to 3. We put them first, highlighted, so you don’t have to hunt for them.",
   "mine_ph": "Iberia, Ryanair, a train…",
-  "mine_none": "No company in this list matches “{q}”.",
+  "mine_none": "No company matches “{q}”.",
   "mine_add": "Pin {name} to the top",
   "mine_remove": "Remove {name}",
-  "mine_cmp": "Compare them side by side"
+  "mine_cmp": "Compare them side by side",
+  "mine_region_all": "To add {name}, you’re now seeing all regions."
 }

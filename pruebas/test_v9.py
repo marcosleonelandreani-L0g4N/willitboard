@@ -258,6 +258,55 @@ def main() -> int:
             c.close()
         check(not over, f"/ y /es/ × 3 anchos × 2 pasos sin desborde ({over[:3]})")
 
+        # ------------------------------------------------ 9. buscar fuera de la región (23/10/2026)
+        print("\n[tus compañías: si no está en tu región, la busca en las otras]")
+        for lang, path, latam in (("es", "/es/", "Latinoamérica"), ("en", "/", "Latin America")):
+            c = browser.new_context(viewport={"width": 1280, "height": 900}, timezone_id="Europe/Copenhagen")
+            pg = c.new_page()
+            pg.on("pageerror", lambda e: errors.append(str(e)))
+            pg.goto(BASE + path + "?l=55&w=40&h=23&kg=9")
+            pg.wait_for_selector("#results .tgroup")
+            check(pg.get_attribute('#region button[data-region="EU"]', "aria-pressed") == "true",
+                  f"{lang}: con hora de Europa arranca en la región Europa")
+            check(pg.locator('#results .rcard[data-id="aerolineas-argentinas"]').count() == 0,
+                  f"{lang}: Aerolíneas Argentinas no está en los resultados de Europa")
+            pg.fill("#mine-q", "ib")
+            pg.wait_for_timeout(80)
+            sub = pg.eval_on_selector_all("#mine-sug .msug small", "els => els.map(e => e.textContent)")
+            check(len(sub) == 1 and latam not in sub[0], f"{lang}: lo que está en la región se sugiere sin etiqueta de región ({sub})")
+            pg.fill("#mine-q", "aerolineas")
+            pg.wait_for_timeout(80)
+            sug = pg.eval_on_selector_all("#mine-sug .msug", "els => els.map(e => [e.dataset.id, e.querySelector('small').textContent, e.querySelector('.vbadge').textContent.trim()])")
+            check(len(sug) == 1 and sug[0][0] == "aerolineas-argentinas", f"{lang}: «aerolineas» (sin tilde) encuentra Aerolíneas Argentinas fuera de la región ({[s[0] for s in sug]})")
+            check(bool(sug) and latam in sug[0][1], f"{lang}: la sugerencia dice que es de {latam} ({sug[0][1] if sug else None})")
+            verdict_sug = sug[0][2] if sug else None
+            pg.keyboard.press("Enter")
+            pg.wait_for_timeout(150)
+            check(pg.get_attribute('#region button[data-region="all"]', "aria-pressed") == "true" and "region=all" in pg.url,
+                  f"{lang}: al elegirla pasa a «Todas» y lo deja en el enlace")
+            cards = pg.eval_on_selector_all("#mine-list .mcard", "els => els.map(e => [e.querySelector('.mcard__name').textContent, e.querySelector('.vbadge').textContent.trim()])")
+            check([n for n, _ in cards] == ["Aerolíneas Argentinas"], f"{lang}: queda fijada arriba ({[n for n, _ in cards]})")
+            row = pg.evaluate(GROUP_VERDICT, "aerolineas-argentinas")
+            check(bool(cards) and cards[0][1] == row == verdict_sug,
+                  f"{lang}: sugerencia, tarjeta y fila dicen lo mismo ({verdict_sug} / {cards[0][1] if cards else None} / {row})")
+            note = pg.text_content("#mine-note") or ""
+            check("Aerolíneas Argentinas" in note, f"{lang}: avisa que cambió a todas las regiones ({note.strip()})")
+            pg.fill("#mine-q", "zzzz")
+            pg.wait_for_timeout(80)
+            check(pg.locator("#mine-sug .mine__none").count() == 1, f"{lang}: si no existe en ninguna región, lo dice")
+            c.close()
+            # con tres ya fijadas: no cambia de región y avisa el límite
+            c = browser.new_context(viewport={"width": 1280, "height": 900}, timezone_id="Europe/Copenhagen")
+            pg = c.new_page()
+            pg.on("pageerror", lambda e: errors.append(str(e)))
+            pg.goto(BASE + path + "?l=55&w=40&h=23&kg=9&c=iberia,easyjet,ryanair")
+            pg.wait_for_selector("#mine-list .mcard")
+            pin(pg, "flybondi")
+            check(pg.get_attribute('#region button[data-region="EU"]', "aria-pressed") == "true"
+                  and pg.locator("#mine-list li").count() == 3 and pg.text_content("#mine-note").strip() != "",
+                  f"{lang}: con tres ya fijadas no cambia de región y avisa el límite")
+            c.close()
+
         browser.close()
     srv.shutdown()
 
