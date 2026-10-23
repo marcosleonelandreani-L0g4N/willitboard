@@ -350,6 +350,34 @@
     <lastmod>2026-10-03</lastmod>
   </url>
   <url>
+    <loc>https://willitboard.com/airlines/aerolineas-argentinas/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/aerolineas-argentinas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/aerolineas-argentinas/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/aerolineas-argentinas/"/>
+    <lastmod>2026-10-23</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/aerolineas-argentinas/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/aerolineas-argentinas/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/aerolineas-argentinas/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/aerolineas-argentinas/"/>
+    <lastmod>2026-10-23</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/airlines/flybondi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/flybondi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/flybondi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/flybondi/"/>
+    <lastmod>2026-10-23</lastmod>
+  </url>
+  <url>
+    <loc>https://willitboard.com/es/aerolineas/flybondi/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/airlines/flybondi/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/aerolineas/flybondi/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/airlines/flybondi/"/>
+    <lastmod>2026-10-23</lastmod>
+  </url>
+  <url>
     <loc>https://willitboard.com/privacy/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/privacy/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/privacidad/"/>
@@ -410,14 +438,14 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cabin-bag-sizes/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/medidas-equipaje-de-mano/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cabin-bag-sizes/"/>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-23</lastmod>
   </url>
   <url>
     <loc>https://willitboard.com/es/medidas-equipaje-de-mano/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://willitboard.com/cabin-bag-sizes/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://willitboard.com/es/medidas-equipaje-de-mano/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://willitboard.com/cabin-bag-sizes/"/>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-23</lastmod>
   </url>
   <url>
     <loc>https://willitboard.com/about/</loc>
