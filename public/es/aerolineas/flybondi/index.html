@@ -2374,7 +2374,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
 
   <footer>
     <p><strong>Willitboard</strong> cubre el equipaje de mano: el artículo personal y la maleta de cabina. Las reglas de equipaje facturado cambian según el operador y según lo que se compre, así que las mostramos como referencia y no como veredicto.</p>
-    <p>Cifras del conjunto de datos 1.4, generado el 2026-10-23. Límites en cm y kg.</p>
+    <p>Cifras del conjunto de datos 1.5, generado el 2026-10-25. Límites en cm y kg.</p>
     <ul class="footlinks footlinks--guides" aria-label="Guías">
       <li><a href="/es/como-medir-una-maleta/">Cómo medir tu maleta</a></li>
       <li><a href="/es/medidas-equipaje-de-mano/">Medidas de equipaje de mano comparadas</a></li>
@@ -2407,9 +2407,9 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
 /* Calculadora de la ficha. OP es el registro de este operador, el mismo que
    está en /operators.json; T son solo los textos que usa la cuenta. */
 (function () {
-  var OP = {"id": "flybondi", "name": "Flybondi", "type": "air", "country": "AR", "region": "LATAM", "limit_type": "dimensional", "source_url": "https://ayuda.flybondi.com/es-419/article/117-cuales-son-las-medidas-permitidas-y-limites-de-peso-para-mi-equipaje-de-mano", "verified_on": "2026-10-23", "personal_item": {"included": true, "max_cm": {"length": 40, "width": 30, "height": 20}, "max_kg": 6}, "cabin_bag": {"included": false, "requires_addon": "Carry-on", "max_cm": {"length": 55, "width": 35, "height": 25}, "max_kg": 9}, "wheels_handles": {"included_in_measurement": null, "tolerance_cm": null}, "reference_fare": null, "combined_max_kg": null, "excess_fee": {"currency": null, "online_from": null, "at_gate_from": null}, "days_since_verified": 0};
+  var OP = {"id": "flybondi", "name": "Flybondi", "type": "air", "country": "AR", "region": "LATAM", "limit_type": "dimensional", "source_url": "https://ayuda.flybondi.com/es-419/article/117-cuales-son-las-medidas-permitidas-y-limites-de-peso-para-mi-equipaje-de-mano", "verified_on": "2026-10-23", "personal_item": {"included": true, "max_cm": {"length": 40, "width": 30, "height": 20}, "max_kg": 6}, "cabin_bag": {"included": false, "requires_addon": "Carry-on", "max_cm": {"length": 55, "width": 35, "height": 25}, "max_kg": 9, "no_weight_limit": false}, "wheels_handles": {"included_in_measurement": null, "tolerance_cm": null}, "reference_fare": null, "combined_max_kg": null, "excess_fee": {"currency": null, "online_from": null, "at_gate_from": null}, "days_since_verified": 2};
   if (!OP) return;
-  var T = {"band_fail_title": "No entra", "band_paid_title": "Entra, pero se paga aparte", "band_pass_title": "Sin costo extra", "band_rule_title": "Consultar la regla de equipaje", "band_unknown_title": "Medidas sin confirmar", "d_fits": "Entra en {label}, que la tarifa ya incluye: <span class=\"dims\">{dims}<\/span>{kg}.", "d_maybe": "Tu maleta supera por {by} el límite para {label}, que es de <span class=\"dims\">{dims}<\/span>.", "d_over_both": "Supera por {by} la franquicia más grande (<span class=\"dims\">{dims}<\/span>) y también su límite de peso de {kg} kg.", "d_over_dims": "Supera por {by} la franquicia de cabina más grande (<span class=\"dims\">{dims}<\/span>).", "d_over_generic": "Supera los límites de cabina publicados.", "d_over_weight": "Entra en el tamaño para {label} (<span class=\"dims\">{dims}<\/span>), pero supera su límite de peso de {kg} kg.", "d_paid": "Cumple las medidas (<span class=\"dims\">{dims}<\/span>{kg}), pero la tarifa base <strong>no incluye {label}<\/strong>.", "d_rule": "Este operador describe qué se puede llevar en lugar de publicar medidas, así que una comprobación de tamaño no puede dar un sí o un no.", "d_unknown": "Este operador no publica las medidas necesarias para responder. Que falte una medida no significa que no haya límite.", "fiche_try_empty": "Escribe las tres medidas.", "flag_addon": "Hay que comprar: {addon}.", "flag_combined": "{name} publica un solo peso para los dos bultos juntos: {kg} kg en total. Si además llevas el otro bulto, los dos cuentan para ese límite.", "flag_fare": "Estos límites son los de la tarifa {fare}. Otras tarifas del mismo operador pueden incluir más.", "flag_maybe": "Ese límite excluye asas y ruedas, y permite que las ruedas añadan hasta {tol} cm. Que tu maleta cumpla depende de cuánto de ese exceso son las ruedas. Para saberlo hay que medir el cuerpo de la maleta sin ellas.", "flag_maybe_addon": " En cualquier caso, esta franquicia exige comprar {addon}.", "flag_no_weight": "Para esta franquicia no hay límite de peso publicado. Eso no es lo mismo que no tener límite.", "flag_wheels_excluded": "Los límites publicados excluyen asas y ruedas.", "flag_wheels_excluded_tol": "Los límites publicados excluyen asas y ruedas, y las ruedas pueden añadir como máximo {tol} cm por encima.", "flag_wheels_included": "Los límites publicados ya incluyen asas y ruedas, así que hay que medir la maleta tal como está.", "flag_wheels_unknown": "Este operador no publica si las asas y las ruedas cuentan para el límite. Si tu maleta está a un par de centímetros del límite, conviene dar por hecho que sí cuentan.", "kg_suffix": ", hasta {kg} kg", "kg_suffix_shared": ", hasta {kg} kg en total con el otro bulto", "label_cabin": "la maleta de cabina", "label_personal": "el artículo personal", "v_wheels": "Depende de las ruedas"};
+  var T = {"band_fail_title": "No entra", "band_paid_title": "Entra, pero se paga aparte", "band_pass_title": "Sin costo extra", "band_rule_title": "Consultar la regla de equipaje", "band_unknown_title": "Medidas sin confirmar", "d_fits": "Entra en {label}, que la tarifa ya incluye: <span class=\"dims\">{dims}<\/span>{kg}.", "d_maybe": "Tu maleta supera por {by} el límite para {label}, que es de <span class=\"dims\">{dims}<\/span>.", "d_over_both": "Supera por {by} la franquicia más grande (<span class=\"dims\">{dims}<\/span>) y también su límite de peso de {kg} kg.", "d_over_dims": "Supera por {by} la franquicia de cabina más grande (<span class=\"dims\">{dims}<\/span>).", "d_over_dims_rail": "Supera por {by} la franquicia más grande (<span class=\"dims\">{dims}<\/span>).", "d_over_generic": "Supera los límites de cabina publicados.", "d_over_generic_rail": "Supera los límites de equipaje publicados.", "d_over_weight": "Entra en el tamaño para {label} (<span class=\"dims\">{dims}<\/span>), pero supera su límite de peso de {kg} kg.", "d_paid": "Cumple las medidas (<span class=\"dims\">{dims}<\/span>{kg}), pero la tarifa base <strong>no incluye {label}<\/strong>.", "d_rule": "Este operador describe qué se puede llevar en lugar de publicar medidas, así que una comprobación de tamaño no puede dar un sí o un no.", "d_unknown": "Este operador no publica las medidas necesarias para responder. Que falte una medida no significa que no haya límite.", "fiche_try_empty": "Escribe las tres medidas.", "flag_addon": "Hay que comprar: {addon}.", "flag_combined": "{name} publica un solo peso para los dos bultos juntos: {kg} kg en total. Si además llevas el otro bulto, los dos cuentan para ese límite.", "flag_fare": "Estos límites son los de la tarifa {fare}. Otras tarifas del mismo operador pueden incluir más.", "flag_maybe": "Ese límite excluye asas y ruedas, y permite que las ruedas añadan hasta {tol} cm. Que tu maleta cumpla depende de cuánto de ese exceso son las ruedas. Para saberlo hay que medir el cuerpo de la maleta sin ellas.", "flag_maybe_addon": " En cualquier caso, esta franquicia exige comprar {addon}.", "flag_no_weight": "Para esta franquicia no hay límite de peso publicado. Eso no es lo mismo que no tener límite.", "flag_no_weight_op": "{name} indica que este bulto no tiene límite de peso.", "flag_wheels_excluded": "Los límites publicados excluyen asas y ruedas.", "flag_wheels_excluded_tol": "Los límites publicados excluyen asas y ruedas, y las ruedas pueden añadir como máximo {tol} cm por encima.", "flag_wheels_included": "Los límites publicados ya incluyen asas y ruedas, así que hay que medir la maleta tal como está.", "flag_wheels_unknown": "Este operador no publica si las asas y las ruedas cuentan para el límite. Si tu maleta está a un par de centímetros del límite, conviene dar por hecho que sí cuentan.", "kg_suffix": ", hasta {kg} kg", "kg_suffix_shared": ", hasta {kg} kg en total con el otro bulto", "label_cabin": "la maleta de cabina", "label_cabin_rail": "la maleta", "label_personal": "el artículo personal", "label_personal_rail": "el bolso de mano", "v_wheels": "Depende de las ruedas"};
   function t(key, vars) {
     var s = T[key];
     if (s === undefined) return key;
@@ -2487,7 +2487,11 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     var dims = compareDims(b.cm, limitTriple(allowance.max_cm), wheels);
     var shared = !isNum(allowance.max_kg) && isNum(combinedKg);
     var maxKg = shared ? combinedKg : (isNum(allowance.max_kg) ? allowance.max_kg : null);
-    var weight = compareWeight(b.kg, maxKg);
+    /* Esquema 1.5: si el operador AFIRMA que no hay límite de peso, cualquier
+       peso cumple. No cambia ninguna banda (el peso solo descarta cuando es
+       OVER); cambia el aviso: ya no es "no publica peso". */
+    var weight = allowance.no_weight_limit === true && maxKg === null
+      ? (b.kg === null ? UNKNOWN : FITS) : compareWeight(b.kg, maxKg);
     return { dims: dims, weight: weight, allowance: allowance, maxKg: maxKg, shared: shared };
   }
 
@@ -2571,9 +2575,13 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       out.flags.push({ tone: "info", text: t("flag_fare", { fare: op.reference_fare }) });
     }
 
+    /* Un tren no tiene "artículo personal" ni "maleta de cabina": mismo dato,
+       otra palabra (25/10/2026). Claves escritas enteras a propósito: build_site
+       busca t("...") en este archivo para mandarle a la ficha solo esos textos. */
+    var rail = op.type === "rail";
     var candidates = [];
-    if (personal) candidates.push({ kind: "personal", label: t("label_personal"), res: personal });
-    if (cabin) candidates.push({ kind: "cabin", label: t("label_cabin"), res: cabin });
+    if (personal) candidates.push({ kind: "personal", label: rail ? t("label_personal_rail") : t("label_personal"), res: personal });
+    if (cabin) candidates.push({ kind: "cabin", label: rail ? t("label_cabin_rail") : t("label_cabin"), res: cabin });
 
     /* prefer an included allowance that fits outright */
     var best = null;
@@ -2590,7 +2598,9 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
         dims: fmtCm(best.res.allowance.max_cm),
         kg: kgSuffix(best.res)
       });
-      if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
+      if (best.res.allowance.no_weight_limit === true && !isNum(best.res.maxKg)) {
+        out.flags.push({ tone: "neutral", text: t("flag_no_weight_op", { name: op.name }) });
+      } else if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
         out.flags.push({ tone: "band", text: t("flag_no_weight") });
       }
       pushShared(out, op, best.res);
@@ -2676,12 +2686,14 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
           label: biggest.label, dims: dims, kg: biggest.res.maxKg
         });
       } else {
-        out.detail = t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
+        out.detail = rail
+          ? t("d_over_dims_rail", { dims: dims, by: fmtLen(biggest.res.dims.by) })
+          : t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
       }
       if (overWeight) pushShared(out, op, biggest.res);
       out.compare = mkCompare(b.cm, biggest.res, biggest.label);
     } else {
-      out.detail = t("d_over_generic");
+      out.detail = rail ? t("d_over_generic_rail") : t("d_over_generic");
     }
     return out;
   }

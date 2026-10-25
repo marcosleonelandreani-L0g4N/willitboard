@@ -35,6 +35,7 @@ W, H = 1000, 1500
 TXT = {
     "en": {
         "q_measured": "Cabin bag:<br>will yours fit?",
+        "q_measured_rail": "Train luggage:<br>will yours fit?",
         "q_rule": "Luggage rules:<br>what can you bring?",
         "lead_measured": "Type your bag's size. See in seconds where it goes:",
         "lead_rule": "{name} publishes a written rule, not measurements. We show it word for word, from the official page.",
@@ -44,6 +45,7 @@ TXT = {
     },
     "es": {
         "q_measured": "Equipaje de mano:<br>¿entra tu maleta?",
+        "q_measured_rail": "Equipaje en el tren:<br>¿entra tu maleta?",
         "q_rule": "Equipaje:<br>¿qué puedes llevar?",
         "lead_measured": "Escribe sus medidas y mira al instante dónde queda:",
         "lead_rule": "{name} publica una regla escrita, no medidas. La mostramos tal cual, de la página oficial.",
@@ -82,7 +84,8 @@ def pin_html(op: dict, lang: str) -> str:
     measured = op["limit_type"] == "dimensional"
     # Posesivo inglés: "British Airways' page", no "British Airways's".
     poss = name + ("'" if name.endswith("s") else "'s")
-    q = T["q_measured"] if measured else T["q_rule"]
+    # Un tren con medidas no tiene "cabin bag" (25/10/2026): pregunta propia.
+    q = (T.get(f"q_measured_{op['type']}", T["q_measured"]) if measured else T["q_rule"])
     if measured:
         body = f"""<p class="lead">{T['lead_measured']}</p>
         <ul class="chips">

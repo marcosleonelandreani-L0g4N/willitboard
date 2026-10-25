@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.4",
-  "generated_on": "2026-10-23",
+  "schema_version": "1.5",
+  "generated_on": "2026-10-25",
   "canonical_units": {
     "length": "cm",
     "weight": "kg"
@@ -32,7 +32,8 @@
           "width": 40,
           "height": 20
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -45,7 +46,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 41
+      "days_since_verified": 43
     },
     {
       "id": "wizz-air",
@@ -73,7 +74,8 @@
           "width": 40,
           "height": 23
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": false,
@@ -86,7 +88,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 41
+      "days_since_verified": 43
     },
     {
       "id": "easyjet",
@@ -114,7 +116,8 @@
           "width": 45,
           "height": 25
         },
-        "max_kg": 15
+        "max_kg": 15,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -127,7 +130,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 41
+      "days_since_verified": 43
     },
     {
       "id": "eurostar",
@@ -142,7 +145,7 @@
         "es": null,
         "en": "Each piece of luggage can be up to 85 cm long on routes to and from London, or 75 cm on all other routes. There is no weight limit on your luggage, but you must be able to carry your bags safely on and off the train and store them in the designated areas. Eurostar Standard and Plus include 2 pieces of luggage plus 1 hand luggage; Premier includes 3 plus 1. \"Hand luggage\" covers items such as backpacks, handbags, briefcases and laptop bags. Children may take one piece of luggage and one piece of hand luggage. Pushchairs and prams travel free if folded away. Extra bags, oversized items, bicycles, musical instruments and sports equipment are carried for a fee, and both the fees and the maximum dimensions differ between routes to and from London and routes between Belgium, France, the Netherlands and Germany."
       },
-      "days_since_verified": 40
+      "days_since_verified": 42
     },
     {
       "id": "deutsche-bahn",
@@ -157,7 +160,7 @@
         "es": null,
         "en": "Luggage such as briefcases, laptops, backpacks and suitcases can be taken free of charge. In addition to your hand luggage, you are allowed to carry one additional larger piece of luggage or item free of charge, provided this load can be carried by one person alone. You do not need to reserve space for your luggage, or weigh or measure it before travelling. Because of its size, a larger item may have to be stored away from your seat, for example in the nearest luggage rack. Each passenger is responsible for looking after their own luggage. Note: Deutsche Bahn states that its luggage racks were sized around an assumed standard of 700 x 500 x 300 mm (height x width x depth), which has almost always proved suitable. That figure describes the racks, not a limit on your bag."
       },
-      "days_since_verified": 40
+      "days_since_verified": 42
     },
     {
       "id": "trenitalia",
@@ -172,7 +175,7 @@
         "es": null,
         "en": "Passengers may take luggage or other easily transportable items (such as strollers, prams, high chairs if foldable, umbrellas, deckchairs, skis, musical instruments) on board the coach free of charge, provided they are stored in the spaces made available for luggage. Luggage may be permitted to exceed this volume limit as long as it does not disturb or cause injury to other passengers, does not obstruct railway staff from carrying out their work, and does not damage the coach. On some trains, specific spaces have been made available for passengers to store larger luggage items. Trenitalia's Conditions of Carriage (SCIC-NRT, section 14) add that each passenger may take no more than three easy-to-handle items as hand luggage, and refer to each carrier's own conditions for exact maximum measurements. Note: the wording above refers to a volume limit that Trenitalia does not state on this page."
       },
-      "days_since_verified": 40
+      "days_since_verified": 42
     },
     {
       "id": "british-airways",
@@ -200,7 +203,8 @@
           "width": 45,
           "height": 25
         },
-        "max_kg": null
+        "max_kg": null,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -213,7 +217,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 36
+      "days_since_verified": 38
     },
     {
       "id": "stena-line",
@@ -228,7 +232,7 @@
         "es": null,
         "en": "If you are travelling by car there is no limit to the amount of luggage you can carry in your vehicle as it will remain in your vehicle on our car deck. For foot passengers travelling to Sweden, Denmark, Germany, Latvia and Poland, there is no limit on the amount of luggage you can bring with you, however you need to be able to carry it onboard yourself. For foot passengers travelling to Ireland and to the UK from Ireland, there is no limit to the amount of luggage you can bring with you, however, hand luggage must be no larger than 60cm x 50cm x 40cm and you must be able to carry it yourself. If you are travelling with luggage that is larger than this it must be checked-in prior to boarding. Your luggage will be safely stowed during the sailing and can be collected upon arrival in the terminal. You will not be able to access your luggage during the sailing so please ensure you remove all necessary items before checking it in. If you are travelling by foot or by Rail & Sail on our Harwich-Hook of Holland route, you may take as much luggage as you like, as long as you can carry it onboard yourself. Passengers travelling on a day trip on our Irish Sea routes may carry one piece of small hand luggage. Any additional pieces of luggage will be charged at our discretion."
       },
-      "days_since_verified": 30
+      "days_since_verified": 32
     },
     {
       "id": "vueling",
@@ -256,7 +260,8 @@
           "width": 40,
           "height": 20
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -269,7 +274,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "lufthansa",
@@ -297,7 +302,8 @@
           "width": 40,
           "height": 23
         },
-        "max_kg": 8
+        "max_kg": 8,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -310,7 +316,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "sas",
@@ -338,7 +344,8 @@
           "width": 40,
           "height": 23
         },
-        "max_kg": 8
+        "max_kg": 8,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -351,7 +358,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "norwegian",
@@ -379,7 +386,8 @@
           "width": 40,
           "height": 23
         },
-        "max_kg": null
+        "max_kg": null,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -392,7 +400,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "air-france",
@@ -420,7 +428,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": null
+        "max_kg": null,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -433,7 +442,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "klm",
@@ -461,7 +470,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": null
+        "max_kg": null,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -474,7 +484,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "transavia",
@@ -502,7 +512,8 @@
           "width": 40,
           "height": 25
         },
-        "max_kg": null
+        "max_kg": null,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -515,7 +526,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "iberia",
@@ -543,7 +554,8 @@
           "width": 40,
           "height": 25
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -556,7 +568,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 27
+      "days_since_verified": 29
     },
     {
       "id": "aer-lingus",
@@ -584,7 +596,8 @@
           "width": 40,
           "height": 24
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -597,7 +610,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "eurowings",
@@ -625,7 +638,8 @@
           "width": 40,
           "height": 23
         },
-        "max_kg": 8
+        "max_kg": 8,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -638,7 +652,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "tap-air-portugal",
@@ -666,7 +680,8 @@
           "width": 40,
           "height": 25
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -679,7 +694,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "jet2",
@@ -707,7 +722,8 @@
           "width": 45,
           "height": 25
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -720,7 +736,91 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
+    },
+    {
+      "id": "sncf-tgv-inoui",
+      "name": "TGV INOUI (SNCF)",
+      "type": "rail",
+      "country": "FR",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "source_url": "https://www.sncf-connect.com/en-en/help/transport-luggage",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": true,
+        "requires_addon": null,
+        "max_cm": {
+          "length": 70,
+          "width": 90,
+          "height": 50
+        },
+        "max_kg": null,
+        "no_weight_limit": false
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": null,
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": "EUR",
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 22
+    },
+    {
+      "id": "ouigo",
+      "name": "OUIGO",
+      "type": "rail",
+      "country": "FR",
+      "region": "EU",
+      "limit_type": "dimensional",
+      "source_url": "https://www.sncf-connect.com/en-en/help/transport-luggage",
+      "verified_on": "2026-10-03",
+      "personal_item": {
+        "included": true,
+        "max_cm": {
+          "length": 40,
+          "width": 30,
+          "height": 15
+        },
+        "max_kg": null
+      },
+      "cabin_bag": {
+        "included": true,
+        "requires_addon": null,
+        "max_cm": {
+          "length": 55,
+          "width": 35,
+          "height": 25
+        },
+        "max_kg": null,
+        "no_weight_limit": true
+      },
+      "wheels_handles": {
+        "included_in_measurement": null,
+        "tolerance_cm": null
+      },
+      "reference_fare": null,
+      "combined_max_kg": null,
+      "excess_fee": {
+        "currency": "EUR",
+        "online_from": null,
+        "at_gate_from": null
+      },
+      "days_since_verified": 22
     },
     {
       "id": "jetsmart",
@@ -748,7 +848,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -761,7 +862,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "volaris",
@@ -789,7 +890,8 @@
           "width": 40,
           "height": 25
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -802,7 +904,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "latam",
@@ -830,7 +932,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": 12
+        "max_kg": 12,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -843,7 +946,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "avianca",
@@ -871,7 +974,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": 10
+        "max_kg": 10,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": true,
@@ -884,7 +988,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 20
+      "days_since_verified": 22
     },
     {
       "id": "aerolineas-argentinas",
@@ -912,7 +1016,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": 8
+        "max_kg": 8,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -925,7 +1030,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 0
+      "days_since_verified": 2
     },
     {
       "id": "flybondi",
@@ -953,7 +1058,8 @@
           "width": 35,
           "height": 25
         },
-        "max_kg": 9
+        "max_kg": 9,
+        "no_weight_limit": false
       },
       "wheels_handles": {
         "included_in_measurement": null,
@@ -966,7 +1072,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 0
+      "days_since_verified": 2
     }
   ]
 }

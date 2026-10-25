@@ -2800,6 +2800,8 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       <ul class="index__links">
         <li><a href="/trains/deutsche-bahn/">Deutsche Bahn</a></li>
         <li><a href="/trains/eurostar/">Eurostar</a></li>
+        <li><a href="/trains/ouigo/">OUIGO</a></li>
+        <li><a href="/trains/sncf-tgv-inoui/">TGV INOUI (SNCF)</a></li>
         <li><a href="/trains/trenitalia/">Trenitalia</a></li>
       </ul>
     </div>
@@ -2901,6 +2903,8 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "v_wheels": "Depends on your wheels",
   "label_personal": "personal item",
   "label_cabin": "cabin bag",
+  "label_personal_rail": "hand luggage",
+  "label_cabin_rail": "suitcase",
   "d_rule": "This operator describes what you can bring instead of publishing measurements, so a size check can't produce a yes or no.",
   "d_unknown": "This operator doesn't publish the measurements needed to answer. A missing measurement is not the same as no limit.",
   "d_fits": "Fits the {label} included in the fare: <span class=\"dims\">{dims}</span>{kg}.",
@@ -2909,13 +2913,16 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "d_over_both": "Over the largest allowance (<span class=\"dims\">{dims}</span>) by {by}, and over its {kg} kg weight limit.",
   "d_over_weight": "Within the size of the {label} (<span class=\"dims\">{dims}</span>), but over its weight limit of {kg} kg.",
   "d_over_dims": "Over the largest cabin allowance (<span class=\"dims\">{dims}</span>) by {by}.",
+  "d_over_dims_rail": "Over the largest allowance (<span class=\"dims\">{dims}</span>) by {by}.",
   "d_over_generic": "Over the published cabin limits.",
+  "d_over_generic_rail": "Over the published luggage limits.",
   "kg_suffix": ", up to {kg} kg",
   "flag_wheels_included": "Published limits already include handles and wheels, so measure your bag as it stands.",
   "flag_wheels_excluded": "Published limits exclude handles and wheels.",
   "flag_wheels_excluded_tol": "Published limits exclude handles and wheels, and wheels may add at most {tol} cm on top.",
   "flag_wheels_unknown": "This operator doesn't publish whether handles and wheels count toward the limit. If your bag is within a couple of centimetres of it, assume they do.",
   "flag_no_weight": "No weight limit is published for this allowance. That isn't the same as no limit.",
+  "flag_no_weight_op": "{name} states there is no weight limit for this bag.",
   "flag_addon": "You need to buy: {addon}.",
   "flag_maybe": "That limit excludes handles and wheels, and allows the wheels to add up to {tol} cm. Whether your bag complies depends on how much of that excess is wheels. Measure the body of the bag without them to find out.",
   "flag_maybe_addon": " Either way, this allowance requires buying {addon}.",
@@ -2943,17 +2950,22 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "fiche_h1_rail": "{name} luggage allowance",
   "fiche_h1_ferry": "{name} luggage allowance",
   "fiche_meta_dim": "{name} personal item and cabin bag limits in cm and kg, what the fare includes and what costs extra. Linked to the operator's own page, with the date a human checked it.",
+  "fiche_meta_dim_rail": "{name} size limits for hand luggage and suitcases, and what the ticket includes. Linked to the operator's own page, with the date a human checked it.",
   "fiche_meta_rule": "What {name} publishes about luggage, quoted in their own words. Linked to the operator's own page, with the date a human checked it. No invented measurements.",
   "fiche_standfirst_dim": "What {name} publishes for the personal item and the cabin bag, what the fare already includes, and what has to be bought separately. Every figure on this page comes from the operator's own page.",
+  "fiche_standfirst_dim_rail": "What {name} publishes for hand luggage and suitcases, and what the ticket already includes. Every figure on this page comes from the operator's own page.",
   "fiche_standfirst_rule": "{name} describes what you can bring instead of publishing measurements. Their rule is shown below in their own words, and never turned into a yes or no.",
   "fiche_allowances_h": "What you can take",
   "fiche_label_personal": "Personal item",
   "fiche_label_cabin": "Cabin bag",
+  "fiche_label_personal_rail": "Hand luggage",
+  "fiche_label_cabin_rail": "Suitcase",
   "status_free": "Included in the fare",
   "status_paid": "Costs extra",
   "status_unknown": "Not published",
   "allow_kg": "Up to {kg} kg",
   "allow_no_kg": "No weight limit published. That is not the same as no limit.",
+  "allow_no_limit_op": "No weight limit, according to {name}.",
   "allow_kg_shared": "Up to {kg} kg in total, together with the other bag",
   "flag_combined": "{name} publishes one weight for both bags together: {kg} kg in total. If you also carry the other bag, both count toward it.",
   "allow_not_published": "{name} doesn't publish measurements for this allowance. A missing measurement is not the same as no limit.",
@@ -2974,6 +2986,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "fiche_try_same": "Same check as the home page, against {name}'s published limits.",
   "fiche_try_all": "Check it against every operator",
   "fiche_kg_cabin": "maximum for the cabin bag",
+  "fiche_kg_cabin_rail": "maximum for the suitcase",
   "fiche_kg_shared": "in total, adding up both bags",
   "fiche_compare": "Compare with another",
   "nogo_prev": "Previous items",
@@ -3027,6 +3040,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "cmp_rule_h": "In their own words",
   "cmp_no_dims": "No measurements published — they describe a rule instead.",
   "cmp_no_kg": "No weight published",
+  "cmp_no_limit_kg": "No weight limit, per the operator",
   "wh_included": "Measured with wheels and handles",
   "wh_excluded": "Measured without wheels and handles",
   "wh_excluded_tol": "Without wheels; they may add up to {tol} cm",
@@ -3124,6 +3138,8 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "sizes_col_checked": "Source and date checked",
   "sizes_rules_h": "Operators that publish a rule, not measurements",
   "sizes_rules_p": "These operators describe what you can bring instead of publishing a size. Their rules are on their own pages, quoted in their own words.",
+  "sizes_other_h": "Trains and ferries that publish measurements",
+  "sizes_other_p": "Their limits are on their own pages, with the same source link and the same human check date as the airlines.",
   "sizes_updated": "Built from the data as last checked by a person on {date}.",
   "about_title": "About Willitboard | Willitboard",
   "about_meta": "What Willitboard is, where every limit comes from, what it will never do, and how to report a mistake.",
@@ -3412,7 +3428,11 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     var dims = compareDims(b.cm, limitTriple(allowance.max_cm), wheels);
     var shared = !isNum(allowance.max_kg) && isNum(combinedKg);
     var maxKg = shared ? combinedKg : (isNum(allowance.max_kg) ? allowance.max_kg : null);
-    var weight = compareWeight(b.kg, maxKg);
+    /* Esquema 1.5: si el operador AFIRMA que no hay límite de peso, cualquier
+       peso cumple. No cambia ninguna banda (el peso solo descarta cuando es
+       OVER); cambia el aviso: ya no es "no publica peso". */
+    var weight = allowance.no_weight_limit === true && maxKg === null
+      ? (b.kg === null ? UNKNOWN : FITS) : compareWeight(b.kg, maxKg);
     return { dims: dims, weight: weight, allowance: allowance, maxKg: maxKg, shared: shared };
   }
 
@@ -3496,9 +3516,13 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       out.flags.push({ tone: "info", text: t("flag_fare", { fare: op.reference_fare }) });
     }
 
+    /* Un tren no tiene "artículo personal" ni "maleta de cabina": mismo dato,
+       otra palabra (25/10/2026). Claves escritas enteras a propósito: build_site
+       busca t("...") en este archivo para mandarle a la ficha solo esos textos. */
+    var rail = op.type === "rail";
     var candidates = [];
-    if (personal) candidates.push({ kind: "personal", label: t("label_personal"), res: personal });
-    if (cabin) candidates.push({ kind: "cabin", label: t("label_cabin"), res: cabin });
+    if (personal) candidates.push({ kind: "personal", label: rail ? t("label_personal_rail") : t("label_personal"), res: personal });
+    if (cabin) candidates.push({ kind: "cabin", label: rail ? t("label_cabin_rail") : t("label_cabin"), res: cabin });
 
     /* prefer an included allowance that fits outright */
     var best = null;
@@ -3515,7 +3539,9 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
         dims: fmtCm(best.res.allowance.max_cm),
         kg: kgSuffix(best.res)
       });
-      if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
+      if (best.res.allowance.no_weight_limit === true && !isNum(best.res.maxKg)) {
+        out.flags.push({ tone: "neutral", text: t("flag_no_weight_op", { name: op.name }) });
+      } else if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
         out.flags.push({ tone: "band", text: t("flag_no_weight") });
       }
       pushShared(out, op, best.res);
@@ -3601,12 +3627,14 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
           label: biggest.label, dims: dims, kg: biggest.res.maxKg
         });
       } else {
-        out.detail = t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
+        out.detail = rail
+          ? t("d_over_dims_rail", { dims: dims, by: fmtLen(biggest.res.dims.by) })
+          : t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
       }
       if (overWeight) pushShared(out, op, biggest.res);
       out.compare = mkCompare(b.cm, biggest.res, biggest.label);
     } else {
-      out.detail = t("d_over_generic");
+      out.detail = rail ? t("d_over_generic_rail") : t("d_over_generic");
     }
     return out;
   }
@@ -3690,9 +3718,16 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   /* estado de la pestaña 2 */
   var cmpQuery = "", cmpType = "all", cmpOnlyPass = false, cmpCabinIncl = false, cmpSort = "name";
 
+  /* Rótulo de franquicia según el tipo de operador (25/10/2026): en un tren
+     es "bolso de mano / maleta", no "artículo personal / maleta de cabina". */
+  function bagLabel(op, which) {
+    var rail = op.type === "rail";
+    if (which === "cabin") return rail ? t("fiche_label_cabin_rail") : t("fiche_label_cabin");
+    return rail ? t("fiche_label_personal_rail") : t("fiche_label_personal");
+  }
+
   function allowanceName(v) {
-    return v.compare && v.compare.allowance === v.op.cabin_bag
-      ? t("fiche_label_cabin") : t("fiche_label_personal");
+    return bagLabel(v.op, v.compare && v.compare.allowance === v.op.cabin_bag ? "cabin" : "personal");
   }
 
   function kgText(maxKg, shared) {
@@ -3994,7 +4029,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     var tri = cab && limitTriple(cab.max_cm);
     if (!tri) return esc(t("card_unknown_short"));
     var status = cab.included === true ? t("status_free") : (cab.included === false ? t("status_paid") : t("status_unknown"));
-    return esc(t("fiche_label_cabin")) + ' · <span class="dims">' + esc(fmtCm(cab.max_cm)) + "</span> · " + esc(status);
+    return esc(bagLabel(op, "cabin")) + ' · <span class="dims">' + esc(fmtCm(cab.max_cm)) + "</span> · " + esc(status);
   }
 
   function renderOpList(verdicts) {
@@ -4052,6 +4087,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     var kg;
     if (isNum(a.max_kg)) kg = t("allow_kg", { kg: a.max_kg });
     else if (isNum(v.op.combined_max_kg)) kg = t("allow_kg_shared", { kg: v.op.combined_max_kg });
+    else if (a.no_weight_limit === true) kg = t("cmp_no_limit_kg");
     else kg = t("cmp_no_kg");
     out += '<div class="cmp__muted">' + esc(kg) + "</div>";
     if (a.included === false && a.requires_addon) {
@@ -4131,8 +4167,19 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     row(t("cmp_row_fit"), function (v) {
       return v.compare ? miniBars(v.compare, true) : '<span class="cmp__muted">—</span>';
     });
-    row(t("fiche_label_personal"), function (v) { return allowanceCell(v, "personal_item"); });
-    row(t("fiche_label_cabin"), function (v) { return allowanceCell(v, "cabin_bag"); });
+    /* Encabezado de fila: si se comparan aviones y trenes juntos, se nombran los
+       dos rótulos ("Artículo personal / Bolso de mano"); si no, el que toca. */
+    function bagRowLabel(which) {
+      var seen = [];
+      chosen.forEach(function (v) {
+        if (v.op.limit_type !== "dimensional") return;  /* una regla escrita no tiene franquicias */
+        var l = bagLabel(v.op, which);
+        if (seen.indexOf(l) < 0) seen.push(l);
+      });
+      return seen.length ? seen.join(" / ") : bagLabel({ type: "air" }, which);
+    }
+    row(bagRowLabel("personal"), function (v) { return allowanceCell(v, "personal_item"); });
+    row(bagRowLabel("cabin"), function (v) { return allowanceCell(v, "cabin_bag"); });
     row(t("fiche_wheels_h"), wheelsCell);
     row(t("cmp_row_source"), function (v) {
       return '<a href="' + esc(v.op.source_url) + '" target="_blank" rel="noopener nofollow">' +

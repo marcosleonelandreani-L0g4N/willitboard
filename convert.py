@@ -22,7 +22,7 @@ from urllib.parse import urlsplit
 from zipfile import BadZipFile
 
 
-SCHEMA_VERSION = "1.4"
+SCHEMA_VERSION = "1.5"
 STALE_DAYS = 180
 EXAMPLE_MARKER = "EJEMPLO SIN VERIFICAR"
 REQUIRED_HEADERS = (
@@ -45,7 +45,11 @@ NONNEGATIVE_FIELDS = ("tolerancia_ruedas_manijas_cm",)
 # ("Basic Fare", "Standard"...). No se traduce. Opcional para que una planilla
 # vieja siga convirtiendo: vacío significa "no confirmado", y la ficha muestra
 # entonces el aviso genérico de tarifas.
-OPTIONAL_HEADERS = ("tarifa_referencia", "peso_combinado_kg")
+OPTIONAL_HEADERS = ("tarifa_referencia", "peso_combinado_kg", "cabina_sin_limite_peso")
+# cabina_sin_limite_peso (esquema 1.5, 25/10/2026): SI solo cuando la fuente
+# oficial AFIRMA que la valija no tiene límite de peso (OUIGO: "with no weight
+# limit"). No es lo mismo que cabina_kg vacío, que significa "no publica peso".
+# Sin esta columna, la ficha diría "no hay límite publicado", que no es exacto.
 # peso_combinado_kg (esquema 1.4, 26/09/2026): algunos operadores publican UN
 # peso para el artículo personal y la valija JUNTOS (Air France, KLM, Transavia,
 # Norwegian). Se guarda aparte del peso por bulto: dejarlo vacío haría decir a
@@ -254,9 +258,14 @@ def build_operator(row, line, today):
             "included": booleans["personal_incluido"], "max_cm": dimensions["personal"],
             "max_kg": numbers["personal_kg"],
         }
+        no_limit = read("cabina_sin_limite_peso", boolean) is True
+        if no_limit and numbers["cabina_kg"] is not None:
+            errors.append(f"Fila {line}, cabina_sin_limite_peso: es SI pero cabina_kg tiene "
+                          f"{numbers['cabina_kg']} kg; una de las dos está mal.")
         op["cabin_bag"] = {
             "included": booleans["cabina_incluida"], "requires_addon": text(row.get("cabina_addon")),
             "max_cm": dimensions["cabina"], "max_kg": numbers["cabina_kg"],
+            "no_weight_limit": no_limit,
         }
         op["wheels_handles"] = {
             "included_in_measurement": booleans["incluye_ruedas_manijas"],
@@ -269,6 +278,9 @@ def build_operator(row, line, today):
         op["reference_fare"] = fare
         combined = read("peso_combinado_kg", number)
         op["combined_max_kg"] = combined
+        if no_limit and combined is not None:
+            errors.append(f"Fila {line}, cabina_sin_limite_peso: es SI pero peso_combinado_kg tiene "
+                          f"{combined} kg; una de las dos está mal.")
         for key, label in (("personal_kg", "personal"), ("cabina_kg", "cabina")):
             single = numbers[key]
             if combined is not None and single is not None and single > combined:

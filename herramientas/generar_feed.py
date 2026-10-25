@@ -75,6 +75,9 @@ DESC = {
         "dimensional": "Will your bag fit {poss} cabin limits? Type its size on Willitboard and see in "
                        "seconds whether it goes at no extra cost, costs extra or doesn't fit. Taken from "
                        "{poss} official page and checked by a person, with the date shown on the page.",
+        "dimensional_rail": "Will your luggage fit {poss} train limits? Type its size on Willitboard and see "
+                            "in seconds whether it goes at no extra cost, costs extra or doesn't fit. Taken "
+                            "from {poss} official page and checked by a person, with the date shown on the page.",
         "descriptivo": "{name} publishes a written luggage rule instead of measurements. Read it word for "
                        "word on Willitboard, with the link to {poss} official page and the date a person "
                        "checked it.",
@@ -83,6 +86,9 @@ DESC = {
         "dimensional": "¿Tu maleta entra en el equipaje de mano de {name}? Escribe sus medidas en "
                        "Willitboard y mira al instante si va sin costo extra, se paga aparte o no entra. "
                        "Sale de la página oficial de {name} y lo comprobó una persona, con la fecha a la vista.",
+        "dimensional_rail": "¿Tu maleta entra en los límites de equipaje de {name}? Escribe sus medidas en "
+                            "Willitboard y mira al instante si va sin costo extra, se paga aparte o no entra. "
+                            "Sale de la página oficial de {name} y lo comprobó una persona, con la fecha a la vista.",
         "descriptivo": "{name} publica una regla escrita de equipaje, no medidas. Léela tal cual en "
                        "Willitboard, con el enlace a la página oficial de {name} y la fecha en que la "
                        "comprobó una persona.",
@@ -142,7 +148,8 @@ def item(op: dict, lang: str, dia: str) -> str:
     name = op["name"]
     kind = "dimensional" if op["limit_type"] == "dimensional" else "descriptivo"
     title = build_site.t(S, f"fiche_h1_{op['type']}", name=name)
-    desc = DESC[lang][kind].format(name=name, poss=poss(name))
+    # Un tren con medidas no tiene "cabin limits" (25/10/2026): texto propio si existe.
+    desc = DESC[lang].get(f"{kind}_{op['type']}", DESC[lang][kind]).format(name=name, poss=poss(name))
     link = build_site.BASE_URL + build_site.op_path(op, lang)
     img = imagen(op["id"], lang)
     img_url = f"{build_site.BASE_URL}/pins/{lang}/{op['id']}.jpg"

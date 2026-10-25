@@ -607,9 +607,16 @@
   /* estado de la pestaña 2 */
   var cmpQuery = "", cmpType = "all", cmpOnlyPass = false, cmpCabinIncl = false, cmpSort = "name";
 
+  /* Rótulo de franquicia según el tipo de operador (25/10/2026): en un tren
+     es "bolso de mano / maleta", no "artículo personal / maleta de cabina". */
+  function bagLabel(op, which) {
+    var rail = op.type === "rail";
+    if (which === "cabin") return rail ? t("fiche_label_cabin_rail") : t("fiche_label_cabin");
+    return rail ? t("fiche_label_personal_rail") : t("fiche_label_personal");
+  }
+
   function allowanceName(v) {
-    return v.compare && v.compare.allowance === v.op.cabin_bag
-      ? t("fiche_label_cabin") : t("fiche_label_personal");
+    return bagLabel(v.op, v.compare && v.compare.allowance === v.op.cabin_bag ? "cabin" : "personal");
   }
 
   function kgText(maxKg, shared) {
@@ -911,7 +918,7 @@
     var tri = cab && limitTriple(cab.max_cm);
     if (!tri) return esc(t("card_unknown_short"));
     var status = cab.included === true ? t("status_free") : (cab.included === false ? t("status_paid") : t("status_unknown"));
-    return esc(t("fiche_label_cabin")) + ' · <span class="dims">' + esc(fmtCm(cab.max_cm)) + "</span> · " + esc(status);
+    return esc(bagLabel(op, "cabin")) + ' · <span class="dims">' + esc(fmtCm(cab.max_cm)) + "</span> · " + esc(status);
   }
 
   function renderOpList(verdicts) {
@@ -969,6 +976,7 @@
     var kg;
     if (isNum(a.max_kg)) kg = t("allow_kg", { kg: a.max_kg });
     else if (isNum(v.op.combined_max_kg)) kg = t("allow_kg_shared", { kg: v.op.combined_max_kg });
+    else if (a.no_weight_limit === true) kg = t("cmp_no_limit_kg");
     else kg = t("cmp_no_kg");
     out += '<div class="cmp__muted">' + esc(kg) + "</div>";
     if (a.included === false && a.requires_addon) {
@@ -1048,8 +1056,19 @@
     row(t("cmp_row_fit"), function (v) {
       return v.compare ? miniBars(v.compare, true) : '<span class="cmp__muted">—</span>';
     });
-    row(t("fiche_label_personal"), function (v) { return allowanceCell(v, "personal_item"); });
-    row(t("fiche_label_cabin"), function (v) { return allowanceCell(v, "cabin_bag"); });
+    /* Encabezado de fila: si se comparan aviones y trenes juntos, se nombran los
+       dos rótulos ("Artículo personal / Bolso de mano"); si no, el que toca. */
+    function bagRowLabel(which) {
+      var seen = [];
+      chosen.forEach(function (v) {
+        if (v.op.limit_type !== "dimensional") return;  /* una regla escrita no tiene franquicias */
+        var l = bagLabel(v.op, which);
+        if (seen.indexOf(l) < 0) seen.push(l);
+      });
+      return seen.length ? seen.join(" / ") : bagLabel({ type: "air" }, which);
+    }
+    row(bagRowLabel("personal"), function (v) { return allowanceCell(v, "personal_item"); });
+    row(bagRowLabel("cabin"), function (v) { return allowanceCell(v, "cabin_bag"); });
     row(t("fiche_wheels_h"), wheelsCell);
     row(t("cmp_row_source"), function (v) {
       return '<a href="' + esc(v.op.source_url) + '" target="_blank" rel="noopener nofollow">' +

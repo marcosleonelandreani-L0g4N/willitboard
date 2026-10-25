@@ -374,7 +374,16 @@ def main() -> None:
                 rows = page.evaluate("""() => Object.fromEntries([...document.querySelectorAll('.sz tbody tr')].map(r =>
                     [r.querySelector('th a').textContent.trim(),
                      [...r.querySelectorAll('.sz__dims')].map(d => d.textContent.trim())]))""")
-                dim_ops = [o for o in ops if o["limit_type"] == "dimensional"]
+                # La tabla es "aerolínea por aerolínea" (25/10/2026). Los trenes y
+                # ferris con medidas van en una lista aparte con enlace a su ficha.
+                dim_ops = [o for o in ops if o["limit_type"] == "dimensional" and o["type"] == "air"]
+                other = [o for o in ops if o["limit_type"] == "dimensional" and o["type"] != "air"]
+                listed = page.evaluate("""() => [...document.querySelectorAll('.sz__rules a')]
+                    .map(a => a.getAttribute('href'))""")
+                check(f"tabla {lang}: los trenes y ferris con medidas no están en la tabla de aerolíneas, "
+                      "pero sí enlazados abajo",
+                      all(o["name"] not in rows and op_path(o, lang) in listed for o in other),
+                      str([o["id"] for o in other]))
                 ok = len(rows) == len(dim_ops)
                 for o in dim_ops:
                     want_dims = [" × ".join(str(d) for d in triple((o.get(k) or {}).get("max_cm"))) + " cm"

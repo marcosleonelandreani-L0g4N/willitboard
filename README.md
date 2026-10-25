@@ -56,7 +56,7 @@ medias no llega a producción disfrazada de texto en inglés.
 
 ## Pruebas
 
-    python3 -m unittest pruebas.test_converter   # 32 pruebas del conversor
+    python3 -m unittest pruebas.test_converter   # 39 pruebas del conversor
     python3 -m unittest pruebas.test_adsense     # 5 pruebas del interruptor de AdSense
     python3 pruebas/test_bilingue.py             # 36 comprobaciones de la home
     python3 pruebas/test_fichas.py               # 290 comprobaciones de fichas, legales y guías
@@ -66,6 +66,8 @@ medias no llega a producción disfrazada de texto en inglés.
                                                  # grupos, buscador, peso combinado)
     python3 pruebas/test_v9.py                   # 54 comprobaciones de la home v9 (pasos 1·2·3,
                                                  # «Ver resultados», tus compañías, comparador)
+    python3 pruebas/test_trenes.py               # 47 comprobaciones de trenes con medidas
+                                                 # (rótulos de tren, "sin límite de peso según el operador")
 
 Las pruebas con navegador usan Playwright y levantan un servidor local con `public/`:
 correr `convert.py` y `build_site.py` antes.

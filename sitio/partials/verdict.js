@@ -64,7 +64,11 @@
     var dims = compareDims(b.cm, limitTriple(allowance.max_cm), wheels);
     var shared = !isNum(allowance.max_kg) && isNum(combinedKg);
     var maxKg = shared ? combinedKg : (isNum(allowance.max_kg) ? allowance.max_kg : null);
-    var weight = compareWeight(b.kg, maxKg);
+    /* Esquema 1.5: si el operador AFIRMA que no hay límite de peso, cualquier
+       peso cumple. No cambia ninguna banda (el peso solo descarta cuando es
+       OVER); cambia el aviso: ya no es "no publica peso". */
+    var weight = allowance.no_weight_limit === true && maxKg === null
+      ? (b.kg === null ? UNKNOWN : FITS) : compareWeight(b.kg, maxKg);
     return { dims: dims, weight: weight, allowance: allowance, maxKg: maxKg, shared: shared };
   }
 
@@ -148,9 +152,13 @@
       out.flags.push({ tone: "info", text: t("flag_fare", { fare: op.reference_fare }) });
     }
 
+    /* Un tren no tiene "artículo personal" ni "maleta de cabina": mismo dato,
+       otra palabra (25/10/2026). Claves escritas enteras a propósito: build_site
+       busca t("...") en este archivo para mandarle a la ficha solo esos textos. */
+    var rail = op.type === "rail";
     var candidates = [];
-    if (personal) candidates.push({ kind: "personal", label: t("label_personal"), res: personal });
-    if (cabin) candidates.push({ kind: "cabin", label: t("label_cabin"), res: cabin });
+    if (personal) candidates.push({ kind: "personal", label: rail ? t("label_personal_rail") : t("label_personal"), res: personal });
+    if (cabin) candidates.push({ kind: "cabin", label: rail ? t("label_cabin_rail") : t("label_cabin"), res: cabin });
 
     /* prefer an included allowance that fits outright */
     var best = null;
@@ -167,7 +175,9 @@
         dims: fmtCm(best.res.allowance.max_cm),
         kg: kgSuffix(best.res)
       });
-      if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
+      if (best.res.allowance.no_weight_limit === true && !isNum(best.res.maxKg)) {
+        out.flags.push({ tone: "neutral", text: t("flag_no_weight_op", { name: op.name }) });
+      } else if (best.res.weight === UNKNOWN && !isNum(best.res.maxKg)) {
         out.flags.push({ tone: "band", text: t("flag_no_weight") });
       }
       pushShared(out, op, best.res);
@@ -253,12 +263,14 @@
           label: biggest.label, dims: dims, kg: biggest.res.maxKg
         });
       } else {
-        out.detail = t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
+        out.detail = rail
+          ? t("d_over_dims_rail", { dims: dims, by: fmtLen(biggest.res.dims.by) })
+          : t("d_over_dims", { dims: dims, by: fmtLen(biggest.res.dims.by) });
       }
       if (overWeight) pushShared(out, op, biggest.res);
       out.compare = mkCompare(b.cm, biggest.res, biggest.label);
     } else {
-      out.detail = t("d_over_generic");
+      out.detail = rail ? t("d_over_generic_rail") : t("d_over_generic");
     }
     return out;
   }

@@ -427,6 +427,17 @@ _ALLOW_ART = {
 }
 
 
+def tk(S: dict, key: str, op) -> str:
+    """
+    La clave de texto que corresponde al tipo de operador (25/10/2026). Un tren
+    con medidas dice "Hand luggage / Suitcase", no "Personal item / Cabin bag":
+    si existe `<clave>_rail` y el operador es de tipo rail, se usa esa. El dato
+    no cambia, solo la palabra. Devuelve la CLAVE, no el texto.
+    """
+    alt = f"{key}_{op.get('type')}"
+    return alt if op.get("type") == "rail" and alt in S else key
+
+
 def one_allowance(op, key: str, label_key: str, S: dict) -> str:
     allow = op.get(key)
     if not isinstance(allow, dict):
@@ -449,6 +460,9 @@ def one_allowance(op, key: str, label_key: str, S: dict) -> str:
             sub = t(S, "allow_kg", kg=kg)
         elif shared is not None:
             sub = t(S, "allow_kg_shared", kg=shared)
+        elif allow.get("no_weight_limit") is True:
+            # el operador AFIRMA que no hay límite (esquema 1.5): no es "no publica"
+            sub = t(S, "allow_no_limit_op", name=esc(op["name"]))
         else:
             sub = t(S, "allow_no_kg")
         figure = (
@@ -468,7 +482,7 @@ def one_allowance(op, key: str, label_key: str, S: dict) -> str:
         f'      <div class="allow glass allow--{tone}">\n'
         f'        <span class="allow__art">{_ALLOW_ART[key]}</span>\n'
         f'        <div class="allow__body">\n'
-        f'          <p class="allow__label">{t(S, label_key)}</p>\n'
+        f'          <p class="allow__label">{t(S, tk(S, label_key, op))}</p>\n'
         f"{figure}\n"
         f'          <span class="status {status_cls}">{status_txt}</span>{addon_html}\n'
         f"        </div>\n"
@@ -526,7 +540,7 @@ def block_kg_tile(op, S: dict, cls: str) -> str:
     if not k:
         return ""
     kg, shared = k
-    label = t(S, "fiche_kg_shared" if shared else "fiche_kg_cabin")
+    label = t(S, "fiche_kg_shared" if shared else tk(S, "fiche_kg_cabin", op))
     return (
         f'  <section class="glass tile--kg {cls}" aria-label="{esc(fmt_num(kg))} kg, {esc(label)}">\n'
         f'    <p class="kg__n" aria-hidden="true">{esc(fmt_num(kg))}<small> kg</small></p>\n'
@@ -1491,8 +1505,14 @@ def block_sizes(ops: list, lang: str, S: dict) -> str:
     build: ninguna cifra se escribe a mano, así que la tabla no puede decir
     algo distinto de las fichas ni del comparador.
     """
-    dim = sorted([o for o in ops if o.get("limit_type") == "dimensional"],
+    # La tabla es "aerolínea por aerolínea" (título, columnas y frases lo dicen).
+    # Trenes y ferris con medidas (TGV INOUI y OUIGO, 25/10/2026) van en una
+    # lista propia con enlace a su ficha: meterlos en la tabla haría decir
+    # "ninguna de las aerolíneas" o "maleta de cabina" sobre un tren.
+    dim = sorted([o for o in ops if o.get("limit_type") == "dimensional" and o.get("type") == "air"],
                  key=lambda o: o["name"].lower())
+    other_dim = sorted([o for o in ops if o.get("limit_type") == "dimensional" and o.get("type") != "air"],
+                       key=lambda o: (o["type"], o["name"].lower()))
     rules = sorted([o for o in ops if o.get("limit_type") != "dimensional"],
                    key=lambda o: (o["type"], o["name"].lower()))
     parts = [f'    <p>{t(S, "sizes_intro")}</p>']
@@ -1534,6 +1554,14 @@ def block_sizes(ops: list, lang: str, S: dict) -> str:
             "      </table>\n"
             "    </div>"
         )
+    if other_dim:
+        items = "\n".join(
+            f'      <li><a href="{op_path(o, lang)}">{esc(o["name"])}</a> '
+            f'<span class="sz__mode">({t(S, "mode_" + o["type"])})</span></li>'
+            for o in other_dim
+        )
+        parts.append(f'    <h2>{t(S, "sizes_other_h")}</h2>\n    <p>{t(S, "sizes_other_p")}</p>\n'
+                     f'    <ul class="sz__rules">\n{items}\n    </ul>')
     if rules:
         items = "\n".join(
             f'      <li><a href="{op_path(o, lang)}">{esc(o["name"])}</a> '
@@ -1601,13 +1629,13 @@ def main() -> None:
                 "DOC_TITLE": t(S, f"fiche_title_{kind}", name=esc(op["name"])),
                 "META_DESCRIPTION": t(
                     S,
-                    "fiche_meta_dim" if op["limit_type"] == "dimensional" else "fiche_meta_rule",
+                    tk(S, "fiche_meta_dim", op) if op["limit_type"] == "dimensional" else "fiche_meta_rule",
                     name=esc(op["name"]),
                 ),
                 "H1": t(S, f"fiche_h1_{kind}", name=esc(op["name"])),
                 "STANDFIRST": t(
                     S,
-                    "fiche_standfirst_dim" if op["limit_type"] == "dimensional"
+                    tk(S, "fiche_standfirst_dim", op) if op["limit_type"] == "dimensional"
                     else "fiche_standfirst_rule",
                     name=esc(op["name"]),
                 ),

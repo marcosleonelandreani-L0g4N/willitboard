@@ -247,12 +247,12 @@ class ArchivoDeSalidaTests(unittest.TestCase):
         self.assertEqual(rc2, 1)
         self.assertEqual(dst.read_text(encoding="utf-8"), original_content)
 
-    def test_main_produce_schema_1_4(self):
+    def test_main_produce_schema_1_5(self):
         good = make_workbook([dict(BASE_ROW)], self.tmp, "buena2.xlsx")
         dst = self.tmp / "operators.json"
         convert.main([str(good), str(dst)])
         payload = json.loads(dst.read_text(encoding="utf-8"))
-        self.assertEqual(payload["schema_version"], "1.4")
+        self.assertEqual(payload["schema_version"], "1.5")
 
 
 class TarifaReferenciaTests(unittest.TestCase):
@@ -318,6 +318,48 @@ class TarifaReferenciaTests(unittest.TestCase):
     def test_tarifa_con_parrafo_se_rechaza(self):
         row = dict(BASE_ROW, tarifa_referencia="Basic\nincluye un bolso")
         rc, _ = self._convert([row], list(HEADERS) + ["tarifa_referencia"])
+        self.assertEqual(rc, 1)
+
+
+class SinLimitePesoTests(unittest.TestCase):
+    """Columna opcional cabina_sin_limite_peso (esquema 1.5, 25/10/2026).
+    SI solo cuando la fuente AFIRMA que la valija no tiene límite de peso
+    (OUIGO). No es lo mismo que cabina_kg vacío ("no publica peso")."""
+
+    COLS = list(HEADERS) + ["cabina_sin_limite_peso"]
+    setUp = TarifaReferenciaTests.setUp          # mismas herramientas, sin heredar
+    _convert = TarifaReferenciaTests._convert    # (heredar repetiría sus pruebas)
+
+    def test_si_se_publica_como_true(self):
+        row = dict(BASE_ROW, cabina_kg=None, cabina_sin_limite_peso="SI")
+        rc, payload = self._convert([row], self.COLS)
+        self.assertEqual(rc, 0)
+        cab = payload["operators"][0]["cabin_bag"]
+        self.assertIs(cab["no_weight_limit"], True)
+        self.assertIsNone(cab["max_kg"])  # nunca se inventa un número
+
+    def test_vacio_es_false(self):
+        rc, payload = self._convert([dict(BASE_ROW, cabina_kg=None)], self.COLS)
+        self.assertIs(payload["operators"][0]["cabin_bag"]["no_weight_limit"], False)
+
+    def test_planilla_vieja_sin_columna_es_false(self):
+        rc, payload = self._convert([dict(BASE_ROW)], list(HEADERS))
+        self.assertEqual(rc, 0)
+        self.assertIs(payload["operators"][0]["cabin_bag"]["no_weight_limit"], False)
+
+    def test_si_con_peso_cargado_se_rechaza(self):
+        row = dict(BASE_ROW, cabina_kg=10, cabina_sin_limite_peso="SI")
+        rc, _ = self._convert([row], self.COLS)
+        self.assertEqual(rc, 1)
+
+    def test_si_con_peso_combinado_se_rechaza(self):
+        row = dict(BASE_ROW, cabina_kg=None, peso_combinado_kg=12, cabina_sin_limite_peso="SI")
+        rc, _ = self._convert([row], self.COLS + ["peso_combinado_kg"])
+        self.assertEqual(rc, 1)
+
+    def test_valor_raro_se_rechaza(self):
+        row = dict(BASE_ROW, cabina_kg=None, cabina_sin_limite_peso="sin límite")
+        rc, _ = self._convert([row], self.COLS)
         self.assertEqual(rc, 1)
 
 
