@@ -1,16 +1,18 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-10-25",
+  "ultimo_dia": "2026-10-26",
   "publicados": [
     "ryanair",
     "easyjet",
     "wizz-air",
-    "vueling"
+    "vueling",
+    "iberia"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
     "easyjet": "2026-10-23",
     "wizz-air": "2026-10-24",
-    "vueling": "2026-10-25"
+    "vueling": "2026-10-25",
+    "iberia": "2026-10-26"
   }
 }
