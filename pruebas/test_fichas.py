@@ -263,6 +263,15 @@ def main() -> None:
                             }"""
                         )
                         check(f"{tag}: la ficha descriptiva muestra la cita", q is not None)
+                        # Descripción para Google (25/10/2026): lleva la fecha de
+                        # la verificación humana, tal cual el dataset, y nunca
+                        # afirma "no publica medidas" (Eurostar y Stena sí publican).
+                        meta = page.get_attribute('meta[name="description"]', "content") or ""
+                        check(f"{tag}: la descripción lleva la fecha verificada",
+                              op["verified_on"] in meta, meta)
+                        check(f"{tag}: la descripción no afirma que no hay medidas",
+                              "doesn't publish" not in meta.lower()
+                              and "no publica" not in meta.lower(), meta)
                         if q:
                             original = op["descriptive_rule"]["en"]
                             check(f"{tag}: la cita es EXACTAMENTE la del dataset",

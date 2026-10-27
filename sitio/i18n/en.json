@@ -109,7 +109,7 @@
   "fiche_h1_ferry": "{name} luggage allowance",
   "fiche_meta_dim": "{name} personal item and cabin bag limits in cm and kg, what the fare includes and what costs extra. Linked to the operator's own page, with the date a human checked it.",
   "fiche_meta_dim_rail": "{name} size limits for hand luggage and suitcases, and what the ticket includes. Linked to the operator's own page, with the date a human checked it.",
-  "fiche_meta_rule": "What {name} publishes about luggage, quoted in their own words. Linked to the operator's own page, with the date a human checked it. No invented measurements.",
+  "fiche_meta_rule": "{name} luggage allowance: how much you can bring and on what conditions, quoted from the official page and checked by a person on {date}.",
   "fiche_standfirst_dim": "What {name} publishes for the personal item and the cabin bag, what the fare already includes, and what has to be bought separately. Every figure on this page comes from the operator's own page.",
   "fiche_standfirst_dim_rail": "What {name} publishes for hand luggage and suitcases, and what the ticket already includes. Every figure on this page comes from the operator's own page.",
   "fiche_standfirst_rule": "{name} describes what you can bring instead of publishing measurements. Their rule is shown below in their own words, and never turned into a yes or no.",

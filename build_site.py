@@ -1631,6 +1631,9 @@ def main() -> None:
                     S,
                     tk(S, "fiche_meta_dim", op) if op["limit_type"] == "dimensional" else "fiche_meta_rule",
                     name=esc(op["name"]),
+                    # 25/10/2026: la descripción de una regla escrita dice CUÁNDO
+                    # la comprobó una persona. Sale del dataset, nunca de "hoy".
+                    date=esc(op["verified_on"]),
                 ),
                 "H1": t(S, f"fiche_h1_{kind}", name=esc(op["name"])),
                 "STANDFIRST": t(
