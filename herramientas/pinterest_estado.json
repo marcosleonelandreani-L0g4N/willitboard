@@ -1,13 +1,14 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-10-27",
+  "ultimo_dia": "2026-10-28",
   "publicados": [
     "ryanair",
     "easyjet",
     "wizz-air",
     "vueling",
     "iberia",
-    "british-airways"
+    "british-airways",
+    "lufthansa"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -15,6 +16,7 @@
     "wizz-air": "2026-10-24",
     "vueling": "2026-10-25",
     "iberia": "2026-10-26",
-    "british-airways": "2026-10-27"
+    "british-airways": "2026-10-27",
+    "lufthansa": "2026-10-28"
   }
 }
