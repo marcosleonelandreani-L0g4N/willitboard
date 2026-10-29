@@ -6,6 +6,14 @@
     <description>Cabin bag limits from each operator's official page, checked by a person.</description>
     <language>en</language>
     <item>
+      <title>KLM cabin bag size and allowance</title>
+      <link>https://willitboard.com/airlines/klm/</link>
+      <description>Will your bag fit KLM's cabin limits? Type its size on Willitboard and see in seconds whether it goes at no extra cost, costs extra or doesn't fit. Taken from KLM's official page and checked by a person, with the date shown on the page.</description>
+      <guid isPermaLink="false">willitboard-pin-en-klm</guid>
+      <pubDate>Thu, 29 Oct 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/en/klm.jpg" length="121435" type="image/jpeg"/>
+    </item>
+    <item>
       <title>Lufthansa cabin bag size and allowance</title>
       <link>https://willitboard.com/airlines/lufthansa/</link>
       <description>Will your bag fit Lufthansa's cabin limits? Type its size on Willitboard and see in seconds whether it goes at no extra cost, costs extra or doesn't fit. Taken from Lufthansa's official page and checked by a person, with the date shown on the page.</description>
