@@ -9,8 +9,9 @@ Lo importante que verifica
    la fila de ese operador en los grupos de resultados, en los dos idiomas.
 2. El orden: título, pasos y medidas arriba; sin carrusel; "Ver resultados"
    justo debajo de los campos (en 390 × 844 se ve sin bajar); los ejemplos
-   debajo del botón; compartir DESPUÉS del resultado; el buscador de reglas y
-   los prohibidos más abajo.
+   debajo del botón; compartir DESPUÉS del resultado; los prohibidos justo
+   después (desde el 30/10/2026, en la columna derecha en la PC) y el buscador
+   de reglas más abajo.
 3. "Ver resultados" y los ejemplos llevan hasta el resultado, pasan al paso 2
    y le dan el foco al título de resultados.
 4. Tus compañías: arrancan vacías (las tres del comparador de arranque NO son
@@ -109,10 +110,10 @@ def main() -> int:
         html = (ROOT / "es" / "index.html").read_text(encoding="utf-8")
         check('class="slides' not in html and "slides-track" not in html, "sin carrusel en el HTML")
         order = ['class="flow"', 'id="dim-a"', 'id="weight"', 'id="cta-results"', 'class="presets"',
-                 'id="mine"', 'id="results"', 'id="share-btn"', 'id="lookup"', 'id="banned"']
+                 'id="mine"', 'id="results"', 'id="share-btn"', 'id="banned"', 'id="lookup"']
         pos = [html.find(k) for k in order]
         check(all(x >= 0 for x in pos) and pos == sorted(pos),
-              "pasos → medidas → «Ver resultados» → ejemplos → tus compañías → resultados → compartir → buscador → prohibidos")
+              "pasos → medidas → «Ver resultados» → ejemplos → tus compañías → resultados → compartir → prohibidos → buscador")
         for lang, path in (("en", "/"), ("es", "/es/")):
             c = browser.new_context(viewport={"width": 390, "height": 844}, is_mobile=True, has_touch=True)
             pg = c.new_page()

@@ -259,6 +259,14 @@
       <div class="share__status" id="share-status" role="status"></div>
     </section>
 
+    <!-- ============================================================ objetos prohibidos
+         Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
+         enlaces oficiales; con la fecha de Marcos, además las fichas con íconos.
+         30/10/2026: vive en el paso 1, justo después de los resultados. En la
+         computadora ocupa la columna derecha, debajo de los resultados, donde
+         quedaba un hueco al lado del panel de medidas. -->
+{{BANNED_BLOCK}}
+
     <!-- Productos: este bloque queda oculto hasta que /products.json tenga
          al menos un producto con fecha de verificación humana. El veredicto de
          cada bolso sale de verdictFor(), la misma función de arriba. -->
@@ -408,11 +416,6 @@
     <div class="gsug" id="gsug" hidden></div>
   </div>
   </section>
-
-  <!-- ============================================================ objetos prohibidos
-       Lo arma build_site.py (block_banned). Sin BANNED_VERIFIED_ON solo hay
-       enlaces oficiales; con la fecha de Marcos, además las fichas con íconos. -->
-{{BANNED_BLOCK}}
 
   <!-- Enlaces reales a cada ficha y a las guías. Van en el HTML servido, no
        los pone el JS: si dependieran del script, un rastreador podría no
@@ -1814,6 +1817,7 @@
   /* Atajo "Qué no puedo llevar": abre la franja de prohibidos al llegar. */
   Array.prototype.forEach.call(document.querySelectorAll('[data-quick="banned"]'), function (a) {
     a.addEventListener("click", function () {
+      showTab("check");   /* desde el 30/10/2026 el bloque vive en el paso 1 */
       var d = document.querySelector("#banned details, details#banned");
       if (d) d.open = true;
     });
