@@ -805,7 +805,7 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 
 /* ------------------------------------------------------------ movimiento reducido */
 /* --- guía de medición (24/09/2026) --- */
-.measure { margin: 0 1.4rem 1rem; border-radius: var(--radius); background: var(--accent-soft); border: 2px solid transparent; transition: border-color .18s; scroll-margin-top: 1rem; }
+.measure { margin: 0 1.4rem 1rem; border-radius: var(--radius); background: var(--accent-soft); border: 2px solid transparent; transition: border-color .18s; scroll-margin-top: 1rem; container-type: inline-size; }
 .measure[open] { background: var(--surface); border-color: var(--accent-soft); }
 .measure__summary {
   list-style: none; display: flex; align-items: center; gap: 0.75rem;
@@ -829,7 +829,9 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   display: grid; grid-template-columns: minmax(0, 21rem) minmax(0, 1fr); gap: 1rem 1.6rem;
   align-items: center; padding: 0.6rem 1.4rem 1.4rem;
 }
-@media (max-width: 40rem) { .measure__body { grid-template-columns: 1fr; padding-inline: 0.9rem; } }
+/* 30/10/2026: decide por el ancho de la propia guía, no de la pantalla. En la PC la
+   guía vive en la columna izquierda (~330 px) y con @media el texto quedaba en 0 px. */
+@container (max-width: 40rem) { .measure__body { grid-template-columns: 1fr; padding-inline: 0.9rem; } }
 .measure__art { width: 100%; max-width: 21rem; height: auto; justify-self: center; }
 .m-grip, .m-post, .m-wheel { fill: var(--handle); }
 .m-rib { fill: #fff; fill-opacity: .3; }
