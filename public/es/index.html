@@ -966,21 +966,6 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
 .field label { display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem; min-height: 1.2rem; }
 .field .m-key { width: 1.15rem; height: 1.15rem; font-size: 0.66rem; letter-spacing: 0; }
 
-/* ------------------------------------------------------------ buscador */
-.search {
-  display: flex; align-items: center; gap: 0.55rem;
-  padding: 0 0.95rem; border-radius: 999px;
-  background: var(--surface); border: 2px solid var(--rule); color: var(--ink-faint);
-  transition: border-color .18s, box-shadow .18s;
-}
-.search:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); color: var(--accent); }
-.search svg { width: 1.15rem; height: 1.15rem; flex: none; }
-.search input {
-  flex: 1; min-width: 0; padding: 0.75rem 0; border: 0; background: transparent;
-  font: 700 0.95rem/1.2 var(--font-body); color: var(--ink);
-}
-.search input:focus-visible { outline: none; }
-.results .search { margin: 0.2rem 0 0.9rem; }
 
 /* ------------------------------------------------------------ grupos por tipo */
 .groups { display: flex; flex-direction: column; gap: 0.7rem; }
@@ -1193,33 +1178,6 @@ footer p { margin: 0 0 0.5rem; max-width: 42em; }
   .slide .stats { display: none; }
 }
 
-/* ---------- buscador de arriba ---------- */
-.gsearch { position: relative; z-index: 30; }
-.gsearch__box {
-  display: flex; align-items: center; gap: 0.55rem; cursor: text;
-  background: var(--surface); border: 1.5px solid var(--rule); border-radius: 999px;
-  padding: 0.7rem 1rem; box-shadow: var(--shadow);
-}
-.gsearch__box:focus-within { border-color: var(--accent); }
-.gsearch__box svg { width: 1.15rem; height: 1.15rem; color: var(--ink-faint); flex: none; }
-.gsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 600 1rem var(--font-body); }
-.gsug {
-  position: absolute; left: 0; right: 0; top: calc(100% + 0.4rem);
-  background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius-sm);
-  box-shadow: 0 20px 44px -20px rgba(23,32,51,.45); padding: 0.35rem; max-height: 22rem; overflow: auto;
-}
-.gsug h4 { margin: 0.45rem 0.55rem 0.2rem; font: 800 0.68rem/1 var(--font-body); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); }
-.gsug a, .gsug button {
-  display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left;
-  border: 0; background: none; color: var(--ink); text-decoration: none; cursor: pointer;
-  font: 600 0.95rem var(--font-body); padding: 0.55rem; border-radius: 10px;
-}
-.gsug a:hover, .gsug a:focus-visible, .gsug button:hover, .gsug button:focus-visible { background: var(--surface-sunk); outline: none; }
-.gsug small { margin-left: auto; color: var(--ink-faint); font-weight: 700; white-space: nowrap; }
-.gsug__ico { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 8px; background: var(--accent-soft); color: var(--accent); flex: none; }
-.gsug__ico svg { width: 1rem; height: 1rem; }
-.gsug__none { margin: 0.6rem; color: var(--ink-faint); }
-
 /* ---------- medidas + resumen por medio, lado a lado ---------- */
 .panel__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 15rem); gap: 0.8rem; align-items: start; padding: 0.6rem 1.4rem 1.1rem; }
 .panel__grid .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
@@ -1323,7 +1281,7 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 :root[data-theme="dark"] .totop,
 :root[data-theme="dark"] .slide__cta,
 :root[data-theme="dark"] .pc__buy { background: linear-gradient(135deg, #7FA6FF, #A67CFF); color: #0E0B26; }
-.chosen[hidden], .reco[hidden], .gsug[hidden] { display: none; }
+.chosen[hidden], .reco[hidden] { display: none; }
 .slides__nav { left: auto; right: 0.9rem; justify-content: flex-end; }
 /* Flechas del carrusel (10/10/2026): en el teléfono la fila de botones va
    centrada y la diapositiva deja lugar abajo, así nada pisa el panel de texto. */
@@ -1810,13 +1768,13 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
    liso para quien pide menos transparencia. No se aplica a tarjetas
    anidadas (los resultados dentro de cada grupo), que es lo que más pesa. */
 @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-  .panel, .tabs, .tgroup, .step, .cmpwrap, .bagstrip, .gsearch__box, .banned.nogo {
+  .panel, .tabs, .tgroup, .step, .cmpwrap, .bagstrip, .banned.nogo {
     background: var(--tile-glass); -webkit-backdrop-filter: var(--tile-blur); backdrop-filter: var(--tile-blur);
     border-color: var(--tile-line);
   }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .panel, .tabs, .tgroup, .step, .cmpwrap, .bagstrip, .gsearch__box, .banned.nogo {
+  .panel, .tabs, .tgroup, .step, .cmpwrap, .bagstrip, .banned.nogo {
     background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none;
   }
 }
@@ -1982,8 +1940,6 @@ body::after {
   border: 1px solid var(--line);
   box-shadow: var(--flat-shadow);
 }
-.gsearch__box { box-shadow: none; border: 2px solid var(--line); }
-.gsearch__box:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
 
 /* ---------- cabecera de la home: sin carrusel, con dos atajos ---------- */
 .home .hero__grid { grid-template-columns: minmax(0, 1fr); margin-top: 1.2rem; }
@@ -2159,8 +2115,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   .cmp__label th { padding: 0.5rem 0.45rem; }
 }
 
-/* ---------- buscar las reglas de una compañía (más abajo en la home) ---------- */
-.lookup .sec-h { margin-bottom: 0.7rem; }
 
 /* ---------- computadora: medidas a la izquierda, resultados a la derecha ---------- */
 @media (min-width: 60rem) {
@@ -2247,7 +2201,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
         <h1>¿Entra tu maleta?</h1>
         <p class="standfirst">Escribe las medidas de tu maleta y mira en segundos con qué aerolíneas, trenes y ferris puede viajar.</p>
         <nav class="quick" aria-label="Atajos">
-          <a class="quick__a" href="#lookup" data-quick="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Reglas de una compañía</a>
+          <a class="quick__a" href="#mine" data-quick="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Reglas de una compañía</a>
           <a class="quick__a" href="#banned" data-quick="banned"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>Qué no puedo llevar</a>
         </nav>
       </div>
@@ -2544,11 +2498,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       </div>
       <div id="summary" class="summary"></div>
       <p id="summary-note" class="summary-note"></p>
-      <label class="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <span class="sr-only">Buscar un operador</span>
-        <input type="search" id="q" placeholder="Busca una aerolínea, un tren o un ferri…" autocomplete="off" spellcheck="false">
-      </label>
       <!-- Un desplegable por tipo de transporte. El encabezado de cada grupo
            ya dice cuántos entran y cuántos no, así que no hace falta abrirlo
            para tener la respuesta corta. -->
@@ -2737,11 +2686,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     <section class="finder" aria-labelledby="finder-h">
       <h2 class="sec-h" id="finder-h">Comparar lado a lado</h2>
       <p class="finder__intro">Marca hasta 3 operadores para verlos uno al lado del otro, con la maleta de arriba.</p>
-      <label class="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <span class="sr-only">Buscar un operador</span>
-        <input type="search" id="cmp-q" placeholder="Busca una aerolínea, un tren o un ferri…" autocomplete="off" spellcheck="false">
-      </label>
       <div class="chips" id="cmp-types" role="group" aria-label="Tipo de transporte">
         <button type="button" class="chip" data-type="all" aria-pressed="true">Todos</button>
         <button type="button" class="chip" data-type="air" aria-pressed="false"><span class="chip__icon" data-icon="air"></span>Aerolíneas</button>
@@ -2774,21 +2718,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     </section>
   </div>
 
-  <!-- ============================================================ buscador
-       Busca empresas de transporte y guías (y productos, cuando haya alguno
-       verificado). Solo navega: no cambia ningún veredicto. v9: baja de arriba
-       de todo a acá, con título propio; el atajo de la cabecera trae hasta acá. -->
-  <section class="lookup" id="lookup" aria-labelledby="lookup-h">
-  <h2 class="sec-h" id="lookup-h">Buscar las reglas de una compañía</h2>
-  <div class="gsearch" role="search">
-    <label class="gsearch__box">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span class="sr-only">Buscar aerolíneas, trenes, ferris y guías</span>
-      <input type="search" id="gq" placeholder="Buscar Ryanair, un tren, un ferri…" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
-    </label>
-    <div class="gsug" id="gsug" hidden></div>
-  </div>
-  </section>
 
   <!-- Enlaces reales a cada ficha y a las guías. Van en el HTML servido, no
        los pone el JS: si dependieran del script, un rastreador podría no
@@ -3124,9 +3053,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "m_more": "La guía completa, con los errores más comunes →",
   "m_front": "DE FRENTE",
   "m_side": "DE COSTADO",
-  "search_label": "Buscar un operador",
-  "search_ph": "Busca una aerolínea, un tren o un ferri…",
-  "search_none": "Ningún operador coincide con «{q}».",
   "group_none": "Nada de este grupo coincide.",
   "compare_go": "Ver la comparación →",
   "cmp_intro": "Marca hasta {max} operadores para verlos uno al lado del otro, con la maleta de arriba.",
@@ -3186,8 +3112,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "notfound_standfirst": "Esta dirección no existe en Willitboard. Puede que el enlace tenga una errata o que la página se haya movido.",
   "notfound_body": "Puedes comprobar tu maleta contra todos los operadores desde la página de inicio, o elegir un operador de la lista de abajo.",
   "guide_updated": "Texto editado por última vez el {date}.",
-  "gsearch_label": "Buscar aerolíneas, trenes, ferris y guías",
-  "gsearch_ph": "Buscar Ryanair, un tren, un ferri…",
   "banned_h": "¿Qué no se puede llevar en el equipaje de mano?",
   "banned_sub": "Líquidos, objetos cortantes y más: listas oficiales",
   "banned_p": "Los artículos prohibidos los fija la seguridad aérea, aparte de las medidas que compara Willitboard. No copiamos esas reglas: enlazamos las páginas oficiales.",
@@ -3224,11 +3148,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "nogo_flammable_d": "Ni en cabina ni en bodega",
   "nogo_note": "La lista detallada está en la web del aeropuerto de salida, y la aerolínea puede confirmarla antes del viaje.",
   "nogo_more": "Fuentes oficiales y lista completa",
-  "gsearch_ops": "Aerolíneas, trenes y ferris",
-  "gsearch_guides": "Guías",
-  "gsearch_products": "Bolsos",
-  "gsearch_none": "No hay resultados para «{q}».",
-  "gsearch_fiche": "reglas",
   "modes_h": "Resumen",
   "modes_hint": "Tocar un número muestra cuáles son.",
   "totop": "Volver arriba",
@@ -3285,7 +3204,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "quick_label": "Atajos",
   "quick_rules": "Reglas de una compañía",
   "quick_banned": "Qué no puedo llevar",
-  "lookup_h": "Buscar las reglas de una compañía",
   "mine_h": "¿Con qué compañía viajas?",
   "mine_p": "Elige hasta 3. Las ponemos primero y marcadas, para que no tengas que buscarlas.",
   "mine_ph": "Iberia, Ryanair, un tren…",
@@ -3740,12 +3658,13 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
 
   /* estado de la pestaña 1 */
   var bandFilter = null;
-  var query = "";
+  /* 30/10/2026: un solo buscador, "¿Con qué compañía viajas?". Se sacaron el
+     filtro de texto de los resultados (#q) y el de la pestaña Comparar (#cmp-q). */
   var openGroups = {};
   var openRows = {};
 
   /* estado de la pestaña 2 */
-  var cmpQuery = "", cmpType = "all", cmpOnlyPass = false, cmpCabinIncl = false, cmpSort = "name";
+  var cmpType = "all", cmpOnlyPass = false, cmpCabinIncl = false, cmpSort = "name";
 
   /* Rótulo de franquicia según el tipo de operador (25/10/2026): en un tren
      es "bolso de mano / maleta", no "artículo personal / maleta de cabina". */
@@ -3824,22 +3743,16 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     return q;
   }
 
-  function matchesQuery(v, q) {
-    if (!q) return true;
-    return fold(v.op.name).indexOf(q) >= 0 || fold(GROUP_LABEL[v.op.type]).indexOf(q) >= 0 ||
-      fold(MODE_LABEL[v.op.type]).indexOf(q) >= 0;
-  }
-
   function visibleInResults(v) {
-    return (bandFilter === null || v.band === bandFilter) && matchesQuery(v, fold(query));
+    return bandFilter === null || v.band === bandFilter;
   }
 
-  /* Abre los grupos que tienen algo que mostrar con el filtro o la búsqueda
-     de ese momento. Se llama SOLO cuando cambia el filtro o la búsqueda: si se
+  /* Abre los grupos que tienen algo que mostrar con el filtro de color
+     de ese momento. Se llama SOLO cuando cambia el filtro: si se
      llamara en cada tecla de las medidas, un grupo que la persona cerró se
      volvería a abrir solo. */
   function openMatchingGroups() {
-    if (bandFilter === null && !query) return;
+    if (bandFilter === null) return;
     TYPES.forEach(function (kind) {
       openGroups[kind] = lastVerdicts.some(function (v) {
         return v.op.type === kind && visibleInResults(v);
@@ -3954,12 +3867,11 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     els.results.setAttribute("aria-busy", "false");
     els.results.innerHTML = "";
     els.results.classList.toggle("is-first", firstRender);
-    var shown = 0, i = 0;
+    var i = 0;
     TYPES.forEach(function (kind) {
       var mine = verdicts.filter(function (v) { return v.op.type === kind; }).sort(byBandThenName);
       if (!mine.length) return;
       var visible = mine.filter(visibleInResults);
-      shown += visible.length;
 
       var g = node("details", "tgroup");
       g.setAttribute("data-type", kind);
@@ -3991,9 +3903,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       }
       els.results.appendChild(g);
     });
-    if (!shown && query) {
-      els.results.appendChild(node("p", "empty groups__none", esc(t("search_none", { q: query }))));
-    }
   }
 
   /* ---------- comparador (pestaña 2) ---------- */
@@ -4048,7 +3957,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     if (cmpType !== "all" && v.op.type !== cmpType) return false;
     if (cmpOnlyPass && v.band !== FITS) return false;
     if (cmpCabinIncl && !(v.op.cabin_bag && v.op.cabin_bag.included === true)) return false;
-    return matchesQuery(v, fold(cmpQuery));
+    return true;
   }
 
   function optLine(v) {
@@ -4417,51 +4326,6 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     sec.hidden = !list.children.length;
   }
 
-  /* ---------- buscador de arriba ---------- */
-  (function () {
-    var gq = document.getElementById("gq"), box = document.getElementById("gsug");
-    if (!gq || !box) return;
-    function close() { box.hidden = true; gq.setAttribute("aria-expanded", "false"); }
-    gq.addEventListener("input", function () {
-      var raw = gq.value.trim(), q = fold(raw);
-      if (!q || !dataset) { close(); return; }
-      var html = "";
-      var ops = dataset.operators.filter(function (o) { return fold(o.name).indexOf(q) >= 0 || fold(GROUP_LABEL[o.type]).indexOf(q) >= 0; }).slice(0, 8);
-      if (ops.length) {
-        html += "<h4>" + esc(t("gsearch_ops")) + "</h4>";
-        ops.forEach(function (o) {
-          html += '<a href="' + FICHE_PATHS[o.type] + encodeURIComponent(o.id) + '/"><span class="gsug__ico">' + ICON[o.type] +
-            "</span>" + esc(o.name) + "<small>" + esc(MODE_LABEL[o.type]) + " · " + esc(t("gsearch_fiche")) + "</small></a>";
-        });
-      }
-      var prods = PRODUCTS.filter(function (p) { return fold(p.brand + " " + p.name).indexOf(q) >= 0; }).slice(0, 5);
-      if (prods.length) {
-        html += "<h4>" + esc(t("gsearch_products")) + "</h4>";
-        prods.forEach(function (p, i) {
-          html += '<button type="button" data-pi="' + PRODUCTS.indexOf(p) + '"><span class="gsug__ico">' + ICON.pass + "</span>" + esc(p.brand + " " + p.name) + "</button>";
-        });
-      }
-      var gl = GUIDE_LINKS.filter(function (g) { return fold(g.name).indexOf(q) >= 0; });
-      if (gl.length) {
-        html += "<h4>" + esc(t("gsearch_guides")) + "</h4>";
-        gl.forEach(function (g) { html += '<a href="' + g.href + '"><span class="gsug__ico">' + ICON.rule + "</span>" + esc(g.name) + "</a>"; });
-      }
-      if (!html) html = '<p class="gsug__none">' + esc(t("gsearch_none", { q: raw })) + "</p>";
-      box.innerHTML = html;
-      box.hidden = false;
-      gq.setAttribute("aria-expanded", "true");
-      Array.prototype.forEach.call(box.querySelectorAll("[data-pi]"), function (b) {
-        b.addEventListener("click", function () {
-          var p = PRODUCTS[Number(b.getAttribute("data-pi"))];
-          close(); gq.value = "";
-          if (p.dims_cm) tryProduct(p); else if (storeLink(p)) window.open(storeLink(p), "_blank", "noopener");
-        });
-      });
-    });
-    gq.addEventListener("keydown", function (e) { if (e.key === "Escape") { gq.value = ""; close(); } });
-    document.addEventListener("click", function (e) { if (!e.target.closest(".gsearch")) close(); });
-  })();
-
   /* ---------- tus compañías (v9, 20/10/2026) ----------
      Arriba de los resultados: la persona escribe su compañía, ve enseguida
      cómo le va a SU maleta (el mismo verdictFor de todo el sitio) y la fija.
@@ -4471,6 +4335,14 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   var mineQ = document.getElementById("mine-q"),
       mineSug = document.getElementById("mine-sug"),
       mineNote = document.getElementById("mine-note");
+
+  /* 30/10/2026: es el único buscador del sitio, así que también entiende el tipo
+     ("tren", "ferri", "aerolínea"), como el filtro de resultados que se sacó. */
+  function mineMatchName(op, q) { return fold(op.name).indexOf(q) >= 0; }
+  function mineMatch(op, q) {
+    return mineMatchName(op, q) || fold(GROUP_LABEL[op.type]).indexOf(q) >= 0 ||
+      fold(MODE_LABEL[op.type]).indexOf(q) >= 0;
+  }
 
   function vbadge(v) {
     var band = BAND_BY_KEY[v.band];
@@ -4537,25 +4409,40 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
 
   function byMatch(q) {
     return function (x, y) {
-      return (fold(x.op.name).indexOf(q) - fold(y.op.name).indexOf(q)) || x.op.name.localeCompare(y.op.name);
+      /* primero los que coinciden por nombre; los que coinciden solo por tipo, después */
+      var ix = fold(x.op.name).indexOf(q), iy = fold(y.op.name).indexOf(q);
+      ix = ix < 0 ? 999 : ix; iy = iy < 0 ? 999 : iy;
+      return (ix - iy) || x.op.name.localeCompare(y.op.name);
     };
   }
 
   function suggestMine() {
     var raw = mineQ.value.trim(), q = fold(raw);
     if (!q || !lastVerdicts.length) { closeMine(); return; }
+    /* Orden de búsqueda (30/10/2026): 1) por nombre en la región elegida;
+       2) por nombre en las otras regiones (así "aerolineas" encuentra
+       Aerolíneas Argentinas aunque se esté en Europa); 3) si no hubo que ir a
+       otra región, se suman detrás los que coinciden por tipo ("tren", "ferri")
+       en la región elegida. */
+    function free(v) { return !(mineChosen && cmpSel.indexOf(v.op.id) >= 0); }
     var hits = lastVerdicts.filter(function (v) {
-      return fold(v.op.name).indexOf(q) >= 0 && !(mineChosen && cmpSel.indexOf(v.op.id) >= 0);
+      return mineMatchName(v.op, q) && free(v);
     }).sort(byMatch(q)).slice(0, 6);
     var far = false;
     if (!hits.length && region !== "all" && dataset) {
       var b0 = bag();
       if (b0) {
         hits = dataset.operators.filter(function (o) {
-          return o.region !== region && fold(o.name).indexOf(q) >= 0;
+          return o.region !== region && mineMatchName(o, q);
         }).map(function (o) { return verdictFor(o, b0); }).sort(byMatch(q)).slice(0, 6);
         far = hits.length > 0;
       }
+    }
+    if (!far) {
+      var ids = hits.map(function (v) { return v.op.id; });
+      hits = hits.concat(lastVerdicts.filter(function (v) {
+        return ids.indexOf(v.op.id) < 0 && mineMatch(v.op, q) && free(v);
+      }).sort(byMatch(q))).slice(0, 6);
     }
     mineSug.innerHTML = "";
     if (!hits.length) {
@@ -4831,16 +4718,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     });
   });
 
-  /* ---------- pestaña 2: buscador, filtros y orden ---------- */
-  var q1 = document.getElementById("q");
-  q1.addEventListener("input", function () {
-    query = q1.value;
-    openMatchingGroups();
-    render();
-  });
-  document.getElementById("cmp-q").addEventListener("input", function (e) {
-    cmpQuery = e.target.value; render();
-  });
+  /* ---------- pestaña Comparar: filtros y orden ---------- */
   Array.prototype.forEach.call(document.querySelectorAll("#cmp-types .chip"), function (chip) {
     chip.addEventListener("click", function () {
       cmpType = chip.getAttribute("data-type");
@@ -4952,6 +4830,20 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   if (location.hash === "#compare") showTab("compare"); else paintFlow();
 
   /* Atajo "Qué no puedo llevar": abre la franja de prohibidos al llegar. */
+  /* 30/10/2026: el buscador de abajo ("Buscar las reglas de una compañía") se sacó.
+     El atajo "Reglas de una compañía" lleva a "¿Con qué compañía viajas?", que ya
+     muestra el veredicto de la maleta y enlaza a la ficha de cada compañía. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-quick="rules"]'), function (a) {
+    a.addEventListener("click", function (e) {
+      var q = document.getElementById("mine-q");
+      if (!q) return;
+      e.preventDefault();
+      showTab("check");
+      document.getElementById("mine").scrollIntoView({ block: "start", behavior: "smooth" });
+      q.focus({ preventScroll: true });
+    });
+  });
+
   Array.prototype.forEach.call(document.querySelectorAll('[data-quick="banned"]'), function (a) {
     a.addEventListener("click", function () {
       showTab("check");   /* desde el 30/10/2026 el bloque vive en el paso 1 */

@@ -56,7 +56,7 @@
         <h1>{{h1}}</h1>
         <p class="standfirst">{{standfirst}}</p>
         <nav class="quick" aria-label="{{quick_label}}">
-          <a class="quick__a" href="#lookup" data-quick="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>{{quick_rules}}</a>
+          <a class="quick__a" href="#mine" data-quick="rules"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>{{quick_rules}}</a>
           <a class="quick__a" href="#banned" data-quick="banned"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M6 18L18 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>{{quick_banned}}</a>
         </nav>
       </div>
@@ -234,11 +234,6 @@
       </div>
       <div id="summary" class="summary"></div>
       <p id="summary-note" class="summary-note"></p>
-      <label class="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <span class="sr-only">{{search_label}}</span>
-        <input type="search" id="q" placeholder="{{search_ph}}" autocomplete="off" spellcheck="false">
-      </label>
       <!-- Un desplegable por tipo de transporte. El encabezado de cada grupo
            ya dice cuántos entran y cuántos no, así que no hace falta abrirlo
            para tener la respuesta corta. -->
@@ -364,11 +359,6 @@
     <section class="finder" aria-labelledby="finder-h">
       <h2 class="sec-h" id="finder-h">{{compare_h2}}</h2>
       <p class="finder__intro">{{CMP_INTRO}}</p>
-      <label class="search">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-        <span class="sr-only">{{search_label}}</span>
-        <input type="search" id="cmp-q" placeholder="{{search_ph}}" autocomplete="off" spellcheck="false">
-      </label>
       <div class="chips" id="cmp-types" role="group" aria-label="{{filter_type_label}}">
         <button type="button" class="chip" data-type="all" aria-pressed="true">{{filter_all}}</button>
         <button type="button" class="chip" data-type="air" aria-pressed="false"><span class="chip__icon" data-icon="air"></span>{{crumbs_air}}</button>
@@ -401,21 +391,6 @@
     </section>
   </div>
 
-  <!-- ============================================================ buscador
-       Busca empresas de transporte y guías (y productos, cuando haya alguno
-       verificado). Solo navega: no cambia ningún veredicto. v9: baja de arriba
-       de todo a acá, con título propio; el atajo de la cabecera trae hasta acá. -->
-  <section class="lookup" id="lookup" aria-labelledby="lookup-h">
-  <h2 class="sec-h" id="lookup-h">{{lookup_h}}</h2>
-  <div class="gsearch" role="search">
-    <label class="gsearch__box">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M15.5 15.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-      <span class="sr-only">{{gsearch_label}}</span>
-      <input type="search" id="gq" placeholder="{{gsearch_ph}}" autocomplete="off" spellcheck="false" aria-controls="gsug" aria-expanded="false">
-    </label>
-    <div class="gsug" id="gsug" hidden></div>
-  </div>
-  </section>
 
   <!-- Enlaces reales a cada ficha y a las guías. Van en el HTML servido, no
        los pone el JS: si dependieran del script, un rastreador podría no
@@ -603,12 +578,13 @@
 
   /* estado de la pestaña 1 */
   var bandFilter = null;
-  var query = "";
+  /* 30/10/2026: un solo buscador, "¿Con qué compañía viajas?". Se sacaron el
+     filtro de texto de los resultados (#q) y el de la pestaña Comparar (#cmp-q). */
   var openGroups = {};
   var openRows = {};
 
   /* estado de la pestaña 2 */
-  var cmpQuery = "", cmpType = "all", cmpOnlyPass = false, cmpCabinIncl = false, cmpSort = "name";
+  var cmpType = "all", cmpOnlyPass = false, cmpCabinIncl = false, cmpSort = "name";
 
   /* Rótulo de franquicia según el tipo de operador (25/10/2026): en un tren
      es "bolso de mano / maleta", no "artículo personal / maleta de cabina". */
@@ -687,22 +663,16 @@
     return q;
   }
 
-  function matchesQuery(v, q) {
-    if (!q) return true;
-    return fold(v.op.name).indexOf(q) >= 0 || fold(GROUP_LABEL[v.op.type]).indexOf(q) >= 0 ||
-      fold(MODE_LABEL[v.op.type]).indexOf(q) >= 0;
-  }
-
   function visibleInResults(v) {
-    return (bandFilter === null || v.band === bandFilter) && matchesQuery(v, fold(query));
+    return bandFilter === null || v.band === bandFilter;
   }
 
-  /* Abre los grupos que tienen algo que mostrar con el filtro o la búsqueda
-     de ese momento. Se llama SOLO cuando cambia el filtro o la búsqueda: si se
+  /* Abre los grupos que tienen algo que mostrar con el filtro de color
+     de ese momento. Se llama SOLO cuando cambia el filtro: si se
      llamara en cada tecla de las medidas, un grupo que la persona cerró se
      volvería a abrir solo. */
   function openMatchingGroups() {
-    if (bandFilter === null && !query) return;
+    if (bandFilter === null) return;
     TYPES.forEach(function (kind) {
       openGroups[kind] = lastVerdicts.some(function (v) {
         return v.op.type === kind && visibleInResults(v);
@@ -817,12 +787,11 @@
     els.results.setAttribute("aria-busy", "false");
     els.results.innerHTML = "";
     els.results.classList.toggle("is-first", firstRender);
-    var shown = 0, i = 0;
+    var i = 0;
     TYPES.forEach(function (kind) {
       var mine = verdicts.filter(function (v) { return v.op.type === kind; }).sort(byBandThenName);
       if (!mine.length) return;
       var visible = mine.filter(visibleInResults);
-      shown += visible.length;
 
       var g = node("details", "tgroup");
       g.setAttribute("data-type", kind);
@@ -854,9 +823,6 @@
       }
       els.results.appendChild(g);
     });
-    if (!shown && query) {
-      els.results.appendChild(node("p", "empty groups__none", esc(t("search_none", { q: query }))));
-    }
   }
 
   /* ---------- comparador (pestaña 2) ---------- */
@@ -911,7 +877,7 @@
     if (cmpType !== "all" && v.op.type !== cmpType) return false;
     if (cmpOnlyPass && v.band !== FITS) return false;
     if (cmpCabinIncl && !(v.op.cabin_bag && v.op.cabin_bag.included === true)) return false;
-    return matchesQuery(v, fold(cmpQuery));
+    return true;
   }
 
   function optLine(v) {
@@ -1280,51 +1246,6 @@
     sec.hidden = !list.children.length;
   }
 
-  /* ---------- buscador de arriba ---------- */
-  (function () {
-    var gq = document.getElementById("gq"), box = document.getElementById("gsug");
-    if (!gq || !box) return;
-    function close() { box.hidden = true; gq.setAttribute("aria-expanded", "false"); }
-    gq.addEventListener("input", function () {
-      var raw = gq.value.trim(), q = fold(raw);
-      if (!q || !dataset) { close(); return; }
-      var html = "";
-      var ops = dataset.operators.filter(function (o) { return fold(o.name).indexOf(q) >= 0 || fold(GROUP_LABEL[o.type]).indexOf(q) >= 0; }).slice(0, 8);
-      if (ops.length) {
-        html += "<h4>" + esc(t("gsearch_ops")) + "</h4>";
-        ops.forEach(function (o) {
-          html += '<a href="' + FICHE_PATHS[o.type] + encodeURIComponent(o.id) + '/"><span class="gsug__ico">' + ICON[o.type] +
-            "</span>" + esc(o.name) + "<small>" + esc(MODE_LABEL[o.type]) + " · " + esc(t("gsearch_fiche")) + "</small></a>";
-        });
-      }
-      var prods = PRODUCTS.filter(function (p) { return fold(p.brand + " " + p.name).indexOf(q) >= 0; }).slice(0, 5);
-      if (prods.length) {
-        html += "<h4>" + esc(t("gsearch_products")) + "</h4>";
-        prods.forEach(function (p, i) {
-          html += '<button type="button" data-pi="' + PRODUCTS.indexOf(p) + '"><span class="gsug__ico">' + ICON.pass + "</span>" + esc(p.brand + " " + p.name) + "</button>";
-        });
-      }
-      var gl = GUIDE_LINKS.filter(function (g) { return fold(g.name).indexOf(q) >= 0; });
-      if (gl.length) {
-        html += "<h4>" + esc(t("gsearch_guides")) + "</h4>";
-        gl.forEach(function (g) { html += '<a href="' + g.href + '"><span class="gsug__ico">' + ICON.rule + "</span>" + esc(g.name) + "</a>"; });
-      }
-      if (!html) html = '<p class="gsug__none">' + esc(t("gsearch_none", { q: raw })) + "</p>";
-      box.innerHTML = html;
-      box.hidden = false;
-      gq.setAttribute("aria-expanded", "true");
-      Array.prototype.forEach.call(box.querySelectorAll("[data-pi]"), function (b) {
-        b.addEventListener("click", function () {
-          var p = PRODUCTS[Number(b.getAttribute("data-pi"))];
-          close(); gq.value = "";
-          if (p.dims_cm) tryProduct(p); else if (storeLink(p)) window.open(storeLink(p), "_blank", "noopener");
-        });
-      });
-    });
-    gq.addEventListener("keydown", function (e) { if (e.key === "Escape") { gq.value = ""; close(); } });
-    document.addEventListener("click", function (e) { if (!e.target.closest(".gsearch")) close(); });
-  })();
-
   /* ---------- tus compañías (v9, 20/10/2026) ----------
      Arriba de los resultados: la persona escribe su compañía, ve enseguida
      cómo le va a SU maleta (el mismo verdictFor de todo el sitio) y la fija.
@@ -1334,6 +1255,14 @@
   var mineQ = document.getElementById("mine-q"),
       mineSug = document.getElementById("mine-sug"),
       mineNote = document.getElementById("mine-note");
+
+  /* 30/10/2026: es el único buscador del sitio, así que también entiende el tipo
+     ("tren", "ferri", "aerolínea"), como el filtro de resultados que se sacó. */
+  function mineMatchName(op, q) { return fold(op.name).indexOf(q) >= 0; }
+  function mineMatch(op, q) {
+    return mineMatchName(op, q) || fold(GROUP_LABEL[op.type]).indexOf(q) >= 0 ||
+      fold(MODE_LABEL[op.type]).indexOf(q) >= 0;
+  }
 
   function vbadge(v) {
     var band = BAND_BY_KEY[v.band];
@@ -1400,25 +1329,40 @@
 
   function byMatch(q) {
     return function (x, y) {
-      return (fold(x.op.name).indexOf(q) - fold(y.op.name).indexOf(q)) || x.op.name.localeCompare(y.op.name);
+      /* primero los que coinciden por nombre; los que coinciden solo por tipo, después */
+      var ix = fold(x.op.name).indexOf(q), iy = fold(y.op.name).indexOf(q);
+      ix = ix < 0 ? 999 : ix; iy = iy < 0 ? 999 : iy;
+      return (ix - iy) || x.op.name.localeCompare(y.op.name);
     };
   }
 
   function suggestMine() {
     var raw = mineQ.value.trim(), q = fold(raw);
     if (!q || !lastVerdicts.length) { closeMine(); return; }
+    /* Orden de búsqueda (30/10/2026): 1) por nombre en la región elegida;
+       2) por nombre en las otras regiones (así "aerolineas" encuentra
+       Aerolíneas Argentinas aunque se esté en Europa); 3) si no hubo que ir a
+       otra región, se suman detrás los que coinciden por tipo ("tren", "ferri")
+       en la región elegida. */
+    function free(v) { return !(mineChosen && cmpSel.indexOf(v.op.id) >= 0); }
     var hits = lastVerdicts.filter(function (v) {
-      return fold(v.op.name).indexOf(q) >= 0 && !(mineChosen && cmpSel.indexOf(v.op.id) >= 0);
+      return mineMatchName(v.op, q) && free(v);
     }).sort(byMatch(q)).slice(0, 6);
     var far = false;
     if (!hits.length && region !== "all" && dataset) {
       var b0 = bag();
       if (b0) {
         hits = dataset.operators.filter(function (o) {
-          return o.region !== region && fold(o.name).indexOf(q) >= 0;
+          return o.region !== region && mineMatchName(o, q);
         }).map(function (o) { return verdictFor(o, b0); }).sort(byMatch(q)).slice(0, 6);
         far = hits.length > 0;
       }
+    }
+    if (!far) {
+      var ids = hits.map(function (v) { return v.op.id; });
+      hits = hits.concat(lastVerdicts.filter(function (v) {
+        return ids.indexOf(v.op.id) < 0 && mineMatch(v.op, q) && free(v);
+      }).sort(byMatch(q))).slice(0, 6);
     }
     mineSug.innerHTML = "";
     if (!hits.length) {
@@ -1694,16 +1638,7 @@
     });
   });
 
-  /* ---------- pestaña 2: buscador, filtros y orden ---------- */
-  var q1 = document.getElementById("q");
-  q1.addEventListener("input", function () {
-    query = q1.value;
-    openMatchingGroups();
-    render();
-  });
-  document.getElementById("cmp-q").addEventListener("input", function (e) {
-    cmpQuery = e.target.value; render();
-  });
+  /* ---------- pestaña Comparar: filtros y orden ---------- */
   Array.prototype.forEach.call(document.querySelectorAll("#cmp-types .chip"), function (chip) {
     chip.addEventListener("click", function () {
       cmpType = chip.getAttribute("data-type");
@@ -1815,6 +1750,20 @@
   if (location.hash === "#compare") showTab("compare"); else paintFlow();
 
   /* Atajo "Qué no puedo llevar": abre la franja de prohibidos al llegar. */
+  /* 30/10/2026: el buscador de abajo ("Buscar las reglas de una compañía") se sacó.
+     El atajo "Reglas de una compañía" lleva a "¿Con qué compañía viajas?", que ya
+     muestra el veredicto de la maleta y enlaza a la ficha de cada compañía. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-quick="rules"]'), function (a) {
+    a.addEventListener("click", function (e) {
+      var q = document.getElementById("mine-q");
+      if (!q) return;
+      e.preventDefault();
+      showTab("check");
+      document.getElementById("mine").scrollIntoView({ block: "start", behavior: "smooth" });
+      q.focus({ preventScroll: true });
+    });
+  });
+
   Array.prototype.forEach.call(document.querySelectorAll('[data-quick="banned"]'), function (a) {
     a.addEventListener("click", function () {
       showTab("check");   /* desde el 30/10/2026 el bloque vive en el paso 1 */

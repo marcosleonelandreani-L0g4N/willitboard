@@ -9,8 +9,8 @@ Lo importante que verifica
    entra; una que pesa más no entra, aunque las medidas den; y el aviso de
    que el peso es compartido aparece. El dataset de prueba se inyecta
    interceptando /operators.json: el dataset real no se toca.
-2. El buscador encuentra sin importar mayúsculas ni tildes, y abre solo los
-   grupos que tienen algo que mostrar.
+2. (30/10/2026) Un solo buscador, «¿Con qué compañía viajas?»: encuentra sin
+   importar mayúsculas, entiende "tren", y dice cuando no hay nada.
 3. Las fichas de color filtran y abren los grupos que corresponden.
 4. Pestaña Comparar: filtros por tipo, "mi maleta va sin costo extra",
    "maleta de cabina incluida", y el orden por tamaño de cabina.
@@ -142,27 +142,36 @@ def main() -> int:
 
         ctx = browser.new_context(viewport={"width": 1200, "height": 900}, reduced_motion="reduce")
 
-        # ------------------------------------------------ 2. buscador
-        print("\n[buscador]")
+        # ------------------------------------------------ 2. un solo buscador (30/10/2026)
+        # Antes había un filtro de texto en los resultados (#q) y otro en Comparar
+        # (#cmp-q). Ahora el único es «¿Con qué compañía viajas?» (#mine-q).
+        print("\n[un solo buscador]")
         page = ctx.new_page()
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(BASE + "/es/")
         page.wait_for_selector(".rcard", state="attached")
+        n = page.evaluate("document.querySelectorAll('input[type=search]').length")
+        check(n == 1 and page.locator("#mine-q").count() == 1,
+              f"hay un solo buscador en la home, y es «¿Con qué compañía viajas?» ({n})")
+        check(page.locator("#q, #cmp-q, #gq").count() == 0, "no quedan los buscadores viejos")
+        sugs = lambda: page.eval_on_selector_all("#mine-sug .msug", "els => els.map(e => e.dataset.id)")
         target = sorted(ops, key=lambda o: o["name"])[0]
-        page.fill("#q", target["name"].upper()[:5])
-        vis = page.evaluate("() => [...document.querySelectorAll('.rcard')].filter(c => !c.hidden).map(c => c.dataset.id)")
-        check(target["id"] in vis, f"buscar '{target['name'].upper()[:5]}' encuentra a {target['name']}")
-        opened = page.eval_on_selector_all(".tgroup[open]", "els => els.map(e => e.dataset.type)")
-        check(opened == [target["type"]], f"y abre solo su grupo ({opened})")
-        page.fill("#q", "zzzz")
-        check(page.is_visible(".groups__none"), "una búsqueda sin resultados lo dice")
-        page.fill("#q", "")
+        page.fill("#mine-q", target["name"].upper()[:5])
+        page.wait_for_timeout(200)
+        check(target["id"] in sugs(), f"buscar '{target['name'].upper()[:5]}' encuentra a {target['name']}")
+        page.fill("#mine-q", "zzzz")
+        page.wait_for_timeout(200)
+        check(page.locator("#mine-sug .mine__none").count() == 1, "una búsqueda sin resultados lo dice")
         rail = [o for o in ops if o["type"] == "rail"]
         if rail:
-            page.fill("#q", "tren")
-            vis = page.evaluate("() => [...document.querySelectorAll('.rcard')].filter(c => !c.hidden).map(c => c.dataset.id)")
-            check(set(vis) == {o["id"] for o in rail}, "buscar 'tren' deja todos los trenes")
-            page.fill("#q", "")
+            page.fill("#mine-q", "tren")
+            page.wait_for_timeout(200)
+            got = sugs()
+            check(set(got) == {o["id"] for o in rail} or (len(got) == 6 and all(i in {o["id"] for o in rail} for i in got)),
+                  f"buscar 'tren' trae los trenes ({got})")
+            named = [o["id"] for o in rail if "tren" in o["name"].lower()]
+            check(not named or got[0] in named, "los que coinciden por nombre van primero")
+        page.fill("#mine-q", "")
 
         # ------------------------------------------------ 3. fichas de color
         print("\n[fichas de color]")

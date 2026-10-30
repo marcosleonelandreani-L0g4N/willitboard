@@ -5,8 +5,8 @@ test_v6.py — lo que agregó el diseño v6 (01/10/2026), en Chromium real.
 1. RESUMEN POR MEDIO: los números al lado de las medidas suman exactamente lo
    mismo que los veredictos de la lista (no hay un segundo cálculo). Tocar uno
    filtra por ese color y abre solo ese grupo; tocarlo de nuevo saca el filtro.
-2. BUSCADOR DE ARRIBA: encuentra operadores sin importar tildes ni mayúsculas y
-   enlaza a su ficha real; encuentra las guías; dice cuando no hay nada.
+2. (30/10/2026) El buscador de abajo se retiró: se comprueba que no está y que el
+   índice sigue enlazando todas las fichas y las guías.
 3. PRODUCTOS OCULTOS: con el products.json real (sin productos verificados) el
    bloque de bolsos no aparece. Con un products.json de PRUEBA inyectado, aparece,
    cada bolso dice en cuántas aerolíneas entra gratis según verdictFor(), y
@@ -107,26 +107,20 @@ def main() -> int:
                   f"{path}: sin scroll horizontal a 390 px")
             ctx.close()
 
-        # ------------------------------------------------ 2. buscador de arriba
-        print("\n[buscador de arriba]")
+        # ------------------------------------------------ 2. buscador de abajo: RETIRADO (30/10/2026)
+        # "Buscar las reglas de una compañía" se sacó: las fichas y las guías ya
+        # están enlazadas en el índice, y "¿Con qué compañía viajas?" lleva a cada ficha.
+        print("\n[buscador de abajo retirado]")
         ctx = browser.new_context(viewport={"width": 1200, "height": 900})
         page = ctx.new_page()
         page.on("pageerror", lambda e: errors.append(str(e)))
         page.goto(BASE + "/es/")
         page.wait_for_selector("#modes .cnt", state="attached")
-        page.fill("#gq", "RYAN")
-        page.wait_for_timeout(150)
-        hrefs = page.eval_on_selector_all("#gsug a", "els => els.map(a => a.getAttribute('href'))")
-        check("/es/aerolineas/ryanair/" in hrefs, f"encuentra Ryanair y enlaza su ficha ({hrefs})")
-        check(all((ROOT / h.strip("/") / "index.html").exists() for h in hrefs), "los enlaces del buscador existen")
-        page.fill("#gq", "medir")
-        page.wait_for_timeout(150)
-        check(page.locator("#gsug a").count() >= 1, "encuentra la guía de cómo medir")
-        page.fill("#gq", "zzzz")
-        page.wait_for_timeout(150)
-        check(page.locator("#gsug .gsug__none").count() == 1, "dice cuando no hay resultados")
-        page.keyboard.press("Escape")
-        check(page.locator("#gsug").is_hidden(), "Escape cierra las sugerencias")
+        check(page.locator("#gq, #lookup, .gsearch").count() == 0, "ya no está el buscador de abajo")
+        idx = page.eval_on_selector_all(".index a", "els => els.map(a => a.getAttribute('href'))")
+        check("/es/aerolineas/ryanair/" in idx and any("medir" in h for h in idx),
+              f"el índice sigue enlazando las fichas y la guía de cómo medir ({len(idx)} enlaces)")
+        check(all((ROOT / h.strip("/") / "index.html").exists() for h in idx), "los enlaces del índice existen")
 
         # ------------------------------------------------ 3a. productos reales
         print("\n[productos]")
@@ -157,9 +151,6 @@ def main() -> int:
         page.fill("#dim-a", "41")
         page.wait_for_timeout(150)
         check(page.locator("#chosen").is_hidden(), "al cambiar una medida a mano, deja de decir que es el producto")
-        page.fill("#gq", "valija")
-        page.wait_for_timeout(150)
-        check(page.locator("#gsug [data-pi]").count() == 1, "el buscador de arriba también encuentra productos")
         ctx.close()
 
         # ------------------------------------------------ 4. volver arriba
@@ -197,9 +188,9 @@ def main() -> int:
             page.goto(BASE + path)
             page.click('[data-quick="rules"]')
             page.wait_for_timeout(1500)
-            check(page.locator("#gq").is_visible() and
-                  page.evaluate("document.getElementById('lookup').getBoundingClientRect().top") < 300,
-                  f"{path}: el atajo de reglas lleva al buscador de compañías")
+            top = page.evaluate("Math.round(document.getElementById('mine').getBoundingClientRect().top)")
+            check(-5 <= top < 300 and page.evaluate("document.activeElement.id") == "mine-q",
+                  f"{path}: el atajo de reglas lleva a «¿Con qué compañía viajas?» con el cursor puesto ({top} px)")
         ctx.close()
 
         # ------------------------------------------------ 6. objetos prohibidos (10/10/2026)
