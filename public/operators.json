@@ -1,6 +1,6 @@
 {
   "schema_version": "1.5",
-  "generated_on": "2026-10-25",
+  "generated_on": "2026-10-27",
   "canonical_units": {
     "length": "cm",
     "weight": "kg"
@@ -46,7 +46,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 43
+      "days_since_verified": 45
     },
     {
       "id": "wizz-air",
@@ -88,7 +88,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 43
+      "days_since_verified": 45
     },
     {
       "id": "easyjet",
@@ -130,7 +130,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 43
+      "days_since_verified": 45
     },
     {
       "id": "eurostar",
@@ -145,7 +145,7 @@
         "es": null,
         "en": "Each piece of luggage can be up to 85 cm long on routes to and from London, or 75 cm on all other routes. There is no weight limit on your luggage, but you must be able to carry your bags safely on and off the train and store them in the designated areas. Eurostar Standard and Plus include 2 pieces of luggage plus 1 hand luggage; Premier includes 3 plus 1. \"Hand luggage\" covers items such as backpacks, handbags, briefcases and laptop bags. Children may take one piece of luggage and one piece of hand luggage. Pushchairs and prams travel free if folded away. Extra bags, oversized items, bicycles, musical instruments and sports equipment are carried for a fee, and both the fees and the maximum dimensions differ between routes to and from London and routes between Belgium, France, the Netherlands and Germany."
       },
-      "days_since_verified": 42
+      "days_since_verified": 44
     },
     {
       "id": "deutsche-bahn",
@@ -160,7 +160,7 @@
         "es": null,
         "en": "Luggage such as briefcases, laptops, backpacks and suitcases can be taken free of charge. In addition to your hand luggage, you are allowed to carry one additional larger piece of luggage or item free of charge, provided this load can be carried by one person alone. You do not need to reserve space for your luggage, or weigh or measure it before travelling. Because of its size, a larger item may have to be stored away from your seat, for example in the nearest luggage rack. Each passenger is responsible for looking after their own luggage. Note: Deutsche Bahn states that its luggage racks were sized around an assumed standard of 700 x 500 x 300 mm (height x width x depth), which has almost always proved suitable. That figure describes the racks, not a limit on your bag."
       },
-      "days_since_verified": 42
+      "days_since_verified": 44
     },
     {
       "id": "trenitalia",
@@ -175,7 +175,7 @@
         "es": null,
         "en": "Passengers may take luggage or other easily transportable items (such as strollers, prams, high chairs if foldable, umbrellas, deckchairs, skis, musical instruments) on board the coach free of charge, provided they are stored in the spaces made available for luggage. Luggage may be permitted to exceed this volume limit as long as it does not disturb or cause injury to other passengers, does not obstruct railway staff from carrying out their work, and does not damage the coach. On some trains, specific spaces have been made available for passengers to store larger luggage items. Trenitalia's Conditions of Carriage (SCIC-NRT, section 14) add that each passenger may take no more than three easy-to-handle items as hand luggage, and refer to each carrier's own conditions for exact maximum measurements. Note: the wording above refers to a volume limit that Trenitalia does not state on this page."
       },
-      "days_since_verified": 42
+      "days_since_verified": 44
     },
     {
       "id": "british-airways",
@@ -217,7 +217,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 38
+      "days_since_verified": 40
     },
     {
       "id": "stena-line",
@@ -232,7 +232,7 @@
         "es": null,
         "en": "If you are travelling by car there is no limit to the amount of luggage you can carry in your vehicle as it will remain in your vehicle on our car deck. For foot passengers travelling to Sweden, Denmark, Germany, Latvia and Poland, there is no limit on the amount of luggage you can bring with you, however you need to be able to carry it onboard yourself. For foot passengers travelling to Ireland and to the UK from Ireland, there is no limit to the amount of luggage you can bring with you, however, hand luggage must be no larger than 60cm x 50cm x 40cm and you must be able to carry it yourself. If you are travelling with luggage that is larger than this it must be checked-in prior to boarding. Your luggage will be safely stowed during the sailing and can be collected upon arrival in the terminal. You will not be able to access your luggage during the sailing so please ensure you remove all necessary items before checking it in. If you are travelling by foot or by Rail & Sail on our Harwich-Hook of Holland route, you may take as much luggage as you like, as long as you can carry it onboard yourself. Passengers travelling on a day trip on our Irish Sea routes may carry one piece of small hand luggage. Any additional pieces of luggage will be charged at our discretion."
       },
-      "days_since_verified": 32
+      "days_since_verified": 34
     },
     {
       "id": "vueling",
@@ -274,7 +274,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "lufthansa",
@@ -316,7 +316,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "sas",
@@ -358,7 +358,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "norwegian",
@@ -400,7 +400,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "air-france",
@@ -442,7 +442,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "klm",
@@ -484,7 +484,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "transavia",
@@ -526,7 +526,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "iberia",
@@ -568,7 +568,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 29
+      "days_since_verified": 31
     },
     {
       "id": "aer-lingus",
@@ -610,7 +610,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "eurowings",
@@ -652,7 +652,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "tap-air-portugal",
@@ -694,7 +694,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "jet2",
@@ -736,7 +736,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "sncf-tgv-inoui",
@@ -778,7 +778,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "ouigo",
@@ -820,7 +820,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "jetsmart",
@@ -862,7 +862,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "volaris",
@@ -904,7 +904,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "latam",
@@ -946,7 +946,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "avianca",
@@ -988,7 +988,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 22
+      "days_since_verified": 24
     },
     {
       "id": "aerolineas-argentinas",
@@ -1030,7 +1030,7 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 2
+      "days_since_verified": 4
     },
     {
       "id": "flybondi",
@@ -1072,7 +1072,22 @@
         "online_from": null,
         "at_gate_from": null
       },
-      "days_since_verified": 2
+      "days_since_verified": 4
+    },
+    {
+      "id": "renfe",
+      "name": "Renfe",
+      "type": "rail",
+      "country": "ES",
+      "region": "EU",
+      "limit_type": "descriptivo",
+      "source_url": "https://www.renfe.com/es/es/viajar/informacion-util/equipajes",
+      "verified_on": "2026-10-27",
+      "descriptive_rule": {
+        "es": "Puedes subir a bordo del tren hasta 3 bultos considerados equipaje de mano, siempre que la suma de los tres no exceda los 25 kg de peso ni los 290 cm. de tamaño. Las dimensiones máximas permitidas son 85x55x35 cm. (alto–ancho–fondo). En el caso de viajar en el AVE Internacional entre España y Francia el equipaje de mano tiene las mismas condiciones, salvo que el etiquetaje del equipaje es obligatorio. Recuerda que para viajar en trenes Avlo la política de equipajes es más restrictiva. ¿Qué consideramos equipaje de mano? Maletas, bolsos de mano, mochilas, maletines portaordenadores y similares. Sillas y coches portabebés, siempre que vayan plegados. Además, instrumentos musicales, transportados en su funda, que no superen las dimensiones 30x120x38 cm. (ancho-largo-fondo). Todas las bicicletas y patinetes plegados dentro de una funda se consideran equipaje de mano siempre que sus dimensiones no sumen entre las tres más de 180 cm. y por tanto serán admitidas sin coste en todos los servicios regulares de Renfe Viajeros. La política de transporte de bicicletas y patinetes sin plegar depende del tipo de tren en el que viajes. Equipaje en trenes Avlo: Recuerda que, para tu viaje en Avlo, puedes llevar el siguiente equipaje incluido en el precio de tu billete: 1 equipaje de mano (bolso, mochila, etc.) de dimensiones máximas: 36x27x25 cm, sin límite de peso. 1 maleta de cabina de dimensiones máximas: 55x35x25 cm, sin límite de peso. Si necesitas añadir 1 equipaje adicional de dimensiones más grandes (maleta, bicicleta, patinete, etc.), con un máximo de 85x60x35 cm. (o que no exceda los 180 cm. en total), puedes hacerlo en el momento de la compra de tu billete por 10 € o con posterioridad a la compra de tu billete y hasta 30 minutos antes de la salida del tren en cualquiera de nuestros canales de venta por 15 €.",
+        "en": null
+      },
+      "days_since_verified": 0
     }
   ]
 }

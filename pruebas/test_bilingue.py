@@ -92,6 +92,12 @@ def main() -> None:
     # Igual con las citas: una por cada operador descriptivo publicado. Estaba
     # escrito "3" a mano y se rompió el día que entró el primer ferry.
     descriptivos = sum(1 for o in _ops if o["limit_type"] != "dimensional")
+    # Idioma REAL de cada cita, igual que rule_text() de build_site.py: inglés si
+    # el operador lo publica en inglés, si no español. Hasta el 27/10/2026 todas
+    # eran en inglés y la prueba lo exigía; Renfe es la primera cita en español.
+    idiomas_cita = sorted(
+        ("en" if (o.get("descriptive_rule") or {}).get("en") else "es")
+        for o in _ops if o["limit_type"] != "dimensional")
     httpd = serve()
     base = f"http://127.0.0.1:{PORT}"
     try:
@@ -186,17 +192,20 @@ def main() -> None:
             check(f"hay {descriptivos} citas descriptivas, una por operador descriptivo",
                   len(quotes) == descriptivos, str(len(quotes)))
             check(
-                'todas marcadas lang="en"',
-                all(q["lang"] == "en" for q in quotes),
-                str([q["lang"] for q in quotes]),
+                "cada cita marcada con su idioma real (lang)",
+                sorted(q["lang"] for q in quotes) == idiomas_cita,
+                f'{sorted(q["lang"] for q in quotes)} vs {idiomas_cita}',
             )
             check(
-                'todas marcadas translate="no" en la página española',
-                all(q["translate"] == "no" for q in quotes),
+                'translate="no" solo en las citas que no están en español',
+                all((q["translate"] == "no") == (q["lang"] != "es") for q in quotes),
+                str([(q["lang"], q["translate"]) for q in quotes]),
             )
             check(
-                "todas rotuladas como texto original en inglés",
-                all("texto original en inglés" in q["caption"] for q in quotes),
+                "rotuladas como texto original en inglés solo las que están en inglés",
+                all(("texto original en inglés" in q["caption"]) == (q["lang"] == "en")
+                    and "texto original en español" not in q["caption"]
+                    for q in quotes),
                 str([q["caption"] for q in quotes]),
             )
             check(

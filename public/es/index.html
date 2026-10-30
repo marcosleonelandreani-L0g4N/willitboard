@@ -2576,7 +2576,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
           <li><i style="background: var(--pass-fill)"></i><span><b>Sin costo extra.</b> Tu maleta cabe en una franquicia que ya está incluida en la tarifa.</span></li>
           <li><i style="background: var(--paid-fill)"></i><span><b>Entra, pero se paga aparte.</b> Tu maleta cabe en las medidas de la maleta de cabina, pero esa maleta de cabina no está incluida en la tarifa base. Hay que comprarla.</span></li>
           <li><i style="background: var(--fail-fill)"></i><span><b>No entra.</b> Tu maleta supera el límite publicado de tamaño, de peso o de ambos.</span></li>
-          <li><i style="background: var(--info-fill)"></i><span><b>Consultar la regla de equipaje.</b> El operador describe qué se puede llevar en lugar de publicar medidas — algo habitual en trenes. Mostramos su regla en sus propias palabras y nunca la convertimos en un sí o un no.</span></li>
+          <li><i style="background: var(--info-fill)"></i><span><b>Consultar la regla de equipaje.</b> La regla del operador no se reduce a una sola medida por maleta — algo habitual en trenes. Mostramos su regla en sus propias palabras y nunca la convertimos en un sí o un no.</span></li>
           <li><i style="background: var(--unknown-fill)"></i><span><b>Medidas sin confirmar.</b> El operador no publica lo que haría falta para responder. Que falte un límite no significa que no haya límite.</span></li>
         </ul>
 
@@ -2801,6 +2801,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
         <li><a href="/es/trenes/deutsche-bahn/">Deutsche Bahn</a></li>
         <li><a href="/es/trenes/eurostar/">Eurostar</a></li>
         <li><a href="/es/trenes/ouigo/">OUIGO</a></li>
+        <li><a href="/es/trenes/renfe/">Renfe</a></li>
         <li><a href="/es/trenes/sncf-tgv-inoui/">TGV INOUI (SNCF)</a></li>
         <li><a href="/es/trenes/trenitalia/">Trenitalia</a></li>
       </ul>
@@ -2877,7 +2878,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "legend_fail_b": "No entra.",
   "legend_fail_t": "Tu maleta supera el límite publicado de tamaño, de peso o de ambos.",
   "legend_rule_b": "Consultar la regla de equipaje.",
-  "legend_rule_t": "El operador describe qué se puede llevar en lugar de publicar medidas — algo habitual en trenes. Mostramos su regla en sus propias palabras y nunca la convertimos en un sí o un no.",
+  "legend_rule_t": "La regla del operador no se reduce a una sola medida por maleta — algo habitual en trenes. Mostramos su regla en sus propias palabras y nunca la convertimos en un sí o un no.",
   "legend_unknown_b": "Medidas sin confirmar.",
   "legend_unknown_t": "El operador no publica lo que haría falta para responder. Que falte un límite no significa que no haya límite.",
   "h3_wheels": "Las asas y las ruedas cambian la respuesta",
@@ -2905,7 +2906,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "label_cabin": "la maleta de cabina",
   "label_personal_rail": "el bolso de mano",
   "label_cabin_rail": "la maleta",
-  "d_rule": "Este operador describe qué se puede llevar en lugar de publicar medidas, así que una comprobación de tamaño no puede dar un sí o un no.",
+  "d_rule": "La regla de este operador no se reduce a una sola medida por maleta, así que una comprobación de tamaño no puede dar un sí o un no.",
   "d_unknown": "Este operador no publica las medidas necesarias para responder. Que falte una medida no significa que no haya límite.",
   "d_fits": "Entra en {label}, que la tarifa ya incluye: <span class=\"dims\">{dims}</span>{kg}.",
   "d_paid": "Cumple las medidas (<span class=\"dims\">{dims}</span>{kg}), pero la tarifa base <strong>no incluye {label}</strong>.",
@@ -2954,7 +2955,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "fiche_meta_rule": "Equipaje permitido en {name}: cuánto se puede llevar y en qué condiciones, citado de la página oficial y comprobado por una persona el {date}.",
   "fiche_standfirst_dim": "Lo que {name} publica para el artículo personal y la maleta de cabina, lo que la tarifa ya incluye y lo que hay que comprar aparte. Todas las cifras de esta página salen de la página del propio operador.",
   "fiche_standfirst_dim_rail": "Lo que {name} publica para el bolso de mano y la maleta, y lo que el billete ya incluye. Todas las cifras de esta página salen de la página del propio operador.",
-  "fiche_standfirst_rule": "{name} describe qué se puede llevar en lugar de publicar medidas. Su regla se muestra abajo en sus propias palabras, y nunca se convierte en un sí o un no.",
+  "fiche_standfirst_rule": "La regla de {name} no se reduce a una sola medida por maleta, así que no la convertimos en un sí o un no. Se muestra abajo en sus propias palabras.",
   "fiche_allowances_h": "Qué se puede llevar",
   "fiche_label_personal": "Artículo personal",
   "fiche_label_cabin": "Maleta de cabina",
@@ -3038,7 +3039,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "cmp_row_fit": "Tu maleta frente al límite",
   "cmp_row_source": "Fuente",
   "cmp_rule_h": "En sus propias palabras",
-  "cmp_no_dims": "No publica medidas: describe una regla.",
+  "cmp_no_dims": "Sin una medida por maleta: tiene una regla escrita.",
   "cmp_no_kg": "Sin peso publicado",
   "cmp_no_limit_kg": "Sin límite de peso, según el operador",
   "wh_included": "Se mide con ruedas y asas",
@@ -3136,8 +3137,8 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   "sizes_source": "Fuente oficial ↗",
   "sizes_col_op": "Operador",
   "sizes_col_checked": "Fuente y fecha de comprobación",
-  "sizes_rules_h": "Operadores que publican una regla, no medidas",
-  "sizes_rules_p": "Estos operadores describen qué se puede llevar en vez de publicar un tamaño. Sus reglas están en sus propias páginas, citadas con sus propias palabras.",
+  "sizes_rules_h": "Operadores con una regla escrita, no una medida por maleta",
+  "sizes_rules_p": "La regla de estos operadores no se reduce a una sola medida por maleta. Sus reglas están en sus propias páginas, citadas con sus propias palabras.",
   "sizes_other_h": "Trenes y ferris que publican medidas",
   "sizes_other_p": "Sus límites están en sus propias páginas, con el mismo enlace a la fuente y la misma fecha de comprobación humana que las aerolíneas.",
   "sizes_updated": "Armada con los datos según la última comprobación de una persona, el {date}.",

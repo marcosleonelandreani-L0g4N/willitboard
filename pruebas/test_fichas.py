@@ -273,14 +273,19 @@ def main() -> None:
                               "doesn't publish" not in meta.lower()
                               and "no publica" not in meta.lower(), meta)
                         if q:
-                            original = op["descriptive_rule"]["en"]
+                            # Idioma real de la cita (27/10/2026: Renfe es la
+                            # primera en español). Mismo criterio que rule_text().
+                            dr = op["descriptive_rule"]
+                            q_lang = "en" if dr.get("en") else "es"
+                            original = dr[q_lang]
                             check(f"{tag}: la cita es EXACTAMENTE la del dataset",
                                   q["text"] == original,
                                   f"largo {len(q['text'])} vs {len(original)}")
-                            check(f'{tag}: la cita va marcada lang="en"', q["lang"] == "en")
+                            check(f'{tag}: la cita va marcada lang="{q_lang}"',
+                                  q["lang"] == q_lang, str(q["lang"]))
                             check(
                                 f"{tag}: translate=no solo cuando el idioma difiere",
-                                (q["translate"] == "no") if lang == "es"
+                                (q["translate"] == "no") if lang != q_lang
                                 else (q["translate"] is None),
                                 str(q["translate"]),
                             )
