@@ -133,7 +133,7 @@
           </div>
         </div>
         <div class="field">
-          <label for="weight">{{f_weight}}</label>
+          <label for="weight"><span class="m-key m-key--w" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5.6" r="2.6" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M7.6 9.2h8.8a1 1 0 0 1 .97.76l2.4 9.6a1 1 0 0 1-.97 1.24H5.2a1 1 0 0 1-.97-1.24l2.4-9.6a1 1 0 0 1 .97-.76z" fill="currentColor"/></svg></span>{{f_weight}}</label>
           <div class="field__row">
             <input type="number" id="weight" inputmode="decimal" min="0" step="0.1" value="9">
             <span class="field__unit" data-unit="weight">kg</span>
@@ -1314,6 +1314,10 @@
     if (mineChosen && cmpSel.indexOf(id) >= 0) { mineNoteSet(""); return; }
     if (mineChosen && cmpSel.length >= MAX_CMP) { mineNoteSet(t("compare_limit", { max: MAX_CMP })); return; }
     mineNoteSet("");
+    /* 31/10/2026: la primera vez que alguien fija una compañía, la lista arranca
+       vacía. Antes, si elegía una de las 3 aerolíneas que el comparador trae por
+       defecto (p. ej. Ryanair), toggleCmp la QUITABA y quedaban las otras dos. */
+    if (!mineChosen) { cmpSel = []; mineChosen = true; }
     toggleCmp(id);
   }
 

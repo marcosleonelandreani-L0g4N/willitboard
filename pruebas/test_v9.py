@@ -164,6 +164,22 @@ def main() -> int:
                   f"{lang}: arranca sin compañías propias (las del comparador de arranque no cuentan)")
             check(pg.locator("#oplist .opt.is-on").count() == 3, f"{lang}: el comparador sigue arrancando con tres")
             check(pg.locator("#mine-cmp").is_hidden(), f"{lang}: sin compañías, no hay botón de comparar")
+            # 31/10/2026: si la PRIMERA que se fija es una de las tres de arranque,
+            # tiene que quedar sola (antes se quitaba y quedaban las otras dos).
+            c3 = browser.new_context(viewport={"width": 390, "height": 844})
+            pg3 = c3.new_page()
+            pg3.goto(BASE + path)
+            pg3.wait_for_selector("#results .tgroup")
+            default_ids = pg3.eval_on_selector_all("#oplist .opt.is-on", "els => els.map(e => e.dataset.id)")
+            for did in default_ids:
+                pg3.goto(BASE + path)
+                pg3.wait_for_selector("#results .tgroup")
+                pin(pg3, did.replace("-", " ")[:4])
+                got = pg3.eval_on_selector_all("#mine-list .mcard", "els => els.length")
+                ids = pg3.evaluate("() => Array.from(document.querySelectorAll('#oplist .opt.is-on')).map(e => e.dataset.id)")
+                check(got == 1 and ids == [did],
+                      f"{lang}: fijar primero «{did}» (de las de arranque) la deja sola ({ids})")
+            c3.close()
             pg.fill("#mine-q", "ib")
             pg.wait_for_timeout(80)
             sug = pg.eval_on_selector_all("#mine-sug .msug", "els => els.map(e => [e.dataset.id, e.querySelector('.vbadge').textContent.trim()])")

@@ -2190,6 +2190,10 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
   .panel .units { flex: none; gap: 0.15rem; }
   .panel .units button { padding: 0.45rem 0.55rem; }
 }
+
+/* 31/10/2026: el peso no está en el dibujo de medir: pesa de balanza en vez de número */
+.field .m-key--w { background: transparent; color: var(--ink-soft); width: 1.25rem; height: 1.25rem; }
+.m-key--w svg { width: 100%; height: 100%; }
 </style>
 </head>
 <body class="home">
@@ -2306,7 +2310,7 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
           </div>
         </div>
         <div class="field">
-          <label for="weight">Weight</label>
+          <label for="weight"><span class="m-key m-key--w" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5.6" r="2.6" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M7.6 9.2h8.8a1 1 0 0 1 .97.76l2.4 9.6a1 1 0 0 1-.97 1.24H5.2a1 1 0 0 1-.97-1.24l2.4-9.6a1 1 0 0 1 .97-.76z" fill="currentColor"/></svg></span>Weight</label>
           <div class="field__row">
             <input type="number" id="weight" inputmode="decimal" min="0" step="0.1" value="9">
             <span class="field__unit" data-unit="weight">kg</span>
@@ -2792,8 +2796,9 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
       </ul>
     </details>
     <details class="index__group index__fold">
-      <summary class="index__sum"><h3>Ferries</h3><span class="index__count">1</span><span class="index__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
+      <summary class="index__sum"><h3>Ferries</h3><span class="index__count">2</span><span class="index__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
       <ul class="index__links">
+        <li><a href="/ferries/dfds/">DFDS</a></li>
         <li><a href="/ferries/stena-line/">Stena Line</a></li>
       </ul>
     </details>
@@ -4422,6 +4427,10 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
     if (mineChosen && cmpSel.indexOf(id) >= 0) { mineNoteSet(""); return; }
     if (mineChosen && cmpSel.length >= MAX_CMP) { mineNoteSet(t("compare_limit", { max: MAX_CMP })); return; }
     mineNoteSet("");
+    /* 31/10/2026: la primera vez que alguien fija una compañía, la lista arranca
+       vacía. Antes, si elegía una de las 3 aerolíneas que el comparador trae por
+       defecto (p. ej. Ryanair), toggleCmp la QUITABA y quedaban las otras dos. */
+    if (!mineChosen) { cmpSel = []; mineChosen = true; }
     toggleCmp(id);
   }
 
