@@ -641,11 +641,17 @@ def block_operator_index(ops: list, lang: str, S: dict) -> str:
             f'        <li><a href="{op_path(o, lang)}">{esc(o["name"])}</a></li>'
             for o in sorted(mine, key=lambda o: o["name"].lower())
         )
+        # 30/10/2026: cada tipo es un desplegable cerrado. Los enlaces siguen en
+        # el HTML (los rastreadores los ven igual); solo dejan de ocupar pantalla.
         groups.append(
-            f'    <div class="index__group">\n'
-            f'      <h3>{t(S, TYPE_CRUMB[kind])}</h3>\n'
+            f'    <details class="index__group index__fold">\n'
+            f'      <summary class="index__sum"><h3>{t(S, TYPE_CRUMB[kind])}</h3>'
+            f'<span class="index__count">{len(mine)}</span>'
+            f'<span class="index__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" '
+            f'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>'
+            f'</summary>\n'
             f'      <ul class="index__links">\n{links}\n      </ul>\n'
-            f"    </div>"
+            f"    </details>"
         )
     guide_links = "\n".join(
         f'        <li><a href="{guide_path(k, lang)}">{t(S, cfg["nav"])}</a></li>'
