@@ -1,6 +1,6 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-10-31",
+  "ultimo_dia": "2026-11-01",
   "publicados": [
     "ryanair",
     "easyjet",
@@ -11,7 +11,8 @@
     "lufthansa",
     "klm",
     "air-france",
-    "transavia"
+    "transavia",
+    "norwegian"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -23,6 +24,7 @@
     "lufthansa": "2026-10-28",
     "klm": "2026-10-29",
     "air-france": "2026-10-30",
-    "transavia": "2026-10-31"
+    "transavia": "2026-10-31",
+    "norwegian": "2026-11-01"
   }
 }
