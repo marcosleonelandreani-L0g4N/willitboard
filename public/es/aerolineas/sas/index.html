@@ -1687,6 +1687,20 @@ body.home .totop { bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
 .tile--prose h2 { margin-bottom: 0.8rem; }
 .tile--prose .caveat { background: var(--surface-sunk); }
 .tile--prose .caveat:last-child { margin-bottom: 0; }
+/* 01/11/2026: preguntas frecuentes en las fichas de aerolínea (desplegables, sin JS) */
+.tile--faq h2 { margin-bottom: 0.4rem; }
+.faq__item { border-top: 1px solid var(--rule); }
+.faq__sum { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.85rem 0; cursor: pointer; list-style: none; }
+.faq__sum::-webkit-details-marker { display: none; }
+.faq__sum h3 { margin: 0; font-size: 1.02rem; }
+.faq__chev { flex: none; display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 999px; background: var(--surface-sunk); color: var(--ink-soft); transition: transform .25s var(--lift); }
+.faq__chev svg { width: 1.1rem; height: 1.1rem; }
+.faq__item[open] .faq__chev { transform: rotate(180deg); background: var(--accent-soft); color: var(--accent); }
+.faq__item[open] > p { animation: open .25s var(--lift); }
+.faq__sum:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-sm); }
+@media (hover: hover) { .faq__sum:hover .faq__chev { background: var(--accent-soft); color: var(--accent); } }
+.tile--faq .faq__item > p { margin: 0 0 0.95rem; max-width: 40em; }
+.tile--faq .faq__src { margin: 0.7rem 0 0; font-size: var(--step--1); color: var(--ink-faint); }
 .bento .op__rule { margin: 0; }
 .tile--cta { padding: 0.4rem 0 0; background: none; border: 0; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 
@@ -2370,6 +2384,23 @@ a.mcard__name:hover { color: var(--accent); text-decoration: underline; }
 
   <section class="glass tile--banline" aria-label="¿Qué no se puede llevar en el equipaje de mano?">
     <p>Los líquidos, objetos cortantes y demás prohibidos dependen del aeropuerto de salida, no de la aerolínea. <a href="/es/#banned">Ver la lista para aeropuertos de la UE y las fuentes oficiales →</a></p>
+  </section>
+
+  <section class="glass tile--faq prose" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Preguntas frecuentes</h2>
+    <details class="faq__item" open>
+      <summary class="faq__sum"><h3>¿Qué se puede llevar en SAS sin pagar extra?</h3><span class="faq__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
+      <p>El artículo personal, de hasta <b>40 × 30 × 15</b> cm, va incluido en la tarifa Economy Light.</p>
+    </details>
+    <details class="faq__item">
+      <summary class="faq__sum"><h3>¿Puedo llevar una mochila y además una maleta de cabina en SAS?</h3><span class="faq__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
+      <p>Solo comprando aparte <b>Carry-on bag (Economy Light only)</b>. La maleta de cabina, de hasta <b>55 × 40 × 23</b> cm, no va incluida en la tarifa Economy Light.</p>
+    </details>
+    <details class="faq__item">
+      <summary class="faq__sum"><h3>¿Cuánto puede pesar la maleta de cabina en SAS?</h3><span class="faq__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></summary>
+      <p>La maleta de cabina puede pesar hasta <b>8 kg</b>. Para el artículo personal, SAS no publica un peso.</p>
+    </details>
+    <p class="faq__src">Cada respuesta sale de los mismos datos verificados que el resto de esta página.</p>
   </section>
 
 

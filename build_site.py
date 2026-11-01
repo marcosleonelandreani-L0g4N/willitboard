@@ -193,7 +193,7 @@ COMPUTED_HOME = {"LANG", "CANONICAL", "NAV_EN_CUR", "NAV_ES_CUR", "STRINGS_JSON"
 COMPUTED_OP = {"LANG", "CANONICAL", "STYLE", "DOC_TITLE", "META_DESCRIPTION", "HEAD_EXTRA", "BRAND",
                "HREF_EN", "HREF_ES", "NAV_EN_PATH", "NAV_ES_PATH",
                "NAV_EN_CUR", "NAV_ES_CUR", "CRUMBS", "H1", "STANDFIRST",
-               "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS",
+               "PROVENANCE", "ALLOWANCES", "RULE", "WHEELS", "CAVEATS", "FAQ",
                "CHECKER_HREF", "FICHE_STAMP", "FOOTER_LINKS", "TOTOP",
                "KG_TILE", "BANNED_TILE", "TRY", "COMPARE", "COMPARE_HREF", "HEAD_MOD",
                "FICHE_JS", "OP_JSON", "FICHE_STRINGS", "VERDICT_JS", "NOGO_JS"}
@@ -620,6 +620,101 @@ def block_caveats(op, S: dict) -> str:
         lines.append(t(S, "caveat_fares_named", fare=esc(fare)) if fare else t(S, "caveat_fares"))
     lines.append(t(S, "p_noguarantee"))
     return "\n".join(f'    <p class="caveat">{line}</p>' for line in lines)
+
+
+def _faq_dims(allow) -> str:
+    d = triple((allow or {}).get("max_cm"))
+    return f'<b>{esc(" × ".join(str(x) for x in d))}</b>' if d else ""
+
+
+def _faq_named(S: dict, key: str, fare, **kw) -> str:
+    """Usa la variante `_named` si el operador tiene tarifa de referencia."""
+    return t(S, key + "_named", fare=esc(fare), **kw) if fare else t(S, key, **kw)
+
+
+def block_faq(op, S: dict) -> str:
+    """
+    01/11/2026: preguntas frecuentes de la ficha de una aerolínea. Cada
+    respuesta se arma SOLO con campos del dataset (medidas, incluido o no,
+    nombre del extra, peso). No hay ninguna cifra escrita a mano: si falta el
+    dato, la pregunta no aparece o la respuesta dice que el operador no lo
+    publica. Solo aerolíneas con medidas: en trenes y ferris el contenido es
+    la cita del operador y no se resume.
+    Fuera a propósito: precios y "qué pasa si no entra en el medidor" (no hay
+    dato verificado), líquidos (no es regla del operador) y asas y ruedas (ya
+    tiene su tarjeta en la ficha).
+    """
+    if op.get("type") != "air" or op.get("limit_type") != "dimensional":
+        return ""
+    name = esc(op["name"])
+    fare = op.get("reference_fare")
+    pers = op.get("personal_item") or {}
+    cab = op.get("cabin_bag") or {}
+    pdims, cdims = _faq_dims(pers), _faq_dims(cab)
+    items = []
+
+    # 1. Qué se lleva sin pagar extra
+    if pers.get("included") is True and pdims:
+        if cab.get("included") is True and cdims:
+            a = _faq_named(S, "faq_a_free_both", fare, pdims=pdims, cdims=cdims)
+        else:
+            a = _faq_named(S, "faq_a_free_personal", fare, pdims=pdims)
+        items.append((t(S, "faq_q_free", name=name), a))
+
+    # 2. Mochila y además maleta de cabina
+    if pers.get("included") is True and cdims and cab.get("included") is not None:
+        if cab.get("included") is True:
+            a = _faq_named(S, "faq_a_both_yes", fare, cdims=cdims)
+        elif cab.get("requires_addon"):
+            a = _faq_named(S, "faq_a_both_addon", fare, cdims=cdims, addon=esc(cab["requires_addon"]))
+        else:
+            a = _faq_named(S, "faq_a_both_paid", fare, cdims=cdims)
+        items.append((t(S, "faq_q_both", name=name), a))
+
+    # 3. Peso
+    if cdims:
+        shared = op.get("combined_max_kg")
+        none_both = (cab.get("max_kg") is None and shared is None and cab.get("no_weight_limit") is not True
+                     and pdims and pers.get("max_kg") is None and pers.get("no_weight_limit") is not True)
+        if none_both:
+            # ninguno de los dos bultos tiene peso publicado: una sola frase, no dos iguales
+            parts = [t(S, "faq_a_kg_none_both", name=name)]
+        elif cab.get("max_kg") is not None:
+            parts = [t(S, "faq_a_kg_cabin", kg=fmt_num(cab["max_kg"]))]
+        elif shared is not None:
+            parts = [t(S, "faq_a_kg_shared", name=name, kg=fmt_num(shared))]
+        elif cab.get("no_weight_limit") is True:
+            parts = [t(S, "faq_a_kg_cabin_nolimit", name=name)]
+        else:
+            parts = [t(S, "faq_a_kg_cabin_none", name=name)]
+        if pdims and shared is None and not none_both:
+            if pers.get("max_kg") is not None:
+                parts.append(t(S, "faq_a_kg_personal", kg=fmt_num(pers["max_kg"])))
+            elif pers.get("no_weight_limit") is True:
+                parts.append(t(S, "faq_a_kg_personal_nolimit", name=name))
+            else:
+                parts.append(t(S, "faq_a_kg_personal_none", name=name))
+        items.append((t(S, "faq_q_kg", name=name), " ".join(parts)))
+
+    if not items:
+        return ""
+    chev = ('<span class="faq__chev" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" '
+            'fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>')
+    rows = []
+    for i, (q, a) in enumerate(items):
+        rows.append(
+            f'    <details class="faq__item"{" open" if i == 0 else ""}>\n'
+            f'      <summary class="faq__sum"><h3>{q}</h3>{chev}</summary>\n'
+            f'      <p>{a}</p>\n'
+            "    </details>"
+        )
+    return (
+        '  <section class="glass tile--faq prose" id="faq" aria-labelledby="faq-h">\n'
+        f'    <h2 id="faq-h">{t(S, "faq_h")}</h2>\n'
+        + "\n".join(rows) + "\n"
+        f'    <p class="faq__src">{t(S, "faq_src")}</p>\n'
+        "  </section>"
+    )
 
 
 # --------------------------------------------- índice de operadores en la home
@@ -1665,6 +1760,7 @@ def main() -> None:
                 "VERDICT_JS": VERDICT_JS.read_text(encoding="utf-8") if op["limit_type"] == "dimensional" else "",
                 "NOGO_JS": NOGO_JS if op["limit_type"] == "dimensional" else "",
                 "CAVEATS": block_caveats(op, S),
+                "FAQ": block_faq(op, S),
                 "CHECKER_HREF": PAGES[lang][1],
                 "FICHE_STAMP": t(
                     S, "fiche_stamp",
