@@ -1,6 +1,6 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-11-04",
+  "ultimo_dia": "2026-11-05",
   "publicados": [
     "ryanair",
     "easyjet",
@@ -15,7 +15,8 @@
     "norwegian",
     "sas",
     "aer-lingus",
-    "eurowings"
+    "eurowings",
+    "tap-air-portugal"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -31,6 +32,7 @@
     "norwegian": "2026-11-01",
     "sas": "2026-11-02",
     "aer-lingus": "2026-11-03",
-    "eurowings": "2026-11-04"
+    "eurowings": "2026-11-04",
+    "tap-air-portugal": "2026-11-05"
   }
 }
