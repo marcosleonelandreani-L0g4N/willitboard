@@ -1,6 +1,6 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-11-08",
+  "ultimo_dia": "2026-11-09",
   "publicados": [
     "ryanair",
     "easyjet",
@@ -19,7 +19,8 @@
     "tap-air-portugal",
     "jet2",
     "latam",
-    "avianca"
+    "avianca",
+    "jetsmart"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -39,6 +40,7 @@
     "tap-air-portugal": "2026-11-05",
     "jet2": "2026-11-06",
     "latam": "2026-11-07",
-    "avianca": "2026-11-08"
+    "avianca": "2026-11-08",
+    "jetsmart": "2026-11-09"
   }
 }
