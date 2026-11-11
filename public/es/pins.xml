@@ -6,6 +6,14 @@
     <description>Límites de equipaje de mano de la página oficial de cada operador, comprobados por una persona.</description>
     <language>es</language>
     <item>
+      <title>Eurostar: equipaje permitido</title>
+      <link>https://willitboard.com/es/trenes/eurostar/</link>
+      <description>Eurostar publica una regla escrita de equipaje, no medidas. Léela tal cual en Willitboard, con el enlace a la página oficial de Eurostar y la fecha en que la comprobó una persona.</description>
+      <guid isPermaLink="false">willitboard-pin-es-eurostar</guid>
+      <pubDate>Wed, 11 Nov 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/es/eurostar.jpg" length="102308" type="image/jpeg"/>
+    </item>
+    <item>
       <title>Volaris: medidas y franquicia de equipaje de mano</title>
       <link>https://willitboard.com/es/aerolineas/volaris/</link>
       <description>¿Tu maleta entra en el equipaje de mano de Volaris? Escribe sus medidas en Willitboard y mira al instante si va sin costo extra, se paga aparte o no entra. Sale de la página oficial de Volaris y lo comprobó una persona, con la fecha a la vista.</description>
