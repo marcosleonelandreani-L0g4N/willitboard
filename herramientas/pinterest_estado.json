@@ -1,6 +1,6 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-11-11",
+  "ultimo_dia": "2026-11-12",
   "publicados": [
     "ryanair",
     "easyjet",
@@ -22,7 +22,8 @@
     "avianca",
     "jetsmart",
     "volaris",
-    "eurostar"
+    "eurostar",
+    "deutsche-bahn"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -45,6 +46,7 @@
     "avianca": "2026-11-08",
     "jetsmart": "2026-11-09",
     "volaris": "2026-11-10",
-    "eurostar": "2026-11-11"
+    "eurostar": "2026-11-11",
+    "deutsche-bahn": "2026-11-12"
   }
 }
