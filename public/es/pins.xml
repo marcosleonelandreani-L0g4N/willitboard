@@ -6,6 +6,14 @@
     <description>Límites de equipaje de mano de la página oficial de cada operador, comprobados por una persona.</description>
     <language>es</language>
     <item>
+      <title>Trenitalia: equipaje permitido</title>
+      <link>https://willitboard.com/es/trenes/trenitalia/</link>
+      <description>Trenitalia publica una regla escrita de equipaje, no medidas. Léela tal cual en Willitboard, con el enlace a la página oficial de Trenitalia y la fecha en que la comprobó una persona.</description>
+      <guid isPermaLink="false">willitboard-pin-es-trenitalia</guid>
+      <pubDate>Fri, 13 Nov 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/es/trenitalia.jpg" length="104371" type="image/jpeg"/>
+    </item>
+    <item>
       <title>Deutsche Bahn: equipaje permitido</title>
       <link>https://willitboard.com/es/trenes/deutsche-bahn/</link>
       <description>Deutsche Bahn publica una regla escrita de equipaje, no medidas. Léela tal cual en Willitboard, con el enlace a la página oficial de Deutsche Bahn y la fecha en que la comprobó una persona.</description>
