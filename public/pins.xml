@@ -6,6 +6,14 @@
     <description>Cabin bag limits from each operator's official page, checked by a person.</description>
     <language>en</language>
     <item>
+      <title>Stena Line luggage allowance</title>
+      <link>https://willitboard.com/ferries/stena-line/</link>
+      <description>Stena Line publishes a written luggage rule instead of measurements. Read it word for word on Willitboard, with the link to Stena Line's official page and the date a person checked it.</description>
+      <guid isPermaLink="false">willitboard-pin-en-stena-line</guid>
+      <pubDate>Sat, 14 Nov 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/en/stena-line.jpg" length="110075" type="image/jpeg"/>
+    </item>
+    <item>
       <title>Trenitalia luggage allowance</title>
       <link>https://willitboard.com/trains/trenitalia/</link>
       <description>Trenitalia publishes a written luggage rule instead of measurements. Read it word for word on Willitboard, with the link to Trenitalia's official page and the date a person checked it.</description>

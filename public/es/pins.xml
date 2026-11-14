@@ -6,6 +6,14 @@
     <description>Límites de equipaje de mano de la página oficial de cada operador, comprobados por una persona.</description>
     <language>es</language>
     <item>
+      <title>Stena Line: equipaje permitido</title>
+      <link>https://willitboard.com/es/ferris/stena-line/</link>
+      <description>Stena Line publica una regla escrita de equipaje, no medidas. Léela tal cual en Willitboard, con el enlace a la página oficial de Stena Line y la fecha en que la comprobó una persona.</description>
+      <guid isPermaLink="false">willitboard-pin-es-stena-line</guid>
+      <pubDate>Sat, 14 Nov 2026 06:00:00 +0000</pubDate>
+      <enclosure url="https://willitboard.com/pins/es/stena-line.jpg" length="105559" type="image/jpeg"/>
+    </item>
+    <item>
       <title>Trenitalia: equipaje permitido</title>
       <link>https://willitboard.com/es/trenes/trenitalia/</link>
       <description>Trenitalia publica una regla escrita de equipaje, no medidas. Léela tal cual en Willitboard, con el enlace a la página oficial de Trenitalia y la fecha en que la comprobó una persona.</description>
