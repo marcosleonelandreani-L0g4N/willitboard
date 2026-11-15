@@ -1,6 +1,6 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-11-14",
+  "ultimo_dia": "2026-11-15",
   "publicados": [
     "ryanair",
     "easyjet",
@@ -25,7 +25,8 @@
     "eurostar",
     "deutsche-bahn",
     "trenitalia",
-    "stena-line"
+    "stena-line",
+    "sncf-tgv-inoui"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -51,6 +52,7 @@
     "eurostar": "2026-11-11",
     "deutsche-bahn": "2026-11-12",
     "trenitalia": "2026-11-13",
-    "stena-line": "2026-11-14"
+    "stena-line": "2026-11-14",
+    "sncf-tgv-inoui": "2026-11-15"
   }
 }
