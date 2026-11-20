@@ -1,6 +1,6 @@
 {
   "inicio": "2026-10-22",
-  "ultimo_dia": "2026-11-19",
+  "ultimo_dia": "2026-11-20",
   "publicados": [
     "ryanair",
     "easyjet",
@@ -30,7 +30,8 @@
     "ouigo",
     "aerolineas-argentinas",
     "flybondi",
-    "renfe"
+    "renfe",
+    "dfds"
   ],
   "liberado_el": {
     "ryanair": "2026-10-22",
@@ -61,6 +62,7 @@
     "ouigo": "2026-11-16",
     "aerolineas-argentinas": "2026-11-17",
     "flybondi": "2026-11-18",
-    "renfe": "2026-11-19"
+    "renfe": "2026-11-19",
+    "dfds": "2026-11-20"
   }
 }
